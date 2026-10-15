@@ -1,0 +1,12 @@
+numpy
+pandas
+scikit-learn
+scipy
+pyarrow
+joblib
+datasets
+sentence-transformers
+torch
+transformers>=4.40
+trl>=0.9
+accelerate

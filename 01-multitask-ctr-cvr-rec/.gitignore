@@ -1,0 +1,6 @@
+data/raw/*
+data/processed/*
+outputs/model.pt
+__pycache__/
+*.pyc
+.venv/

@@ -1,0 +1,26 @@
+{
+  "fixed": {
+    "strategy": "fixed",
+    "total_gmv": 5874.104713439941,
+    "total_cost": 3196.253198046639,
+    "total_profit": 2677.851515393302,
+    "overall_roi": 1.8378095693513412,
+    "overall_win_rate": 0.10346666666666664
+  },
+  "pid": {
+    "strategy": "pid",
+    "total_gmv": 16053.95132446289,
+    "total_cost": 10496.998512915376,
+    "total_profit": 5556.952811547515,
+    "overall_roi": 1.5293849289118513,
+    "overall_win_rate": 0.27103333333333335
+  },
+  "mpc": {
+    "strategy": "mpc",
+    "total_gmv": 15458.600573539734,
+    "total_cost": 10020.892292994695,
+    "total_profit": 5437.708280545039,
+    "overall_roi": 1.542637134653805,
+    "overall_win_rate": 0.25833333333333336
+  }
+}

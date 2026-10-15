@@ -1,0 +1,8 @@
+data/raw/*
+data/processed/*
+outputs/dpo_smoke_test/
+outputs/*.jsonl
+outputs/*.joblib
+__pycache__/
+*.pyc
+.venv/

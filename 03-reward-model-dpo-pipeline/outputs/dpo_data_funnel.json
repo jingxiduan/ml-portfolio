@@ -1,0 +1,18 @@
+[
+  {
+    "split": "train",
+    "n_raw_pairs": 7980,
+    "n_ambiguous_sent_to_judge": 1029,
+    "n_noisy_discarded_by_judge": 482,
+    "n_gold_for_dpo": 2624,
+    "gold_ratio": 0.3288220551378446
+  },
+  {
+    "split": "test",
+    "n_raw_pairs": 1496,
+    "n_ambiguous_sent_to_judge": 193,
+    "n_noisy_discarded_by_judge": 74,
+    "n_gold_for_dpo": 497,
+    "gold_ratio": 0.3322192513368984
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "cv_auc_per_fold": [
+    0.6040626315161336,
+    0.6118126613526297,
+    0.6060714913851043,
+    0.6092573225042557,
+    0.6049255343873469
+  ],
+  "cv_auc_mean": 0.607225928229094,
+  "cv_auc_std": 0.0028912165534886593,
+  "cv_pairwise_acc_mean": 0.6266917293233083,
+  "held_out_test_auc": 0.6149991778432327,
+  "held_out_test_pairwise_acc": 0.6316844919786097,
+  "latency_benchmark": {
+    "n_samples": 300,
+    "reward_model_total_seconds": 0.0002899169921875,
+    "llm_judge_total_seconds": 4.850345134735107,
+    "reward_model_ms_per_sample": 0.0009663899739583334,
+    "llm_judge_ms_per_sample": 16.16781711578369,
+    "speedup_x": 16730.11677631579
+  }
+}
