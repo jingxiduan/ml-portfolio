@@ -1,4 +1,4 @@
-"""下载 Avazu CTR 公开数据集(LIBSVM 官方镜像, 无需登录), 并截取前 40 万条用于本项目。"""
+"""Downloads the public Avazu CTR dataset (official LIBSVM mirror, no login required) and slices the first 400K lines for this project."""
 import bz2
 import os
 import urllib.request

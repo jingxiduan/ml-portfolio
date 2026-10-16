@@ -1,11 +1,10 @@
 """
-全渠道竞胜率模型(win-rate / bid landscape model)的简化复现。
+Simplified reproduction of an omni-channel win-rate (bid landscape) model.
 
-对应简历: "搭建全渠道竞胜率模型 omni_pwrm, 联合 pCTR、出价与流量竞争特征估计竞胜概率,
-经贪心搜索生成候选出价"。
-
-这里用在线滚动更新的逻辑回归, 特征为 [log(bid), pctr, log(bid)*pctr], 标签为是否竞胜,
-每个控制窗口结束后用累计样本重新拟合, 模拟线上竞胜率模型的滚动训练。
+Uses online rolling-updated logistic regression, with features [log(bid), pctr,
+log(bid)*pctr] and the label being whether the bid won; refit on the accumulated
+samples at the end of each control window, simulating the rolling training of an
+online win-rate model.
 """
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -33,7 +32,7 @@ class WinRateModel:
         all_win = np.concatenate(self.win_hist)
 
         if len(np.unique(all_win)) < 2:
-            return  # 还没有正负样本, 跳过本次拟合
+            return  # no positive/negative samples yet, skip this fit
 
         X = self._features(all_bid, all_pctr)
         self.model = LogisticRegression(max_iter=200)
@@ -47,7 +46,7 @@ class WinRateModel:
 
     def greedy_search_bid(self, value: np.ndarray, pctr: np.ndarray,
                            candidate_ratios=np.linspace(0.3, 1.3, 11)) -> np.ndarray:
-        """对每条曝光, 在候选出价比例上贪心搜索使预期利润最大的出价。"""
+        """For each impression, greedily search candidate bid ratios to maximize expected profit."""
         best_bid = value.copy()
         best_profit = np.full(len(value), -np.inf)
         for r in candidate_ratios:

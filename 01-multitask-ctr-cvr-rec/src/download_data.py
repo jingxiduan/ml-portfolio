@@ -1,4 +1,4 @@
-"""下载 MovieLens-1M 公开数据集(GroupLens 官方直链, 无需登录)。"""
+"""Downloads the MovieLens-1M public dataset (official GroupLens direct link, no login required)."""
 import os
 import urllib.request
 import zipfile

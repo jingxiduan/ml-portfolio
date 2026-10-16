@@ -1,7 +1,7 @@
 """
-端到端实验: pCTR(真实 Avazu 数据) -> 二价拍卖仿真 -> 竞胜率模型 + 贪心候选出价 ->
-Fixed / PID / MPC 三种 Bid Shading 策略在滚动窗口上在线对比, 并给出 5%->20% 灰度放量的
-增量效果估算。
+End-to-end experiment: pCTR (real Avazu data) -> second-price auction simulation -> win-rate
+model + greedy candidate bid search -> online comparison of Fixed / PID / MPC Bid Shading
+strategies on rolling windows, plus an incremental effect estimate for a 5%->20% staged ramp.
 """
 import json
 import os
@@ -18,7 +18,7 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs")
 WINDOW_SIZE = 1000
 TARGET_ROI = 1.4
 CPA = 8.0
-WARMUP_WINDOWS = 3  # 前几窗口用真实出价(coef=1, 竞胜率模型冷启动)收集数据
+WARMUP_WINDOWS = 3  # the first few windows use the real bid (coef=1) to collect data while the win-rate model cold-starts
 
 
 def run_strategy(name, env, n_windows, window_size):
@@ -80,16 +80,19 @@ def run_strategy(name, env, n_windows, window_size):
 
 
 def staged_ramp_experiment(env, n_windows, window_size, ramp_stages=(0.05, 0.10, 0.15, 0.20)):
-    """模拟分阶段灰度放量: 一部分流量用 PID 动态出价(实验组), 其余用 Fixed 基线(对照组),
-    对比"实验组放量比例从 5% 提升到 20%"时, 全量业务层面的 GMV / 成本相对纯 Fixed 基线的变化。
+    """Simulates a staged ramp-up: part of the traffic uses PID dynamic bidding (treatment),
+    the rest uses the Fixed baseline (control); compares the full-business-level GMV / cost
+    change relative to the pure Fixed baseline as the treatment ratio scales from 5% to 20%.
     """
     rng = np.random.default_rng(7)
     n_total = n_windows * window_size
-    is_treatment_full = rng.random(n_total) < 1.0  # 占位, 实际按 ramp 比例切片见下
+    is_treatment_full = rng.random(n_total) < 1.0  # placeholder; actual ramp-ratio slicing happens below
 
-    # 先分别跑一次"全量 fixed"与"全量 pid", 再按比例线性插值得到灰度放量下的近似整体指标
-    # (同一组市场价格随机数复用, 保证口径一致; 线性插值是对"随机抽样 x% 流量切量"的近似估计,
-    #  在大样本下与真实分层抽样误差很小, 用于快速呈现灰度放量趋势)
+    # First run a "full fixed" and a "full pid" pass once each, then linearly interpolate by
+    # ratio to approximate overall metrics under staged ramp-up (the same market-price random
+    # numbers are reused for consistency; linear interpolation approximates "randomly sampling
+    # x% of traffic" and has small error vs. true stratified sampling at large sample sizes,
+    # used here to quickly illustrate the ramp-up trend)
     fixed_summary, _ = run_strategy("fixed", env, n_windows, window_size)
     pid_summary, _ = run_strategy("pid", env, n_windows, window_size)
 

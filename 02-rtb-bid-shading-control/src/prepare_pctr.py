@@ -1,9 +1,11 @@
 """
-用公开 Avazu CTR 数据集(LIBSVM 官方镜像, 已做特征哈希)训练一个 pCTR 模型,
-作为下游"竞胜率建模 + Bid Shading 控制"实验的真实流量特征输入。
+Trains a pCTR model on the public Avazu CTR dataset (official LIBSVM mirror, already
+feature-hashed), used as the real traffic feature input for the downstream "win-rate
+modeling + Bid Shading control" experiment.
 
-数据: https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary/avazu-app.bz2
-取前 40 万条(click/no-click 二分类, 特征已哈希为高维稀疏 one-hot)。
+Data: https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary/avazu-app.bz2
+First 400K rows (click/no-click binary classification, features already hashed into
+high-dimensional sparse one-hot).
 """
 import os
 import json
@@ -31,7 +33,8 @@ def main():
     val_pred = clf.predict_proba(X_val)[:, 1]
     print("val AUC:", roc_auc_score(y_val, val_pred), "logloss:", log_loss(y_val, val_pred))
 
-    # "sim" 这部分数据专门留给拍卖仿真/竞价策略实验使用, 避免与 pCTR 训练/验证样本重叠
+    # The "sim" split is reserved exclusively for the auction simulation / bidding strategy
+    # experiment, to avoid overlap with the pCTR training/validation samples
     sim_pred = clf.predict_proba(X_sim)[:, 1]
     print("sim AUC:", roc_auc_score(y_sim, sim_pred))
 

@@ -1,21 +1,24 @@
 """
-RankMixer 风格的稠密特征交互 + 多任务(CTR/CVR)塔式模型
+RankMixer-style dense feature interaction + multi-task (CTR/CVR) tower model
 
-设计对应 resume 描述:
-  - "底层共享的用户/广告/上下文表征" -> 各稀疏特征独立 Embedding + 稠密特征投影, 统一为
-    一组等维 token, 替代传统 FM/DCN 的显式二阶交叉。
-  - "RankMixer 稠密特征交互, 由稀疏查表主导改为 Transformer 式稠密计算主导" -> 借鉴
-    MLP-Mixer 思路, 对 token 维度(跨特征)做 token-mixing, 对 embedding 维度(跨通道)做
-    channel-mixing, 多层堆叠形成稠密计算为主的交互网络。
-  - "上层按任务分支路由的多任务结构 + sample mask" -> 共享表征之后接 CTR / CVR 两个独立
-    塔, CVR 分支的损失通过 label_convert == -1 的 mask 只在点击(click=1)样本上回传梯度。
+Design:
+  - Shared bottom user/ad/context representation -> each sparse feature has its own
+    embedding, dense features are projected into tokens of the same dimension,
+    replacing traditional FM/DCN explicit second-order crossing.
+  - RankMixer dense feature interaction, shifting from sparse-lookup-dominant to
+    Transformer-style dense-computation-dominant -> borrowing from MLP-Mixer, token-mixing
+    across the token dimension (cross-feature) and channel-mixing across the embedding
+    dimension (cross-channel), stacked into a dense-computation-dominant interaction network.
+  - Multi-task structure with task-branch routing on top + sample mask -> the shared
+    representation feeds into two independent towers, CTR and CVR; the CVR branch's loss
+    backpropagates gradients only on clicked (click=1) samples via the label_convert == -1 mask.
 """
 import torch
 import torch.nn as nn
 
 
 class MixerBlock(nn.Module):
-    """token-mixing + channel-mixing, 类 MLP-Mixer 的稠密交互模块。"""
+    """token-mixing + channel-mixing, an MLP-Mixer-like dense interaction module."""
 
     def __init__(self, num_tokens: int, dim: int, token_hidden: int, channel_hidden: int, dropout: float = 0.1):
         super().__init__()
@@ -38,12 +41,12 @@ class MixerBlock(nn.Module):
         # x: (B, T, D)
         y = self.norm1(x)
         y = y.transpose(1, 2)              # (B, D, T)
-        y = self.token_mix(y)              # 跨特征 token 做交互
+        y = self.token_mix(y)              # interaction across feature tokens
         y = y.transpose(1, 2)              # (B, T, D)
         x = x + y
 
         y = self.norm2(x)
-        y = self.channel_mix(y)            # 跨 embedding 通道做交互
+        y = self.channel_mix(y)            # interaction across embedding channels
         x = x + y
         return x
 
@@ -75,7 +78,7 @@ class RankMixerMTL(nn.Module):
         })
         self.dense_proj = nn.Linear(dense_dim, embed_dim)
 
-        num_tokens = len(sparse_cols) + 1  # + 1 个稠密特征 token
+        num_tokens = len(sparse_cols) + 1  # +1 for the dense feature token
         self.blocks = nn.ModuleList([
             MixerBlock(num_tokens, embed_dim, token_hidden=num_tokens * 2,
                        channel_hidden=embed_dim * 4, dropout=dropout)

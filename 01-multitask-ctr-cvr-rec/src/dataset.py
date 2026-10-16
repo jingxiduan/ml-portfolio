@@ -11,7 +11,7 @@ PROC_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "processed")
 
 
 class CtrCvrDataset(Dataset):
-    """加载预处理好的 train/val/test csv, 对稀疏特征做 id 映射、稠密特征做标准化。"""
+    """Loads preprocessed train/val/test csv, maps sparse feature ids and standardizes dense features."""
 
     def __init__(self, split: str, stats: Optional[dict] = None):
         with open(os.path.join(PROC_DIR, "meta.json")) as f:

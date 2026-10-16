@@ -1,10 +1,12 @@
 """
-DPO 训练冒烟测试: 用 `trl.DPOTrainer` 在上一步产出的金标 DPO 数据(outputs/dpo_train.jsonl)
-上跑几十个 step, 验证"偏好数据构建 -> Reward Model 筛选 -> DPO 训练"全链路可以端到端跑通。
+DPO training smoke test: runs a few dozen steps of `trl.DPOTrainer` on the gold DPO data
+produced earlier (outputs/dpo_train.jsonl), verifying that the full "preference data
+construction -> Reward Model filtering -> DPO training" pipeline runs end-to-end.
 
-默认用极小模型 sshleifer/tiny-gpt2 在 CPU 上做 smoke test(几分钟内完成), 不追求训练效果;
-如需真实效果, 把 MODEL_NAME 换成 Qwen2.5-0.5B-Instruct / gpt2 等并接入 GPU 环境、增大
-max_steps 即可直接复用本脚本。
+Defaults to the tiny model sshleifer/tiny-gpt2 for a CPU smoke test (finishes in minutes);
+training quality is not the goal here. For real training results, swap MODEL_NAME for
+something like Qwen2.5-0.5B-Instruct / gpt2, run on a GPU, and increase max_steps — the
+rest of this script can be reused as-is.
 """
 import os
 
@@ -20,7 +22,7 @@ MAX_STEPS = int(os.environ.get("DPO_DEMO_STEPS", "20"))
 def main():
     train_path = os.path.join(OUT_DIR, "dpo_train.jsonl")
     ds = load_dataset("json", data_files=train_path, split="train")
-    ds = ds.select(range(min(300, len(ds))))  # smoke test 只取一小部分, 加速跑通
+    ds = ds.select(range(min(300, len(ds))))  # only use a small subset for the smoke test, to run faster
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     if tokenizer.pad_token is None:

@@ -1,16 +1,18 @@
 """
-Reward Model: 用结构化质量特征拟合用户偏好(Bradley-Terry pairwise 模型), 输出可直接用于
-后训练数据筛选的 Reward Signal, 对应简历:
-  "以 Qwen-VL 多模态表征与结构化质量特征为输入, 拟合用户偏好, 输出可用于后训练的 Reward
-   Signal...相较直接调用 LLM Judge, 推理延迟降低到原来的 1/15, 成本降低 60%"
+Reward Model: fits a user-preference model (Bradley-Terry pairwise model) on structured
+quality features, producing a Reward Signal that can be used directly for post-training
+data filtering.
 
-本项目中 Qwen-VL 多模态表征替换为 sentence-transformers 句向量(PCA 降维至 40 维) +
-10 维手工质量特征(见 features.py), 核心验证点一致: 训练好的轻量 Reward Model 在准确率
-明显优于随机猜测的同时, 推理延迟远低于"每条样本都调用一次 LLM/Judge"的方案。
+Sentence-transformer embeddings (PCA-reduced to 40 dims) + 10 hand-crafted quality
+features (see features.py) are used as input. The key validation point: the trained
+lightweight Reward Model achieves accuracy clearly better than random guessing, while
+having inference latency far lower than calling an LLM/Judge for every single sample.
 
-Bradley-Terry 模型: P(chosen 优于 rejected) = sigmoid(w^T(x_chosen - x_rejected)),
-等价于在对称增广的差值样本上训练逻辑回归, 这里直接用 sklearn LogisticRegression 求解
-(比有限步数的 SGD/Adam 收敛更稳定), 回归系数 w 即为可解释的线性 Reward 打分函数。
+Bradley-Terry model: P(chosen beats rejected) = sigmoid(w^T(x_chosen - x_rejected)),
+equivalent to training logistic regression on symmetrically augmented difference
+samples — this is solved directly with sklearn's LogisticRegression (more stable
+convergence than a fixed number of SGD/Adam steps), and the resulting coefficients w
+form an interpretable linear reward scoring function.
 """
 import json
 import os
@@ -29,7 +31,7 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs")
 
 
 class RewardModel:
-    """r(x) = w^T x_std + b, 在标准化特征空间上训练的线性 Bradley-Terry Reward 模型。"""
+    """r(x) = w^T x_std + b, a linear Bradley-Terry Reward model trained on standardized features."""
 
     def __init__(self, C: float = 0.5):
         self.clf = LogisticRegression(max_iter=2000, C=C)
@@ -42,9 +44,9 @@ class RewardModel:
         return self
 
     def score(self, feat: np.ndarray) -> np.ndarray:
-        """给单条样本的特征打一个标量 reward 分数(不依赖另一条样本, 可独立部署推理)。"""
+        """Scores a single sample's features with a scalar reward (does not depend on a paired sample, so it can be deployed independently)."""
         w = self.clf.coef_[0]
-        return feat @ w  # 省略 bias/2, 只影响整体平移, 不影响排序与 pairwise 比较
+        return feat @ w  # bias/2 omitted - only shifts the overall scale, does not affect ranking or pairwise comparison
 
     def pairwise_auc(self, feat_c: np.ndarray, feat_r: np.ndarray):
         rc, rr = self.score(feat_c), self.score(feat_r)
@@ -69,7 +71,7 @@ def cross_validate(feat_c, feat_r, n_splits=5, C=0.5):
 
 
 def benchmark_latency(model: RewardModel, feat_c, judge: LocalProxyJudge, responses, n_bench=300):
-    """对比: 逐条调用 LLM Judge(句向量编码 + 相似度打分) vs 训练好的 Reward Model 推理。"""
+    """Compares: calling the LLM Judge per sample (sentence-embedding encoding + similarity scoring) vs. inference with the trained Reward Model."""
     sample_feat = feat_c[:n_bench]
     sample_resp = responses[:n_bench]
 
@@ -101,7 +103,7 @@ def main():
     print("5-fold AUC:", [round(a, 4) for a in aucs], "mean=", round(float(np.mean(aucs)), 4))
     print("5-fold pairwise acc:", [round(a, 4) for a in accs], "mean=", round(float(np.mean(accs)), 4))
 
-    # 用全量 train 重新拟合最终模型, 在独立的 test 集上做一次 held-out 评估
+    # refit the final model on the full train split, and evaluate once on the held-out test split
     final_model = RewardModel(C=0.5).fit(feat_c, feat_r)
     test_feat = np.load(os.path.join(PROC_DIR, "test_features.npz"))
     test_auc, test_acc = final_model.pairwise_auc(test_feat["feat_chosen"], test_feat["feat_rejected"])

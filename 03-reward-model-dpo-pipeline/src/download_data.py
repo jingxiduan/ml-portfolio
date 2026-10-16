@@ -1,8 +1,9 @@
 """
-下载公开偏好数据集 Anthropic/hh-rlhf(helpful-base 子集, Hugging Face 官方数据集, 无需
-登录/Token), 作为"数字人生成质量用户偏好"场景的公开替代数据: 每条样本包含同一段多轮对话
-上下文下, 人类标注员更偏好(chosen)与较差(rejected)的两个候选回复, 结构上与简历中
-"同一输入、不同候选结果的 chosen-rejected 偏好对"完全一致。
+Downloads the public preference dataset Anthropic/hh-rlhf (helpful-base subset, official
+Hugging Face dataset, no login/token required): each sample contains, under the same
+multi-turn conversation context, a human-labeled better (chosen) and worse (rejected)
+candidate response — i.e. the standard "same input, different candidates, chosen-rejected
+preference pair" structure.
 """
 import json
 import os
@@ -15,8 +16,8 @@ N_TEST = 1500
 
 
 def parse_example(chosen: str, rejected: str):
-    # hh-rlhf 格式: "\n\nHuman: ...\n\nAssistant: ...\n\nHuman: ...\n\nAssistant: ..."
-    # 取最后一轮 "Assistant:" 之前的内容作为 prompt, 之后的内容作为回复
+    # hh-rlhf format: "\n\nHuman: ...\n\nAssistant: ...\n\nHuman: ...\n\nAssistant: ..."
+    # take the content before the last "Assistant:" as the prompt, and the content after it as the response
     def split(text):
         idx = text.rfind("\n\nAssistant:")
         prompt = text[:idx].strip()

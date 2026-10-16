@@ -1,11 +1,9 @@
 """
-Bid Shading 反馈控制器: PID 与简化版 MPC。
+Bid Shading feedback controllers: PID and a simplified MPC.
 
-对应简历: "将 Bid Shading 建模为反馈控制问题, 采用 PID 与 MPC 依据利润率、ROI 及消耗
-偏差动态修正系数"。
-
-两者都输出一个全局 shading_coef(在贪心搜索给出的候选出价基础上整体缩放), 用于把
-实际 ROI / 消耗 pacing 拉向目标值, 同时尽量保住 GMV/win-rate。
+Both controllers output a global shading_coef (scaling the candidate bid produced by the
+greedy search) used to pull realized ROI / spend pacing toward the target value while
+preserving GMV / win-rate as much as possible.
 """
 import numpy as np
 
@@ -21,20 +19,22 @@ class PIDShadingController:
         self.prev_error = 0.0
 
     def update(self, realized_roi: float) -> float:
-        error = self.target_roi - realized_roi  # ROI 偏低(花多赚少) -> error>0 -> 应该把系数调小(更抠)
+        error = self.target_roi - realized_roi  # ROI below target (spending more, earning less) -> error>0 -> coefficient should decrease (be more conservative)
         self.integral += error
         derivative = error - self.prev_error
         self.prev_error = error
 
-        # error>0 表示 ROI 低于目标, 需要降低出价系数(更省钱, 提升ROI)
+        # error>0 means ROI is below target, so the bid coefficient should be lowered (save money, raise ROI)
         delta = -(self.kp * error + self.ki * self.integral + self.kd * derivative)
         self.coef = float(np.clip(self.coef + delta, self.coef_min, self.coef_max))
         return self.coef
 
 
 class MPCShadingController:
-    """单步前瞻的简化 MPC: 在候选系数网格上, 用当前窗口已知的 pctr/value 分布 + 当前
-    竞胜率模型, 前瞻预测下一窗口在各候选系数下的 ROI 与花费, 选择使代价函数最小的系数。
+    """A single-step-lookahead simplified MPC: over a grid of candidate coefficients, uses the
+    current window's known pctr/value distribution plus the current win-rate model to predict
+    the ROI and spend of the next window under each candidate coefficient, and picks the one
+    minimizing the cost function.
     """
 
     def __init__(self, target_roi: float, target_spend_rate: float,
@@ -42,7 +42,7 @@ class MPCShadingController:
                  roi_weight: float = 1.0, spend_weight: float = 0.5,
                  coef_min=0.5, coef_max=1.3):
         self.target_roi = target_roi
-        self.target_spend_rate = target_spend_rate  # 每条曝光的目标平均花费, 用于预算 pacing
+        self.target_spend_rate = target_spend_rate  # target average spend per impression, used for budget pacing
         self.candidate_coefs = candidate_coefs
         self.roi_weight = roi_weight
         self.spend_weight = spend_weight
@@ -56,7 +56,7 @@ class MPCShadingController:
             bid_c = base_bid * c
             wr = winrate_model.predict_winrate(bid_c, lookahead_pctr)
             exp_value = wr * lookahead_value
-            exp_cost = wr * bid_c  # 用出价近似二价成交成本的期望上界, 仅用于前瞻决策
+            exp_cost = wr * bid_c  # uses the bid itself to approximate the expected upper bound of second-price cost, for lookahead decisions only
             gmv = exp_value.sum()
             cost = exp_cost.sum() + 1e-6
             pred_roi = gmv / cost

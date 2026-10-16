@@ -1,17 +1,22 @@
 """
-偏好数据构建与提纯 pipeline, 对应简历:
-  "融合显式评分与行为序列构建两级偏好标签; 对模糊样本以 GPT-4o 作为 LLM-as-a-Judge 进行
-   RLAIF 二次判别; 结合 Active Learning、去偏采样与置信度筛选, 将原始样本提纯为金标数据"
+Preference data construction and distillation pipeline:
+  "Combines explicit feature-based confidence with LLM-as-a-Judge; re-labels ambiguous
+   samples via RLAIF using a rubric prompt; distills raw samples into gold-standard data
+   through confidence-based filtering."
 
-步骤:
-  1. 对 chosen/rejected 两条回复批量提取质量特征(features.build_feature_batch), 得到
-     relevance(语义相关度)等, 以 relevance 差值作为初筛"置信度代理"(feature_margin)。
-  2. |feature_margin| 低于阈值的样本判定为"模糊样本", 送入 LLM-as-a-Judge(默认本地代理裁判)
-     做二次打分, 得到 judge_margin。
-  3. 若模糊样本的 judge 二次判别结果与原始人工标注方向相反, 判定为噪声标签, 不进入金标集。
-  4. 按综合置信度(非模糊样本用 |feature_margin|, 模糊样本用 |judge_margin|/10)排序, 取
-     Top-K 比例作为金标数据集(gold set), 其余作为非金标数据(仍可用于 Reward Model 训练,
-     但不进入 DPO 金标集合)。
+Steps:
+  1. Extract quality features in batch for the chosen/rejected responses
+     (features.build_feature_batch), obtaining relevance (semantic relevance); the
+     relevance gap serves as an initial "confidence proxy" (feature_margin).
+  2. Samples whose |feature_margin| is below a threshold are flagged as "ambiguous" and
+     sent to LLM-as-a-Judge (defaults to the local proxy judge) for re-scoring, yielding
+     judge_margin.
+  3. If an ambiguous sample's judge re-labeling disagrees with the original human label
+     direction, it is flagged as a noisy label and excluded from the gold set.
+  4. Rank by combined confidence (|feature_margin| for non-ambiguous samples,
+     |judge_margin|/10 for ambiguous samples) and take the top-K ratio as the gold
+     dataset; the rest remain usable for Reward Model training but are excluded from
+     the DPO gold set.
 """
 import json
 import os
@@ -27,10 +32,10 @@ from llm_judge import LocalProxyJudge
 
 RAW_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
 PROC_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "processed")
-AMBIGUOUS_THRESH = 0.03   # feature_margin 绝对值低于该阈值视为"模糊样本"
-GOLD_RATIO = 0.35         # 金标数据占比(非噪声样本中按置信度排序取前 35%)
-EMB_DIM = 384             # all-MiniLM-L6-v2 原始句向量维度
-PCA_DIM = 40              # 句向量 PCA 降维后的维度, 缓解小样本下的过拟合
+AMBIGUOUS_THRESH = 0.03   # feature_margin below this absolute value is flagged as "ambiguous"
+GOLD_RATIO = 0.35         # share of gold data (top 35% by confidence among non-noisy samples)
+EMB_DIM = 384             # raw all-MiniLM-L6-v2 sentence embedding dimension
+PCA_DIM = 40              # PCA-reduced embedding dimension, mitigates overfitting on small samples
 
 
 def load_jsonl(path):
@@ -52,7 +57,8 @@ def process_split(split: str, embedder, pca: PCA = None):
     stat_feat_r, rel_r, emb_r_vec = build_feature_batch(prompts, rejected, embedder)
 
     if pca is None:
-        # 仅在 train 集上拟合 PCA, 避免信息泄漏; 降维缓解小样本下 384 维句向量的过拟合
+        # fit PCA only on the train split to avoid data leakage; dimensionality reduction
+        # mitigates overfitting of the 384-dim sentence embedding on small samples
         pca = PCA(n_components=PCA_DIM, random_state=42)
         pca.fit(np.concatenate([emb_c, emb_r_vec], axis=0))
         joblib.dump(pca, os.path.join(PROC_DIR, "embedding_pca.joblib"))
@@ -60,7 +66,7 @@ def process_split(split: str, embedder, pca: PCA = None):
     emb_c_pca = pca.transform(emb_c)
     emb_r_pca = pca.transform(emb_r_vec)
 
-    # Reward Model 输入 = 降维后的句向量语义表征(类比简历中的 Qwen-VL 多模态表征) + 结构化质量特征
+    # Reward Model input = PCA-reduced sentence embedding (semantic representation) + structured quality features
     feat_c = np.concatenate([emb_c_pca, stat_feat_c], axis=1)
     feat_r = np.concatenate([emb_r_pca, stat_feat_r], axis=1)
     feat_time = time.time() - t0
@@ -82,7 +88,7 @@ def process_split(split: str, embedder, pca: PCA = None):
     judge_time = time.time() - t0
 
     judge_margin = judge_score_c - judge_score_r
-    noisy = is_ambiguous & (judge_margin < 0)  # 模糊样本中 judge 判别与人工标注方向相反
+    noisy = is_ambiguous & (judge_margin < 0)  # ambiguous samples where the judge disagrees with the human label direction
 
     confidence = np.where(
         is_ambiguous,

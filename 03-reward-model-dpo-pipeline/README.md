@@ -1,34 +1,34 @@
-# 偏好数据构建 + Reward Model + DPO Pipeline
+# Preference Data Construction + Reward Model + DPO Pipeline
 
-用公开偏好数据集复现"人类偏好数据构建 → LLM-as-a-Judge 二次判别 → Reward Model 蒸馏 → DPO 训练数据产出"的完整链路。
+Reproduces the full pipeline of "human preference data construction -> LLM-as-a-Judge re-labeling -> Reward Model distillation -> DPO training data generation" on a public preference dataset.
 
-> 说明：简历原项目面向数字人视频生成场景，使用 Qwen-VL 多模态表征 + 付费 GPT-4o API 作为 LLM-as-a-Judge。公开 GitHub 项目不便获取数字人视频偏好数据，也不便内置付费 API Key，因此：
-> - 数据集替换为 [Anthropic/hh-rlhf](https://huggingface.co/datasets/Anthropic/hh-rlhf)（`helpful-base` 子集，Hugging Face 官方数据集，无需登录），结构上与原场景完全一致：同一上下文下，人类标注的 chosen/rejected 两条候选回复；
-> - Qwen-VL 多模态表征替换为 `sentence-transformers`（all-MiniLM-L6-v2）句向量 + 手工质量特征；
-> - LLM-as-a-Judge 默认使用免 API Key 的本地代理裁判（`LocalProxyJudge`），同时保留真实 rubric prompt 模板与 `OpenAIJudge` 接口，配置 `OPENAI_API_KEY` 后可无缝切换为真实 GPT 系列模型。
+> Note: this reproduction targets a general text-response-quality setting (rather than a proprietary multimodal scenario), so:
+> - the dataset used is [Anthropic/hh-rlhf](https://huggingface.co/datasets/Anthropic/hh-rlhf) (`helpful-base` subset, official Hugging Face dataset, no login required), which structurally matches the target scenario: a human-labeled chosen/rejected pair of candidate responses under the same context;
+> - multimodal representations are replaced with `sentence-transformers` (all-MiniLM-L6-v2) sentence embeddings + hand-crafted quality features;
+> - LLM-as-a-Judge defaults to a local proxy judge (`LocalProxyJudge`) that requires no API key, while keeping a realistic rubric-prompt template and an `OpenAIJudge` interface — set `OPENAI_API_KEY` to switch seamlessly to a real GPT-series model.
 
-## 对应简历工作
+## Key Techniques
 
-1. **偏好数据构建**：融合特征置信度与 LLM-as-a-Judge，对模糊样本做 RLAIF 二次判别，结合置信度筛选提纯金标数据
-2. **Reward Model**：以语义表征 + 结构化质量特征为输入，拟合 Bradley-Terry 偏好模型，产出可独立部署、远低于直接调用 LLM Judge 延迟的 Reward Signal
-3. **DPO 训练数据产出**：导出标准 `{prompt, chosen, rejected}` 格式，可直接喂给 `trl.DPOTrainer`
+1. **Preference data construction**: combines feature-based confidence with LLM-as-a-Judge to re-label ambiguous samples via RLAIF, then filters by confidence to distill gold-standard data
+2. **Reward Model**: takes semantic embeddings + structured quality features as input, fits a Bradley-Terry preference model, and produces an independently deployable Reward Signal with far lower latency than calling an LLM Judge directly
+3. **DPO training data generation**: exports the standard `{prompt, chosen, rejected}` format, ready to feed directly into `trl.DPOTrainer`
 
-## 代码结构
+## Code Structure
 
 ```
 03-reward-model-dpo-pipeline/
 ├── src/
-│   ├── download_data.py          # 下载 Anthropic/hh-rlhf(helpful-base), 无需登录
-│   ├── features.py                # 句向量 + 结构化质量特征(相关度/多样性/重复率/交叉特征)
+│   ├── download_data.py          # download Anthropic/hh-rlhf (helpful-base), no login required
+│   ├── features.py                # sentence embeddings + structured quality features (relevance/diversity/repetition/cross features)
 │   ├── llm_judge.py                # RubricPromptTemplate + LocalProxyJudge + OpenAIJudge
-│   ├── build_preference_dataset.py # 模糊样本检测 -> judge 二次判别 -> 置信度筛选金标集
-│   ├── reward_model.py             # 线性 Bradley-Terry Reward Model, 5折CV + 延迟基准
-│   ├── build_dpo_dataset.py        # 导出 DPO 标准格式数据 + 数据漏斗统计
-│   └── dpo_train_demo.py           # trl.DPOTrainer 端到端冒烟测试(默认 tiny-gpt2, CPU 可跑)
+│   ├── build_preference_dataset.py # ambiguous-sample detection -> judge re-labeling -> confidence-filtered gold set
+│   ├── reward_model.py             # linear Bradley-Terry Reward Model, 5-fold CV + latency benchmark
+│   ├── build_dpo_dataset.py        # export standard DPO-format data + data funnel stats
+│   └── dpo_train_demo.py           # end-to-end trl.DPOTrainer smoke test (default tiny-gpt2, runs on CPU)
 └── outputs/
 ```
 
-## 运行
+## Run
 
 ```bash
 pip install -r requirements.txt
@@ -36,39 +36,39 @@ python src/download_data.py
 python src/build_preference_dataset.py
 python src/reward_model.py
 python src/build_dpo_dataset.py
-python src/dpo_train_demo.py   # 可选: 验证 DPO 训练链路端到端可跑通
+python src/dpo_train_demo.py   # optional: verifies the DPO training pipeline runs end-to-end
 ```
 
-## 实测结果
+## Results
 
-**偏好数据提纯漏斗**（train 集 7,980 条原始 chosen/rejected 对）：
+**Preference data distillation funnel** (train split, 7,980 raw chosen/rejected pairs):
 
-| 阶段 | 数量 | 占比 |
+| Stage | Count | Share |
 |---|---|---|
-| 原始偏好对 | 7,980 | 100% |
-| 其中"模糊样本"（语义相关度难以区分，送入 LLM-as-a-Judge 二次判别） | 1,029 | 12.9% |
-| 经 Judge 判别为噪声标签（与人工标注方向相反，剔除） | 482 | 6.0% |
-| 最终金标数据（按置信度排序取 Top 35%，用于 DPO 训练） | 2,624 | 32.9% |
+| Raw preference pairs | 7,980 | 100% |
+| "Ambiguous" samples (semantic relevance hard to distinguish, sent to LLM-as-a-Judge for re-labeling) | 1,029 | 12.9% |
+| Judged as noisy labels (judge disagrees with the human label direction, discarded) | 482 | 6.0% |
+| Final gold data (top 35% by confidence, used for DPO training) | 2,624 | 32.9% |
 
-**Reward Model**（句向量 PCA-40 维 + 10 维结构化特征，线性 Bradley-Terry 模型，5 折交叉验证）：
+**Reward Model** (40-dim PCA-reduced sentence embedding + 10-dim structured features, linear Bradley-Terry model, 5-fold cross-validation):
 
-| 指标 | 数值 |
+| Metric | Value |
 |---|---|
-| 5折 AUC（均值±标准差） | 0.6072 ± 0.0029 |
-| 5折 Pairwise Accuracy | 0.6267 |
-| 独立测试集 AUC | 0.6150 |
-| 独立测试集 Pairwise Accuracy | 0.6317 |
+| 5-fold AUC (mean ± std) | 0.6072 ± 0.0029 |
+| 5-fold pairwise accuracy | 0.6267 |
+| Held-out test AUC | 0.6150 |
+| Held-out test pairwise accuracy | 0.6317 |
 
-> 说明：生产环境用 Qwen-VL 多模态表征在数字人视频质量任务上报告 AUC=0.76；本项目用通用文本句向量在 hh-rlhf 这类"措辞细微差异"偏好数据集上复现，AUC 明显偏低是预期之中的——这类数据集上，人类标注者之间的一致性本身就有限，用轻量特征拟合更是进一步限制了上限。**更有工程价值的结论是下面的推理延迟对比**。
+> Note: the AUC here is modest, which is expected — on datasets like hh-rlhf where chosen/rejected differ only in subtle wording, human-annotator agreement itself is limited, and fitting lightweight features caps the achievable ceiling further. **The more practically valuable result is the inference-latency comparison below.**
 
-**推理延迟对比**（300 条样本，Reward Model vs 逐条调用 LLM Judge）：
+**Inference latency comparison** (300 samples, Reward Model vs. calling the LLM Judge per sample):
 
-| 方案 | 单条耗时 | 总耗时(300条) |
+| Approach | Per-sample latency | Total (300 samples) |
 |---|---|---|
-| LLM-as-a-Judge（句向量裁判，含 encode） | 16.17 ms | 4.85 s |
-| Reward Model（预计算特征上的线性前向） | 0.00097 ms | 0.00029 s |
-| **加速比** | **≈16,700x** | - |
+| LLM-as-a-Judge (sentence-embedding judge, including encoding) | 16.17 ms | 4.85 s |
+| Reward Model (linear forward pass on precomputed features) | 0.00097 ms | 0.00029 s |
+| **Speedup** | **≈16,700x** | - |
 
-与简历中"相较直接调用 LLM Judge，推理延迟降低到 1/15、成本降低 60%"方向一致：把"每条样本都要调一次 LLM/Judge"的流程，蒸馏成一个轻量级 Reward Model 之后，推理成本可以降低几个数量级，从而让 Reward Model 能够应用于全量数据筛选，而不仅仅是训练阶段用到的那一小部分样本。
+This confirms the core value proposition: distilling the "call an LLM/Judge for every sample" workflow into a lightweight Reward Model cuts inference cost by several orders of magnitude, making it feasible to apply the Reward Model across the full dataset rather than only the small subset used during training.
 
-**DPO 数据**：`outputs/dpo_train.jsonl`（2,624 条）、`outputs/dpo_test.jsonl`（497 条），标准 `{prompt, chosen, rejected}` 格式。`dpo_train_demo.py` 已验证可直接喂给 `trl.DPOTrainer` 跑通训练循环（默认用 `sshleifer/tiny-gpt2` 做 20 step 的 CPU smoke test，替换为更大模型 + GPU 环境即可用于正式训练）。
+**DPO data**: `outputs/dpo_train.jsonl` (2,624 rows), `outputs/dpo_test.jsonl` (497 rows), standard `{prompt, chosen, rejected}` format. `dpo_train_demo.py` verifies this data can be fed directly into `trl.DPOTrainer` to run a training loop (defaults to `sshleifer/tiny-gpt2` for a 20-step CPU smoke test; swap in a larger model and a GPU environment for real training).

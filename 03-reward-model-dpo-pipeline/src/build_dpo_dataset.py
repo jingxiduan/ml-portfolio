@@ -1,6 +1,7 @@
 """
-将金标偏好数据导出为标准 DPO 训练格式({"prompt", "chosen", "rejected"} JSONL), 可直接喂给
-Hugging Face `trl` 库的 `DPOTrainer`。
+Exports the gold-standard preference data into the standard DPO training format
+({"prompt", "chosen", "rejected"} JSONL), ready to feed directly into the Hugging Face
+`trl` library's `DPOTrainer`.
 """
 import json
 import os

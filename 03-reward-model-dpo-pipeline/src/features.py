@@ -1,12 +1,13 @@
 """
-多维质量/偏好特征工程, 对应简历"33维质量、用户偏好与交叉特征体系"的小规模复现。
+Multi-dimensional quality/preference feature engineering.
 
-由于公开文本偏好数据集没有"数字人视频"的口型/表情/clone信号, 这里把特征体系迁移到
-文本回复质量场景, 保留"语义相关度 + 结构/可读性 + 行为统计 + 交叉特征"的分层设计思路:
-  - 语义特征: prompt-response 相关度(embedding 余弦相似度)
-  - 结构特征: 长度、句子数、词汇多样性、重复率
-  - 可读性特征: 平均词长、平均句长
-  - 交叉特征: 长度 × 相关度、多样性 × 相关度 等(对应"克隆方式 × 用户偏好"交叉设计思路)
+This builds a feature system for text-response-quality scoring, layered into
+"semantic relevance + structural/readability features + behavioral stats + cross
+features":
+  - Semantic feature: prompt-response relevance (embedding cosine similarity)
+  - Structural features: length, sentence count, lexical diversity, repetition rate
+  - Readability features: average word length, average sentence length
+  - Cross features: length x relevance, diversity x relevance, etc.
 """
 import re
 
@@ -33,7 +34,7 @@ def _basic_text_stats(text: str):
     avg_word_len = np.mean([len(w) for w in words]) if words else 0.0
     avg_sent_len = n_words / n_sent
 
-    # 重复率: bigram 重复比例, 越高代表越"水"/套话多
+    # repetition rate: bigram repetition ratio, higher means more filler/boilerplate
     bigrams = list(zip(words, words[1:]))
     repeat_rate = 0.0
     if bigrams:
@@ -72,14 +73,14 @@ def _combine(stats: dict, relevance: float):
         stats["diversity"],
         stats["repeat_rate"],
         relevance,
-        relevance * stats["diversity"],          # 交叉特征: 相关度 x 多样性
-        (stats["n_words"] / 100.0) * relevance,   # 交叉特征: 长度 x 相关度
-        relevance * (1 - stats["repeat_rate"]),   # 交叉特征: 相关度 x 低重复
+        relevance * stats["diversity"],          # cross feature: relevance x diversity
+        (stats["n_words"] / 100.0) * relevance,   # cross feature: length x relevance
+        relevance * (1 - stats["repeat_rate"]),   # cross feature: relevance x low-repetition
     ]
 
 
 def build_feature_batch(prompts, responses, embedder=None):
-    """批量计算特征, 避免逐条调用 sentence-transformers 带来的性能损耗。"""
+    """Computes features in batch, avoiding the performance cost of calling sentence-transformers one at a time."""
     embedder = embedder or get_embedder()
     emb_p = embedder.encode(list(prompts), normalize_embeddings=True, batch_size=256, show_progress_bar=False)
     emb_r = embedder.encode(list(responses), normalize_embeddings=True, batch_size=256, show_progress_bar=False)

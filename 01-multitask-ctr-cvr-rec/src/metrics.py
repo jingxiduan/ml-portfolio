@@ -3,7 +3,7 @@ from sklearn.metrics import roc_auc_score, log_loss
 
 
 def gauc(user_ids, labels, scores):
-    """分组 AUC(按 user_id 分组, 组内样本数加权平均), 对应 resume 中的 GAUC 评估指标。"""
+    """Grouped AUC (grouped by user_id, weighted average by group size) - the GAUC evaluation metric."""
     import pandas as pd
     df = pd.DataFrame({"u": user_ids, "y": labels, "s": scores})
     total_auc, total_w = 0.0, 0.0
@@ -21,7 +21,7 @@ def gauc(user_ids, labels, scores):
 
 
 def calibration_abs_bias(labels, scores, n_bins: int = 10):
-    """分桶校准误差(AbsBias): 预测均值与真实均值之差的平均绝对值。"""
+    """Bucketed calibration error (AbsBias): mean absolute difference between predicted and true means per bucket."""
     labels = np.asarray(labels)
     scores = np.asarray(scores)
     order = np.argsort(scores)

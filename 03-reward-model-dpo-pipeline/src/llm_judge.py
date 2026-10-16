@@ -1,35 +1,38 @@
 """
-LLM-as-a-Judge 二次判别, 对应简历"对模糊样本以 GPT-4o 作为 LLM-as-a-Judge, 采用包含
-评分维度、推理过程与结构化结论的 rubric prompt 进行 RLAIF 二次判别"。
+LLM-as-a-Judge re-labeling: judges ambiguous samples using a rubric prompt covering
+scoring dimensions, reasoning, and a structured conclusion, as a form of RLAIF
+re-labeling.
 
-说明: 公开 GitHub 项目不便内置付费 API Key, 因此:
-  - `RubricPromptTemplate` 给出与生产环境一致的结构化 rubric prompt 设计(评分维度 /
-    推理过程 / 结构化结论三段式), 若用户在环境变量中配置 OPENAI_API_KEY, 可通过
-    `OpenAIJudge` 调用真实 LLM 完成打分;
-  - 默认使用 `LocalProxyJudge`: 基于句向量与"高质量/低质量"锚点语句的相似度打分,
-    作为免 API Key 的轻量替代, 用于在没有 LLM 服务的环境下跑通完整 pipeline。
+Note: since this is a public GitHub project, it is not practical to embed a paid API
+key, so:
+  - `RubricPromptTemplate` provides a production-style structured rubric-prompt design
+    (scoring dimensions / reasoning / structured conclusion, three parts). If the user
+    sets `OPENAI_API_KEY` in the environment, `OpenAIJudge` can call a real LLM to score;
+  - By default, `LocalProxyJudge` is used: it scores based on sentence-embedding
+    similarity to "high-quality/low-quality" anchor statements, serving as a lightweight,
+    API-key-free substitute so the full pipeline can run without any LLM service.
 """
 import json
 import os
 
 import numpy as np
 
-RUBRIC_PROMPT_TEMPLATE = """你是一个严格的回复质量评审员。请针对下面的问题与候选回复, 按以下维度打分:
-1. 相关性(是否直接回答了问题)
-2. 信息完整度与准确性
-3. 表达清晰度与结构
-4. 是否存在空洞套话/重复
+RUBRIC_PROMPT_TEMPLATE = """You are a strict response-quality reviewer. For the question and candidate response below, score it along the following dimensions:
+1. Relevance (does it directly answer the question)
+2. Completeness and accuracy of information
+3. Clarity and structure of expression
+4. Whether it contains vague filler or repetition
 
-问题: {prompt}
-候选回复: {response}
+Question: {prompt}
+Candidate response: {response}
 
-请输出如下 JSON 结构(不要输出多余内容):
+Output the following JSON structure (no extra content):
 {{
-  "relevance": <0-10 打分>,
-  "completeness": <0-10 打分>,
-  "clarity": <0-10 打分>,
-  "reasoning": "<一句话说明打分依据>",
-  "final_score": <0-10 综合打分>
+  "relevance": <score 0-10>,
+  "completeness": <score 0-10>,
+  "clarity": <score 0-10>,
+  "reasoning": "<one sentence explaining the score>",
+  "final_score": <overall score 0-10>
 }}
 """
 
@@ -44,7 +47,8 @@ _BAD_ANCHORS = [
 
 
 class LocalProxyJudge:
-    """无需付费 API 的本地代理裁判: 用句向量到好/坏锚点的相似度差作为 LLM Judge 的替代打分。"""
+    """A local proxy judge requiring no paid API: uses the difference in sentence-embedding
+    similarity to good/bad anchors as a substitute for an LLM Judge score."""
 
     def __init__(self, embedder=None):
         from features import get_embedder
@@ -64,7 +68,7 @@ class LocalProxyJudge:
         }
 
     def batch_score(self, responses) -> np.ndarray:
-        """批量打分, 返回 final_score 数组(0-10), 用于对"模糊样本"做 RLAIF 二次判别。"""
+        """Scores in batch, returning an array of final_score values (0-10), used for RLAIF re-labeling of ambiguous samples."""
         emb = self.embedder.encode(list(responses), normalize_embeddings=True,
                                     batch_size=256, show_progress_bar=False)
         good_sim = emb @ self.good_emb.T
@@ -74,10 +78,10 @@ class LocalProxyJudge:
 
 
 class OpenAIJudge:
-    """可选: 配置 OPENAI_API_KEY 后调用真实 LLM 完成 rubric 打分(与生产环境一致)。"""
+    """Optional: once OPENAI_API_KEY is set, calls a real LLM to produce a rubric score (matching a production setup)."""
 
     def __init__(self, model: str = "gpt-4o-mini"):
-        import openai  # noqa: F401  (仅在显式使用该类时才需要安装)
+        import openai  # noqa: F401  (only required if this class is explicitly used)
         self.client = openai.OpenAI()
         self.model = model
 
