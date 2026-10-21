@@ -1,0 +1,10 @@
+torch>=2.2
+torchvision
+diffusers>=0.30
+transformers>=4.40
+accelerate>=0.30
+peft>=0.11
+datasets
+pillow
+safetensors
+requests
