@@ -51,7 +51,9 @@ python src/evaluate.py                                    # outputs/eval_results
 
 ## Results
 
-**Training**: 400 OPSD optimizer steps, batch size 1, LoRA rank 16 on `to_q/to_k/to_v/to_out.0`, ~140k trainable params. Loss stayed in the 0.01-0.02 range for most of the run with occasional spikes, which is expected since each step's target comes from a fresh on-policy rollout at a random prompt, not a fixed dataset. Full per-step log in `outputs/metrics.jsonl`.
+**Training**: 400 OPSD optimizer steps, batch size 1, LoRA rank 16 on `to_q/to_k/to_v/to_out.0`, ~140k trainable params. Loss stayed in the 0.01-0.02 range for most of the run with occasional spikes, which is expected since each step's target comes from a fresh on-policy rollout at a random prompt, not a fixed dataset. The mean on-policy anchor reward (CLIPScore of the behavior policy's own one-step prediction, logged every step) rose from 27.68 (first 20 steps) to 29.59 (last 20 steps) over the run. Full per-step log in `outputs/metrics.jsonl`.
+
+![training curves: anchor reward rising, distillation loss over 400 OPSD steps](outputs/samples/training_curves.png)
 
 **Held-out CLIPScore** (20 DrawBench prompts, disjoint from the 40 training prompts, fixed seed, 2-step SD-Turbo inference):
 
@@ -62,7 +64,11 @@ python src/evaluate.py                                    # outputs/eval_results
 
 Full per-prompt scores in `outputs/eval_results.json`.
 
-**Qualitative**: `outputs/samples/comparison_grid.png`, fixed-seed before/after on 4 held-out demo prompts.
+**Qualitative** (fixed seed, left = base SD-Turbo, right = + OPSD LoRA, same 2-step inference settings):
+
+![before/after comparison on 4 held-out demo prompts](outputs/samples/comparison_grid.png)
+
+Prompts, top to bottom: "McDonalds Church.", "A couch on the left of a chair.", "Photo of a mega Lego space station inside a kid's bedroom.", "A train on top of a surfboard."
 
 ## Honest Reading of the Numbers
 
