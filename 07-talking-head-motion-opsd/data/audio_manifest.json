@@ -1,0 +1,254 @@
+[
+ {
+  "split": "demo",
+  "path": "data/audio/demo/demo_00.wav",
+  "voice": "Tingting",
+  "rate": 215,
+  "text": "家人们，今天这款保温杯真的太值了，三百毫升的容量，二十四小时保温，下单还送杯套。"
+ },
+ {
+  "split": "demo",
+  "path": "data/audio/demo/demo_01.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 200,
+  "text": "如果您需要修改收货地址，可以在订单详情页点击修改，在发货之前都是可以免费更改的。"
+ },
+ {
+  "split": "demo",
+  "path": "data/audio/demo/demo_02.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 170,
+  "text": "本次展会共吸引了来自三十多个国家的一千余家企业参展，现场签约金额创下历史新高。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_00.wav",
+  "voice": "Tingting",
+  "rate": 170,
+  "text": "复利的意思是利息也会产生利息，时间越长，这种滚雪球的效果就越明显，所以理财要趁早。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_01.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 170,
+  "text": "睡前半小时尽量不要看手机，屏幕的蓝光会抑制褪黑素分泌，让人更难入睡。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_02.wav",
+  "voice": "Shelley (中文（中国大陆）)",
+  "rate": 215,
+  "text": "您的订单已经发货了，预计明天下午送达，物流单号我已经通过短信发送到您的手机上。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_03.wav",
+  "voice": "Eddy (中文（中国大陆）)",
+  "rate": 170,
+  "text": "说到健康饮食，大家可以记住一个简单的原则，每顿饭有一半是蔬菜，其余是主食和蛋白质。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_04.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 215,
+  "text": "如果手机电池不耐用了，可以先检查一下后台有没有一直在运行的应用。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_05.wav",
+  "voice": "Shelley (中文（中国大陆）)",
+  "rate": 200,
+  "text": "在处理客户投诉的时候，第一步一定是先倾听，不要急着解释，让客户把情绪表达出来。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_06.wav",
+  "voice": "Sandy (中文（中国大陆）)",
+  "rate": 185,
+  "text": "今天直播间的福利是买二送一，再叠加平台满减，算下来每件只要五十九块，真的非常划算。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_07.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 200,
+  "text": "项目管理的核心是把大目标拆成小任务，每个任务都要有明确的负责人和截止时间。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_00.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 170,
+  "text": "气象部门预计，未来三天本市将迎来一次明显降温过程，请市民朋友注意添衣保暖。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_01.wav",
+  "voice": "Eddy (中文（中国大陆）)",
+  "rate": 185,
+  "text": "接下来我会用三个例子来说明这个问题，希望大家听完之后，能有一些新的思考。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_02.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 185,
+  "text": "这件外套是我们店里卖得最好的一款，面料特别舒服，颜色也很显白，大家可以放心拍。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_03.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 185,
+  "text": "其实植物也需要休息，夏天中午最好不要浇水，温差太大容易伤到根系。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_04.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 185,
+  "text": "学习一门新语言，最重要的不是背单词，而是每天坚持开口说，哪怕只有十分钟。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_05.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 215,
+  "text": "数据安全是我们每个人的责任，请不要把公司文件上传到个人网盘，也不要随意点击陌生链接。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_06.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 170,
+  "text": "很多朋友问这个面霜适不适合敏感肌，我可以告诉大家，它是无香精配方，孕妇也可以用。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_07.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 170,
+  "text": "很多人以为喝咖啡会脱水，其实适量饮用并不会，咖啡里的水分基本可以抵消它的利尿作用。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_08.wav",
+  "voice": "Tingting",
+  "rate": 200,
+  "text": "信用卡的账单日和还款日是两个不同的概念，搞清楚它们可以帮你多获得一些免息期。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_09.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 215,
+  "text": "我们支持七天无理由退换，运费险也已经帮大家买好了，收到不满意直接退，没有任何风险。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_10.wav",
+  "voice": "Tingting",
+  "rate": 170,
+  "text": "今天我想和大家聊一聊时间管理，很多时候我们不是没有时间，而是没有想清楚什么最重要。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_11.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 200,
+  "text": "欢迎大家参加本次新员工培训，接下来的一个小时，我会带大家了解公司的组织架构和工作流程。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_12.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 200,
+  "text": "非常抱歉给您带来不便，我们已经为您申请了优先处理，工作人员会在两小时内联系您。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_13.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 170,
+  "text": "如果你在报销流程中遇到问题，可以先查看共享文档里的常见问题，再联系财务部同事。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_14.wav",
+  "voice": "Eddy (中文（中国大陆）)",
+  "rate": 200,
+  "text": "据了解，新的地铁线路将于下个月正式开通运营，全程设置十二座车站，运行时间约四十分钟。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_15.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 185,
+  "text": "本季度我们的销售额同比增长了百分之十八，其中线上渠道的贡献超过了一半。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_16.wav",
+  "voice": "Eddy (中文（中国大陆）)",
+  "rate": 200,
+  "text": "很高兴今天能和大家分享我们团队过去一年的成长，也想借这个机会感谢每一位伙伴的付出。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_17.wav",
+  "voice": "Tingting",
+  "rate": 215,
+  "text": "跑步前一定要做五到十分钟的热身，可以有效降低膝盖和脚踝受伤的风险。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_18.wav",
+  "voice": "Shelley (中文（中国大陆）)",
+  "rate": 170,
+  "text": "我们常说的五险一金，指的是养老、医疗、失业、工伤、生育保险，再加上住房公积金。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_19.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 215,
+  "text": "各位观众大家好，欢迎收看今天的科技快讯，我们先来关注一下人工智能领域的最新进展。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_20.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 200,
+  "text": "做饭的时候先放盐还是后放盐，其实会影响菜的口感，炒青菜最好出锅前再放。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_21.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 185,
+  "text": "您好，很高兴为您服务，请问您遇到的是登录问题还是支付问题，我来帮您快速处理。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_22.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 200,
+  "text": "倒计时最后三分钟，库存只剩下两百单，喜欢的朋友抓紧时间，错过今天就要恢复原价了。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_23.wav",
+  "voice": "Tingting",
+  "rate": 185,
+  "text": "番茄工作法就是专注工作二十五分钟，然后休息五分钟，每完成四轮再休息一次长的。"
+ },
+ {
+  "split": "train",
+  "path": "data/audio/train/train_24.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 185,
+  "text": "为什么天空是蓝色的？因为阳光穿过大气层时，波长较短的蓝光更容易被散射到各个方向。"
+ }
+]

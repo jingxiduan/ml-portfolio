@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# third-party code + pretrained weights (downloaded via scripts, see README)
+third_party/
+
+# large/intermediate render outputs (kept: samples/, routing/, *.json reports, metrics)
+outputs/_smoke/
+outputs/_smoke.log
+outputs/_frames/
+outputs/_rc.log
+outputs/_rc2.log
+outputs/_probe.log
+outputs/_probe2.log
+outputs/opsd_train.log
+outputs/eval.log
+outputs/profiles.log
+outputs/render_compare_004/
+outputs/render_compare_host_m/
+outputs/eval/*.mp4
+outputs/profiles/*.wav
+outputs/eval_motion_only/

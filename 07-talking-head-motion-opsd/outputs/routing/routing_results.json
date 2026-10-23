@@ -1,0 +1,46 @@
+{
+ "mean_satisfaction": {
+  "random": 0.5075652670953288,
+  "global_best": 0.7850502817451058,
+  "linucb": 0.9431780548249245,
+  "oracle": 0.9583550513913197
+ },
+ "global_best_engine": "opsd_cfg2.0_s0.01_m1.25",
+ "per_segment_best_engine_true": {
+  "ecommerce_live": "opsd_cfg2.0_s0.3_m1.25",
+  "news_corporate": "base_cfg2.0_s0.01_m0.8",
+  "knowledge": "opsd_cfg2.0_s0.01_m1.0"
+ },
+ "per_segment_choice_learned_run_last": {
+  "ecommerce_live": "opsd_cfg2.0_s0.3_m1.25",
+  "news_corporate": "base_cfg2.0_s0.01_m0.8",
+  "knowledge": "opsd_cfg2.0_s0.01_m1.0"
+ },
+ "learning_curve_linucb_every_250": [
+  0.7498,
+  0.8418,
+  0.876,
+  0.8937,
+  0.9041,
+  0.9112,
+  0.917,
+  0.921,
+  0.9247,
+  0.9274,
+  0.9297,
+  0.9317,
+  0.9333,
+  0.9347,
+  0.936,
+  0.9372,
+  0.9383,
+  0.9392,
+  0.94,
+  0.9408,
+  0.9415,
+  0.9421,
+  0.9427,
+  0.9432
+ ],
+ "note": "simulated users; demonstrates the routing pipeline, not real preferences"
+}
