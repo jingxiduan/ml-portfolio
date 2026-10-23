@@ -25,7 +25,9 @@ Everything else, batch size 1, dual LoRA adapters via `peft`, EMA refresh, the f
 │   ├── reward_model.py          # ClipVideoRewardModel: frame-averaged CLIPScore + temporal consistency
 │   ├── opsd_train_video.py      # the same 4-step OPSD loop, adapted to video latents + AnimateDiff
 │   ├── generate_samples_video.py# fixed-seed before/after GIFs, base AnimateDiff vs. OPSD LoRA
-│   └── evaluate_video.py        # held-out video reward: base vs. trained, win-rate
+│   ├── evaluate_video.py        # held-out video reward: base vs. trained, win-rate
+│   ├── generate_portrait_t2v.py # portrait before/after, same OPSD LoRA, text-to-video
+│   └── generate_portrait_i2v.py # portrait image-to-video demo (SVD, not OPSD-trained, see below)
 ├── data/
 │   ├── prompts_all.txt          # 30 hand-authored motion prompts
 │   ├── train_prompts.txt        # 18
@@ -49,6 +51,8 @@ python src/opsd_train_video.py --rounds 400 --batch-size 1 \
     --num-frames 6 --resolution 256 --lora-r 16 --lora-alpha 16 --lr 5e-4 --reward-step-size 1.2
 python src/generate_samples_video.py                          # outputs/samples/comparison_*.gif
 python src/evaluate_video.py                                  # outputs/eval_results.json
+python src/generate_portrait_t2v.py                            # portrait_t2v_comparison_*.gif (same LoRA, text-to-video)
+python src/generate_portrait_i2v.py                            # portrait_i2v_*.gif (SVD, image-to-video, not OPSD-trained)
 ```
 
 `--device mps` is the default. 6 frames at 256x256 (batch size 1) peaks at about 30 GB on this 36 GB machine, roughly 15-20s/step; 8 frames at the same resolution pushed peak memory past 35 GB, too close to the limit to run safely alongside anything else on the machine, so 6 frames was the chosen training configuration.
@@ -84,10 +88,30 @@ Full per-prompt scores in `outputs/eval_results.json`. This fixed-seed, same-noi
 
 *"waves of golden wheat swaying in the wind"*, the trained version has a smoother, less streaky texture.
 
+GIF playback is intentionally slow (16 frames at 4 fps, 4 seconds per loop) since AnimateDiff's native output cadence (originally exported at 8 fps) made the already-small 1-2 second motion hard to read; everything above and below uses the same 4 fps.
+
+## Portrait Demos
+
+The 400-step OPSD run above only trained on object/scene motion prompts (water, balloons, animals, vehicles), so these portrait clips are an out-of-distribution check: does the same LoRA still do something sensible on faces, and separately, does image-to-video work at all on this machine.
+
+**Text-to-video, same OPSD LoRA** (`src/generate_portrait_t2v.py`, fixed seed, left = base, right = + OPSD LoRA):
+
+![before/after portrait: woman laughing](outputs/samples/portrait_t2v_comparison_0.gif)
+![before/after portrait: man smiling and nodding](outputs/samples/portrait_t2v_comparison_1.gif)
+
+Faces are a harder case for this base model at 320x320/6 steps than the object prompts above, most random seeds produce venetian-blind-style striping artifacts across the face (an AnimateDiff v1-5-2 + SD1.5 failure mode at this resolution/step count, unrelated to OPSD), so these two use seeds hand-picked for a recognizable result rather than `base_seed + index` like the other demos. Within that constraint the same qualitative direction holds: the trained version renders cleaner facial structure (visible eyes/mouth) where the base version is closer to a featureless smear.
+
+**Image-to-video, portrait photo to clip** (`src/generate_portrait_i2v.py`): the AnimateDiff model this project trains has no image-conditioning input, so there is no OPSD-trained path for image-to-video, this part uses a separate frozen pretrained model, [Stable Video Diffusion (img2vid)](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid), to answer the "does image-to-video work here" question on its own. No LoRA, no OPSD training involved. Source stills are synthesized with SD-Turbo (not photos of real people), then animated:
+
+![image-to-video: synthesized portrait 1](outputs/samples/portrait_i2v_0.gif)
+![image-to-video: synthesized portrait 2](outputs/samples/portrait_i2v_1.gif)
+
+Ran at 384x384, 14 frames, 20 steps, peak memory about 25 GB, about 2.5 minutes per clip on this machine, comfortably within budget since inference needs no gradients.
+
 ## Honest Reading of the Numbers
 
 The training-reward curve here does not show the clear upward trend seen in the image project; at this scale (400 steps, batch size 1, rank-16 LoRA, a much heavier video UNet than SD-Turbo) the per-step on-policy signal is too noisy to read a trend from directly. What is measurable is a small, consistent effect on a proper held-out comparison: +0.52 reward and a 77.8% per-prompt win rate on 9 prompts the model never trained on, with one qualitative example (the puppy clip) showing an obvious, visible quality jump and the other two showing smaller texture/edge improvements. This should be read as "the OPSD mechanism still produces a measurable, directionally consistent effect when extended to a heavier video model with a stricter LoRA scope," not as evidence this would scale to production video quality or that the training curve itself is a reliable step-to-step progress signal at this budget.
 
 ## License / Attribution
 
-The OPSD algorithm design follows the description in [`worldbench/DiffusionOPSD`](https://github.com/worldbench/DiffusionOPSD) (Apache-2.0), same as `04-diffusion-opsd-mps`. The video-specific extensions (frame-averaged + temporal-consistency reward, motion-adapter-excluded LoRA scope, the 30-prompt motion dataset) are original work for this project, not described in the original paper. AnimateDiff's motion adapter (`guoyww/animatediff-motion-adapter-v1-5-2`) and SD1.5 weights are used frozen, under their respective licenses.
+The OPSD algorithm follows [*On-Policy Self-Distillation in Diffusion Models*](https://arxiv.org/abs/2608.24646) (Zhou, Zhu, Kong, Chen, Zhang, Liang, Hou, Tian, Sun, Wang, Li, Wu, Qu, Li, Liu, McAuley, Chua et al.), with the reference implementation at [`worldbench/DiffusionOPSD`](https://github.com/worldbench/DiffusionOPSD) (Apache-2.0), same as `04-diffusion-opsd-mps`. Both projects here are original from-scratch implementations written against the paper's description (no code copied from the reference repo), so there is no attribution or licensing obligation beyond what's stated here, Apache-2.0 only restricts redistributing *their* code verbatim without notice, it does not restrict independently implementing the published method. The video-specific extensions (frame-averaged + temporal-consistency reward, motion-adapter-excluded LoRA scope, the 30-prompt motion dataset, the portrait demos) are original work for this project, not described in the original paper. AnimateDiff's motion adapter (`guoyww/animatediff-motion-adapter-v1-5-2`) and SD1.5 weights are used frozen under CreativeML OpenRAIL-M, which permits this kind of use. Stable Video Diffusion (`stable-video-diffusion-img2vid`, used only in the image-to-video portrait demo) is under Stability AI's Non-Commercial Research Community License, free for research/personal/portfolio use like this, but not for commercial use without a separate agreement with Stability AI.

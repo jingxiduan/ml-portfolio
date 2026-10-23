@@ -63,7 +63,7 @@ def main():
     ap.add_argument("--resolution", type=int, default=320)
     ap.add_argument("--num-frames", type=int, default=16)
     ap.add_argument("--steps", type=int, default=6)
-    ap.add_argument("--fps", type=int, default=8)
+    ap.add_argument("--fps", type=int, default=4)
     ap.add_argument("--seed", type=int, default=123)
     ap.add_argument("--out", default=str(ROOT / "outputs" / "samples"))
     args = ap.parse_args()
