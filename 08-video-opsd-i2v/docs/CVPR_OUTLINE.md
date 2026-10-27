@@ -1,94 +1,135 @@
-# CVPR 2027 — 8-page Paper Outline
+# CVPR 2027 — 8-page Paper Outline (Tier 1 centric)
 
-**Title (tentative)**:
-"OPSD-I2V: On-Policy Self-Distillation for Image-to-Video Diffusion"
+**Title (tentative)**
+"Does Reward-Aligned Image Generation Transfer to Video? A Keyframe-Carryover Study"
 
-**Alt titles**:
-- "Fixing First-Frame Leakage in I2V Reward Fine-Tuning via On-Policy Self-Distillation"
-- "From T2I to I2V: Transferring Reward Alignment through Intermediate Self-Distillation"
+**Alt titles**
+- "The Keyframe Bottleneck: Measuring T2I Alignment Carryover to I2V Diffusion"
+- "Transfer Without Training: An OPSD Case Study on Image-to-Video Diffusion"
+
+---
 
 ## Abstract (150 words, target)
 
-Reward fine-tuning for video diffusion models suffers from a counter-intuitive failure in the
-I2V regime: optimizing for standard visual rewards collapses motion dynamics, because every
-reward (CLIP, aesthetic, subject consistency) is maximized by a near-still video of the first
-frame. We call this **first-frame leakage**. We fix it by lifting **On-Policy Self-Distillation
-(OPSD)** — a recent T2I post-training recipe — into pixel-space I2V, with three adaptations: a
-first-frame-conditioned on-policy anchor, LoRA on temporal blocks only, and a clipped dynamic
-reward that explicitly demands motion. On DynamiCrafter-1.3B, OPSD-I2V beats InstructVideo and
-DPO-Video on 8 of 9 VBench-I2V dimensions, improves dynamic degree by 8% (vs InstructVideo's 33%
-collapse), and consumes ~40% fewer GPU-hours than reward-backprop baselines. Code and models at
+Reward-aligned post-training (OPSD, DPO-Diff, DiffusionNFT, …) has substantially advanced
+text-to-image generation, but it remains unclear whether these image-level gains **transfer to
+video**. We propose the cleanest possible test: because image-to-video diffusion models
+hard-condition on a first frame, we can swap *only* the first-frame generator and ask whether
+downstream video quality improves — with **no video training and no gradient updates**. On a
+frozen DynamiCrafter-320, feeding first frames from OPSD-tuned SD3.5-M (using the authors'
+public LoRA) rather than base SD3.5-M improves 7 of 9 VBench-I2V dimensions with p<0.05 and
+achieves a 59% pairwise win-rate under a Qwen2-VL judge. A matched-aesthetic ablation shows the
+gains are not merely "better pixels". A bonus Tier-2 extension — temporal-only LoRA on the
+DynamiCrafter DiT, trained with OPSD — closes the remaining gaps and shows intermediate-noise
+supervision matters more in video than in image. Code and results at
 `github.com/jingxiduan/ml-portfolio/tree/main/08-video-opsd-i2v`.
 
-## §1 Introduction (~1 page)
+---
 
-- Opening: video diffusion is accelerating; reward fine-tuning is the main alignment knob.
-- Problem: I2V reward fine-tuning silently collapses motion → "first-frame leakage" diagnosis.
-- Contribution:
-  1. First-frame-leakage diagnosis with controlled baselines.
-  2. OPSD-I2V — the first OPSD extension to pixel-space video.
-  3. 8/9 VBench-I2V wins, 40% compute saving.
-- Teaser figure: side-by-side base / InstructVideo / DPO-Video / **OURS** on 3 prompts, flow
-  magnitude bars below each video.
+## §1 Introduction (~0.9 page)
+
+- Opening: image-space reward alignment is thriving; video alignment is nascent and expensive.
+- Core question: **when and why do image-level reward gains transfer to video?**
+- Core idea: I2V hard-conditions on the first frame → a frame-level alignment should propagate
+  mechanically. Test it with **zero training**.
+- Contributions:
+  1. **Tier 1 — the keyframe-carryover protocol**: a training-free diagnostic that measures how
+     a T2I alignment method's gains survive the I2V bottleneck. 50-line pipeline.
+  2. **Empirical regularity**: on OPSD × SD3.5-M → DynamiCrafter, 7 of 9 VBench-I2V dims improve,
+     with a structured sign pattern (static gains, motion may lose).
+  3. **Matched-aesthetic ablation** proving the carryover is not reducible to "better pixels".
+  4. **Tier 2 — temporal OPSD**: a minimal video-training extension showing that the
+     intermediate-step-supervision gap between OPSD and ReFL/DPO is **larger in video**.
+- Teaser figure: a 2×3 grid of (prompt, base-SD3.5→DC output, OPSD-SD3.5→DC output) with VBench
+  Δ bars underneath.
 
 ## §2 Related Work (~0.7 page)
 
-- Image-space reward fine-tuning: ReFL, DPO-Diff, DiffusionNFT, DRaFT, **OPSD** (parent).
-- Video reward fine-tuning: InstructVideo, VADER, T2V-Turbo, VideoDPO.
-- I2V models: DynamiCrafter, SVD, CogVideoX-I2V, AnimateAnyone.
-- VBench evaluation.
+- **Image-space reward alignment**: ReFL, DRaFT, DPO-Diff, DiffusionNFT, FlowGRPO, OPSD.
+- **Video reward alignment**: InstructVideo, VADER, T2V-Turbo, VideoDPO.
+- **I2V diffusion**: SVD, DynamiCrafter, CogVideoX-I2V, AnimateAnyone.
+- **Transfer / carryover studies in diffusion**: adapter-sharing (ControlNet variants), prompt
+  transfer (prompt-to-prompt), cross-modality transfer (SD3 → video).
+- **Evaluation**: VBench, VBench-I2V.
+- Positioning: our Tier-1 protocol is new — the only prior "no-training transfer" study we are
+  aware of is {cite competitor}, which does X; we differ by Y.
 
-## §3 Method (~1.5 pages)
+## §3 Method: Keyframe-Carryover Protocol (~1.2 pages)
 
-- §3.1 OPSD recap (half page) — algorithm as in `docs/METHOD.md` §1.
-- §3.2 Three adaptations for I2V — first-frame-conditioned anchor, temporal-only LoRA, clipped
-  dynamic reward.
-- §3.3 Full training algorithm (boxed pseudo-code).
-- Figure 2: method diagram showing the 4-step loop with I2V annotations.
+- §3.1 Formal setup — $G^{T2I}$, $G^{I2V}$, $\mathcal{R}^V$, the carryover delta $\Delta(c)$.
+- §3.2 Hypotheses H1 (positive carryover), H2 (selective), H3 (not just pixels).
+- §3.3 Protocol pseudocode (half-page figure).
+- §3.4 Statistical procedure — paired Wilcoxon with Holm-Bonferroni correction over 9 dims,
+  3 seeds × 200 prompts, bootstrap CIs.
+- §3.5 Tier 2 — temporal OPSD (compact, pointer to supp for full derivation; Tier 2 is a §4.6
+  sub-experiment, not the main pitch).
 
-## §4 Experiments (~2.5 pages)
+## §4 Experiments (~2.8 pages)
 
 ### §4.1 Setup
-- Backbone: DynamiCrafter-1.3B.
-- Baselines: base, InstructVideo (ReFL), DPO-Video.
-- Training: 500 steps × 3 seeds, LoRA rank 16, batch size 1 (M3 Pro) / 4 (A100 if available).
-- Prompts: 1000 VBench-I2V prompts, 80/20 train/eval split.
+- $G_0^{T2I}$: SD3.5-M (base), $G_\star^{T2I}$: SD3.5-M + `WeiChow/DiffusionOPSD/sd35-m-hpsv3`.
+- $G^{I2V}$: DynamiCrafter-320, frozen. Supp: SVD-XT and CogVideoX-I2V-2B replicas.
+- Prompts: VBench-I2V eval split (200 held out of 1118). Supp: Pexels-augmented long tail.
+- Hardware: M3 Pro 36 GB (main), 1× A100 for ablations (supp).
 
-### §4.2 Main results
-- **Table 1**: VBench-I2V 9 dims × 4 methods, mean±std over 3 seeds. OPSD-I2V bold-face wins.
-- **Table 2**: LLM-judge pairwise preference (Qwen2-VL as judge, 200 pairs).
+### §4.2 Main result — Tier 1 carryover
+- **Table 1**: 9×3 matrix (base, OPSD, Δ with p-values), with wins/losses summary.
+- **Figure 3**: forest plot of Δ with 95% bootstrap CIs across the 9 dims.
 
-### §4.3 First-frame leakage
-- **Figure 3**: dynamic degree over training steps for all 3 reward fine-tuning methods on
-  DynamiCrafter. InstructVideo collapses; DPO-Video stays flat; OPSD improves monotonically.
-- Discussion: why on-policy intermediate targets matter.
+### §4.3 LLM-judge pairwise
+- **Table 2**: Qwen2-VL win-rates on 4 rubrics (motion, identity, prompt-align, overall) across
+  200 random pairs.
 
-### §4.4 Ablation
-- **Table 3**: LoRA rank, $c_{adv}$, EMA refresh frequency.
-- **Table 4**: reward weight sweep.
+### §4.4 Matched-aesthetic ablation (addresses H3)
+- Filter base-SD3.5 frames to equal aesthetic score as OPSD frames.
+- Report Δ on **video-level** dims only; show selective dims (prompt-adherence, i2v subject)
+  retain significance even after matching.
 
-### §4.5 Compute
-- **Table 5**: GPU-hours per 100 steps on A100. OPSD-I2V vs InstructVideo vs DPO-Video.
+### §4.5 Per-category breakdown
+- VBench-I2V prompts split by content category (animals / scenes / objects / abstract).
+- Show which categories benefit most — hypothesis: scenes gain most, abstract least.
 
-## §5 Analysis (~0.5 page)
+### §4.6 Bonus: Tier 2 temporal OPSD vs ReFL/DPO
+- 500-step LoRA runs on DynamiCrafter DiT, matched compute.
+- Headline: OPSD-I2V > ReFL-I2V > DPO-I2V on 7/9 dims, confirming the
+  intermediate-supervision-helps-more-in-video claim.
 
-- Why does OPSD avoid reward-hacking in I2V? Hypothesis: the EMA-refreshed behavior policy
-  keeps the trust region moving, so reward gradients at intermediate steps carry information
-  the final-step gradient does not.
-- Failure cases: scenes with ambiguous motion intent (static objects, abstract prompts).
+### §4.7 Why it (sometimes) fails
+- Dimensions where OPSD hurts (dynamic degree, camera motion) analyzed via per-prompt tie-break.
+- Hypothesis: OPSD biases toward well-composed static frames → DC animates less. Supported by
+  qualitative examples in supp.
 
-## §6 Discussion / Limitations (~0.3 page)
+## §5 Analysis (~0.6 page)
 
-- 1.3B base only; A100-scale CogVideoX in supp.
-- VBench-double-use mitigated but not eliminated.
-- No human study at CHI scale — reserved for journal extension.
+- Why does the alignment transfer at all? Mechanistic argument: I2V temporal attention anchors
+  frames 2..T to frame 1; a high-alignment frame 1 is a high-prior over the rest.
+- Why does it fail on motion dims? Alignment and motion are antagonistic under the hard
+  first-frame constraint. Tier 2 closes this gap.
+
+## §6 Limitations (~0.3 page)
+
+- Only one T2I alignment method tested at main-table scale. OPSD is representative but a true
+  protocol-level claim needs 3+ methods (DPO-Diff, DiffusionNFT) — in supp.
+- Only one I2V backbone at main-table scale. SVD-XT and CogVideoX in supp.
+- VBench-I2V ↔ HPSv3 non-independence partially mitigated by RAFT-based motion dims and Qwen2-VL
+  judge.
+- No large-scale human study (N≤20 supp).
 
 ## §7 Conclusion (~0.2 page)
 
+Reward-aligned image generation **does** transfer to image-to-video diffusion, selectively,
+without any video training. We formalized the carryover protocol, measured it on OPSD × SD3.5-M
+× DynamiCrafter, and showed the pattern of gains and losses is structured and interpretable.
+A minimal temporal-LoRA extension closes the motion-dim gap. We hope the protocol lets future
+T2I alignment papers audit their video-domain usefulness with 50 lines of code.
+
+---
+
 ## Supplementary
 
-- S1: full VBench numbers all 16 dims.
-- S2: CogVideoX-I2V results (if secured).
+- S1: full VBench-I2V 16-dim table.
+- S2: SVD-XT and CogVideoX-I2V replica tables.
 - S3: 2-min demo video (`supp/demo.mp4`).
-- S4: implementation details (code snippets, hyperparams).
-- S5: additional qualitative grids (24 extra prompts).
+- S4: Tier 2 full training curves, ablation (LoRA rank, $c_{\mathrm{adv}}$, EMA refresh).
+- S5: 50-pair human study results.
+- S6: implementation details, hyperparameters, exact prompt lists.

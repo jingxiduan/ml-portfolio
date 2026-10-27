@@ -1,0 +1,56 @@
+# Tier 1 (zero video training) config
+# This is the MAIN experiment for CVPR 2027. Keep it clean.
+
+seeds: [0, 1, 2]
+limit: null                       # set to e.g. 20 for smoke test
+
+prompts_json: "data/vbench_i2v_prompts/eval_split.json"
+
+# ---------------------- T2I ----------------------
+frame_height: 320
+frame_width: 512
+t2i_steps: 28
+t2i_cfg: 4.5
+t2i_dtype: "fp16"
+cpu_offload: false                # set true on < 24 GB
+
+frames_dir:
+  base: "outputs/tier1/frames_base"
+  opsd: "outputs/tier1/frames_opsd"
+
+# ---------------------- I2V ----------------------
+num_frames: 16
+fps: 8
+
+videos_dir:
+  base: "outputs/tier1/videos_base"
+  opsd: "outputs/tier1/videos_opsd"
+
+# ---------------------- VBench ----------------------
+vbench_dims:
+  - subject_consistency
+  - background_consistency
+  - motion_smoothness
+  - dynamic_degree
+  - aesthetic_quality
+  - imaging_quality
+  - i2v_subject
+  - i2v_background
+  - camera_motion
+
+vbench_dir:
+  base: "outputs/tier1/vbench_base"
+  opsd: "outputs/tier1/vbench_opsd"
+
+# ---------------------- Qwen2-VL judge ----------------------
+judge_n_pairs: 200
+judge_json: "outputs/tier1/judge.json"
+
+# ---------------------- final outputs ----------------------
+out_dir: "outputs/tier1"
+
+# ---------------------- controls ----------------------
+force_t2i: false
+force_i2v: false
+force_vbench: false
+force_judge: false
