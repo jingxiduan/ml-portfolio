@@ -1,0 +1,14 @@
+# Standalone reward spec (used by scripts/22_make_figures.sh for reward-sweep ablation)
+components:
+  subject_consistency:
+    weight: 1.0
+    model_name: "ViT-B-32"
+    pretrained: "openai"
+  motion_smoothness:
+    weight: 0.5
+  dynamic_degree:
+    weight: 1.0
+    cap_tau: 0.6
+  aesthetic:
+    weight: 0.5
+    weights_path: "weights/aesthetic_predictor_v2.pth"

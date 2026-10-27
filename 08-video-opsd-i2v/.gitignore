@@ -1,0 +1,42 @@
+# ---- model weights ----
+weights/
+*.pth
+*.pt
+*.safetensors
+*.ckpt
+*.bin
+
+# ---- data (large) ----
+data/first_frames/*.png
+data/first_frames/*.jpg
+data/first_frames/*.jpeg
+!data/first_frames/README.md
+data/vbench_i2v_prompts/*.json
+!data/vbench_i2v_prompts/README.md
+
+# ---- outputs ----
+outputs/
+!outputs/.gitkeep
+wandb/
+*.log
+
+# ---- vendored external repos ----
+third_party/
+VBench/
+DynamiCrafter/
+RAFT/
+
+# ---- python ----
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ---- OS / editor ----
+.DS_Store
+.idea/
+.vscode/
+*.swp

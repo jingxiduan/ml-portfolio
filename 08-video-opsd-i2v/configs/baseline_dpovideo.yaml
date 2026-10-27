@@ -1,0 +1,39 @@
+model:
+  ckpt_path: "weights/dynamicrafter_320/model.ckpt"
+  resolution: [320, 512]
+  num_frames: 16
+  fps: 8
+  num_inference_steps: 50
+  lora_rank: 16
+  lora_alpha: 32
+
+train:
+  first_frame_dir: "data/first_frames"
+  train_prompts: "data/prompts/train.json"
+  batch_size: 1
+  num_workers: 2
+  num_steps: 500
+  lr: 5.0e-5
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+  warmup_steps: 20
+  beta: 1000.0             # DPO temperature
+  rollout_steps: 25
+  log_every: 10
+  ckpt_every: 100
+  out_dir: "outputs/dpo_video"
+  seed: 0
+  wandb_project: "opsd-i2v"
+  wandb_run_name: "dpo-video-seed0"
+
+reward:
+  components:
+    subject_consistency:
+      weight: 1.0
+    motion_smoothness:
+      weight: 0.5
+    dynamic_degree:
+      weight: 1.0
+      cap_tau: 0.6
+    aesthetic:
+      weight: 0.5

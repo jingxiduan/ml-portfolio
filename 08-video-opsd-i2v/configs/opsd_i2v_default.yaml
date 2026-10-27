@@ -1,0 +1,62 @@
+# OPSD-I2V default config — matches docs/METHOD.md.
+# Mac M3 Pro 36GB: use these values as-is.
+# A100 40GB: raise batch_size to 4, num_workers to 4.
+
+model:
+  ckpt_path: "weights/dynamicrafter_320/model.ckpt"
+  resolution: [320, 512]
+  num_frames: 16
+  fps: 8
+  guidance_scale: 7.5
+  num_inference_steps: 50
+  lora_rank: 16
+  lora_alpha: 32
+  dtype_override: null              # auto: fp32 on MPS, fp16 on CUDA
+
+train:
+  first_frame_dir: "data/first_frames"
+  train_prompts: "data/prompts/train.json"
+  batch_size: 1
+  num_workers: 2
+
+  num_steps: 500
+  lr: 5.0e-5
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+  warmup_steps: 20
+
+  # OPSD core (from the parent paper)
+  c_adv: 5.0
+  sigma_q_min: 0.2
+  sigma_q_max: 0.8
+  inner_fit_steps: 1
+  reward_grad_rescale: "l2"
+
+  # EMA refresh
+  ema_decay: 0.995
+  ema_refresh_every: 25
+  ema_warmup_steps: 50
+
+  log_every: 10
+  ckpt_every: 100
+  out_dir: "outputs/opsd_i2v_default"
+  seed: 0
+  wandb_project: "opsd-i2v"
+  wandb_run_name: "opsd-i2v-seed0"
+
+reward:
+  # weights picked so no single component dominates and dynamic_degree is strong enough
+  # to prevent first-frame leakage. See docs/METHOD.md §2.3.
+  components:
+    subject_consistency:
+      weight: 1.0
+      model_name: "ViT-B-32"
+      pretrained: "openai"
+    motion_smoothness:
+      weight: 0.5
+    dynamic_degree:
+      weight: 1.0
+      cap_tau: 0.6
+    aesthetic:
+      weight: 0.5
+      weights_path: "weights/aesthetic_predictor_v2.pth"
