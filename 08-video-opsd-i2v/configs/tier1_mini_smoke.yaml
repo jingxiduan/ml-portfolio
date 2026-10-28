@@ -1,0 +1,45 @@
+# Mini end-to-end smoke config: 2 prompts × 1 seed × 2 methods = 4 clips.
+# Verifies the full pipeline (T2I → I2V → vbench_lite → judge → table) before
+# launching the full overnight run.
+seeds: [0]
+limit: 2
+prompts_json: "data/vbench_i2v_prompts/eval_split.json"
+
+frame_height: 320
+frame_width: 512
+t2i_steps: 20
+t2i_cfg: 4.5
+t2i_dtype: "fp32"             # MPS stability
+cpu_offload: false
+
+frames_dir:
+  base: "outputs/tier1_mini/frames_base"
+  opsd: "outputs/tier1_mini/frames_opsd"
+
+num_frames: 16
+fps: 8
+ddim_steps: 25
+
+videos_dir:
+  base: "outputs/tier1_mini/videos_base"
+  opsd: "outputs/tier1_mini/videos_opsd"
+
+vbench_dims:
+  - subject_consistency
+  - motion_smoothness
+  - dynamic_degree
+  - aesthetic_quality
+
+vbench_dir:
+  base: "outputs/tier1_mini/vbench_base"
+  opsd: "outputs/tier1_mini/vbench_opsd"
+
+judge_n_pairs: 2
+judge_json: "outputs/tier1_mini/judge.json"
+
+out_dir: "outputs/tier1_mini"
+
+force_t2i: false
+force_i2v: false
+force_vbench: false
+force_judge: false

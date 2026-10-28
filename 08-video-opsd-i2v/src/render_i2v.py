@@ -73,6 +73,31 @@ def _patch_cond_stage_device(model, device: torch.device) -> None:
                     pass
 
 
+def _patch_openclip_visual(model) -> None:
+    """open_clip >= 2.20 removed ``VisionTransformer.input_patchnorm``, but DynamiCrafter's
+    ``FrozenOpenCLIPImageEmbedderV2.encode_with_vision_transformer`` reads it directly.
+    We inject ``input_patchnorm = False`` so the else-branch (standard patch embedding)
+    is taken. Also inject ``patchnorm_pre_ln`` as nn.Identity for symmetry.
+    """
+    embedder = getattr(model, "embedder", None)
+    if embedder is None:
+        return
+    visual = getattr(getattr(embedder, "model", None), "visual", None)
+    if visual is None:
+        return
+    if not hasattr(visual, "input_patchnorm"):
+        try:
+            visual.input_patchnorm = False
+        except Exception:
+            # Some subclasses use __setattr__ wrapping — fall back via object
+            object.__setattr__(visual, "input_patchnorm", False)
+    if not hasattr(visual, "patchnorm_pre_ln"):
+        try:
+            visual.patchnorm_pre_ln = torch.nn.Identity()
+        except Exception:
+            object.__setattr__(visual, "patchnorm_pre_ln", torch.nn.Identity())
+
+
 def _load_dc_model(ckpt_path: str, config_path: str, device: torch.device, dtype: torch.dtype):
     """Instantiate DynamiCrafter from its OmegaConf config and load weights."""
     _ensure_vendored()
@@ -104,6 +129,7 @@ def _load_dc_model(ckpt_path: str, config_path: str, device: torch.device, dtype
     model.perframe_ae = True            # required for 512 variant
     model.to(device=device, dtype=dtype)
     _patch_cond_stage_device(model, device)
+    _patch_openclip_visual(model)
     model.eval()
     for p in model.parameters():
         p.requires_grad_(False)
