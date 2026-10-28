@@ -34,7 +34,7 @@ from .utils.mps_patch import get_device, recommended_dtype
 class I2VConfig:
     """DynamiCrafter-320 defaults (res 320×512, 16 frames @ 8 fps)."""
 
-    ckpt_path: str = "weights/dynamicrafter_320/model.ckpt"
+    ckpt_path: str = "weights/dynamicrafter_512/model.ckpt"
     resolution: Tuple[int, int] = (320, 512)
     num_frames: int = 16
     fps: int = 8
@@ -87,7 +87,7 @@ def load_base_model(cfg: I2VConfig, device: torch.device) -> nn.Module:
         / "third_party"
         / "DynamiCrafter"
         / "configs"
-        / "inference_320_v1.0.yaml"
+        / "inference_512_v1.0.yaml"
     )
     if not cfg_path.is_file():
         raise FileNotFoundError(f"DynamiCrafter config not found at {cfg_path}")
