@@ -1,5 +1,29 @@
 # CVPR 2027 — 8-page Paper Outline (Tier 1 centric)
 
+> **⚠ 2026-10-28 status note.** This outline was written before the first live
+> runs. The mini-pipeline (n=2) outputs **do not match the originally hoped-for
+> story** of "clean OPSD improvement on video." Instead we observe:
+>
+> - OPSD first-frames exhibit the textbook **HPSv3 reward-hacking signature**:
+>   HSV saturation ×1.95, Sobel-edge p95 ×1.86, overexposed pixel ratio ×1.65
+>   vs base SD3.5-M (see `docs/figures/reward_hacking_*.png`).
+> - These artifacts **spill through DynamiCrafter**: pixel variance ×1.68
+>   → RAFT-flow magnitude ×2.16, which inflates VBench's `dynamic_degree`
+>   from 0.309 → 0.489 (**+0.180**) *without* improving perceived motion.
+> - `subject_consistency` *decreases* (0.970 → 0.968), consistent with CLIP
+>   embedding drift from saturation shift.
+> - `motion_smoothness` is unchanged (0.368 → 0.368).
+>
+> **Revised story (likely the actual CVPR angle):** we present the first
+> systematic measurement of **T2I reward-hacking carryover to I2V**, including
+> a diagnostic protocol that distinguishes genuine quality transfer from
+> metric-fooling artifacts. The old "7 of 9 dims p<0.05, 59% judge win-rate"
+> framing below is **retained for revision reference only** and will be
+> replaced by the full n=50 Wilcoxon table + Qwen2-VL judge once the overnight
+> run completes (ETA 2026-10-30 04:40).
+
+---
+
 **Title (tentative)**
 "Does Reward-Aligned Image Generation Transfer to Video? A Keyframe-Carryover Study"
 

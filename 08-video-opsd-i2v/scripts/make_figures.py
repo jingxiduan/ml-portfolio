@@ -34,7 +34,11 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 
-MINI = ROOT / "outputs" / "tier1_mini"
+# Source directory can be overridden by env var so wrap_up_full_run.sh can point
+# this at outputs/tier1 (the full n=50 run) instead of outputs/tier1_mini.
+import os
+MINI = ROOT / os.environ.get("OPSD_I2V_SOURCE", "outputs/tier1_mini")
+print(f"[make_figures] source = {MINI}")
 
 
 # ---------------------------------------------------------- utilities

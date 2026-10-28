@@ -1,0 +1,27 @@
+{
+  "source": "outputs/tier1_mini",
+  "n_frames_per_method": 2,
+  "n_clips_per_method": 2,
+  "saturation": {
+    "base_sat_mean": 0.242738288421753,
+    "opsd_sat_mean": 0.47308594425105355,
+    "base_sat_p90": 0.5,
+    "opsd_sat_p90": 1.0
+  },
+  "brightness": {
+    "base_brightness_mean": 0.5665911386527267,
+    "opsd_brightness_mean": 0.5268171402675653,
+    "base_overexposed_frac_mean": 0.20648803710937502,
+    "opsd_overexposed_frac_mean": 0.3408050537109375
+  },
+  "edge_contrast": {
+    "base_sobel_p95_mean": 57.707834243774414,
+    "opsd_sobel_p95_mean": 107.22694778442383
+  },
+  "motion_vs_pixelvar": {
+    "base_frame_diff_rms_mean": 30.967683474222817,
+    "opsd_frame_diff_rms_mean": 67.01274286905925,
+    "base_pixel_var_mean": 4881.144348144531,
+    "opsd_pixel_var_mean": 8216.805419921875
+  }
+}

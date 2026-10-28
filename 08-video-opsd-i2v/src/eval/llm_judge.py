@@ -83,6 +83,7 @@ def judge(
     out_json: str,
     n_pairs: int = 200,
     seed: int = 0,
+    mock: bool = False,
 ) -> Dict:
     random.seed(seed)
     a_root = Path(method_a_dir)
@@ -97,19 +98,29 @@ def judge(
     if n_pairs < len(pairs):
         pairs = random.sample(pairs, n_pairs)
 
-    model, processor, process_vision_info = _load_qwen()
+    if mock:
+        # Offline schema-correct random judge; used when Qwen2-VL deps are not
+        # installed (e.g. transformers<4.51 pin) and we only need to validate
+        # the downstream pipeline.
+        print("[judge] *** MOCK MODE *** — Qwen2-VL not called; random 50/50 answers.")
+        model = processor = process_vision_info = None
+    else:
+        model, processor, process_vision_info = _load_qwen()
 
     results: Dict[str, Dict] = {k: {"a_wins": 0, "b_wins": 0, "total": 0} for k, _ in RUBRICS}
     for i, (ma, mb) in enumerate(pairs):
         # Randomize A/B order to avoid position bias
         swap = random.random() < 0.5
-        left = a_root / "videos" / ma["file"]
-        right = b_root / "videos" / mb["file"]
+        left = a_root / ma["file"]
+        right = b_root / mb["file"]
         if swap:
             left, right = right, left
         for rk, q in RUBRICS:
-            ans = _judge_pair(model, processor, process_vision_info, ma["prompt"],
-                              str(left), str(right), q)
+            if mock:
+                ans = random.choice(["A", "B"])
+            else:
+                ans = _judge_pair(model, processor, process_vision_info, ma["prompt"],
+                                  str(left), str(right), q)
             # Interpret: 'A' means the left video; swap-aware
             left_is_a = not swap
             picked_a = (ans == "A" and left_is_a) or (ans == "B" and not left_is_a)
@@ -140,8 +151,10 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--n_pairs", type=int, default=200)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--mock", action="store_true",
+                    help="skip Qwen2-VL and emit random schema-valid judgments (CI/testing)")
     args = ap.parse_args()
-    judge(args.a, args.b, args.out, args.n_pairs, args.seed)
+    judge(args.a, args.b, args.out, args.n_pairs, args.seed, mock=args.mock)
 
 
 if __name__ == "__main__":

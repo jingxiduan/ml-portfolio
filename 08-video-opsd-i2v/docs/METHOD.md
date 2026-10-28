@@ -1,5 +1,16 @@
 # OPSD-I2V: Method
 
+> **⚠ 2026-10-28 status note.** The method below describes the planned
+> Tier 1 / Tier 2 structure. Live diagnostics (`docs/figures/reward_hacking_*`)
+> show the OPSD-tuned first frames exhibit heavy HPSv3 reward hacking
+> (saturation ×1.95, Sobel edges ×1.86, overexposed pixels ×1.65 vs base
+> SD3.5-M), which propagates through DynamiCrafter and **inflates
+> `dynamic_degree` without improving perceived motion**. We retain the method
+> text below as the experimental protocol; the **interpretation** of the
+> resulting numbers is now explicitly a *carryover diagnostic* rather than
+> a *carryover-improvement claim*. See `README.md` §0 and `CVPR_OUTLINE.md`
+> for the revised framing.
+
 Two tiers, each self-contained. Tier 1 is the main contribution; Tier 2 is a bonus extension.
 
 ---

@@ -57,6 +57,32 @@ Frame-grid comparison (sampled frames 0 / T/3 / 2T/3 / T−1):
 ![sunrays](docs/figures/frame_grid_sunrays.png)
 ![pagoda](docs/figures/frame_grid_pagoda.png)
 
+### Reward-hacking diagnostics (why the numbers above are mixed)
+
+We ran four pixel-level diagnostics on the same mini-pipeline outputs:
+
+| diagnostic | base | OPSD | OPSD / base | failure mode flagged |
+|---|---|---|---|---|
+| HSV saturation (mean) | 0.243 | **0.473** | ×1.95 | "vibrant colors win" reward bias |
+| HSV saturation p90 | 0.500 | **1.000** | — | top 10% pixels are fully saturated |
+| overexposed-pixel ratio (any ch ≥0.95) | 20.6% | **34.1%** | ×1.65 | burned-highlights preference |
+| Sobel-edge p95 | 57.7 | **107.2** | ×1.86 | overcrisp / halo artifacts |
+| spatial pixel variance | 4881 | **8217** | ×1.68 | elevated contrast  |
+| frame-to-frame RMS diff | 31.0 | **67.0** | ×2.16 | **confound for dynamic_degree** |
+
+![sat](docs/figures/reward_hacking_saturation.png)
+![bright](docs/figures/reward_hacking_brightness.png)
+![edges](docs/figures/reward_hacking_edge_contrast.png)
+![motionvar](docs/figures/reward_hacking_motion_vs_pixelvar.png)
+
+**Key inference.** The `dynamic_degree +0.180` improvement in the bar chart
+above is **almost certainly a saturation artifact**, not real motion gain:
+OPSD's spatial-variance ratio (×1.68) tracks closely with its frame-diff
+ratio (×2.16), and both are the mechanical consequence of boosting edge
+contrast rather than of a changed temporal dynamic. This is the textbook
+HPSv3 reward-hacking signature documented in Clark+2024, Zhang+2024,
+Fan+2024 — and it carries through a frozen I2V model into video metrics.
+
 The n=50 full run (200 clips total) will replace these mini numbers with Wilcoxon p-values
 and Holm-Bonferroni-adjusted deltas. Run is live; see `logs/tier1_full.log`.
 
