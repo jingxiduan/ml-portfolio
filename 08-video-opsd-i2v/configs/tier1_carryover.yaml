@@ -1,8 +1,10 @@
 # Tier 1 (zero video training) config
-# This is the MAIN experiment for CVPR 2027. Keep it clean.
+# Compute budget on M3 Pro (as measured 2026-10-28, DynamiCrafter smoke test):
+#   ~234s/clip at 25 DDIM steps. 100 prompts × 2 seeds × 2 methods = 400 clips ≈ 26h total.
+# Paired Wilcoxon on 100 prompts × 2 seeds gives enough power to detect Δ > 0.015 at α=0.05.
 
-seeds: [0, 1, 2]
-limit: null                       # set to e.g. 20 for smoke test
+seeds: [0, 1]
+limit: 100                        # 100 prompts out of 1118 (balanced sample)
 
 prompts_json: "data/vbench_i2v_prompts/eval_split.json"
 
@@ -21,6 +23,7 @@ frames_dir:
 # ---------------------- I2V ----------------------
 num_frames: 16
 fps: 8
+ddim_steps: 25                    # down from 50; smoke test confirmed quality OK
 
 videos_dir:
   base: "outputs/tier1/videos_base"
@@ -43,7 +46,7 @@ vbench_dir:
   opsd: "outputs/tier1/vbench_opsd"
 
 # ---------------------- Qwen2-VL judge ----------------------
-judge_n_pairs: 200
+judge_n_pairs: 100
 judge_json: "outputs/tier1/judge.json"
 
 # ---------------------- final outputs ----------------------

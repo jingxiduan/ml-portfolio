@@ -93,7 +93,11 @@ def step_i2v(cfg: Dict, mode: str) -> Path:
 
 
 def step_vbench(cfg: Dict, mode: str) -> Path:
-    """Invoke VBench-I2V on the rendered videos."""
+    """Run the lite VBench-I2V evaluator on the rendered videos.
+
+    Falls back from the official VBench CLI (which needs decord → Python 3.11)
+    to our own 4-dim re-implementation. See src/eval/vbench_lite_eval.py.
+    """
     videos_dir = Path(cfg["videos_dir"][mode])
     results_dir = Path(cfg["vbench_dir"][mode])
     results_file = results_dir / "eval_results.json"
@@ -102,11 +106,11 @@ def step_vbench(cfg: Dict, mode: str) -> Path:
         return results_dir
     results_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
-        sys.executable, "-m", "vbench.evaluate",
-        "--videos_path", str(videos_dir),
-        "--output_path", str(results_dir),
-        "--mode", "custom_input",
-        "--dimension", *cfg["vbench_dims"],
+        sys.executable, "-m", "src.eval.vbench_lite_eval",
+        "--videos_dir", str(videos_dir),
+        "--out_json", str(results_file),
+        "--dims", "subject_consistency", "motion_smoothness",
+                  "dynamic_degree", "aesthetic_quality",
     ]
     logger.info(f"[vbench:{mode}] launching: {' '.join(cmd)}")
     subprocess.run(cmd, check=True)

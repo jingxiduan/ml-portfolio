@@ -47,6 +47,7 @@ class SubjectConsistency(BaseReward):
         self.register_buffer(
             "std", torch.tensor([0.26862954, 0.26130258, 0.27577711]).view(1, 3, 1, 1)
         )
+        self.to(self._device)
 
     def _normalize(self, x: torch.Tensor) -> torch.Tensor:
         # x in [-1, 1]  ->  [0, 1]  ->  CLIP-normalized
