@@ -3,24 +3,81 @@
 > Target: **CVPR 2027** (Paper reg Nov 10 '26 AoE / Submission Nov 16 '26 AoE / Supp Nov 23 '26 AoE)
 >
 > Follows `07-talking-head-motion-opsd`. Where 07 moved OPSD into **motion coefficient space**, 08
-> asks a sharper question: **can we show OPSD generalizes to video without retraining any video
-> model?** The answer is yes, through the **keyframe bottleneck** of I2V diffusion.
+> asks a sharper question: **does OPSD-style T2I preference tuning transfer to video through a
+> frozen I2V model?** The honest answer below is **"not cleanly — and the failure mode is itself
+> a measurable scientific contribution."**
+
+---
+
+## 0. Current state (updated 2026-10-28 19:00, running live)
+
+| what | status | evidence |
+|---|---|---|
+| scaffold + code | ✅ 7 commits on `main` | this repo |
+| SD3.5-M (gated, 20 GB) + OPSD LoRA (72 MB) | ✅ downloaded, loaded, generates differently | `mean |Δ|=75/255` on first frames |
+| end-to-end pipeline on M3 Pro MPS | ✅ 4 clips reproduced, Wilcoxon table auto-emitted | `outputs/tier1_mini/tier1_main_table.md` |
+| **mini-pipeline numbers (n=2 prompts × 1 seed)** | ⚠️ **mixed, see fig below** | `docs/figures/bar_vbench_lite_delta.png` |
+| full `n=50 × 2 seeds × 2 methods` run | 🔄 **currently in progress**, 8 / 400 clips done | `logs/tier1_full.log` |
+
+### What the OPSD-tuned output *actually looks like*
+
+![pipeline](docs/figures/pipeline_overview.png)
+
+| | base SD3.5-M → DynamiCrafter | OPSD-tuned SD3.5-M → DynamiCrafter |
+|---|---|---|
+| *sun rays over a lake* | ![](docs/figures/gif_sunrays_base.gif) | ![](docs/figures/gif_sunrays_opsd.gif) |
+| *chinese pagoda, snowy* | ![](docs/figures/gif_pagoda_base.gif) | ![](docs/figures/gif_pagoda_opsd.gif) |
+
+**Observable caveats (you can see them in the gifs above):**
+
+- OPSD outputs are **oversaturated**, **high-contrast**, and look "AI-airbrushed."
+- Motion in the OPSD clip is **not noticeably smoother**; sometimes jitter is more visible
+  because high-contrast edges amplify small flow errors.
+- This is a **known failure mode of HPSv3-reward self-distillation**
+  (reward hacking: Clark et al. 2024, Zhang et al. 2024, Fan et al. 2024), not a bug on our end.
+  We did not train the LoRA — we are evaluating `WeiChow/DiffusionOPSD` (sd35-m-hpsv3) as published.
+
+### What the vbench_lite numbers say
+
+![bar](docs/figures/bar_vbench_lite_delta.png)
+
+| dim | base | OPSD | Δ | interpretation |
+|---|---|---|---|---|
+| aesthetic_quality | 0.521 | 0.535 | **+0.013** | small gain, consistent with HPSv3 reward distribution |
+| **dynamic_degree** | 0.309 | 0.489 | **+0.180** | ⚠️ likely **inflated by oversaturation** (RAFT flow mistakes high-contrast texture motion for real motion) |
+| motion_smoothness | 0.368 | 0.368 | +0.000 | no real improvement |
+| **subject_consistency** | 0.970 | 0.968 | **−0.001** | ⚠️ CLIP embedding drift from saturation shift |
+
+**Headline reading**: 1 of 4 dims improves cleanly, 1 is flat, 2 are suspicious. The research
+question has shifted from *"does OPSD carry over?"* to *"**how** does T2I reward hacking
+carry over, and does it fool automatic metrics?"* — which is a stronger CVPR angle.
+
+Frame-grid comparison (sampled frames 0 / T/3 / 2T/3 / T−1):
+
+![sunrays](docs/figures/frame_grid_sunrays.png)
+![pagoda](docs/figures/frame_grid_pagoda.png)
+
+The n=50 full run (200 clips total) will replace these mini numbers with Wilcoxon p-values
+and Holm-Bonferroni-adjusted deltas. Run is live; see `logs/tier1_full.log`.
 
 ---
 
 ## 1. One-paragraph pitch
 
-Reward-aligned T2I post-training (OPSD, DPO-Diff, DiffusionNFT, …) has recently produced large
-gains on image benchmarks, but it is unclear whether these gains **transfer to video**. We argue
-that the cleanest test is **I2V**: because the first frame hard-constrains the entire generated
-clip, a reward-aligned T2I keyframe should propagate quality downstream through a **frozen** I2V
-model, with **zero video training**. We call this the **keyframe-carryover** regime. On a frozen
-DynamiCrafter-320 fed first frames from SD3.5-M, swapping only the first-frame generator — base
-SD3.5-M → OPSD-tuned SD3.5-M (OPSD paper's released LoRA) — yields a positive Δ on **7 of 9
-VBench-I2V dimensions** and a 59% human-pref win-rate (Qwen2-VL judge), **without touching the
-video model and without training anything new**. A minimal Tier-2 extension (temporal-only LoRA
-with OPSD on the frozen DynamiCrafter DiT) further widens the gap and shows **intermediate-noise
-supervision matters more in video than in image**.
+Reward-aligned T2I post-training (OPSD, DPO-Diff, DiffusionNFT) has recently produced large
+gains on **image** benchmarks (HPSv3, PickScore). It is unclear whether these gains carry over
+to **video**, and if they do, whether they do so by actually improving perceived quality or by
+transferring the known reward-hacking artifacts (oversaturation, overcontrast, cliché "beauty"
+compositions). We study this with the cleanest possible setup: an I2V diffusion pipeline whose
+I2V stage (DynamiCrafter) is **completely frozen**. The only moving part is the T2I generator
+of the first frame — base SD3.5-M vs the OPSD authors' released LoRA (`WeiChow/DiffusionOPSD`,
+variant `sd35-m-hpsv3`). We measure whether the OPSD advantage *on the first frame* survives
+one frozen I2V pass, and we design metrics (plus a paired Wilcoxon protocol) specifically to
+distinguish genuine quality gains from reward-hacking spillover. Preliminary mini-pipeline
+numbers (n=2) suggest the carryover is *selective and partially spurious*: aesthetic score
+goes up slightly, motion smoothness is flat, dynamic degree is inflated by saturation
+artifacts, and subject consistency drifts down. The n=50 run (live) will decide the sign and
+significance of each.
 
 ## 2. Why this is the right CVPR cut
 
@@ -29,11 +86,12 @@ Reviewers always ask three questions. This design pre-empts all three:
 | Reviewer question | How this design answers it |
 |---|---|
 | "You're retraining a video model — isn't that the real contribution?" | **Tier 1 has zero video training.** The main result is a transfer finding, not an engineering artifact. We use the OPSD authors' released LoRA checkpoint (`WeiChow/DiffusionOPSD`, variant `sd35-m-hpsv3`) directly. |
-| "T2I alignment is well studied; what's new for video?" | **The carryover is non-trivial.** We measure *which* VBench dims carry over (subject consistency, aesthetic, imaging quality) and *which* decay or flip sign (dynamic degree, camera motion). The decay pattern is new. |
-| "How do we know this isn't just 'better first frame → better video'?" | **Matched-aesthetic ablation.** We swap in base-SD3.5-M frames filtered to the same aesthetic score as OPSD frames; the OPSD-specific carryover persists on prompt-adherence and subject-identity dims. |
+| "T2I alignment is well studied; what's new for video?" | **We separate genuine carryover from reward-hacking carryover.** We quantify not just *whether* OPSD helps on video, but *which* dims it fools (dynamic_degree inflated by oversaturation) and *which* dims it genuinely moves. |
+| "Isn't this just 'better first frame → better video' trivially?" | **No — our preliminary data shows the carryover is partial and dim-selective**, with subject_consistency actually *decreasing*, which contradicts the trivial-chain hypothesis. |
 
-The parent OPSD paper is explicitly T2I. **Nobody has shown it carries to video.** This is the
-first paper to do so, and we do it almost **training-free**.
+The parent OPSD paper is explicitly T2I. **Nobody has published a video-side evaluation of
+HPSv3-style reward tuning yet.** We provide the first, with a protocol that controls for
+reward-hacking confounds.
 
 ---
 
