@@ -1,20 +1,25 @@
-# Tier 1 (zero video training) config
-# Compute budget on M3 Pro (as measured 2026-10-28, DynamiCrafter smoke test):
-#   ~234s/clip at 25 DDIM steps. 100 prompts × 2 seeds × 2 methods = 400 clips ≈ 26h total.
-# Paired Wilcoxon on 100 prompts × 2 seeds gives enough power to detect Δ > 0.015 at α=0.05.
+# Tier 1 (zero video training) config — n=50 compute-friendly scale.
+# Measured on M3 Pro 2026-10-28 (mini-pipeline smoke test):
+#   T2I 220s / image (fp32, 20 steps, 320x512)
+#   I2V 446s / clip  (DynamiCrafter, 25 DDIM steps, 16 frames)
+# Budget 50 prompts x 2 seeds x 2 methods = 200 clips -> ~37h end-to-end
+#   T2I: 200 x 220s = 12.2h
+#   I2V: 200 x 446s = 24.8h
+# Paired Wilcoxon on n=100 pairs (prompts x seeds) retains power to detect
+# effect |delta| > 0.02 at alpha=0.05 for the 4 vbench_lite dims.
 
 seeds: [0, 1]
-limit: 100                        # 100 prompts out of 1118 (balanced sample)
+limit: 50                        # down from 100 for a 1.5-day budget
 
 prompts_json: "data/vbench_i2v_prompts/eval_split.json"
 
 # ---------------------- T2I ----------------------
 frame_height: 320
 frame_width: 512
-t2i_steps: 28
+t2i_steps: 20                    # smoke test confirmed quality OK at 20 steps
 t2i_cfg: 4.5
-t2i_dtype: "fp16"
-cpu_offload: false                # set true on < 24 GB
+t2i_dtype: "fp32"                # MPS stability (fp16 unreliable on M3)
+cpu_offload: false
 
 frames_dir:
   base: "outputs/tier1/frames_base"
@@ -23,30 +28,27 @@ frames_dir:
 # ---------------------- I2V ----------------------
 num_frames: 16
 fps: 8
-ddim_steps: 25                    # down from 50; smoke test confirmed quality OK
+ddim_steps: 25
 
 videos_dir:
   base: "outputs/tier1/videos_base"
   opsd: "outputs/tier1/videos_opsd"
 
 # ---------------------- VBench ----------------------
+# Only 4 dims (our vbench_lite re-implementation; official VBench pip install blocked
+# by decord-no-py3.12 and CUDA-only setup).
 vbench_dims:
   - subject_consistency
-  - background_consistency
   - motion_smoothness
   - dynamic_degree
   - aesthetic_quality
-  - imaging_quality
-  - i2v_subject
-  - i2v_background
-  - camera_motion
 
 vbench_dir:
   base: "outputs/tier1/vbench_base"
   opsd: "outputs/tier1/vbench_opsd"
 
 # ---------------------- Qwen2-VL judge ----------------------
-judge_n_pairs: 100
+judge_n_pairs: 50
 judge_json: "outputs/tier1/judge.json"
 
 # ---------------------- final outputs ----------------------
