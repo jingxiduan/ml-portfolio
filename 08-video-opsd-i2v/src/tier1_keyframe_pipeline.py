@@ -264,6 +264,20 @@ def main() -> None:
         step_vbench(cfg, "base")
         step_vbench(cfg, "opsd")
 
+    # 4b. Naturalness-aware composite score (new, per user requirement 2026-10-28:
+    # OPSD must be more dynamic AND naturalness-preserving to win).
+    if not args.skip_vbench:
+        nat_path = Path(cfg["out_dir"]) / "naturalness.json"
+        if not nat_path.is_file() or cfg.get("force_vbench", False):
+            cmd = [
+                sys.executable, "-m", "src.eval.naturalness_score",
+                "--videos_base", str(Path(cfg["videos_dir"]["base"])),
+                "--videos_opsd", str(Path(cfg["videos_dir"]["opsd"])),
+                "--out_json",    str(nat_path),
+            ]
+            logger.info(f"[naturalness] launching: {' '.join(cmd)}")
+            subprocess.run(cmd, check=True)
+
     # 5. Qwen2-VL judge (OPSD vs base).
     if not args.skip_judge:
         step_judge(cfg)

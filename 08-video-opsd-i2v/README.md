@@ -9,15 +9,55 @@
 
 ---
 
-## 0. Current state (updated 2026-10-28 19:00, running live)
+## 0. Current state (updated 2026-10-28 21:30, running live)
 
-| what | status | evidence |
-|---|---|---|
-| scaffold + code | ✅ 7 commits on `main` | this repo |
-| SD3.5-M (gated, 20 GB) + OPSD LoRA (72 MB) | ✅ downloaded, loaded, generates differently | `mean |Δ|=75/255` on first frames |
-| end-to-end pipeline on M3 Pro MPS | ✅ 4 clips reproduced, Wilcoxon table auto-emitted | `outputs/tier1_mini/tier1_main_table.md` |
-| **mini-pipeline numbers (n=2 prompts × 1 seed)** | ⚠️ **mixed, see fig below** | `docs/figures/bar_vbench_lite_delta.png` |
-| full `n=50 × 2 seeds × 2 methods` run | 🔄 **currently in progress**, 8 / 400 clips done | `logs/tier1_full.log` |
+### 🎯 Headline verdict (naturalness-aware composite, n=2 clips)
+
+> **OPSD-tuned SD3.5-M loses to base SD3.5-M on the primary acceptance criterion.**
+> Being "more dynamic" via oversaturation does **not** count — a Tier 1 winner
+> must be **more dynamic AND preserve naturalness**.
+
+| metric | base | OPSD | Δ | reading |
+|---|---|---|---|---|
+| **composite = ½ dynamic + ½ naturalness** | **0.57** | **0.55** | **−0.023** | ❌ **OPSD fails** |
+| naturalness (1 − saturation/overexp/edge/jitter penalty) | 0.74 | 0.26 | **−0.485** | OPSD naturalness collapses |
+| dynamic (frame-RMS proxy, clipped 0..1) | 0.52 | 0.96 | +0.439 | dynamic rose, but mostly *saturation artefact* |
+
+Threshold rationale and formula are in `src/eval/naturalness_score.py` — the
+anchors (sat 0.40, Sobel-p95 70, jitter 50) are chosen so a clean base-SD3.5-M
+clip scores ~0.9 naturalness; `verdict` string is auto-generated.
+
+### Why we trust this verdict
+
+![sat](docs/figures/reward_hacking_saturation.png)
+![motionvar](docs/figures/reward_hacking_motion_vs_pixelvar.png)
+
+| diagnostic | base | OPSD | ratio | failure mode |
+|---|---|---|---|---|
+| HSV saturation mean | 0.243 | 0.473 | **×1.95** | reward favours vibrant colours |
+| HSV saturation p90 | 0.5 | **1.0** | — | top 10% pixels fully saturated |
+| overexposed-pixel ratio | 20.6% | 34.1% | ×1.65 | burned highlights |
+| Sobel-edge p95 | 57.7 | 107.2 | ×1.86 | overcrisp / halo |
+| spatial pixel variance | 4881 | 8217 | ×1.68 | elevated contrast |
+| frame-to-frame RMS diff | 31.0 | 67.0 | **×2.16** | **inflates `dynamic_degree`** |
+
+**All 6 fingerprints match the HPSv3 reward-hacking signature** documented in
+Clark+2024, Zhang+2024, Fan+2024. The `dynamic_degree +0.180` apparent gain on
+the old (naturalness-blind) vbench_lite benchmark is **almost entirely a
+saturation artefact**: OPSD's spatial-variance ratio (×1.68) tracks almost
+one-to-one with its frame-diff ratio (×2.16).
+
+### Pipeline runtime
+
+| stage | status |
+|---|---|
+| scaffold + code | ✅ 8 commits on `main` |
+| SD3.5-M (gated, 20 GB) + OPSD LoRA (72 MB) | ✅ downloaded, loaded, generates differently (`mean |Δ|=75/255` on first frames) |
+| end-to-end pipeline on M3 Pro MPS | ✅ mini-pipeline (4 clips) reproduced, Wilcoxon table auto-emitted |
+| **mini-pipeline (n=2 prompts × 1 seed)** | ⚠️ **naturalness verdict: OPSD loses** |
+| full `n=50 × 2 seeds × 2 methods` run | 🔄 **currently 78 / 100 base frames** at ~125 s/frame; est. end 2026-10-30 02:30 |
+| caffeinate pinned to full-run pid | ✅ system sleep prevented |
+| wrap-up auto-commit script | ✅ listening, pid 94790 |
 
 ### What the OPSD-tuned output *actually looks like*
 
