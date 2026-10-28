@@ -48,11 +48,23 @@ def _torch_dtype(name: str) -> torch.dtype:
 
 
 def load_sd35_base(cfg: SD35Config, device: str | torch.device) -> StableDiffusion3Pipeline:
-    """Load SD3.5-M base pipeline (no LoRA)."""
+    """Load SD3.5-M base pipeline (no LoRA).
+
+    Prefers a local flat snapshot at ``cfg.cache_dir`` if it looks like a diffusers
+    pretrained directory (has ``model_index.json``); otherwise falls back to pulling
+    ``cfg.model_id`` from the HF hub (using ``cfg.cache_dir`` as the HF cache root).
+    """
+    local = Path(cfg.cache_dir)
+    if (local / "model_index.json").is_file():
+        pretrained = str(local)
+        from_kwargs = {}
+    else:
+        pretrained = cfg.model_id
+        from_kwargs = {"cache_dir": cfg.cache_dir}
     pipe = StableDiffusion3Pipeline.from_pretrained(
-        cfg.model_id,
+        pretrained,
         torch_dtype=_torch_dtype(cfg.dtype),
-        cache_dir=cfg.cache_dir,
+        **from_kwargs,
     )
     if cfg.enable_cpu_offload:
         pipe.enable_sequential_cpu_offload()
@@ -65,17 +77,26 @@ def load_sd35_base(cfg: SD35Config, device: str | torch.device) -> StableDiffusi
 def load_sd35_with_opsd_lora(
     cfg: SD35Config, device: str | torch.device
 ) -> StableDiffusion3Pipeline:
-    """Load SD3.5-M + OPSD LoRA (deep copy of base + LoRA on the transformer)."""
+    """Load SD3.5-M + OPSD LoRA.
+
+    The parent-paper's checkpoint (``WeiChow/DiffusionOPSD`` sd35-m-hpsv3) is a raw PEFT
+    adapter whose keys are prefixed with ``base_model.model.`` — diffusers'
+    ``pipe.load_lora_weights`` does not pick those up correctly. We therefore attach the
+    adapter directly to ``pipe.transformer`` through ``PeftModel.from_pretrained`` and
+    merge it, so inference uses the merged weights without any PEFT dispatch overhead.
+    """
     pipe = load_sd35_base(cfg, device)
     lora_dir = Path(cfg.opsd_lora_dir)
-    if not lora_dir.is_dir() or not any(lora_dir.iterdir()):
+    if not lora_dir.is_dir() or not (lora_dir / "adapter_model.safetensors").is_file():
         raise FileNotFoundError(
             f"OPSD LoRA not found at {lora_dir}. "
             "Run `scripts/02_download_weights.sh` to fetch WeiChow/DiffusionOPSD."
         )
-    # diffusers' load_lora_weights handles PEFT-saved and raw safetensors adapters.
-    pipe.load_lora_weights(str(lora_dir), adapter_name="opsd")
-    pipe.set_adapters(["opsd"], adapter_weights=[1.0])
+    from peft import PeftModel  # local import keeps base loader lean
+    pipe.transformer = PeftModel.from_pretrained(pipe.transformer, str(lora_dir))
+    # Fuse so later generate() calls do not go through PEFT dispatch.
+    pipe.transformer = pipe.transformer.merge_and_unload()
+    pipe.transformer = pipe.transformer.to(device, dtype=_torch_dtype(cfg.dtype))
     pipe.set_progress_bar_config(disable=True)
     return pipe
 

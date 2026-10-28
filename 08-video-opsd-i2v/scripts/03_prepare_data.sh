@@ -7,7 +7,7 @@ cd "$HERE"
 
 mkdir -p data/vbench_i2v_prompts data/prompts
 
-VBENCH_PROMPT_JSON="third_party/VBench/vbench_i2v/vbench2_i2v_full_info.json"
+VBENCH_PROMPT_JSON="third_party/VBench/vbench2_beta_i2v/vbench2_i2v_full_info.json"
 if [[ ! -f "$VBENCH_PROMPT_JSON" ]]; then
   echo "[!] VBench-I2V prompts not found at $VBENCH_PROMPT_JSON"
   echo "    Make sure you ran scripts/02_download_weights.sh first."
@@ -18,7 +18,7 @@ python3 - <<'PY'
 import json, random
 from pathlib import Path
 
-src = Path("third_party/VBench/vbench_i2v/vbench2_i2v_full_info.json")
+src = Path("third_party/VBench/vbench2_beta_i2v/vbench2_i2v_full_info.json")
 with src.open() as f:
     raw = json.load(f)
 
