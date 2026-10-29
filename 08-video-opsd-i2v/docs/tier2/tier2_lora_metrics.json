@@ -1,0 +1,56 @@
+[
+  {
+    "title": "sun_rays",
+    "base_nat": null,
+    "base_appeal": null,
+    "s=0.2_nat": null,
+    "s=0.2_appeal": null,
+    "tier2_nat": 0.9804157257080078,
+    "tier2_appeal": 0.6040646473566691
+  },
+  {
+    "title": "houses_hillside",
+    "base_nat": null,
+    "base_appeal": null,
+    "s=0.2_nat": null,
+    "s=0.2_appeal": null,
+    "tier2_nat": 0.44490355253219604,
+    "tier2_appeal": 0.3676299512386322
+  },
+  {
+    "title": "pagoda_snowy",
+    "base_nat": null,
+    "base_appeal": null,
+    "s=0.2_nat": null,
+    "s=0.2_appeal": null,
+    "tier2_nat": 0.5679965019226074,
+    "tier2_appeal": 0.5381561597188314
+  },
+  {
+    "title": "candle_dark",
+    "base_nat": null,
+    "base_appeal": null,
+    "s=0.2_nat": null,
+    "s=0.2_appeal": null,
+    "tier2_nat": 0.4433898806571961,
+    "tier2_appeal": 0.25204388101895653
+  },
+  {
+    "title": "fog_pine_dawn",
+    "base_nat": null,
+    "base_appeal": null,
+    "s=0.2_nat": null,
+    "s=0.2_appeal": null,
+    "tier2_nat": 0.9219030976295471,
+    "tier2_appeal": 0.8736031512419382
+  },
+  {
+    "title": "waterfall_zoom",
+    "base_nat": null,
+    "base_appeal": null,
+    "s=0.2_nat": null,
+    "s=0.2_appeal": null,
+    "tier2_nat": 0.6153939485549926,
+    "tier2_appeal": 0.6027059515317281
+  }
+]

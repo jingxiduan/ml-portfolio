@@ -171,8 +171,9 @@ def build_cond(
         if text_emb.dtype != dtype:
             text_emb = text_emb.to(dtype)
 
-        # 2) image branch
-        img_emb = cs.embedder(first_frame_px)                        # [B, L, 1280]
+        # 2) image branch — cast to embedder's dtype (fp16 on CUDA)
+        emb_dtype = next(cs.embedder.parameters()).dtype
+        img_emb = cs.embedder(first_frame_px.to(dtype=emb_dtype))    # [B, L, 1280]
         img_emb = cs.image_proj_model(img_emb)                       # [B, L', 1024]
         if img_emb.dtype != dtype:
             img_emb = img_emb.to(dtype)
@@ -258,6 +259,22 @@ def build_opsd_policies(cfg: I2VConfig, device: Optional[torch.device] = None) -
             if hasattr(_m, "device"):
                 _m.device = device
 
+        # Patch: open_clip >=2.26 + torch >=2.3 changed MultiheadAttention mask
+        # handling — the old (77, 77) causal mask triggers a shape mismatch.
+        # Setting it to None is safe because we use the text encoder for embedding
+        # extraction (not autoregressive generation).
+        if hasattr(cs_mod, "model") and hasattr(cs_mod.model, "attn_mask"):
+            cs_mod.model.attn_mask = None
+
+        # Patch: open_clip >=2.26 removed `input_patchnorm` from VisionTransformer;
+        # DynamiCrafter's FrozenOpenCLIPImageEmbedderV2 still checks it.
+        if hasattr(emb, "model") and hasattr(emb.model, "visual"):
+            vis = emb.model.visual
+            if not hasattr(vis, "input_patchnorm"):
+                vis.input_patchnorm = False
+            if not hasattr(vis, "patch_dropout"):
+                vis.patch_dropout = None
+
         cond_stage = CondStage(
             cond_stage_model=cs_mod,
             embedder=emb,
@@ -302,7 +319,7 @@ def rollout_until(
 
     This is `step 1 — on-policy query` of the OPSD-I2V loop.
     """
-    device, dtype = first_frame_latent.device, first_frame_latent.dtype
+    device = first_frame_latent.device
     B = first_frame_latent.shape[0]
 
     # Initialize z_T from pure Gaussian noise, same shape as a video latent clip.
@@ -314,7 +331,9 @@ def rollout_until(
     else:
         T = cond.get("video_length", 16)
     C, H_, W_ = first_frame_latent.shape[1], first_frame_latent.shape[-2], first_frame_latent.shape[-1]
-    z = torch.randn(B, C, T, H_, W_, device=device, dtype=dtype)
+    # Keep z in fp32 for numerical stability in scheduler arithmetic;
+    # _call_unet handles casting via autocast internally.
+    z = torch.randn(B, C, T, H_, W_, device=device, dtype=torch.float32)
 
     # Concatenate first-frame latent in the time axis (DynamiCrafter image-conditioning scheme).
     # The exact concat convention is handled inside DynamiCrafter's forward; we pass the cond dict.
@@ -325,5 +344,6 @@ def rollout_until(
         # does NOT accept `cond=...` — it must be unpacked. We call the shared helper.
         from .opsd_trainer_i2v import _call_unet
         noise_pred = _call_unet(v, z, t, cond)
-        z = scheduler.step(noise_pred, t, z).prev_sample
+        # Scheduler step in fp32 for stability
+        z = scheduler.step(noise_pred.float(), t, z).prev_sample
     return z

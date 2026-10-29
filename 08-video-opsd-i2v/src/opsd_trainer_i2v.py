@@ -57,20 +57,50 @@ def _call_unet(unet, x_latent: torch.Tensor, t: torch.Tensor, cond: Dict) -> tor
     # scheduler.timesteps[i] is 0-D; broadcast up here.
     if t.dim() == 0:
         t = t.unsqueeze(0).expand(x.shape[0])
+    # Use autocast for CUDA to handle mixed fp16/fp32 precision automatically.
+    # DynamiCrafter + LoRA + DiffusionWrapper all expect consistent dtypes;
+    # autocast handles this without brittle manual casting.
+    device = x.device
+    if device.type == "cuda":
+        with torch.cuda.amp.autocast(dtype=torch.float16):
+            return unet(x, t, context=context, features_adapter=features_adapter, fs=fs)
     return unet(x, t, context=context, features_adapter=features_adapter, fs=fs)
 
 
-def _vae_decode_video(vae, z: torch.Tensor, scale_factor: float = 0.18215) -> torch.Tensor:
+def _vae_decode_video(vae, z: torch.Tensor, scale_factor: float = 0.18215,
+                      force_fp32: bool = False, chunk_size: int = 4) -> torch.Tensor:
     """Decode a 5-D latent video with DynamiCrafter's 2-D VAE.
 
     Replicates ``LatentVisualDiffusion.decode_core``: reshape 5-D → 4-D batch,
     decode per-frame, rearrange back. Returns ``[B, T, 3, H, W]``.
+
+    Args:
+        force_fp32: if True, temporarily casts the VAE to fp32 before decoding.
+            Required on CUDA when gradients must flow through the decoder (step 3
+            of OPSD) — fp16 VAE gradients underflow to zero on H20 precision.
+        chunk_size: decode this many frames at a time to limit peak GPU memory.
     """
     B, C, T, H, W = z.shape
     z2d = z.permute(0, 2, 1, 3, 4).reshape(B * T, C, H, W)
-    dec = vae.decode(z2d / scale_factor)                 # [B*T, 3, H_out, W_out]
+    z2d_in = z2d / scale_factor
+
+    if force_fp32 or z2d.device.type != "cuda":
+        # Full fp32 — needed for gradient flow in the reward-guided step.
+        # NOTE: do NOT restore VAE to fp16 here — the backward pass (autograd.grad)
+        # will need the weights in fp32. Caller must call vae.half() after grad.
+        vae.float()
+        # Decode in chunks to limit peak memory (16 frames at 320×512 + gradients)
+        chunks = z2d_in.float().split(chunk_size, dim=0)
+        dec_chunks = []
+        for chunk in chunks:
+            dec_chunks.append(vae.decode(chunk))
+        dec = torch.cat(dec_chunks, dim=0)
+    else:
+        vae_dtype = next(vae.parameters()).dtype
+        dec = vae.decode(z2d_in.to(dtype=vae_dtype))
+
     _, C_out, H_out, W_out = dec.shape
-    return dec.view(B, T, C_out, H_out, W_out)
+    return dec.view(B, T, C_out, H_out, W_out).float()
 
 
 # =============================================================================
@@ -208,7 +238,9 @@ class OPSDI2VTrainer:
         ``DiagonalGaussianDistribution`` directly (no ``.latent_dist`` wrapper
         à la diffusers), so we call ``.sample()`` on it.
         """
-        return self.p.vae.encode(x0_src_px).sample() * 0.18215
+        # Cast to model dtype (fp16 on CUDA, fp32 on MPS) before VAE encode
+        vae_dtype = next(self.p.vae.parameters()).dtype
+        return self.p.vae.encode(x0_src_px.to(dtype=vae_dtype)).sample() * 0.18215
 
     def _rescale_grad(self, g: torch.Tensor) -> torch.Tensor:
         if self.cfg.reward_grad_rescale == "sign":
@@ -249,27 +281,59 @@ class OPSDI2VTrainer:
             z_q = rollout_until(self.p.v_old, x0_src_lat, cond, sigma_q, self.scheduler)
 
             # ---------- Step 2: clean anchor y0 ----------
+            # Convert timestep to actual alpha_t / sigma_t for v-prediction reconstruction.
+            # DynamiCrafter runs in v-prediction mode where:
+            #   v = alpha_t * epsilon - sigma_t * x_0
+            #   x_0 = alpha_t * z_t - sigma_t * v
+            t_int = sigma_q.long().clamp(0, 999)
+            alpha_prod = self.scheduler.alphas_cumprod[t_int.cpu()].to(device).view(-1, 1, 1, 1, 1)
+            alpha_t = alpha_prod.sqrt()
+            sigma_t = (1.0 - alpha_prod).sqrt()
+
             v_old_pred = _call_unet(self.p.v_old, z_q, sigma_q, cond)
-            y0 = z_q - sigma_q * v_old_pred                              # detached
+            y0 = alpha_t * z_q - sigma_t * v_old_pred.float()           # v-prediction reconstruction
 
         # ---------- Step 3: reward-guided bounded targets ----------
+        # Free CUDA cache before the memory-intensive reward gradient computation
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
         y0_leaf = y0.detach().requires_grad_(True)
         with torch.enable_grad():
-            video_px = _vae_decode_video(self.p.vae, y0_leaf)            # [B,T,3,H,W]
-            reward = self.reward_fn(video_px, prompts)                   # scalar per batch
+            # force_fp32: on CUDA, fp16 VAE gradients underflow to zero
+            video_px = _vae_decode_video(self.p.vae, y0_leaf, force_fp32=True)  # [B,T,3,H,W]
+            # Downsample for RAFT-based rewards to limit GPU memory.
+            # RAFT optical flow is the dominant memory consumer; halving resolution
+            # cuts its memory 4x while preserving the motion signal.
+            _B, _T, _C, _H, _W = video_px.shape
+            reward_res = (max(160, _H // 2), max(256, _W // 2))
+            if (_H > reward_res[0]) or (_W > reward_res[1]):
+                video_ds = F.interpolate(
+                    video_px.flatten(0, 1),     # [B*T, C, H, W]
+                    size=reward_res, mode="bilinear", align_corners=False
+                ).view(_B, _T, _C, reward_res[0], reward_res[1])
+            else:
+                video_ds = video_px
+            reward = self.reward_fn(video_ds, prompts)                   # scalar per batch
+            reward_val = reward.detach().clone()                          # save for metrics
             g = torch.autograd.grad(reward.sum(), y0_leaf, create_graph=False)[0]
         g = self._rescale_grad(g.detach())
+        # Restore VAE to fp16 now that backward is done
+        self.p.vae.half()
+        # Free reward intermediates
+        del video_px, video_ds, reward
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
 
-        step_size = self.cfg.c_adv * sigma_q
-        y0_plus = (y0 + step_size * g).detach()
-        y0_minus = (y0 - step_size * g).detach()
+        step_size = self.cfg.c_adv * sigma_t.view(-1)                   # use actual sigma, not timestep
+        y0_plus = (y0 + step_size.view(-1, 1, 1, 1, 1) * g).detach()
+        y0_minus = (y0 - step_size.view(-1, 1, 1, 1, 1) * g).detach()
 
         # ---------- Step 4: detached finite-step fit on v_theta ----------
         last_loss = 0.0
         last_loss_plus = last_loss_minus = 0.0
         for _ in range(self.cfg.inner_fit_steps):
             v_theta_pred = _call_unet(self.p.v_theta, z_q, sigma_q, cond)
-            y0_hat = z_q - sigma_q * v_theta_pred
+            y0_hat = alpha_t * z_q - sigma_t * v_theta_pred.float()     # v-prediction reconstruction
             loss_plus = F.mse_loss(y0_hat, y0_plus)
             loss_minus = F.mse_loss(y0_hat, y0_minus)
             loss = loss_plus - loss_minus                                # OPSD contrastive form
@@ -289,7 +353,7 @@ class OPSDI2VTrainer:
             "loss": last_loss,
             "loss_plus": last_loss_plus,
             "loss_minus": last_loss_minus,
-            "reward": float(reward.mean().detach().cpu()),
+            "reward": float(reward_val.mean().cpu()),
             "sigma_q": float(sigma_q.detach().cpu().item()),
             "grad_norm": float(g.flatten(1).norm(dim=1).mean().cpu()),
         }

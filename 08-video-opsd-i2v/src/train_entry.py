@@ -24,10 +24,16 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 
 
 def _make_scheduler(num_steps: int, device):
-    """DynamiCrafter uses a DDIM-like sampler; swap to its real sampler once vendored."""
+    """DynamiCrafter uses a DDIM-like linear-beta sampler. Create locally
+    to avoid requiring HuggingFace downloads."""
     from diffusers import DDIMScheduler
-    sched = DDIMScheduler.from_pretrained(
-        "stabilityai/stable-diffusion-2-1", subfolder="scheduler"
+    sched = DDIMScheduler(
+        num_train_timesteps=1000,
+        beta_start=0.00085,
+        beta_end=0.012,
+        beta_schedule="scaled_linear",
+        clip_sample=False,
+        set_alpha_to_one=False,
     )
     sched.set_timesteps(num_steps, device=device)
     return sched

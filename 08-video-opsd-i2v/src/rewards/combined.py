@@ -24,6 +24,9 @@ class CombinedReward(BaseReward):
             w = float(spec.pop("weight", 1.0))
             self.weights[name] = w
             self.rewards[name] = build_reward(name, device=device, **spec)
+        # Ensure all reward sub-models are in fp32 — reward gradients must be
+        # computed in full precision (fp16 causes underflow/mismatch on H20).
+        self.float()
 
     def forward(self, video: torch.Tensor, prompts: List[str]) -> torch.Tensor:
         out = None

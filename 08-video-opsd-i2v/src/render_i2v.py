@@ -175,6 +175,17 @@ def _synthesize(
     device = next(model.parameters()).device
     dtype = next(model.parameters()).dtype
 
+    # Monkey-patch the UNet's forward to use autocast — DynamiCrafter's
+    # timestep_embedding creates fp32 tensors that mismatch fp16 weights.
+    unet = model.model.diffusion_model
+    if device.type == "cuda" and not getattr(unet, "_autocast_patched", False):
+        _orig_forward = unet.forward
+        def _autocast_forward(*a, **kw):
+            with torch.cuda.amp.autocast(dtype=torch.float16):
+                return _orig_forward(*a, **kw)
+        unet.forward = _autocast_forward
+        unet._autocast_patched = True
+
     # Build "videos" tensor: first frame repeated T times, shape [1, 3, T, H, W]
     img = first_frame_px.unsqueeze(1)                          # [3, 1, H, W]
     frame_tensor = repeat(img, "c t h w -> c (r t) h w", r=num_frames)  # [3, T, H, W]
@@ -186,24 +197,27 @@ def _synthesize(
     noise_shape = [1, channels, num_frames, H // 8, W // 8]
 
     # Fire. image_guided_synthesis returns [B=1, n_samples=1, C=3, T, H, W] in [-1, 1].
-    out = image_guided_synthesis(
-        model=model,
-        prompts=[prompt],
-        videos=videos,
-        noise_shape=noise_shape,
-        n_samples=1,
-        ddim_steps=ddim_steps,
-        ddim_eta=1.0,
-        unconditional_guidance_scale=guidance_scale,
-        cfg_img=None,
-        fs=fs,
-        text_input=True,
-        multiple_cond_cfg=False,
-        loop=False,
-        interp=False,
-        timestep_spacing="uniform",
-        guidance_rescale=0.0,
-    )
+    # Wrap entire inference in autocast to handle fp16 model + fp32 intermediate mismatches
+    ctx = torch.cuda.amp.autocast(dtype=torch.float16) if device.type == "cuda" else torch.nullcontext()
+    with ctx:
+        out = image_guided_synthesis(
+            model=model,
+            prompts=[prompt],
+            videos=videos,
+            noise_shape=noise_shape,
+            n_samples=1,
+            ddim_steps=ddim_steps,
+            ddim_eta=1.0,
+            unconditional_guidance_scale=guidance_scale,
+            cfg_img=None,
+            fs=fs,
+            text_input=True,
+            multiple_cond_cfg=False,
+            loop=False,
+            interp=False,
+            timestep_spacing="uniform",
+            guidance_rescale=0.0,
+        )
     # out shape: [1, 1, 3, T, H, W]
     vid = out[0, 0]                                           # [3, T, H, W]
     vid = vid.permute(1, 0, 2, 3).contiguous()                # [T, 3, H, W]
@@ -244,6 +258,10 @@ def main() -> None:
                     default="third_party/DynamiCrafter/configs/inference_512_v1.0.yaml")
     ap.add_argument("--height", type=int, default=320)
     ap.add_argument("--width", type=int, default=512)
+    ap.add_argument("--i2v_lora_dir", default=None,
+                    help="Path to PEFT LoRA adapter directory (optional)")
+    ap.add_argument("--lora_rank", type=int, default=16)
+    ap.add_argument("--lora_alpha", type=int, default=32)
     args = ap.parse_args()
 
     apply_mps_patches()
@@ -252,6 +270,25 @@ def main() -> None:
     print(f"[render_i2v] device={device}  dtype={dtype}")
 
     model = _load_dc_model(args.ckpt, args.config, device=device, dtype=dtype)
+
+    # Patch openclip attn_mask for open_clip >= 2.26
+    cond = getattr(model, "cond_stage_model", None)
+    if cond and hasattr(cond, "model") and hasattr(cond.model, "attn_mask"):
+        cond.model.attn_mask = None
+
+    # Load LoRA weights if provided
+    if args.i2v_lora_dir:
+        from peft import PeftModel
+        unet = model.model.diffusion_model
+        # Merge in fp32 for numerical accuracy, then convert to target dtype
+        unet.float()
+        unet_lora = PeftModel.from_pretrained(unet, args.i2v_lora_dir)
+        unet_merged = unet_lora.merge_and_unload()
+        # Ensure ALL parameters are converted to the target dtype
+        unet_merged.to(dtype=dtype)
+        model.model.diffusion_model = unet_merged
+        print(f"[render_i2v] LoRA merged from {args.i2v_lora_dir}, dtype={dtype}")
+
     _patch_ddim_sampler_device(device)
 
     # Image preprocess: identical to DynamiCrafter's inference pipeline.
