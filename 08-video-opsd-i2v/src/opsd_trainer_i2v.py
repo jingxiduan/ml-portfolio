@@ -23,7 +23,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
-from .dynamicrafter_wrapper import I2VConfig, OPSDPolicies, build_opsd_policies, rollout_until
+from .dynamicrafter_wrapper import I2VConfig, OPSDPolicies, build_cond, build_opsd_policies, rollout_until
 from .utils.ema import EMA
 
 logger = logging.getLogger(__name__)
@@ -53,6 +53,10 @@ def _call_unet(unet, x_latent: torch.Tensor, t: torch.Tensor, cond: Dict) -> tor
         context = torch.cat(list(cond["c_crossattn"]), dim=1)
     fs = cond.get("fs", None)
     features_adapter = cond.get("features_adapter", None)
+    # DynamiCrafter's timestep_embedding wants a 1-D tensor (`timesteps[:, None]`).
+    # scheduler.timesteps[i] is 0-D; broadcast up here.
+    if t.dim() == 0:
+        t = t.unsqueeze(0).expand(x.shape[0])
     return unet(x, t, context=context, features_adapter=features_adapter, fs=fs)
 
 
@@ -219,12 +223,27 @@ class OPSDI2VTrainer:
         device = self.p.device
         x0_src_px = batch["first_frame"].to(device, non_blocking=True)   # [B,3,H,W] in [-1,1]
         prompts = batch["prompt"]                                        # list[str]
-        cond = batch["cond"]                                             # dict, already on device
 
         # ---------- Step 1: on-policy query ----------
         with torch.no_grad():
             x0_src_lat = self._encode_first_frame(x0_src_px)
-            cond["first_frame_latent"] = x0_src_lat
+
+            # Build the full DynamiCrafter cond dict (CLIP text + image + proj + img_cat_cond).
+            # The dataset provides only {text, video_length, fps}; the real cond requires
+            # three frozen encoders which live on policies.cond_stage.
+            if self.p.cond_stage is None:
+                raise RuntimeError(
+                    "OPSDPolicies.cond_stage is None — DynamiCrafter cond-stage modules "
+                    "(cond_stage_model / embedder / image_proj_model) were not found on the "
+                    "base checkpoint. Cannot train without conditioning."
+                )
+            cond = build_cond(
+                self.p.cond_stage,
+                prompts=list(prompts),
+                first_frame_latent=x0_src_lat,
+                first_frame_px=x0_src_px,
+                T=self.p.cfg.num_frames,
+            )
 
             sigma_q = self._sample_sigma_q()
             z_q = rollout_until(self.p.v_old, x0_src_lat, cond, sigma_q, self.scheduler)

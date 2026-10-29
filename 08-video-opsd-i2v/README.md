@@ -100,30 +100,36 @@ OPSD-I2V LoRA with a redesigned reward that penalises the hacking directions.
 | Night pipeline orchestration | `scripts/night_orchestrator.sh` | ✅ idempotent, resumable |
 | Quantitative verdict | `scripts/compute_verdict.py` → `docs/tier2/verdict_table.md` | ✅ 6 prompts, Wilcoxon p-values |
 
-### Partial delivery / honest status
+### Tier-2 trainer — functional status (A100 required to actually train)
 
-- **A trained Tier-2 LoRA — PARTIAL.**  Running
-  `python -m src.train_entry --method opsd_i2v --config configs/tier2_natural.yaml`
-  originally hit two API-level bugs between `src/opsd_trainer_i2v.py` and the
-  vendored DynamiCrafter DiT. Both are now **diagnosed, patched, and unit-tested**
-  (see `tests/test_trainer_api_fix.py`, 3/3 pass):
+The OPSD-I2V trainer is now **end-to-end runnable** on real data: one
+`_opsd_step` loads DynamiCrafter's 1.44 B-param DiT, computes a finite
+reward, back-propagates to 272 LoRA parameters, and runs the optimizer
+step without exception on M3 Pro MPS. Full log: [`docs/tier2/trainer_smoke_log.md`](docs/tier2/trainer_smoke_log.md). What was repaired to get there:
 
-  | bug | root cause | fix |
-  |---|---|---|
-  | `v(z, t, cond=cond_dict)` returned garbage | DynamiCrafter's raw `UNetModel.forward(x, t, context=None, …, **kwargs)` silently absorbs the `cond` dict into `**kwargs`; `DiffusionWrapper` normally **unpacks** `cond` as kwargs (`**cond`). | New helper `_call_unet(unet, z, t, cond)` replicating the DiffusionWrapper hybrid-branch logic: cat `c_concat` onto `x`, cat `c_crossattn` as `context`, pass through `fs` / `features_adapter`. |
-  | `vae.decode(z).sample` crashed | DynamiCrafter's 2-D `AutoencoderKL.decode` returns a tensor directly (not a `DecoderOutput` à la diffusers), and expects 4-D `[(B·T), C, H, W]` not 5-D. | New helper `_vae_decode_video(vae, z)` doing the 5-D→4-D reshape, decode, and inverse rearrange — identical to `LatentVisualDiffusion.decode_core`. |
-  | `encode(x).latent_dist.sample()` crashed | DynamiCrafter's `AutoencoderKL.encode` returns a `DiagonalGaussianDistribution` directly, no `.latent_dist` wrapper. | `encode(x).sample()`. |
+| # | bug surfaced on the real checkpoint | root cause | fix |
+|---|---|---|---|
+| 1 | `v(z, t, cond=cond_dict)` silently dropped conditioning | DynamiCrafter's raw `UNetModel.forward(x, t, context=None, …, **kwargs)` absorbs `cond` into `**kwargs`; the vendored `DiffusionWrapper` normally **unpacks** `cond` as kwargs (`**cond`). | Helper `_call_unet(unet, z, t, cond)` replicating the DiffusionWrapper hybrid-branch logic: cat `c_concat` onto `x`, cat `c_crossattn` as `context`, pass through `fs`. |
+| 2 | `vae.decode(z).sample` crashed | DynamiCrafter's 2-D `AutoencoderKL.decode` returns a tensor directly (not a `DecoderOutput`), and expects 4-D `[(B·T), C, H, W]`, not 5-D. | Helper `_vae_decode_video(vae, z)` doing the 5-D → 4-D reshape, per-frame decode, and inverse rearrange — identical to `LatentVisualDiffusion.decode_core`. |
+| 3 | `encode(x).latent_dist.sample()` crashed | `AutoencoderKL.encode` returns a `DiagonalGaussianDistribution` directly, no `.latent_dist` wrapper. | `encode(x).sample()`. |
+| 4 | PEFT `inject_adapter`: "target modules not found" | Hand-written regex `.*temporal_transformer\.transformer_blocks\.\d+\.attn{1,2}\.(to_q\|to_k\|to_v)` did not match the actual module tree (`init_attn.0.transformer_blocks…`, `output_blocks.X.2.transformer_blocks…`). | Replaced with runtime enumeration (`_collect_temporal_attn_module_names`) that walks `named_modules()` and selects every `nn.Linear` whose ancestor is a `TemporalTransformer`. Result: **136 target modules** found. |
+| 5 | Dataset `cond = {text, video_length, fps}` doesn't match what DiT needs | DynamiCrafter's hybrid conditioning requires `c_crossattn` (text + projected image emb) and `c_concat` (first-frame latent repeated along time). | `CondStage` dataclass holding the three frozen encoders (CLIP text, OpenCLIP image, Resampler) + `build_cond(cs, prompts, first_frame_latent, first_frame_px)` function that assembles the dict exactly as `LatentVisualDiffusion.get_batch_input` would. |
+| 6 | `FrozenOpenCLIPEmbedder.forward` tried to go to CUDA on a mac | DynamiCrafter hard-codes `self.device = "cuda"` in `__init__`. | Patched the attribute to the actual target device after lifting the module off `base`. |
+| 7 | `IndexError: too many indices for tensor of dimension 0` inside `timestep_embedding` | `scheduler.timesteps[i]` is 0-D; `timestep_embedding` wants a 1-D batch tensor. | `_call_unet` auto-broadcasts a 0-D `t` to shape `[B]`. |
+| 8 | `rollout_until` built noise with `T=cfg.num_frames` while cond carried `T=4` → shape mismatch at `cat([x, c_concat])` | Two sources of truth for the time axis. | Prefer `cond["c_concat"][0].shape[2]` (ground truth) over config. |
 
-  **Still outstanding before training can converge:**  the vendored dataset path
-  provides a bare `cond = {text, video_length, fps}`; DynamiCrafter's actual
-  conditioning (`c_crossattn`, `c_concat`) requires wiring in its CLIP text
-  encoder + CLIP image embedder + `image_proj_model`. That is a separable task
-  (~150 LOC + weight-loading audit); the API-level corrections above are a
-  pre-requisite that is now landed and tested. Best-of-N remains the shipped
-  Tier-2 output in the meantime.
+**Covered by tests**: `tests/test_trainer_api_fix.py` (3 tests, API helpers)
+and `tests/test_cond_stage.py` (3 tests, cond-stage assembly) — all 6 pass.
 
-- **Tier-1 full evaluation (n=50, paired Wilcoxon with p<0.05).** Requires ~37h
-  of compute on M3 Pro.  Not run.
+**Final blocker is compute, not code.** The real `_opsd_step` at the production
+`[16 frames × 320×512]` shape OOMs on M3 Pro MPS at 47.5 GB during VAE decode;
+the smoke runs at `[4 × 256×256]` to stay inside the budget. Full 50-step
+training is estimated at **~37 h on a single A100**. Best-of-N remains the
+shipped Tier-2 output because it operates on already-rendered I2V clips and
+needs no gradient compute.
+
+**Tier-1 full evaluation (n=50, paired Wilcoxon)** — same compute envelope,
+also not run; the n=6 statistics reported in §6 are a documented limitation.
 
 ### Best-of-N pivot (what runs instead of training)
 
