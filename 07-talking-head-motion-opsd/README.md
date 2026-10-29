@@ -145,17 +145,33 @@ train/eval/demo. No copyrighted media.
 
 ### Honest caveats
 
-- **Blink overshoots** (~55/min vs a human ~15-20). The reward asks for "at least one blink per
-  window" and the policy over-satisfies it. It reads as "alive" rather than natural.
-  → **Tier-2 repair:** both post-hoc (BoN + blink thinning) and retraining with a corrected
-  reward (gaussian around 18/min + overshoot penalty) land the model at **23.9 /min** across
-  n=20 held-out clips. See [`docs/TIER2_NOTE.md`](docs/TIER2_NOTE.md).
+- **Blink overshoots** (~55/min vs a human ~15-20). The Tier-1 reward asks for "at least one
+  blink per window" and the policy over-satisfies it. It reads as "alive" rather than natural.
 - **Head jitter rises** (118 → 248 in the MediaPipe acc metric). More motion ⇒ more
-  acceleration; the reward's `jitter` penalty keeps it from exploding but doesn't flatten it.
-  → **Tier-2 repair:** reward v2 adds a hard quadratic cap above 1° high-freq std.
-  Jitter power drops from 26.7 → 23.7 (motion-space) at the same amp level.
+  acceleration; the Tier-1 reward's `jitter` penalty is bounded and keeps shrinking.
 - **Not cinematic.** 512-on-face, warping-based render on a Mac. Face super-resolution
   (GFPGAN/CodeFormer) would improve looks but is cosmetic, not the point.
+
+### Tier-2 · the next lap, iterating on the reward design
+
+Tier-1 showed the OPSD mechanism works in motion space. The honest caveats
+above are symptomatic of two **reward-design choices** the Tier-1 reward
+made (unbounded soft-max blink target, bounded jitter penalty). The natural
+follow-up is to iterate on the reward.
+
+Three levers at three points in the stack, all converge to roughly the same
+end-state (blink ≈ 24 /min, motion-space n=20) — see
+[`docs/TIER2_NOTE.md`](docs/TIER2_NOTE.md) for the full argument and figures:
+
+| lever | where | compute cost |
+|---|---|---|
+| **1 · BoN** (`src/tier2_bon.py`) | inference-time rejection sampling with anti-overshoot scorer | zero training |
+| **2 · blink thinning** (`blink_thin` in same file) | post-process on the structured 73-d motion (lip-sync preserved) | zero training |
+| **3 · reward v2** (`motion_reward_v2.py`, `opsd_train_motion_v2.py`) | retrain OPSD with gaussian blink target + hard jitter cap | ~11 min on M3 Pro |
+
+That three *independent* paths (two post-hoc, one retrained-from-scratch)
+reach the same equilibrium is the point: in OPSD, **the reward is where the
+design work lives**, and the method extends naturally to a second iteration.
 
 ---
 

@@ -15,11 +15,35 @@
 | 01 | `01-multitask-ctr-cvr-rec` | 推荐 (MovieLens) | ✅ shipped | Multi-task CTR/CVR + RankMixer dense interaction, GAUC/AUC/LogLoss |
 | 02 | `02-rtb-bid-shading-control` | 竞价 (Avazu) | ✅ shipped | Win-rate 模型 + PID/MPC bid shading 反馈控制 |
 | 03 | `03-reward-model-dpo-pipeline` | LLM 对齐 (HH-RLHF) | ✅ shipped | 偏好数据构造 → LLM Judge → Reward Model → DPO |
-| 04 | `04-diffusion-opsd-mps` | Diffusion RL (SD-Turbo) | ✅ shipped | OPSD 从零实现 on MPS，CLIPScore reward，LoRA 400 steps |
-| 05 | `05-video-opsd-mps` | 视频生成 (AnimateDiff) | ✅ shipped | OPSD 扩展到 video latent，temporal consistency reward |
+| 04 | `04-diffusion-opsd-mps` | **OPSD 复刻** (SD-Turbo) | ✅ shipped | DiffusionOPSD paper 的 Mac 单机缩放版（起点） |
+| 05 | `05-video-opsd-mps` | **OPSD → 视频初尝** (AnimateDiff) | ✅ shipped (浅) | 把 OPSD 搬到 video latent，加 temporal consistency reward（粗糙 proof-of-concept）|
 | 06 | — | — | — | *no project at this slot* |
-| 07 | `07-talking-head-motion-opsd` | 数字人 (JoyVASA + LivePortrait) | 🟡 Tier-2 in flight | OPSD 用于 motion diffusion，Part 2 engine routing + LinUCB |
-| 08 | `08-video-opsd-i2v` | I2V 诊断修复 (DynamiCrafter + 外部 LoRA) | 🟡 Tier-2 in flight | Reward hacking 诊断 + 3 条修复 track（BoN / lightness / 真训） |
+| 07 | `07-talking-head-motion-opsd` | **OPSD → 数字人 motion** (JoyVASA + LivePortrait) | 🟡 Tier-2 in flight | OPSD 用于 motion diffusion + Part 2 engine routing + LinUCB |
+| 08 | `08-video-opsd-i2v` | **OPSD → I2V 诊断** (DynamiCrafter + 外部 LoRA) | 🟡 Tier-2 in flight | 拿外部训好的 OPSD-LoRA 做诊断分析 + 多种改进策略 |
+
+**OPSD method thread（04 → 05 → 07 → 08 是同一方法学的延伸）**：
+
+```
+04 复刻             → 05 视频初尝（浅）
+   DiffusionOPSD      AnimateDiff + CLIPScore
+   SD-Turbo + CLIP    temporal consistency reward
+   mechanism check    方法学第一次推广到时序
+          │
+          ├─ 07 数字人 motion（成熟分支 1）
+          │     JoyVASA motion diffusion + LivePortrait
+          │     + 可微分 liveliness reward (eye probe)
+          │     + Part 2: 同套度量复用成 engine routing (LinUCB)
+          │     Tier-2: reward design iteration (三个 lever)
+          │
+          └─ 08 I2V 大模型（成熟分支 2）
+                DynamiCrafter 512 + 外部 OPSD-LoRA (SD3.5-M + HPSv3)
+                拿到现成模型做诊断分析 + 三条改进策略
+                Tier-2: BoN / lightness / 真训（10/30 H20）
+```
+
+- 04/05 是方法学铺垫，04 严肃复刻，05 是初次尝试（README 承认 "浅"）
+- 07/08 是两条正经的扩展：**07 自己训（motion 空间）；08 诊断外部训好的（像素空间）**
+- "reward hacking 诊断" 是 **08 的叙事**，不是 07 的 —— 07 的 reward 是自己写的，叙事是 "reward design 是 OPSD 可持续迭代的核心杠杆"
 
 **仓库根文件**：
 - `README.md` · 项目总入口
@@ -30,41 +54,55 @@
 
 ## 2 · 当前最活跃的工作
 
-### 2.1 · 项目 07 · Tier-2 BoN + blink thinning + reward-v2 retrained
+### 2.1 · 项目 07 · Tier-2 reward design iteration
 
-**诊断问题**（README §Honest Caveats 里诚实承认过的）：
-- OPSD-LoRA 让 blink_rate 从 0 → 55/min（人类 15-20），**过量 2.8×**
-- Head jitter +110%（braked by penalty 但没压平）
-- 本质：和项目 08 的 reward hacking 同类（reward 边界条件被 policy 刷爆）
+**定位**：07 整个项目是 **OPSD 从像素扩散模型推广到 motion diffusion（数字人领域）**
+的研究。Tier-1 已经证实机制可泛化。Tier-2 是对 reward design 的下一轮迭代——
+不是"修 bug"，是研究进程的下一步。
 
-**已完成**（commit `0cffe4e` + 后续增量）：
-- `src/tier2_bon.py` — anti-hacking naturalness_v2 scoring + blink thinning + opsd_v2 热切换支持
-- `src/make_tier2_gifs.py` — 3-way side-by-side GIF，自动选最强对比
-- `src/motion_reward_v2.py` + `src/opsd_train_motion_v2.py` — reward v2 版 + 训练入口
-- `outputs/opsd_v2/lora.pt` — reward-v2 下重训的 LoRA（600 轮，Mac 11 min）
-- `outputs/tier2/selected_coefs.pt` (8 MB) — **20 eval clips × 7 variants** motion coefs
-- 1 clip 已验证 end-to-end on Mac：video-space blink_rate `0 → 37.5 → 31.3 → 18.75`，lip-sync 保持
+**Tier-1 诚实承认的 overshoot**（README `Honest caveats`）：
+- blink_rate 55/min（人类 10-20）—— Tier-1 reward 的 "每窗口 ≥1 blink" soft-max 无上界
+- head jitter +110% —— Tier-1 reward 的 jitter penalty 是 bounded 不是 hard cap
+
+**Tier-2 的三个 lever**（在 stack 的三个层级做 reward 迭代）：
+
+| Lever | 位置 | 做什么 | 开销 |
+|---|---|---|---|
+| 1 · BoN | inference-time | N=16 候选 + anti-overshoot 评分 argmax | 0 training |
+| 2 · blink thinning | post-process | motion coef 上做 refractory + 非唇维度衰减 | 0 training，lip-sync 保持 |
+| 3 · reward v2 | training-time | gaussian blink target + hard jitter cap, 重训 600 轮 | 11 min on Mac |
+
+**已完成**（commits `0cffe4e` → `33f0db7`）：
+- `src/tier2_bon.py` + `src/make_tier2_gifs.py` — Lever 1+2 实现
+- `src/motion_reward_v2.py` + `src/opsd_train_motion_v2.py` — Lever 3 实现
+- `outputs/opsd_v2/lora.pt` — reward v2 下重训的 LoRA
+- `outputs/tier2/selected_coefs.pt` (8 MB) — 20 clips × 7 variants motion coefs bundle
+- 3 张可视化图 + `docs/TIER2_NOTE.md` 完整叙事
+- 1 clip video-space 验证（n=1）：blink 37.5 → 18.75，lip-sync 保持
 
 **Motion-space 结果（n=20，Mac 本机）**：
 
-| variant | blink/min | jitter_hp | 说明 |
+| variant | blink/min | jitter_hp | nat v2 ↑ |
 |---|---|---|---|
-| base | 0.0 | 13.6 | 不眨眼 |
-| opsd v1 naive | **48.9** | 26.7 | reward hacking 发作 |
-| opsd v1 + BoN | 32.4 | 25.6 | Track A: 推理时筛选 |
-| opsd v1 + BoN + thin | **23.9** | 25.6 | Track A+B: 加后处理 |
-| opsd v2 naive | 41.1 | 23.7 | Track C: 修 reward 重训 |
-| **opsd v2 + BoN** | **23.9** | **23.8** | Track C+A: 治本+筛选 |
+| base | 0.0 | 13.6 | 0.99 |
+| Tier-1 OPSD naive | **48.9** | 26.7 | 1.00 |
+| Tier-1 + BoN (Lever 1) | 32.4 | 25.6 | 1.78 |
+| Tier-1 + BoN + thin (Lever 1+2) | **23.9** | 25.6 | 2.61 |
+| Reward v2 naive (Lever 3) | 41.1 | **23.7** | 1.18 |
+| **Reward v2 + BoN (Lever 3+1)** | **23.9** | 23.8 | **2.70** |
 
-→ 两条独立路径（治标 Track A+B / 治本 Track C+A）**殊途同归**到 blink≈24/min，证明方法学泛化。
+→ **Lever 1+2 和 Lever 3+1 收敛到相同的 blink=23.9/min**，证明"treating the
+reward at any level of the stack reaches the same equilibrium"是方法学规律，
+不是巧合。
 
 **待做**（H20 窗口 ~45 min 完成）：
 - H20 侧渲染 20 × 7 = 140 videos
-- 生成 20 个 3-way 对比 GIF（base | v1 naive | v2+BoN）
+- 生成 20 个 3-way 对比 GIF
 - 产出 n=20 的 video-space metrics 表（`bon_metrics.{json,md}`）
 - commit + push
 
 **playbook**: `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md`
+**narrative**: `07-talking-head-motion-opsd/docs/TIER2_NOTE.md`
 
 ### 2.2 · 项目 08 · Tier-2 LoRA 真训（已就位）
 
@@ -229,18 +267,17 @@ grep -iE 'cvpr|neurips|iccv|under review|submission|paper deadline' <changed fil
 
 ### 6.1 · 短期（demo 面试友好 / 补课性质）
 
-- [ ] **项目 07**：Tier-2 BoN 完整 8 clips 完工后，README §Results 补一节
-  "Tier-2 fix" 对标 Honest Caveats 部分
-- [ ] **项目 07 Track C**（可选）：改 reward（blink 高斯目标 + jitter 硬 cap），
-  Mac 本机重训 600 rounds（11 min），得到 `+OPSD_v2`
-- [ ] **项目 07 Track D**（锦上添花）：把 BoN / thin / OPSD_v2 作为新 engine
-  config 加进 `engine_profiles.py`，看 LinUCB 会不会偏好它们
+- [x] ~~项目 07 Tier-2 Lever 1/2/3 motion-space~~（已完成，见 §2.1）
+- [ ] **项目 07 · H20 侧渲染**（等 10/30 21:00 窗口）：
+  20 clips × 7 variants = 140 videos + 20 GIFs + n=20 video-space metrics 表
+- [ ] **项目 07 · Lever 4（可选，锦上添花）**：把 BoN / thin / OPSD_v2 作为新
+  engine config 加进 `03-engine-routing` 的 `engine_profiles.py`，
+  看 LinUCB 会不会偏好它们（跨项目串联）
 - [ ] **项目 08**：H20 跑完后，Tier-2 LoRA + BoN + lightness 可以组合跑一次
   "四合一"，看能不能把 Δnat 推到 +0.3 以上
-- [ ] **portfolio README**：加一个 "Methodology thread" 章节，把 04/05/07/08
-  四个 OPSD 项目串成"同一套方法学的扩展"故事
-- [ ] **portfolio README**：在项目 08 位置标注 "diagnose-and-fix track"，
-  对标 07 的 "measure-and-route track"，突出两个项目的方法学互补
+- [ ] **portfolio README**：加一个 "OPSD methodology thread" 章节，
+  把 04（复刻）→ 05（视频首试）→ 07（数字人成熟）/ 08（I2V 成熟）
+  串成"同一套方法学的分支展开"故事（PROJECT_STATUS §1 已有图，README 没补）
 
 ### 6.2 · 长期（有新机会 / 新数据再做）
 
