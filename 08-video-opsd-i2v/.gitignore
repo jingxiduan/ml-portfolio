@@ -15,8 +15,33 @@ data/vbench_i2v_prompts/*.json
 !data/vbench_i2v_prompts/README.md
 
 # ---- outputs ----
-outputs/
+# Ignore everything under outputs/ by default, then whitelist the handful of
+# small artefacts we want tracked (first-frame PNGs + prompts.json for 6 Tier-2
+# prompts, ~3MB total, needed to reproduce Tier-2 I2V from a fresh clone).
+outputs/*
 !outputs/.gitkeep
+!outputs/duel/
+!outputs/duel2/
+outputs/duel/*
+outputs/duel2/*
+!outputs/duel/prompts.json
+!outputs/duel2/prompts.json
+!outputs/duel/frames_base/
+!outputs/duel/frames_sweet/
+!outputs/duel2/frames_base/
+!outputs/duel2/frames_sweet/
+outputs/duel/frames_base/*
+outputs/duel/frames_sweet/*
+outputs/duel2/frames_base/*
+outputs/duel2/frames_sweet/*
+!outputs/duel/frames_base/seed_00/
+!outputs/duel/frames_sweet/seed_00/
+!outputs/duel2/frames_base/seed_00/
+!outputs/duel2/frames_sweet/seed_00/
+!outputs/duel/frames_base/manifest.json
+!outputs/duel/frames_sweet/manifest.json
+!outputs/duel2/frames_base/manifest.json
+!outputs/duel2/frames_sweet/manifest.json
 wandb/
 *.log
 

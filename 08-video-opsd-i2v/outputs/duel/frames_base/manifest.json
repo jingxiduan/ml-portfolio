@@ -1,0 +1,20 @@
+[
+  {
+    "index": 0,
+    "prompt": "sun rays shining through clouds over a lake, camera tilts down",
+    "seed": 0,
+    "file": "seed_00/000.png"
+  },
+  {
+    "index": 1,
+    "prompt": "a bunch of houses that are on a hillside",
+    "seed": 0,
+    "file": "seed_00/001.png"
+  },
+  {
+    "index": 2,
+    "prompt": "chinese pagoda in the middle of a snowy day, camera static",
+    "seed": 0,
+    "file": "seed_00/002.png"
+  }
+]

@@ -54,12 +54,23 @@ def main() -> int:
     cfg["train"]["warmup_steps"] = 1
     cfg["train"]["inner_fit_steps"] = 1
     cfg["train"]["ckpt_every"] = 999
-    # Minimal shapes to fit in M3 Pro MPS budget. Real training requires an A100.
-    # resolution must be divisible by the UNet downsample stack: DynamiCrafter has
-    # 3 downsamples (÷8) → 256 is safe, 160 is not (produces off-by-one feature maps).
-    cfg["model"]["num_frames"] = 4
-    cfg["model"]["resolution"] = [256, 256]
-    cfg["model"]["num_inference_steps"] = 5
+
+    # Shape policy — set via SMOKE_SHAPE env var:
+    #   SMOKE_SHAPE=mini (default) → 4 × 256²       — fits M3 Pro MPS 48GB
+    #   SMOKE_SHAPE=production     → 16 × 320×512   — needs ~60GB VRAM (H20/A100)
+    # Resolution must be divisible by UNet downsample stack (÷8): 256 safe, 160 not.
+    import os
+    shape = os.environ.get("SMOKE_SHAPE", "mini")
+    if shape == "production":
+        cfg["model"]["num_frames"] = 16
+        cfg["model"]["resolution"] = [320, 512]
+        cfg["model"]["num_inference_steps"] = 50
+        print("[smoke] shape policy = PRODUCTION (16 × 320×512, 50 inference steps)")
+    else:
+        cfg["model"]["num_frames"] = 4
+        cfg["model"]["resolution"] = [256, 256]
+        cfg["model"]["num_inference_steps"] = 5
+        print("[smoke] shape policy = MINI (4 × 256², 5 inference steps)")
 
     apply_mps_patches()
     device = get_device()
