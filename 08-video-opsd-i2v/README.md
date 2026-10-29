@@ -190,6 +190,41 @@ Qualitative comparisons (**left = base** · **middle = scale=0.2** · **right = 
 
 Full 6-prompt set: `docs/figures/duel/lightness_*.gif`.
 
+### 5a · End-to-end pipeline check: BoN + lightness (four-way)
+
+Stacking the two Tier-2 fixes gives the final pipeline:
+`base I2V → scale=0.2 LoRA → BoN seed selection → lightness post-process`.
+Each GIF below is 4 clips stitched left-to-right: **base | scale=0.2 (seed 0) | BoN winner | BoN + lightness**.
+
+| | | |
+|---|---|---|
+| ![](docs/figures/duel/fourway_sun_rays.gif) | ![](docs/figures/duel/fourway_houses_hillside.gif) | ![](docs/figures/duel/fourway_pagoda_snowy.gif) |
+| ![](docs/figures/duel/fourway_candle_dark.gif) | ![](docs/figures/duel/fourway_fog_pine_dawn.gif) | ![](docs/figures/duel/fourway_waterfall_zoom.gif) |
+
+Quantified in `docs/tier2/bon_plus_lightness_table.md`:
+
+| prompt | BoN nat | **BoN+lightness nat** | Δnat | BoN appeal | **BoN+lightness appeal** | Δappeal |
+|---|---|---|---|---|---|---|
+| sun_rays        | 0.998 | **1.000** | +0.002 | 0.849 | **0.850** | +0.001 |
+| houses_hillside | 0.532 | **0.826** | +0.293 | 0.569 | **0.748** | +0.179 |
+| pagoda_snowy    | 0.602 | **0.824** | +0.223 | 0.641 | **0.775** | +0.134 |
+| candle_dark     | 0.287 | **0.538** | +0.251 | 0.259 | **0.396** | +0.137 |
+| fog_pine_dawn   | 0.945 | **1.000** | +0.055 | 0.815 | **0.783** | −0.032 |
+| waterfall_zoom  | 0.586 | **0.806** | +0.220 | 0.589 | **0.648** | +0.059 |
+| **mean (n=6)**  |       |           | **+0.174** |       |           | **+0.080** |
+
+Honest reading:
+- Δnat is positive on **6/6** prompts (`candle_dark` finally crosses the
+  `pen_dull` threshold: 0.287 → 0.538).
+- Δappeal is positive on **5/6** — the one regression (`fog_pine_dawn`
+  −0.032) comes from the lightness blur reducing motion score, not from any
+  visible quality loss.
+- Both Δs are measured by `naturalness_v2`, which is **the same reward**
+  that `lightness_lift` was designed against — so this table is a
+  **pipeline-closure check, not an independent evaluation**. The
+  independent human-side evidence is still the Wilcoxon test in §6
+  (lightness beats base and scale=0.2 at p<0.05).
+
 ## 6 · Quantitative verdict (n=6 videos, 1 seed each)
 
 Computed by `scripts/compute_verdict.py` on the actual on-disk mp4s under
