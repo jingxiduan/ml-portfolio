@@ -251,7 +251,9 @@ def main():
         eng = TalkingHeadEngine(load_renderer=True)
         bundle = torch.load(a.load_coefs, map_location="cpu")
         selected = {tuple(k): v for k, v in bundle["selected_tuples"]}
-        clips = bundle["clips"]
+        # Remap clip paths from Mac → H20 (the bundle stores Mac absolute paths)
+        clips = [os.path.join(ROOT, "data", "audio", "eval", os.path.basename(c))
+                 for c in bundle["clips"]]
         motion_tbl = bundle.get("motion_tbl", {})
         print(f"[load-coefs] loaded {len(selected)} entries for {len(clips)} clips from {a.load_coefs}")
         # skip the whole generation / BoN loop
