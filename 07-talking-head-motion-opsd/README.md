@@ -146,10 +146,14 @@ train/eval/demo. No copyrighted media.
 ### Honest caveats
 
 - **Blink overshoots** (~55/min vs a human ~15-20). The reward asks for "at least one blink per
-  window" and the policy over-satisfies it. It reads as "alive" rather than natural; a target
-  rate (penalize *too many* blinks) would fix it, not retrained here to keep the result honest.
+  window" and the policy over-satisfies it. It reads as "alive" rather than natural.
+  → **Tier-2 repair:** both post-hoc (BoN + blink thinning) and retraining with a corrected
+  reward (gaussian around 18/min + overshoot penalty) land the model at **23.9 /min** across
+  n=20 held-out clips. See [`docs/TIER2_NOTE.md`](docs/TIER2_NOTE.md).
 - **Head jitter rises** (118 → 248 in the MediaPipe acc metric). More motion ⇒ more
   acceleration; the reward's `jitter` penalty keeps it from exploding but doesn't flatten it.
+  → **Tier-2 repair:** reward v2 adds a hard quadratic cap above 1° high-freq std.
+  Jitter power drops from 26.7 → 23.7 (motion-space) at the same amp level.
 - **Not cinematic.** 512-on-face, warping-based render on a Mac. Face super-resolution
   (GFPGAN/CodeFormer) would improve looks but is cosmetic, not the point.
 
