@@ -1,27 +1,29 @@
-# ---- model weights ----
+# ---- model weights (base models, NOT LoRA) ----
 weights/
 *.pth
 *.pt
-*.safetensors
 *.ckpt
 *.bin
 
-# ---- data (large) ----
+# ---- LoRA checkpoints: only track final step 500 ----
+# Allow .safetensors in lora_step00500 directories
+*.safetensors
+!outputs/opsd_tier2_cvpr/lora_step00500/adapter_model.safetensors
+!outputs/opsd_tier2_cvpr_v2/lora_step00500/adapter_model.safetensors
+!outputs/opsd_tier2_cvpr_no_nat/lora_step00500/adapter_model.safetensors
+
+# ---- data (first frames: track 200 train + 40 eval) ----
 data/first_frames/*.png
 data/first_frames/*.jpg
-data/first_frames/*.jpeg
 !data/first_frames/README.md
 data/vbench_i2v_prompts/*.json
 !data/vbench_i2v_prompts/README.md
+# Allow the 200-prompt first frames
+!data/first_frames_200/
+!data/first_frames_eval/
 
 # ---- outputs ----
-# Ignore everything under outputs/ by default, then whitelist the handful of
-# small artefacts we want tracked (first-frame PNGs + prompts.json for 6 Tier-2
-# prompts, ~3MB total, needed to reproduce Tier-2 I2V from a fresh clone).
-outputs/*
-!outputs/.gitkeep
-!outputs/duel/
-!outputs/duel2/
+# Ignore rendered videos (large mp4s), keep metrics/figures/configs/LoRA
 outputs/duel/*
 outputs/duel2/*
 !outputs/duel/prompts.json
@@ -42,6 +44,25 @@ outputs/duel2/frames_sweet/*
 !outputs/duel/frames_sweet/manifest.json
 !outputs/duel2/frames_base/manifest.json
 !outputs/duel2/frames_sweet/manifest.json
+
+# Keep CVPR training outputs (metrics, figures, LoRA configs)
+!outputs/opsd_tier2_cvpr/
+!outputs/opsd_tier2_cvpr_v2/
+!outputs/opsd_tier2_cvpr_no_nat/
+!outputs/eval_cvpr/
+
+# Ignore intermediate LoRA checkpoints (not step 500)
+outputs/opsd_tier2_cvpr/lora_step00[0-4]*/
+outputs/opsd_tier2_cvpr_v2/lora_step00[0-4]*/
+outputs/opsd_tier2_cvpr_no_nat/lora_step00[0-4]*/
+
+# Ignore rendered videos inside eval
+outputs/eval_cvpr/videos_*/**/*.mp4
+
+# Ignore old tier2 outputs
+outputs/opsd_tier2_h20/
+outputs/tier2_lora_rendered/
+
 wandb/
 *.log
 

@@ -79,27 +79,36 @@ class NaturalnessPenalty(BaseReward):
             prompts: ignored (naturalness is prompt-agnostic)
 
         Returns:
-            [B] tensor in [0, 1] where 1 = fully natural.
+            [B] tensor — unclamped so gradients always flow.
+            Positive values = natural, negative = very unnatural.
+            The OPSD reward-gradient step uses autograd.grad, so the actual
+            scale doesn't matter — only the gradient *direction* is used
+            (it gets L2-normalized anyway).
         """
         # Map from [-1, 1] to [0, 1]
         v = (video.clamp(-1, 1) + 1.0) * 0.5  # [B, T, 3, H, W] in [0, 1]
 
-        # --- pen_sat: mean saturation beyond threshold ---
+        # --- pen_sat: mean saturation penalty ---
+        # Use smooth penalty instead of hard ReLU threshold
         r, g, b = v[:, :, 0], v[:, :, 1], v[:, :, 2]
         mx = torch.maximum(torch.maximum(r, g), b)
         mn = torch.minimum(torch.minimum(r, g), b)
         sat = (mx - mn) / mx.clamp(min=1e-8)
         sat_mean = sat.flatten(1).mean(dim=1)  # [B]
-        pen_sat = F.relu(sat_mean - self.sat_threshold)
+        # Soft penalty with sigmoid: smooth around threshold, always has gradient
+        pen_sat = torch.sigmoid((sat_mean - self.sat_threshold) * 10.0)  # [0, 1]
 
         # --- pen_over: fraction of overexposed pixels ---
-        # Use soft sigmoid instead of hard threshold for differentiability
         pen_over = torch.sigmoid((mx - 0.95) * 50.0).flatten(1).mean(dim=1)  # [B]
 
-        # --- pen_edge: Sobel edge p95 beyond threshold ---
+        # --- pen_edge: Sobel edge penalty ---
+        # Smooth version: sigmoid instead of ReLU clamp
         grey = (0.299 * r + 0.587 * g + 0.114 * b).unsqueeze(2) * 255.0  # [B,T,1,H,W]
         sob = _sobel_p95(grey)  # [B]
-        pen_edge = F.relu((sob - self.sobel_threshold) / self.sobel_scale)
+        pen_edge = torch.sigmoid((sob - self.sobel_threshold) / self.sobel_scale)  # [0, 1]
 
-        naturalness = (1.0 - pen_sat - pen_over - pen_edge).clamp(0.0, 1.0)
+        # DO NOT clamp — let negative values flow so gradient always exists.
+        # Each penalty is in [0, 1], so naturalness is in [-2, 1].
+        # Typical values: ~0.5 for normal video, ~-1.5 for very unnatural.
+        naturalness = 1.0 - pen_sat - pen_over - pen_edge
         return naturalness

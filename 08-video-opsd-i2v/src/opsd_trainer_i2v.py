@@ -197,6 +197,12 @@ class OPSDI2VTrainer:
             drop_last=True,
         )
 
+        # ---- metrics log (JSON lines) ----
+        self._metrics_path = Path(cfg.out_dir) / "train_metrics.jsonl"
+        self._metrics_path.parent.mkdir(parents=True, exist_ok=True)
+        # Truncate on new run
+        self._metrics_path.write_text("")
+
         # ---- wandb (optional) ----
         self._wandb = None
         if cfg.wandb_project:
@@ -315,6 +321,12 @@ class OPSDI2VTrainer:
                 video_ds = video_px
             reward = self.reward_fn(video_ds, prompts)                   # scalar per batch
             reward_val = reward.detach().clone()                          # save for metrics
+            # Log per-component reward values (no-grad, for training curves)
+            self._last_reward_components = {}
+            if hasattr(self.reward_fn, 'components'):
+                with torch.no_grad():
+                    for k, v in self.reward_fn.components(video_ds, prompts).items():
+                        self._last_reward_components[k] = float(v.mean().cpu())
             g = torch.autograd.grad(reward.sum(), y0_leaf, create_graph=False)[0]
         g = self._rescale_grad(g.detach())
         # Restore VAE to fp16 now that backward is done
@@ -349,7 +361,7 @@ class OPSDI2VTrainer:
             last_loss_plus = float(loss_plus.detach().cpu())
             last_loss_minus = float(loss_minus.detach().cpu())
 
-        return {
+        metrics = {
             "loss": last_loss,
             "loss_plus": last_loss_plus,
             "loss_minus": last_loss_minus,
@@ -357,6 +369,9 @@ class OPSDI2VTrainer:
             "sigma_q": float(sigma_q.detach().cpu().item()),
             "grad_norm": float(g.flatten(1).norm(dim=1).mean().cpu()),
         }
+        # Attach per-component reward breakdown
+        metrics.update({f"R_{k}": v for k, v in self._last_reward_components.items()})
+        return metrics
 
     # ---------------------------------------------------------------- loop
     def train(self) -> None:
@@ -386,9 +401,16 @@ class OPSDI2VTrainer:
                 self.ema.update(self.p.v_old, self.p.v_theta)
 
             # ---------- logging ----------
+            # Always write metrics to JSON lines file (every step, for training curves)
+            import json as _json
+            dt = time.time() - t0
+            lr = self.lr_sched.get_last_lr()[0]
+            log_entry = {**metrics, "lr": lr, "step": step, "wall_sec": dt,
+                         "gpu_hours": dt / 3600.0}
+            with open(self._metrics_path, "a") as f:
+                f.write(_json.dumps(log_entry) + "\n")
+
             if step % self.cfg.log_every == 0:
-                dt = time.time() - t0
-                lr = self.lr_sched.get_last_lr()[0]
                 msg = (
                     f"[step {step:>5}/{self.cfg.num_steps}] "
                     f"loss={metrics['loss']:+.4f}  "
@@ -397,6 +419,10 @@ class OPSDI2VTrainer:
                     f"lr={lr:.2e}  "
                     f"({dt:.1f}s)"
                 )
+                # Also print per-component rewards
+                comp_str = "  ".join(f"{k}={v:.3f}" for k, v in metrics.items() if k.startswith("R_"))
+                if comp_str:
+                    msg += f"  [{comp_str}]"
                 logger.info(msg)
                 print(msg)
                 if self._wandb:
