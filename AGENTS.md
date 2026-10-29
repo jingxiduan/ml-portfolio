@@ -1,8 +1,10 @@
 # AGENTS.md — Project overview for AI coding assistants
 
 > **If you are an AI assistant (CodeBuddy / Cursor / Claude Code / etc.) opening
-> this repo for the first time: read this file first, then `08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md`
-> if you are on the H20 training host. That gets you fully up to speed.**
+> this repo for the first time: read this file first, then `PROJECT_STATUS.md`
+> (the single source of truth for state + roadmap), then
+> `08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md` if you are on the H20 training
+> host. That gets you fully up to speed.**
 
 ---
 
@@ -68,7 +70,8 @@ Reward-Hacked Image-to-Video LoRA". See its README for the full story.
 
 | If your task is… | Start with |
 |---|---|
-| H20 training/render on 10/30 | `08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md` ← **entry point** |
+| **anything** — know what's done / what's next | `PROJECT_STATUS.md` ← **start here always** |
+| H20 training/render on 10/30 | `08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md` |
 | 07 Tier-2 render on H20 | `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md` |
 | 08 Tier-2 training on H20 | `08-video-opsd-i2v/docs/H20_PLAYBOOK.md` |
 | Understanding project 08 | `08-video-opsd-i2v/README.md` |
