@@ -95,7 +95,7 @@ OPSD-I2V LoRA with a redesigned reward that penalises the hacking directions.
 | differentiable naturalness reward | `src/rewards/naturalness_penalty.py` | ✅ written, unit-tested, registered |
 | Tier-2 training config | `configs/tier2_natural.yaml` | ✅ written (LAION-aesthetic weight dropped from 0.5→0; motion_smoothness 0.5→1.0; new reward +0.5; lr 5e-5→2e-5; warmup 20→10 of 50 steps) |
 | v2 scorer (anti-grey, pro-bright-airy) | `src/eval/naturalness_v2.py` | ✅ written, tested on synthetic & real clips |
-| Best-of-N rejection sampler (pivot) | `src/eval/tier2_bon.py` | ✅ written; running on 6 prompts × 4 seeds at commit time |
+| Best-of-N rejection sampler (pivot) | `src/eval/tier2_bon.py` | ✅ written; **ran 3 prompts × 3 seeds (R2) — real results below** |
 | Lightness post-process | `src/postprocess/lightness_lift.py` | ✅ shadow-only lift + highlight tanh + sat pullback + edge soften |
 | Night pipeline orchestration | `scripts/night_orchestrator.sh` | ✅ idempotent, resumable |
 | Quantitative verdict | `scripts/compute_verdict.py` → `docs/tier2/verdict_table.md` | ✅ 6 prompts, Wilcoxon p-values |
@@ -115,11 +115,28 @@ OPSD-I2V LoRA with a redesigned reward that penalises the hacking directions.
 
 ### Best-of-N pivot (what runs instead of training)
 
-For each prompt, generate 4 I2V samples with different seeds (same scale=0.2
+For each prompt, generate N I2V samples with different seeds (same scale=0.2
 first frame).  Score each with `naturalness_v2`.  Pick argmax `appeal` as the
 Tier-2 output.  This is a legitimate ML technique (same family as
 RSFT / Best-of-N / rejection sampling) and uses **every line** of the
 naturalness code — just as inference-time selection rather than training-time loss.
+
+**R2 actually-run results** (3 prompts × 3 seeds, see `docs/tier2/bon_r2_table.md`):
+
+| prompt | seed=1 appeal | seed=2 appeal | seed=3 appeal | winner |
+|---|---|---|---|---|
+| candle flickering in the dark | 0.259 | 0.188 | 0.255 | **seed=1** |
+| fog drifting through a pine forest at dawn | 0.815 | 0.732 | 0.696 | **seed=1** |
+| waterfall from a distance, camera zooms out | 0.589 | 0.563 | 0.531 | **seed=1** |
+
+Observations (reported honestly):
+- Seed=1 wins all 3 prompts on this reward — spread between seeds is small
+  (≤0.12 appeal), so BoN gain over "pick seed=0" is modest at n=3.
+- The candle prompt scores very low across all seeds (appeal≈0.2) because our
+  v2 reward penalises `pen_dull` (low luminance mean), which is actually the
+  correct creative lighting for "candle in the dark" — a known failure mode
+  of the reward itself. Discussed in `docs/tier2/METHOD.md`.
+
 See `docs/tier2/METHOD.md` for discussion of limits.
 
 ## 5 · Fix 2 — "lightness" post-process (shadow lift, not uniform brightness)
