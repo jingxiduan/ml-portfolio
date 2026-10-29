@@ -6,7 +6,7 @@
 
 | T+ | step | expected duration | checkpoint |
 |---|---|---|---|
-| 0:00 | ssh in, `nvidia-smi`, `cd /path/to/clone` | 2 min | H20 confirmed |
+| 0:00 | plant SSH key (§SSH setup), `nvidia-smi`, `ssh -T git@github.com` | 3 min | H20 + GitHub auth confirmed |
 | 0:02 | `git clone` portfolio repo | 1 min | sources on H20 |
 | 0:03 | `bash scripts/h20_setup.sh` | 30–45 min | smoke pass on production shape |
 | 0:50 | `bash scripts/h20_run_tier2.sh` (background with `nohup`) | **4–6 h** | 5 LoRA checkpoints saved to `outputs/opsd_tier2_h20/lora_step{010,020,030,040,050}/` |
@@ -24,10 +24,57 @@
 - [x] `scripts/smoke_trainer_e2e.py` supports `SMOKE_SHAPE=production` env var
 - [x] First-frame PNGs under `outputs/duel*/frames_*/seed_00/` are committed to repo
       (~3MB; required so H20 does not have to re-run SD3.5-M T2I)
+- [ ] **SSH key ready for H20** (do this on Mac before window opens — see §SSH setup below)
+
+## SSH setup (10/29 evening, before window opens)
+
+The H20 container is **fresh** — it does not have your Mac's SSH key, so
+`git push` back to GitHub will fail unless you plant a key first.
+
+**Recommended path — reuse your Mac key (0 compute cost):**
+
+On Mac, print both files and keep them handy (don't commit, don't post anywhere):
+
+```bash
+cat ~/.ssh/id_ed25519        # private key — 411 bytes, keep secret
+cat ~/.ssh/id_ed25519.pub    # public key — safe to show
+```
+
+At T+0 inside the H20 container's CodeBuddy terminal, paste them in:
+
+```bash
+mkdir -p ~/.ssh && chmod 700 ~/.ssh
+
+cat > ~/.ssh/id_ed25519 <<'EOF'
+<paste private key contents here, including BEGIN/END lines>
+EOF
+
+cat > ~/.ssh/id_ed25519.pub <<'EOF'
+<paste public key contents here>
+EOF
+
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+
+ssh -T git@github.com    # must print: Hi jingxiduan! You've successfully authenticated...
+```
+
+**Fallback — generate a new key on H20 (~3 min, needs browser):**
+
+```bash
+ssh-keygen -t ed25519 -C "h20-container" -f ~/.ssh/id_ed25519 -N ""
+cat ~/.ssh/id_ed25519.pub
+# copy output, add at https://github.com/settings/keys, then:
+ssh -T git@github.com
+```
 
 ## The three commands
 
 ```bash
+# -------- 0. SSH key (see §SSH setup) + sanity --------
+ssh -T git@github.com   # must say: Hi jingxiduan! ...
+nvidia-smi              # must show 1× H20 96GB
+
 # -------- 1. one-shot setup (30-45 min) --------
 cd ~ && git clone git@github.com:jingxiduan/ml-portfolio.git
 cd ml-portfolio/08-video-opsd-i2v
