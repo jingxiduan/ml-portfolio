@@ -1,4 +1,4 @@
-# H20 Session Handoff — 2026-10-30 00:00–10:00 window
+# H20 Session Handoff — 2026-10-30 (updated 10/29 evening)
 
 > **目标读者：H20 容器里新启动的 CodeBuddy / 任何 AI 助手。**
 > 这个文档是从 10/29 这几天的开发会话压缩出来的 context —— 读完它，你就
@@ -9,8 +9,14 @@
 ## 1 · 身份与目标
 
 - 用户：**jingxiduan**，M3 Pro Mac 本机开发者，GitHub `jingxiduan/ml-portfolio`
-- 本次会话目标：**在 H20 10 小时窗口内，训出一个真实的 Tier-2 OPSD-I2V LoRA**，产出 3-way 对比视频，commit 到 portfolio
-- 预约窗口：**2026-10-30 00:00 — 10:00 (UTC+8)**，H20-单机1卡(长时)
+- H20 窗口的**两件事**（按优先级）：
+  1. **项目 07** · 渲染 Tier-2 BoN 的 7 剩余 clips（motion coef 已 cache，只 render）
+     → playbook: `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md`
+     → 预计 10-20 min；加 GIF 生成 + commit + push 共 30 min 内
+  2. **项目 08** · 真训一个 Tier-2 OPSD-I2V LoRA（50 步，production shape）
+     → playbook: `08-video-opsd-i2v/docs/H20_PLAYBOOK.md`
+     → 预计 setup 45 min + 训练 4-6 h + 推理 1-1.5 h = ~7 h
+- 预约窗口：**10/30 21:00 (或用户给定的时间，当晚 14h) · H20 单机 2 卡（长时）**
 
 ## 2 · 你是谁、不是谁
 
@@ -65,28 +71,54 @@ M3 Pro smoke 用 mini shape `(4 × 256²)` 跑通了；H20 的任务是用 produ
 
 ## 6 · 第一步该干什么
 
-严格按 `H20_PLAYBOOK.md` 的"The three commands"顺序：
+**推荐顺序：先做 07（30 min 内结束，马上有 demo），再做 08（长训练）。**
+
+### 07 Tier-2 BoN · 渲染 7 剩余 clips
 
 ```bash
-# 1. 环境探查，确认 CUDA、显存、磁盘
-nvidia-smi
-df -h ~
-free -h
-
-# 2. clone 仓库
 cd ~ && git clone git@github.com:jingxiduan/ml-portfolio.git
-cd ml-portfolio/08-video-opsd-i2v
+cd ml-portfolio/07-talking-head-motion-opsd
+# 严格按 docs/H20_RENDER_PLAYBOOK.md 执行
+# motion coefs 已经在 outputs/tier2/selected_coefs.pt (2.1MB, 已入库)
+# 只需 setup venv + 下 JoyVASA/LivePortrait/MP 权重 + render
+```
 
-# 3. 一键 setup（含 smoke test on production shape）
-bash scripts/h20_setup.sh
+关键点：
+- **不要重新 generate motion**，用 `--load-coefs outputs/tier2/selected_coefs.pt`
+- 1 个 clip 的渲染结果已在 Mac 验证：blink_rate `0 → 37.5 → 31.3 → 18.75`，lip-sync 保持
+- 7 剩余 clips 的 render 预计 7×4×20s ≈ 10 min on H20（Mac 2min/video 要 1h）
+
+### 08 Tier-2 LoRA · 真训
+
+渲染完 07 的 commit 推完之后，再按 08 的 playbook 操作：
+
+```bash
+cd ml-portfolio/08-video-opsd-i2v
+bash scripts/h20_setup.sh                # 30-45 min
+nohup bash scripts/h20_run_tier2.sh > logs/h20_tier2.nohup 2>&1 &
+tail -f logs/h20_tier2.log
+# ... 4-6h 等训练
+bash scripts/h20_infer_compare.sh        # 1-1.5h 推理 + metrics
+git add -A outputs/opsd_tier2_h20/ docs/tier2/tier2_lora_metrics.* \
+  docs/figures/duel/tier2_lora_*
+git commit -m "08: Tier-2 LoRA trained on H20 (50 steps, 6-prompt eval)"
+git push
 ```
 
 **只有当 setup.sh 最后一行打印 `✅ H20 SETUP DONE — trainer is alive on CUDA`
-才能进入下一步训练。** 如果 smoke 失败，看 `logs/h20_setup.log`，不要盲目继续。
+才能进入 run_tier2.sh。** 如果 smoke 失败，看 `logs/h20_setup.log`。
 
 ## 7 · 预期的里程碑输出
 
-训练完成后 push 到 portfolio 的新文件（这是**最终交付**）：
+**项目 07（Tier-2 BoN 补齐）**：
+```
+07-talking-head-motion-opsd/outputs/tier2/
+├── bon_metrics.json / bon_metrics.md    (8-clip averaged)
+├── tier2_compare_{00..07}.gif           (3-way side-by-side)
+└── bon_c{00..07}_{base_naive,opsd_naive,opsd_bon,opsd_bon_thin}.mp4 (本地不入 git)
+```
+
+**项目 08（Tier-2 LoRA 真训）**：
 
 ```
 08-video-opsd-i2v/
@@ -108,7 +140,7 @@ bash scripts/h20_setup.sh
     └── tier2_lora_waterfall_zoom.gif
 ```
 
-训练完**最后一步必做**：push 到 GitHub，否则 10:00 资源回收数据丢失。
+训练完**最后一步必做**：push 到 GitHub，否则 14:00 资源回收数据丢失。
 
 ## 8 · 如果训练卡住 / OOM / 超时
 
@@ -130,8 +162,15 @@ bash scripts/h20_setup.sh
 
 ## 10 · 收尾清单
 
-- [ ] `bash scripts/h20_setup.sh` 通过
+**项目 07**：
+- [ ] `python src/tier2_bon.py --load-coefs outputs/tier2/selected_coefs.pt --n-eval-clips 8` 产出 32 mp4
+- [ ] `python src/make_tier2_gifs.py --max-side 240 --fps 12` 产出 8 对比 GIF
+- [ ] `git add outputs/tier2/{bon_metrics.*,tier2_compare_*.gif} && git commit -m "07: Tier-2 BoN+thin · 8 clips rendered on H20" && git push`
+
+**项目 08**：
+- [ ] `bash scripts/h20_setup.sh` 通过（smoke pass on production shape）
 - [ ] `bash scripts/h20_run_tier2.sh` 产出 `outputs/opsd_tier2_h20/lora_step00050/`
 - [ ] `bash scripts/h20_infer_compare.sh` 产出 6 个 `tier2_lora_*.gif` + metrics
-- [ ] `git add -A && git commit -m "08: Tier-2 LoRA trained on H20 (50 steps, 6-prompt eval)" && git push`
-- [ ] 简要向用户汇报结果（nat 均值、Δvs base/scale=0.2、最终 commit hash）
+- [ ] `git add -A outputs/opsd_tier2_h20/ docs/tier2/ docs/figures/duel/tier2_lora_* && git commit -m "08: Tier-2 LoRA trained on H20" && git push`
+
+**最终**：简要向用户汇报（nat 均值、Δvs base/scale=0.2、最终 commit hash）

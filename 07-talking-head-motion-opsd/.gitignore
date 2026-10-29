@@ -22,3 +22,6 @@ outputs/render_compare_host_m/
 outputs/eval/*.mp4
 outputs/profiles/*.wav
 outputs/eval_motion_only/
+
+# Tier-2 render artifacts: keep metrics, bundle, gifs; drop raw mp4s
+outputs/tier2/*.mp4
