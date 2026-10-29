@@ -95,7 +95,7 @@ OPSD-I2V LoRA with a redesigned reward that penalises the hacking directions.
 | differentiable naturalness reward | `src/rewards/naturalness_penalty.py` | ✅ written, unit-tested, registered |
 | Tier-2 training config | `configs/tier2_natural.yaml` | ✅ written (LAION-aesthetic weight dropped from 0.5→0; motion_smoothness 0.5→1.0; new reward +0.5; lr 5e-5→2e-5; warmup 20→10 of 50 steps) |
 | v2 scorer (anti-grey, pro-bright-airy) | `src/eval/naturalness_v2.py` | ✅ written, tested on synthetic & real clips |
-| Best-of-N rejection sampler (pivot) | `src/eval/tier2_bon.py` | ✅ written; **ran 3 prompts × 3 seeds (R2) — real results below** |
+| Best-of-N rejection sampler (pivot) | `src/eval/tier2_bon.py` | ✅ written; **ran 2 rounds × 3 prompts × 3 seeds = 18 I2V candidates; real tables below** |
 | Lightness post-process | `src/postprocess/lightness_lift.py` | ✅ shadow-only lift + highlight tanh + sat pullback + edge soften |
 | Night pipeline orchestration | `scripts/night_orchestrator.sh` | ✅ idempotent, resumable |
 | Quantitative verdict | `scripts/compute_verdict.py` → `docs/tier2/verdict_table.md` | ✅ 6 prompts, Wilcoxon p-values |
@@ -121,23 +121,46 @@ Tier-2 output.  This is a legitimate ML technique (same family as
 RSFT / Best-of-N / rejection sampling) and uses **every line** of the
 naturalness code — just as inference-time selection rather than training-time loss.
 
-**R2 actually-run results** (3 prompts × 3 seeds, see `docs/tier2/bon_r2_table.md`):
+**R1 actually-run results** (3 prompts × 3 seeds, see `docs/tier2/tier2_bon_r1_metrics.md`):
 
-| prompt | seed=1 appeal | seed=2 appeal | seed=3 appeal | winner |
-|---|---|---|---|---|
-| candle flickering in the dark | 0.259 | 0.188 | 0.255 | **seed=1** |
-| fog drifting through a pine forest at dawn | 0.815 | 0.732 | 0.696 | **seed=1** |
-| waterfall from a distance, camera zooms out | 0.589 | 0.563 | 0.531 | **seed=1** |
+| prompt | base_nat | s=0.2 (seed 0) nat | **BoN winner nat** | best seed | motion Δ vs s=0.2 |
+|---|---|---|---|---|---|
+| sun_rays        | 0.960 | 0.932 | **0.978** | 1 | +0.000 |
+| houses_hillside | 0.471 | 0.405 | **0.432** | 3 | +0.000 |
+| pagoda_snowy    | 0.590 | 0.221 | **0.399** | 3 | +0.000 |
+
+**R2 actually-run results** (3 prompts × 3 seeds, see `docs/tier2/tier2_bon_r2_metrics.md`
+and `docs/tier2/bon_r2_table.md` for per-seed breakdown):
+
+| prompt | base_nat | s=0.2 (seed 0) nat | **BoN winner nat** | best seed | motion Δ vs s=0.2 |
+|---|---|---|---|---|---|
+| candle_dark     | 0.000 | 0.223 | **0.287** | 1 | −0.004 |
+| fog_pine_dawn   | 0.860 | 0.892 | **0.945** | 1 | +0.244 |
+| waterfall_zoom  | 0.667 | 0.503 | **0.586** | 1 | −0.048 |
+
+BoN winner GIFs (left = base, middle = scale=0.2 seed=0, right = BoN winner):
+
+| | | |
+|---|---|---|
+| ![r1_sun](docs/figures/duel/tier2_bon_sun_rays.gif) | ![r1_houses](docs/figures/duel/tier2_bon_houses_hillside.gif) | ![r1_pagoda](docs/figures/duel/tier2_bon_pagoda_snowy.gif) |
+| ![r2_candle](docs/figures/duel/tier2_bon_candle_dark.gif) | ![r2_fog](docs/figures/duel/tier2_bon_fog_pine_dawn.gif) | ![r2_waterfall](docs/figures/duel/tier2_bon_waterfall_zoom.gif) |
 
 Observations (reported honestly):
-- Seed=1 wins all 3 prompts on this reward — spread between seeds is small
-  (≤0.12 appeal), so BoN gain over "pick seed=0" is modest at n=3.
-- The candle prompt scores very low across all seeds (appeal≈0.2) because our
-  v2 reward penalises `pen_dull` (low luminance mean), which is actually the
-  correct creative lighting for "candle in the dark" — a known failure mode
-  of the reward itself. Discussed in `docs/tier2/METHOD.md`.
+- BoN winner's naturalness is **not always higher than the base I2V** (e.g. R1
+  `houses_hillside`: base 0.471 > winner 0.432; `pagoda_snowy`: base 0.590 >
+  winner 0.399).  BoN beats scale=0.2 (the pre-fix baseline) in **6/6 prompts**,
+  but beats base in only **3/6**. This matches the project's thesis: the
+  reward-hacked OPSD-LoRA is only harmful if applied at full strength; at
+  scale=0.2 + BoN re-selection it recovers most but not all of base's quality.
+- Seed spread per prompt is small (≤0.12 appeal in R2); BoN gain over "pick
+  seed=0" is real but modest at n=3.
+- `candle_dark` scores low across all seeds (nat ≈ 0.0–0.3) because our v2
+  reward's `pen_dull` term penalises low luminance mean, which is actually the
+  correct creative lighting for "candle in the dark" — a known reward
+  failure mode discussed in `docs/tier2/METHOD.md`.
 
-See `docs/tier2/METHOD.md` for discussion of limits.
+See `docs/tier2/METHOD.md` for the full discussion of BoN's limits (no gradient
+signal, no distribution shift, no actual LoRA update).
 
 ## 5 · Fix 2 — "lightness" post-process (shadow lift, not uniform brightness)
 
