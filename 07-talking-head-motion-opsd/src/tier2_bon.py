@@ -147,6 +147,16 @@ def load_trained(eng, path):
     return layers
 
 
+def swap_lora_weights(layers, path):
+    """Replace the trainable adapter weights of already-wrapped layers in place.
+    Used to hot-swap v1 -> v2 without re-wrapping (which would double-wrap)."""
+    ck = torch.load(path, map_location="cpu")
+    for i, l in enumerate(layers):
+        l.A_t.data.copy_(ck["lora"][f"{i}.A_t"].to(l.A_t.device))
+        l.B_t.data.copy_(ck["lora"][f"{i}.B_t"].to(l.B_t.device))
+    print(f"[swap-lora] loaded weights from {path}")
+
+
 # ---------------------------------------------------- Track B: blink thinning
 def blink_thin(coef: torch.Tensor, eye_probe: EyeProbe,
                min_interval_s: float = 2.5, win_frames: int = 5,
@@ -211,6 +221,9 @@ def blink_thin(coef: torch.Tensor, eye_probe: EyeProbe,
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--lora", default=os.path.join(ROOT, "outputs", "opsd", "lora.pt"))
+    ap.add_argument("--lora-v2", default=None,
+                    help="also evaluate a second LoRA (e.g. outputs/opsd_v2/lora.pt) as model 'opsd_v2'; "
+                         "the two LoRAs are hot-swapped between runs on the same wrapped layers")
     ap.add_argument("--eye-probe", default=os.path.join(ROOT, "outputs", "eye_probe", "eye_probe.pt"))
     ap.add_argument("--clips", nargs="*", default=None,
                     help="specific eval wav paths (default: all under data/audio/eval)")
@@ -247,10 +260,14 @@ def main():
     else:
         print(f"[init] load engine (renderer={'off' if a.motion_only else 'on'}) ...", flush=True)
         eng = TalkingHeadEngine(load_renderer=not a.motion_only)
-        load_trained(eng, a.lora)
+        lora_layers = load_trained(eng, a.lora)
         probe = EyeProbe()
         probe.load_state_dict(torch.load(a.eye_probe, map_location="cpu"))
         probe = probe.to(eng.device).eval()
+
+        model_list = ["base", "opsd"]
+        if a.lora_v2:
+            model_list.append("opsd_v2")
 
         all_rows = []
         selected = {}  # (ci, variant) -> (coef, seed, score_dict)
@@ -260,8 +277,18 @@ def main():
             audio = eng.load_audio(clip)
             print(f"\n[clip {ci}] {name}  ({len(audio)/16000:.1f}s)", flush=True)
 
-            for model in ("base", "opsd"):
-                set_mode("base" if model == "base" else "trainable")
+            for model in model_list:
+                if model == "base":
+                    set_mode("base")
+                elif model == "opsd":
+                    # restore v1 weights (needed after a v2 swap on a prior clip)
+                    if a.lora_v2:
+                        swap_lora_weights(lora_layers, a.lora)
+                    set_mode("trainable")
+                else:  # opsd_v2
+                    swap_lora_weights(lora_layers, a.lora_v2)
+                    set_mode("trainable")
+
                 cand_rows = []
                 cand_coefs = []
                 for seed in range(a.n_candidates):
@@ -277,10 +304,8 @@ def main():
                     cand_rows.append(score)
                     cand_coefs.append(coef)
                     all_rows.append(score)
-                # pick BoN (highest total)
                 best_i = int(np.argmax([r["total"] for r in cand_rows]))
                 selected[(ci, f"{model}_bon")] = (cand_coefs[best_i], best_i, cand_rows[best_i])
-                # also keep seed-0 as "naive" baseline
                 selected[(ci, f"{model}_naive")] = (cand_coefs[0], 0, cand_rows[0])
                 best = cand_rows[best_i]
                 seed0 = cand_rows[0]
@@ -291,7 +316,9 @@ def main():
                       f"blink_rate={best['blink_rate_est']:.1f}/min  "
                       f"jitter_hp={best['jitter_hp_power']:.3f}", flush=True)
 
-                # Track B · for OPSD only: apply blink-thinning on top of BoN
+                # Track B · for OPSD v1 only: apply blink-thinning on top of BoN.
+                # v2 already has an overshoot penalty in its reward, so thinning
+                # would be over-correction.
                 if model == "opsd":
                     thin_coef = blink_thin(cand_coefs[best_i], probe)
                     thin_env = audio_env_frames(audio, thin_coef.shape[0])
@@ -307,7 +334,10 @@ def main():
                           f"jitter_hp={thin_score['jitter_hp_power']:.3f}", flush=True)
 
         # motion-space table
-        variants_all = ["base_naive", "base_bon", "opsd_naive", "opsd_bon", "opsd_bon_thin"]
+        variants_all = ["base_naive", "base_bon",
+                        "opsd_naive", "opsd_bon", "opsd_bon_thin"]
+        if a.lora_v2:
+            variants_all += ["opsd_v2_naive", "opsd_v2_bon"]
         motion_tbl = {
             v: {
                 key: float(np.mean([selected[(ci, v)][2][key] for ci in range(len(clips))]))
@@ -348,9 +378,15 @@ def main():
     from video_metrics import evaluate_video
 
     n_render = min(a.n_eval_clips, len(clips))
-    print(f"\n[render] {n_render} clips × 4 variants = {n_render*4} videos", flush=True)
+    # Determine render variants from what's actually in `selected`
+    seen_variants = sorted({v for (_, v) in selected.keys()})
+    render_variants = tuple(v for v in (
+        "base_naive", "opsd_naive", "opsd_bon", "opsd_bon_thin",
+        "opsd_v2_naive", "opsd_v2_bon",
+    ) if v in seen_variants)
+    print(f"\n[render] {n_render} clips × {len(render_variants)} variants = "
+          f"{n_render*len(render_variants)} videos", flush=True)
     video_rows = []
-    render_variants = ("base_naive", "opsd_naive", "opsd_bon", "opsd_bon_thin")
     for ci in range(n_render):
         clip = clips[ci]
         name = Path(clip).stem
@@ -384,14 +420,27 @@ def main():
         json.dump({"video_summary": video_sum, "video_rows": video_rows,
                    "motion_summary": motion_tbl}, f, indent=1)
 
-    # markdown
-    md = ["# Tier-2 BoN + blink-thinning · video-space metrics (held-out, MediaPipe)\n",
-          f"- clips: {n_render}", f"- N candidates per model: {a.n_candidates}",
-          "- Track A (BoN): motion-space `naturalness_v2` argmax over N seeds",
-          "- Track B (thin): blink-thinning post-process on BoN winner (min 2.5s between blinks, cosine attenuation on non-lip expression dims)",
-          "",
-          "| metric | base (naive) | opsd (naive) | opsd + BoN | **opsd + BoN + thin** | human target |",
-          "|---|---|---|---|---|---|"]
+    # markdown · dynamically includes whatever variants are present
+    label_map = {
+        "base_naive": "base",
+        "opsd_naive": "opsd v1 (naive)",
+        "opsd_bon": "+ BoN",
+        "opsd_bon_thin": "+ BoN + thin",
+        "opsd_v2_naive": "**opsd v2** (naive)",
+        "opsd_v2_bon": "**opsd v2 + BoN**",
+    }
+    md_variants = [v for v in render_variants if v in video_sum]
+    header_cells = " | ".join(label_map.get(v, v) for v in md_variants)
+    md = [
+        f"# Tier-2 · video-space metrics (held-out, MediaPipe, n={n_render} clips)\n",
+        f"- N candidates per model: {a.n_candidates}",
+        "- Track A (BoN): motion-space `naturalness_v2` argmax over N seeds",
+        "- Track B (thin): blink-thinning post-process (min 2.5 s between blinks, cosine attenuation on non-lip expression dims)",
+        "- Track C (opsd v2): LoRA retrained with reward v2 (gaussian blink target + hard jitter cap)" if "opsd_v2_naive" in md_variants else "",
+        "",
+        f"| metric | {header_cells} | human target |",
+        "|" + "---|" * (len(md_variants) + 2),
+    ]
     hum = {"blink_rate": "10-20", "head_jitter": "~120", "head_pitch_std": "1-4",
            "head_yaw_std": "1-4", "speech_head_corr": "0.2-0.4", "still_ratio": "<0.1",
            "gaze_std": "0.1-0.3", "head_speed_mean": "5-15", "nod_rate": "0.3-1.0",
@@ -400,12 +449,11 @@ def main():
     for k in ("blink_rate", "head_jitter", "head_pitch_std", "head_yaw_std",
               "head_speed_mean", "speech_head_corr", "still_ratio", "gaze_std",
               "gaze_shift_rate", "nod_rate", "jaw_audio_corr"):
-        if k not in video_sum["base_naive"]:
+        if any(k not in video_sum[v] for v in md_variants):
             continue
-        md.append(
-            f"| {k} | {video_sum['base_naive'][k]:.2f} | {video_sum['opsd_naive'][k]:.2f} "
-            f"| {video_sum['opsd_bon'][k]:.2f} | **{video_sum['opsd_bon_thin'][k]:.2f}** "
-            f"| {hum.get(k, '—')} |")
+        cells = " | ".join(f"{video_sum[v][k]:.2f}" for v in md_variants)
+        md.append(f"| {k} | {cells} | {hum.get(k, '—')} |")
+    md = [m for m in md if m]  # drop empty strings
     with open(os.path.join(a.out, "bon_metrics.md"), "w") as f:
         f.write("\n".join(md) + "\n")
 

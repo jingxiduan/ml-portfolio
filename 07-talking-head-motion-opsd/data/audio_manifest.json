@@ -250,5 +250,68 @@
   "voice": "Rocko (中文（中国大陆）)",
   "rate": 185,
   "text": "为什么天空是蓝色的？因为阳光穿过大气层时，波长较短的蓝光更容易被散射到各个方向。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_11.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 185,
+  "text": "每天保持三十分钟的中等强度运动，比如快走或者游泳，可以显著降低心血管疾病的发病风险。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_12.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 185,
+  "text": "维生素D主要是通过晒太阳合成的，上班族如果长期待在室内，可以考虑适当补充。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_13.wav",
+  "voice": "Shelley (中文（中国大陆）)",
+  "rate": 185,
+  "text": "睡眠分成浅睡期、深睡期和快速眼动期，深睡期对身体修复最重要，而快速眼动期对记忆巩固最重要。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_14.wav",
+  "voice": "Eddy (中文（中国大陆）)",
+  "rate": 170,
+  "text": "指数基金的核心理念就是不去预测哪只股票会涨，而是跟随整个市场的平均表现。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_15.wav",
+  "voice": "Sandy (中文（中国大陆）)",
+  "rate": 170,
+  "text": "美联储加息会抬高美元存款的吸引力，所以通常会伴随着其他货币对美元的贬值。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_16.wav",
+  "voice": "Tingting",
+  "rate": 215,
+  "text": "分散投资的关键不只是买很多只股票，更重要的是买不同类型、不同行业的资产。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_17.wav",
+  "voice": "Reed (中文（中国大陆）)",
+  "rate": 170,
+  "text": "养猫的朋友一定要定期给它们梳毛，不然舔进肚子里的毛太多，容易引起消化道堵塞。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_18.wav",
+  "voice": "Rocko (中文（中国大陆）)",
+  "rate": 170,
+  "text": "拍摄人像的时候，背景虚化不是越强越好，适度的环境信息反而能让照片更有故事感。"
+ },
+ {
+  "split": "eval",
+  "path": "data/audio/eval/eval_19.wav",
+  "voice": "Flo (中文（中国大陆）)",
+  "rate": 170,
+  "text": "泡茶的水温会影响口感，绿茶适合八十度左右，红茶和普洱可以用接近沸腾的水。"
  }
 ]

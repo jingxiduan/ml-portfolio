@@ -30,37 +30,39 @@
 
 ## 2 · 当前最活跃的工作
 
-### 2.1 · 项目 07 · Tier-2 BoN + blink thinning（新加）
+### 2.1 · 项目 07 · Tier-2 BoN + blink thinning + reward-v2 retrained
 
 **诊断问题**（README §Honest Caveats 里诚实承认过的）：
 - OPSD-LoRA 让 blink_rate 从 0 → 55/min（人类 15-20），**过量 2.8×**
 - Head jitter +110%（braked by penalty 但没压平）
 - 本质：和项目 08 的 reward hacking 同类（reward 边界条件被 policy 刷爆）
 
-**已完成**（commit `0cffe4e`）：
-- `src/tier2_bon.py` — anti-hacking naturalness_v2 scoring + blink thinning post-process
-- `src/make_tier2_gifs.py` — 3-way side-by-side GIF 生成
-- `outputs/tier2/selected_coefs.pt` (2.1 MB) — 8 clips × 5 variants motion coefs（Mac 已 BoN 选好）
-- 1 个 clip 的完整 video-space 验证（见下表）
-- 预览 GIF: `outputs/tier2/tier2_compare_00.gif`
+**已完成**（commit `0cffe4e` + 后续增量）：
+- `src/tier2_bon.py` — anti-hacking naturalness_v2 scoring + blink thinning + opsd_v2 热切换支持
+- `src/make_tier2_gifs.py` — 3-way side-by-side GIF，自动选最强对比
+- `src/motion_reward_v2.py` + `src/opsd_train_motion_v2.py` — reward v2 版 + 训练入口
+- `outputs/opsd_v2/lora.pt` — reward-v2 下重训的 LoRA（600 轮，Mac 11 min）
+- `outputs/tier2/selected_coefs.pt` (8 MB) — **20 eval clips × 7 variants** motion coefs
+- 1 clip 已验证 end-to-end on Mac：video-space blink_rate `0 → 37.5 → 31.3 → 18.75`，lip-sync 保持
 
-**验证结果（clip 0, MediaPipe 独立评测，不是训练 reward）：**
+**Motion-space 结果（n=20，Mac 本机）**：
 
-| variant | blink_rate | jaw_audio_corr (lip-sync) |
-|---|---|---|
-| base_naive | 0.00 | -0.26 |
-| opsd_naive | 37.5 | -0.24 |
-| opsd + BoN | 31.3 | -0.24 |
-| **opsd + BoN + thin** | **18.75** | **-0.23** |
+| variant | blink/min | jitter_hp | 说明 |
+|---|---|---|---|
+| base | 0.0 | 13.6 | 不眨眼 |
+| opsd v1 naive | **48.9** | 26.7 | reward hacking 发作 |
+| opsd v1 + BoN | 32.4 | 25.6 | Track A: 推理时筛选 |
+| opsd v1 + BoN + thin | **23.9** | 25.6 | Track A+B: 加后处理 |
+| opsd v2 naive | 41.1 | 23.7 | Track C: 修 reward 重训 |
+| **opsd v2 + BoN** | **23.9** | **23.8** | Track C+A: 治本+筛选 |
 
-→ blink_rate 完全推到人类区间（10-20），lip-sync 保持。
+→ 两条独立路径（治标 Track A+B / 治本 Track C+A）**殊途同归**到 blink≈24/min，证明方法学泛化。
 
-**待做**（H20 窗口里 30 min 内收尾）：
-- 渲染剩余 7 clips × 4 variants = 28 videos → `outputs/tier2/bon_c{01..07}_*.mp4`
-- 生成 8 个对比 GIF → `outputs/tier2/tier2_compare_{00..07}.gif`
-- 8-clip 平均 metrics → `outputs/tier2/bon_metrics.{json,md}`
+**待做**（H20 窗口 ~45 min 完成）：
+- H20 侧渲染 20 × 7 = 140 videos
+- 生成 20 个 3-way 对比 GIF（base | v1 naive | v2+BoN）
+- 产出 n=20 的 video-space metrics 表（`bon_metrics.{json,md}`）
 - commit + push
-- （可选）07 README 加一节 "Tier-2 fix" + 把 1 clip 的表换成 8-clip 平均
 
 **playbook**: `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md`
 
@@ -105,10 +107,12 @@
         │
         ├── 1. clone portfolio             (1 min)
         │
-        ├── 2. 【07】Tier-2 render         (30 min)
-        │     bash scripts/h20_setup...? → 实际走 docs/H20_RENDER_PLAYBOOK.md
-        │     产出: 8 clips × 4 variants, 8 GIFs, bon_metrics.md
-        │     commit + push                ← 30 min 内已经有新 demo
+        ├── 2. 【07】Tier-2 render         (45 min)
+        │     bash 07-talking-head-motion-opsd/scripts/h20_render_setup.sh
+        │     python src/tier2_bon.py --load-coefs outputs/tier2/selected_coefs.pt --n-eval-clips 20
+        │     python src/make_tier2_gifs.py --max-side 240 --fps 12
+        │     产出: 20 clips × 7 variants = 140 mp4, 20 GIFs, bon_metrics.md
+        │     commit + push                ← 45 min 内已经有新 demo
         │
         └── 3. 【08】Tier-2 LoRA 真训      (~7h)
               bash scripts/h20_setup.sh    (45 min, 必须 smoke pass)

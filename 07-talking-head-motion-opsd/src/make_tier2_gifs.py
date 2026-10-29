@@ -71,13 +71,29 @@ def main():
     for base_vid in base_vids:
         stem = os.path.basename(base_vid).replace("_base_naive.mp4", "")  # bon_cXX
         tag = stem.replace(a.prefix, "")
+        # Prefer the 3-way comparison that tells the strongest story:
+        # base | opsd v1 naive (reward-hacked) | opsd v2 + BoN (fixed via retraining)
+        # Fall back to v1-only story (base | opsd naive | opsd + BoN + thin) if v2 absent.
+        cand_v2 = base_vid.replace("_base_naive.mp4", "_opsd_v2_bon.mp4")
+        cand_v1_thin = base_vid.replace("_base_naive.mp4", "_opsd_bon_thin.mp4")
+        cand_v1_bon = base_vid.replace("_base_naive.mp4", "_opsd_bon.mp4")
+        if os.path.exists(cand_v2):
+            fix_path = cand_v2
+            fix_label = "+ OPSD v2 + BoN"
+        elif os.path.exists(cand_v1_thin):
+            fix_path = cand_v1_thin
+            fix_label = "+ OPSD v1 + BoN + thin"
+        elif os.path.exists(cand_v1_bon):
+            fix_path = cand_v1_bon
+            fix_label = "+ OPSD v1 + BoN"
+        else:
+            print(f"[skip] {stem}: no fix variant found", flush=True)
+            continue
         paths = {
             "base": base_vid,
             "opsd": base_vid.replace("_base_naive.mp4", "_opsd_naive.mp4"),
-            "bon_thin": base_vid.replace("_base_naive.mp4", "_opsd_bon_thin.mp4"),
+            "fix": fix_path,
         }
-        if not os.path.exists(paths["bon_thin"]):
-            paths["bon_thin"] = base_vid.replace("_base_naive.mp4", "_opsd_bon.mp4")
         if not all(os.path.exists(p) for p in paths.values()):
             print(f"[skip] {stem}: missing variants", flush=True)
             continue
@@ -94,8 +110,8 @@ def main():
                 scale = a.max_side / frs[0].shape[0]
                 frames[k] = [cv2.resize(f, (int(f.shape[1] * scale), a.max_side)) for f in frs]
         labels = [("base", "base (JoyVASA)"),
-                  ("opsd", "+ OPSD (naive)"),
-                  ("bon_thin", "+ BoN + thin")]
+                  ("opsd", "+ OPSD v1 (naive, hacked)"),
+                  ("fix", fix_label)]
         composite = hstack_with_label(frames, labels)
         out_path = os.path.join(a.out_dir, f"tier2_compare_{tag}.gif")
         iio.imwrite(out_path, composite, duration=1000 // a.fps, loop=0)
