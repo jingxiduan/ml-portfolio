@@ -100,16 +100,28 @@ OPSD-I2V LoRA with a redesigned reward that penalises the hacking directions.
 | Night pipeline orchestration | `scripts/night_orchestrator.sh` | ✅ idempotent, resumable |
 | Quantitative verdict | `scripts/compute_verdict.py` → `docs/tier2/verdict_table.md` | ✅ 6 prompts, Wilcoxon p-values |
 
-### What we did **not** deliver
+### Partial delivery / honest status
 
-- **A trained Tier-2 LoRA.**  Running
+- **A trained Tier-2 LoRA — PARTIAL.**  Running
   `python -m src.train_entry --method opsd_i2v --config configs/tier2_natural.yaml`
-  revealed two API mismatches between `src/opsd_trainer_i2v.py` and the
-  vendored DynamiCrafter DiT:
-  1. `v(z, t, cond=cond_dict)` — `UNetModel.forward(x, t, context=None, …, **kwargs)` swallows the `cond` dict into `**kwargs`.
-  2. `vae.decode(…).sample` — DynamiCrafter's VAE returns a tensor directly, not a `DecoderOutput`.
-  Fixing both is ~200 lines of plumbing that we did not have audit bandwidth
-  for. Rather than ship broken training we **pivoted to Best-of-N**.
+  originally hit two API-level bugs between `src/opsd_trainer_i2v.py` and the
+  vendored DynamiCrafter DiT. Both are now **diagnosed, patched, and unit-tested**
+  (see `tests/test_trainer_api_fix.py`, 3/3 pass):
+
+  | bug | root cause | fix |
+  |---|---|---|
+  | `v(z, t, cond=cond_dict)` returned garbage | DynamiCrafter's raw `UNetModel.forward(x, t, context=None, …, **kwargs)` silently absorbs the `cond` dict into `**kwargs`; `DiffusionWrapper` normally **unpacks** `cond` as kwargs (`**cond`). | New helper `_call_unet(unet, z, t, cond)` replicating the DiffusionWrapper hybrid-branch logic: cat `c_concat` onto `x`, cat `c_crossattn` as `context`, pass through `fs` / `features_adapter`. |
+  | `vae.decode(z).sample` crashed | DynamiCrafter's 2-D `AutoencoderKL.decode` returns a tensor directly (not a `DecoderOutput` à la diffusers), and expects 4-D `[(B·T), C, H, W]` not 5-D. | New helper `_vae_decode_video(vae, z)` doing the 5-D→4-D reshape, decode, and inverse rearrange — identical to `LatentVisualDiffusion.decode_core`. |
+  | `encode(x).latent_dist.sample()` crashed | DynamiCrafter's `AutoencoderKL.encode` returns a `DiagonalGaussianDistribution` directly, no `.latent_dist` wrapper. | `encode(x).sample()`. |
+
+  **Still outstanding before training can converge:**  the vendored dataset path
+  provides a bare `cond = {text, video_length, fps}`; DynamiCrafter's actual
+  conditioning (`c_crossattn`, `c_concat`) requires wiring in its CLIP text
+  encoder + CLIP image embedder + `image_proj_model`. That is a separable task
+  (~150 LOC + weight-loading audit); the API-level corrections above are a
+  pre-requisite that is now landed and tested. Best-of-N remains the shipped
+  Tier-2 output in the meantime.
+
 - **Tier-1 full evaluation (n=50, paired Wilcoxon with p<0.05).** Requires ~37h
   of compute on M3 Pro.  Not run.
 

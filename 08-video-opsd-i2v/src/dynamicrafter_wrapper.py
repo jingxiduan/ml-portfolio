@@ -201,6 +201,9 @@ def rollout_until(
     for t in scheduler.timesteps:
         if t < sigma_q.max():
             break  # stop at the intermediate step we care about
-        noise_pred = v(z, t, cond=cond)
+        # NB: cond is a DynamiCrafter dict (c_concat / c_crossattn / fs); the raw UNetModel
+        # does NOT accept `cond=...` — it must be unpacked. We call the shared helper.
+        from .opsd_trainer_i2v import _call_unet
+        noise_pred = _call_unet(v, z, t, cond)
         z = scheduler.step(noise_pred, t, z).prev_sample
     return z

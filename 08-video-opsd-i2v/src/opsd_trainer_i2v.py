@@ -30,6 +30,46 @@ logger = logging.getLogger(__name__)
 
 
 # =============================================================================
+# Helpers — bridge raw DynamiCrafter UNetModel / 2D VAE to our training loop
+# =============================================================================
+
+def _call_unet(unet, x_latent: torch.Tensor, t: torch.Tensor, cond: Dict) -> torch.Tensor:
+    """Call raw ``UNetModel.forward`` with a DynamiCrafter cond dict.
+
+    DynamiCrafter's ``DiffusionWrapper`` expects ``cond`` to be *unpacked* as
+    kwargs; passing ``cond=cond`` would be swallowed by the UNet's ``**kwargs``
+    and silently lose conditioning. This helper replicates the "hybrid" /
+    "crossattn" branch logic:
+
+      - ``c_concat`` (list of tensors) is concatenated to ``x`` on channel dim.
+      - ``c_crossattn`` (list of tensors) is cat'd on dim=1 and passed as ``context``.
+      - ``fs`` / ``features_adapter`` passed through if present.
+    """
+    x = x_latent
+    if "c_concat" in cond and cond["c_concat"]:
+        x = torch.cat([x] + list(cond["c_concat"]), dim=1)
+    context = None
+    if "c_crossattn" in cond and cond["c_crossattn"]:
+        context = torch.cat(list(cond["c_crossattn"]), dim=1)
+    fs = cond.get("fs", None)
+    features_adapter = cond.get("features_adapter", None)
+    return unet(x, t, context=context, features_adapter=features_adapter, fs=fs)
+
+
+def _vae_decode_video(vae, z: torch.Tensor, scale_factor: float = 0.18215) -> torch.Tensor:
+    """Decode a 5-D latent video with DynamiCrafter's 2-D VAE.
+
+    Replicates ``LatentVisualDiffusion.decode_core``: reshape 5-D → 4-D batch,
+    decode per-frame, rearrange back. Returns ``[B, T, 3, H, W]``.
+    """
+    B, C, T, H, W = z.shape
+    z2d = z.permute(0, 2, 1, 3, 4).reshape(B * T, C, H, W)
+    dec = vae.decode(z2d / scale_factor)                 # [B*T, 3, H_out, W_out]
+    _, C_out, H_out, W_out = dec.shape
+    return dec.view(B, T, C_out, H_out, W_out)
+
+
+# =============================================================================
 # Config
 # =============================================================================
 
@@ -158,8 +198,13 @@ class OPSDI2VTrainer:
 
     @torch.no_grad()
     def _encode_first_frame(self, x0_src_px: torch.Tensor) -> torch.Tensor:
-        """VAE-encode the first frame to the latent conditioning."""
-        return self.p.vae.encode(x0_src_px).latent_dist.sample() * 0.18215
+        """VAE-encode the first frame to the latent conditioning.
+
+        DynamiCrafter's ``AutoencoderKL.encode`` returns a
+        ``DiagonalGaussianDistribution`` directly (no ``.latent_dist`` wrapper
+        à la diffusers), so we call ``.sample()`` on it.
+        """
+        return self.p.vae.encode(x0_src_px).sample() * 0.18215
 
     def _rescale_grad(self, g: torch.Tensor) -> torch.Tensor:
         if self.cfg.reward_grad_rescale == "sign":
@@ -185,16 +230,13 @@ class OPSDI2VTrainer:
             z_q = rollout_until(self.p.v_old, x0_src_lat, cond, sigma_q, self.scheduler)
 
             # ---------- Step 2: clean anchor y0 ----------
-            v_old_pred = self.p.v_old(z_q, sigma_q, cond=cond)
+            v_old_pred = _call_unet(self.p.v_old, z_q, sigma_q, cond)
             y0 = z_q - sigma_q * v_old_pred                              # detached
 
         # ---------- Step 3: reward-guided bounded targets ----------
         y0_leaf = y0.detach().requires_grad_(True)
         with torch.enable_grad():
-            video_px = self.p.vae.decode(y0_leaf / 0.18215).sample       # [B,C,T,H,W] or [B,T,3,H,W]
-            # normalize to channels-first-time (B, T, 3, H, W)
-            if video_px.dim() == 5 and video_px.shape[1] == 3:
-                video_px = video_px.permute(0, 2, 1, 3, 4)
+            video_px = _vae_decode_video(self.p.vae, y0_leaf)            # [B,T,3,H,W]
             reward = self.reward_fn(video_px, prompts)                   # scalar per batch
             g = torch.autograd.grad(reward.sum(), y0_leaf, create_graph=False)[0]
         g = self._rescale_grad(g.detach())
@@ -207,7 +249,7 @@ class OPSDI2VTrainer:
         last_loss = 0.0
         last_loss_plus = last_loss_minus = 0.0
         for _ in range(self.cfg.inner_fit_steps):
-            v_theta_pred = self.p.v_theta(z_q, sigma_q, cond=cond)
+            v_theta_pred = _call_unet(self.p.v_theta, z_q, sigma_q, cond)
             y0_hat = z_q - sigma_q * v_theta_pred
             loss_plus = F.mse_loss(y0_hat, y0_plus)
             loss_minus = F.mse_loss(y0_hat, y0_minus)
