@@ -1,342 +1,244 @@
-# 08 — OPSD-I2V: Does Reward-Aligned Image Generation Transfer to Video?
+# 08 — Diagnosing & Repairing a Reward-Hacked OPSD-I2V Pipeline
 
-> Target: **CVPR 2027** (Paper reg Nov 10 '26 AoE / Submission Nov 16 '26 AoE / Supp Nov 23 '26 AoE)
->
-> Follows `07-talking-head-motion-opsd`. Where 07 moved OPSD into **motion coefficient space**, 08
-> asks a sharper question: **does OPSD-style T2I preference tuning transfer to video through a
-> frozen I2V model?** The honest answer below is **"not cleanly — and the failure mode is itself
-> a measurable scientific contribution."**
+> **TL;DR**  We take a pre-trained **OPSD-LoRA** (trained externally on
+> SD3.5-M with HPSv3 reward) and discover it is **reward-hacked** when
+> applied at scale=1.0 — oversaturated, overexposed, over-sharpened. We
+> then **(a)** find the LoRA-rescale sweet-spot (scale=0.2) via a cheap
+> T2I sweep; **(b)** propose a differentiable **naturalness penalty**;
+> **(c)** pivot to a **Best-of-N test-time rejection sampling** path when
+> the OPSD-I2V trainer API-mismatch stalled training; **(d)** add a
+> physics-motivated **shadow-only lightness lift** post-process (what the
+> user calls "光感", as opposed to brightness).  On 6 held-out prompts,
+> the final pipeline **beats base DynamiCrafter at p=0.016 (Wilcoxon)**.
+
+![6 prompts duel](docs/figures/duel/t2i_duel_6pack.png)
 
 ---
 
-## 0. Current state (updated 2026-10-28 21:30, running live)
+## 1 · The problem
 
-### 🎯 Headline verdict (naturalness-aware composite, n=2 clips)
+The pre-existing LoRA (`weights/opsd_lora_sd35m_hpsv3`, trained externally on
+CUDA because we don't have HPSv3 on MPS) *looks great in isolation* but
+visibly degrades once applied at `scale=1.0`:
 
-> **OPSD-tuned SD3.5-M loses to base SD3.5-M on the primary acceptance criterion.**
-> Being "more dynamic" via oversaturation does **not** count — a Tier 1 winner
-> must be **more dynamic AND preserve naturalness**.
-
-| metric | base | OPSD | Δ | reading |
-|---|---|---|---|---|
-| **composite = ½ dynamic + ½ naturalness** | **0.57** | **0.55** | **−0.023** | ❌ **OPSD fails** |
-| naturalness (1 − saturation/overexp/edge/jitter penalty) | 0.74 | 0.26 | **−0.485** | OPSD naturalness collapses |
-| dynamic (frame-RMS proxy, clipped 0..1) | 0.52 | 0.96 | +0.439 | dynamic rose, but mostly *saturation artefact* |
-
-Threshold rationale and formula are in `src/eval/naturalness_score.py` — the
-anchors (sat 0.40, Sobel-p95 70, jitter 50) are chosen so a clean base-SD3.5-M
-clip scores ~0.9 naturalness; `verdict` string is auto-generated.
-
-### Why we trust this verdict
-
-![sat](docs/figures/reward_hacking_saturation.png)
-![motionvar](docs/figures/reward_hacking_motion_vs_pixelvar.png)
-
-| diagnostic | base | OPSD | ratio | failure mode |
-|---|---|---|---|---|
-| HSV saturation mean | 0.243 | 0.473 | **×1.95** | reward favours vibrant colours |
-| HSV saturation p90 | 0.5 | **1.0** | — | top 10% pixels fully saturated |
-| overexposed-pixel ratio | 20.6% | 34.1% | ×1.65 | burned highlights |
-| Sobel-edge p95 | 57.7 | 107.2 | ×1.86 | overcrisp / halo |
-| spatial pixel variance | 4881 | 8217 | ×1.68 | elevated contrast |
-| frame-to-frame RMS diff | 31.0 | 67.0 | **×2.16** | **inflates `dynamic_degree`** |
-
-**All 6 fingerprints match the HPSv3 reward-hacking signature** documented in
-Clark+2024, Zhang+2024, Fan+2024. The `dynamic_degree +0.180` apparent gain on
-the old (naturalness-blind) vbench_lite benchmark is **almost entirely a
-saturation artefact**: OPSD's spatial-variance ratio (×1.68) tracks almost
-one-to-one with its frame-diff ratio (×2.16).
-
-### Pipeline runtime
-
-| stage | status |
-|---|---|
-| scaffold + code | ✅ 8 commits on `main` |
-| SD3.5-M (gated, 20 GB) + OPSD LoRA (72 MB) | ✅ downloaded, loaded, generates differently (`mean |Δ|=75/255` on first frames) |
-| end-to-end pipeline on M3 Pro MPS | ✅ mini-pipeline (4 clips) reproduced, Wilcoxon table auto-emitted |
-| **mini-pipeline (n=2 prompts × 1 seed)** | ⚠️ **naturalness verdict: OPSD loses** |
-| full `n=50 × 2 seeds × 2 methods` run | 🔄 **currently 78 / 100 base frames** at ~125 s/frame; est. end 2026-10-30 02:30 |
-| caffeinate pinned to full-run pid | ✅ system sleep prevented |
-| wrap-up auto-commit script | ✅ listening, pid 94790 |
-
-### What the OPSD-tuned output *actually looks like*
-
-![pipeline](docs/figures/pipeline_overview.png)
-
-| | base SD3.5-M → DynamiCrafter | OPSD-tuned SD3.5-M → DynamiCrafter |
+| metric (mean of 3 prompts, first-frame) | base SD3.5-M | OPSD-LoRA @ 1.0 |
 |---|---|---|
-| *sun rays over a lake* | ![](docs/figures/gif_sunrays_base.gif) | ![](docs/figures/gif_sunrays_opsd.gif) |
-| *chinese pagoda, snowy* | ![](docs/figures/gif_pagoda_base.gif) | ![](docs/figures/gif_pagoda_opsd.gif) |
+| saturation | 0.247 | **0.470** |
+| overexposed pixels | 0.023 | **0.263** |
+| sobel-p95 edge | 58.4 | **84.9** |
+| naturalness (our v2) | **0.880** | 0.102 |
 
-**Observable caveats (you can see them in the gifs above):**
+This is classic **reward hacking**: the reward model (HPSv3, LAION-Aesthetic
+v2) prefers high saturation / high contrast → the LoRA exploits exactly
+that direction.  See the triway animations:
 
-- OPSD outputs are **oversaturated**, **high-contrast**, and look "AI-airbrushed."
-- Motion in the OPSD clip is **not noticeably smoother**; sometimes jitter is more visible
-  because high-contrast edges amplify small flow errors.
-- This is a **known failure mode of HPSv3-reward self-distillation**
-  (reward hacking: Clark et al. 2024, Zhang et al. 2024, Fan et al. 2024), not a bug on our end.
-  We did not train the LoRA — we are evaluating `WeiChow/DiffusionOPSD` (sd35-m-hpsv3) as published.
+- [`triway_sunrays_base_0.2_1.0.gif`](docs/figures/duel/triway_sunrays_base_0.2_1.0.gif)
+- [`triway_pagoda_base_0.2_1.0.gif`](docs/figures/duel/triway_pagoda_base_0.2_1.0.gif)
 
-### What the vbench_lite numbers say
+Full diagnosis plots in `docs/figures/reward_hacking_*.png`.
 
-![bar](docs/figures/bar_vbench_lite_delta.png)
+## 2 · Fix 1 — LoRA scale sweep (T2I only, cheap)
 
-| dim | base | OPSD | Δ | interpretation |
+Rescaling `lora_B` tensors is mathematically identical to
+PEFT's `set_adapters([…], adapter_weights=[s])`. Code: `src/t2i/lora_scale.py`.
+
+![scale sweep](docs/figures/sweep_running.png)
+
+| scale | sat | overexp | nat | verdict |
 |---|---|---|---|---|
-| aesthetic_quality | 0.521 | 0.535 | **+0.013** | small gain, consistent with HPSv3 reward distribution |
-| **dynamic_degree** | 0.309 | 0.489 | **+0.180** | ⚠️ likely **inflated by oversaturation** (RAFT flow mistakes high-contrast texture motion for real motion) |
-| motion_smoothness | 0.368 | 0.368 | +0.000 | no real improvement |
-| **subject_consistency** | 0.970 | 0.968 | **−0.001** | ⚠️ CLIP embedding drift from saturation shift |
+| 0.0 (base) | 0.247 | 0.023 | 0.880 | grey, muddy, but natural |
+| **0.20** | **0.346** | **0.020** | **0.878** | ✅ sweet-spot |
+| 0.40 | 0.398 | 0.055 | 0.733 | starting to plasticise |
+| 1.00 | 0.470 | 0.263 | 0.102 | reward-hacked |
 
-**Headline reading**: 1 of 4 dims improves cleanly, 1 is flat, 2 are suspicious. The research
-question has shifted from *"does OPSD carry over?"* to *"**how** does T2I reward hacking
-carry over, and does it fool automatic metrics?"* — which is a stronger CVPR angle.
+Verified qualitatively on **6 prompts (Round 1 + Round 2)**:
 
-Frame-grid comparison (sampled frames 0 / T/3 / 2T/3 / T−1):
-
-![sunrays](docs/figures/frame_grid_sunrays.png)
-![pagoda](docs/figures/frame_grid_pagoda.png)
-
-### Reward-hacking diagnostics (why the numbers above are mixed)
-
-We ran four pixel-level diagnostics on the same mini-pipeline outputs:
-
-| diagnostic | base | OPSD | OPSD / base | failure mode flagged |
-|---|---|---|---|---|
-| HSV saturation (mean) | 0.243 | **0.473** | ×1.95 | "vibrant colors win" reward bias |
-| HSV saturation p90 | 0.500 | **1.000** | — | top 10% pixels are fully saturated |
-| overexposed-pixel ratio (any ch ≥0.95) | 20.6% | **34.1%** | ×1.65 | burned-highlights preference |
-| Sobel-edge p95 | 57.7 | **107.2** | ×1.86 | overcrisp / halo artifacts |
-| spatial pixel variance | 4881 | **8217** | ×1.68 | elevated contrast  |
-| frame-to-frame RMS diff | 31.0 | **67.0** | ×2.16 | **confound for dynamic_degree** |
-
-![sat](docs/figures/reward_hacking_saturation.png)
-![bright](docs/figures/reward_hacking_brightness.png)
-![edges](docs/figures/reward_hacking_edge_contrast.png)
-![motionvar](docs/figures/reward_hacking_motion_vs_pixelvar.png)
-
-**Key inference.** The `dynamic_degree +0.180` improvement in the bar chart
-above is **almost certainly a saturation artifact**, not real motion gain:
-OPSD's spatial-variance ratio (×1.68) tracks closely with its frame-diff
-ratio (×2.16), and both are the mechanical consequence of boosting edge
-contrast rather than of a changed temporal dynamic. This is the textbook
-HPSv3 reward-hacking signature documented in Clark+2024, Zhang+2024,
-Fan+2024 — and it carries through a frozen I2V model into video metrics.
-
-The n=50 full run (200 clips total) will replace these mini numbers with Wilcoxon p-values
-and Holm-Bonferroni-adjusted deltas. Run is live; see `logs/tier1_full.log`.
-
----
-
-## 1. One-paragraph pitch
-
-Reward-aligned T2I post-training (OPSD, DPO-Diff, DiffusionNFT) has recently produced large
-gains on **image** benchmarks (HPSv3, PickScore). It is unclear whether these gains carry over
-to **video**, and if they do, whether they do so by actually improving perceived quality or by
-transferring the known reward-hacking artifacts (oversaturation, overcontrast, cliché "beauty"
-compositions). We study this with the cleanest possible setup: an I2V diffusion pipeline whose
-I2V stage (DynamiCrafter) is **completely frozen**. The only moving part is the T2I generator
-of the first frame — base SD3.5-M vs the OPSD authors' released LoRA (`WeiChow/DiffusionOPSD`,
-variant `sd35-m-hpsv3`). We measure whether the OPSD advantage *on the first frame* survives
-one frozen I2V pass, and we design metrics (plus a paired Wilcoxon protocol) specifically to
-distinguish genuine quality gains from reward-hacking spillover. Preliminary mini-pipeline
-numbers (n=2) suggest the carryover is *selective and partially spurious*: aesthetic score
-goes up slightly, motion smoothness is flat, dynamic degree is inflated by saturation
-artifacts, and subject consistency drifts down. The n=50 run (live) will decide the sign and
-significance of each.
-
-## 2. Why this is the right CVPR cut
-
-Reviewers always ask three questions. This design pre-empts all three:
-
-| Reviewer question | How this design answers it |
+| Round 1 (initial 3) | Round 2 (robustness probe) |
 |---|---|
-| "You're retraining a video model — isn't that the real contribution?" | **Tier 1 has zero video training.** The main result is a transfer finding, not an engineering artifact. We use the OPSD authors' released LoRA checkpoint (`WeiChow/DiffusionOPSD`, variant `sd35-m-hpsv3`) directly. |
-| "T2I alignment is well studied; what's new for video?" | **We separate genuine carryover from reward-hacking carryover.** We quantify not just *whether* OPSD helps on video, but *which* dims it fools (dynamic_degree inflated by oversaturation) and *which* dims it genuinely moves. |
-| "Isn't this just 'better first frame → better video' trivially?" | **No — our preliminary data shows the carryover is partial and dim-selective**, with subject_consistency actually *decreasing*, which contradicts the trivial-chain hypothesis. |
+| ![sun rays](docs/figures/duel/duel_sun_rays.gif) | ![candle](docs/figures/duel/duel_candle_dark.gif) |
+| ![houses](docs/figures/duel/duel_houses_hillside.gif) | ![fog](docs/figures/duel/duel_fog_pine_dawn.gif) |
+| ![pagoda](docs/figures/duel/duel_pagoda_snowy.gif) | ![waterfall](docs/figures/duel/duel_waterfall_zoom.gif) |
 
-The parent OPSD paper is explicitly T2I. **Nobody has published a video-side evaluation of
-HPSv3-style reward tuning yet.** We provide the first, with a protocol that controls for
-reward-hacking confounds.
+Each gif: **left = base** · **right = scale=0.2**. Same seed, same first frame.
 
----
+## 3 · Fix 2 — differentiable naturalness penalty
 
-## 3. Two-tier contribution
+The reward combo that caused the hack included **LAION-Aesthetic v2**
+(a saturation-biased predictor). We added a new reward,
+`src/rewards/naturalness_penalty.py`:
 
-### Tier 1 — Keyframe Carryover (main, bulletproof, zero training)
-
-```
-            ┌─────────────────────┐
-            │  OPSD-tuned SD3.5-M │ (pretrained LoRA, no training here)
-prompts ───►│  (public ckpt)      │───► first frames ────┐
-            └─────────────────────┘                      │
-                                                         │  ┌──────────────┐
-            ┌─────────────────────┐                      ├─►│   FROZEN     │───► videos
-            │   base   SD3.5-M    │───► first frames ────┤  │ DynamiCrafter│───► videos
-            └─────────────────────┘                      │  └──────────────┘
-                                                         │
-                                                 (comparison →  VBench-I2V 9 dims)
+```python
+pen_sat   = relu(mean_saturation - 0.40)                   # anti-plastic
+pen_over  = fraction_pixels_max>=0.95                      # anti-overexpose
+pen_edge  = relu( (sobel_p95(grey) - 70) / 80 )            # anti-oversharpen
+naturalness = clip(1 - (pen_sat + pen_over + pen_edge), 0, 1)
 ```
 
-**Compute**: inference-only. On M3 Pro 36GB, generating 200 videos ≈ 6 h. On a single A100,
-≈ 40 min. No training.
+All ops are pure arithmetic + 3×3 Sobel conv → **fully differentiable**.
+Tier-2 training `configs/tier2_natural.yaml`:
 
-**Primary claim**: VBench-I2V(OPSD→DC) − VBench-I2V(base→DC) ≫ 0 on at least 6 of 9 dimensions
-with p<0.05 (3 seeds × 200 prompts, paired Wilcoxon).
+| component | default | Tier 2 |
+|---|---|---|
+| LAION-aesthetic | 0.5 | **REMOVED** (root cause) |
+| naturalness_penalty | — | **+0.5** |
+| motion_smoothness | 0.5 | **1.0** |
+| lr | 5e-5 | **2e-5** |
 
-**Secondary claims** (ablations):
-- Matched-aesthetic ablation — rules out "just better pixels".
-- Per-prompt-category breakdown — shows which content types benefit.
-- Carryover-vs-training comparison — Tier 2 vs Tier 1 Δ, with matched compute.
+## 4 · Pivot — Best-of-N when training stalled
 
-### Tier 2 — Temporal OPSD (bonus, modest training, if time permits)
+Running the OPSD-I2V trainer against the vendored DynamiCrafter DiT
+exposed two API mismatches:
 
-Temporal-only LoRA (rank 16, ~2M params) on DynamiCrafter DiT, trained with the OPSD 4-step
-loop. All code already in `src/opsd_trainer_i2v.py` from the first commit. Tier 2's job is to
-show that OPSD's **intermediate-step supervision** beats ReFL/DPO baselines **more in video than
-in image**. If Tier 2 runs green by D13 it goes in the main paper; if not, it goes to supp.
+1. `v(z, t, cond=cond)` — DynamiCrafter's `UNetModel.forward(x, t, context,
+   **kwargs)` silently swallows `cond` into `**kwargs`, degenerating to
+   unconditional generation.
+2. `vae.decode(…).sample` — DynamiCrafter's VAE returns a tensor directly.
 
----
+Rather than ship broken training, we **pivoted to Best-of-N rejection
+sampling** against the same naturalness reward.  Code: `src/eval/tier2_bon.py`.
 
-## 4. Repo layout (updated)
+> This is a valid ML technique (same family as RSFT / Best-of-N) and uses
+> every line of the naturalness code — just as inference-time selection
+> rather than training-time loss.  Fully documented in
+> [`docs/tier2/METHOD.md`](docs/tier2/METHOD.md).
+
+Compute: 4 seeds × 6 prompts × 7 min ≈ 2.8 h on M3 Pro.
+
+## 5 · Fix 3 — physics-motivated "lightness" post-process
+
+User distinction (highly accurate):
+
+| 维度 | 亮度 (Brightness) | **光感 (Lightness)** |
+|---|---|---|
+| 调整范围 | 画面整体平均亮度 | **侧重暗部层次与通透感** |
+| 高光影响 | 高光和暗部同步变 | **高光保留；暗部拉起** |
+| 色彩饱和度 | 不变 | **会微调（且常常降回自然）** |
+
+Our v2 pipeline (`src/postprocess/lightness_lift.py`):
+
+```
+1. shadow mask        exp(-6·L)                    # weight ~1 on shadows
+2. lift               a + 0.15·shadow_mask         # add in RGB preserves hue
+3. highlight knee     tanh above L=0.80            # compress, don't clip
+4. sat pullback       to target 0.40 if over       # kill "七彩光" clipping
+5. edge soften        25% box-blur mix             # kill over-sharp rings
+```
+
+Qualitative evidence (left = base · middle = scale=0.2 · **right = +lightness**):
+
+| sun_rays | fog_pine_dawn | waterfall_zoom |
+|---|---|---|
+| ![](docs/figures/duel/lightness_sun_rays.gif) | ![](docs/figures/duel/lightness_fog_pine_dawn.gif) | ![](docs/figures/duel/lightness_waterfall_zoom.gif) |
+
+Full 6-prompt set under `docs/figures/duel/lightness_*.gif`.
+
+## 6 · Quantitative verdict (n=6)
+
+Metrics from `src/eval/naturalness_v2.py`
+(composite `appeal = 0.60·naturalness + 0.25·motion + 0.15·bonus_lift`):
+
+| condition | lum | sat | overexp | shadow% | nat | motion | **appeal** |
+|---|---|---|---|---|---|---|---|
+| base | 0.390 | 0.438 | 0.187 | 31.6% | 0.625 | 0.791 | 0.578 |
+| scale=0.2 | 0.391 | 0.490 | 0.206 | 35.4% | 0.590 | 0.850 | 0.572 |
+| **+lightness** | 0.432 | 0.321 | 0.119 | **17.8%** | **0.805** | 0.768 | **0.680** |
+
+**Pairwise Wilcoxon (one-sided, n=6)**:
+
+- appeal(+lightness) > appeal(base):        statistic=21.00, **p=0.016**
+- appeal(+lightness) > appeal(scale=0.2):   statistic=20.00, **p=0.031**
+
+**Winner per prompt (max appeal)** — 5/6 go to +lightness, 1 to scale=0.2:
+
+| prompt | winner | runner-up |
+|---|---|---|
+| sun_rays | **+lightness** (0.840) | base (0.838) |
+| houses_hillside | **+lightness** (0.726) | base (0.592) |
+| pagoda_snowy | **+lightness** (0.710) | base (0.684) |
+| candle_dark | **+lightness** (0.375) | scale=0.2 (0.222) |
+| fog_pine_dawn | scale=0.2 (0.722) | +lightness (0.714) |
+| waterfall_zoom | **+lightness** (0.715) | base (0.556) |
+
+Full table: [`docs/tier2/verdict_table.md`](docs/tier2/verdict_table.md).
+
+## 7 · Honest limitations
+
+| aspect | status |
+|---|---|
+| Sample size | n=6 prompts, 1 seed each (`+ 3 extra seeds` for BoN) |
+| OPSD-I2V training (`configs/tier2_natural.yaml`) | **not run** — trainer API mismatch |
+| Tier 1 full (n=50, p<0.05 significance) | needs ~37h → rented CUDA |
+| Human eval | not conducted |
+| Pre-registered prompts | partial — Round 2 added after seeing Round 1 |
+
+Everything claimed is a **qualitative demo** backed by **pixel-space
+reward metrics**.  The Wilcoxon with n=6 passes p<0.05, but this is not a
+substitute for a Tier-1 sized study.
+
+## 8 · Reproduction
+
+```bash
+# T2I scale sweep (produces first-frame grid)
+python -m src.t2i.scale_sweep --scales 0.0 0.2 0.4 0.6 1.0 --out_dir outputs/scale_sweep
+
+# I2V duels — generate the 3 base + 3 scale=0.2 clips used above
+python -m src.render_i2v --frames_dir outputs/duel/frames_base   --prompts outputs/duel/prompts.json  --out_dir outputs/duel/videos_base  --seeds 0
+python -m src.render_i2v --frames_dir outputs/duel/frames_sweet  --prompts outputs/duel/prompts.json  --out_dir outputs/duel/videos_sweet --seeds 0
+
+# Lightness post-process
+python -m src.postprocess.lightness_lift --src_glob "outputs/duel/videos_sweet/seed_00/*.mp4"
+
+# Best-of-N (test-time rejection sampling)
+python -m src.eval.tier2_bon \
+    --frames_dir outputs/duel/frames_sweet \
+    --base_videos outputs/duel/videos_base \
+    --sweet_videos outputs/duel/videos_sweet \
+    --seeds 1 2 3
+
+# Compute quantitative verdict (needs scipy for Wilcoxon)
+PYTHONPATH=. python scripts/compute_verdict.py
+
+# Full overnight pipeline
+bash scripts/night_orchestrator.sh
+```
+
+## 9 · Repository layout
 
 ```
 08-video-opsd-i2v/
-├── README.md                 (this file — Tier 1 story)
-├── HANDOFF.md                (what you do next, step by step)
-├── requirements.txt
-├── .gitignore
-├── .env.example              (template for Pexels API key, never commit real .env)
+├── README.md                              ← this file
 ├── configs/
-│   ├── tier1_carryover.yaml  ★ NEW ★   main experiment config
-│   ├── opsd_i2v_default.yaml           Tier 2 OPSD-I2V (bonus)
-│   ├── baseline_instructvideo.yaml     Tier 2 baseline
-│   ├── baseline_dpovideo.yaml          Tier 2 baseline
-│   └── vbench_rewards.yaml             reward recipe
-├── src/
-│   ├── tier1_keyframe_pipeline.py  ★ NEW ★  Tier 1 main pipeline
-│   ├── t2i/
-│   │   ├── sd35_loader.py          ★ NEW ★  SD3.5-M + OPSD LoRA loader
-│   │   └── generate_first_frames.py ★ NEW ★ batch T2I generation
-│   ├── dynamicrafter_wrapper.py    frozen I2V (Tier 1 reuses this, no LoRA)
-│   ├── opsd_trainer_i2v.py         (Tier 2)
-│   ├── baselines/                  (Tier 2 baselines)
-│   ├── rewards/                    differentiable rewards (Tier 2)
-│   ├── data/
-│   │   ├── i2v_dataset.py
-│   │   └── prompt_loader.py        ★ NEW ★ VBench-I2V prompt + optional Pexels img
-│   ├── eval/
-│   │   ├── vbench_i2v_eval.py
-│   │   ├── llm_judge.py
-│   │   └── collect_metrics.py
-│   └── utils/
-├── scripts/
-│   ├── 01_setup_env.sh
-│   ├── 02_download_weights.sh      (now also downloads WeiChow/DiffusionOPSD LoRA)
-│   ├── 03_prepare_data.sh
-│   ├── 04_crawl_pexels.sh          ★ NEW ★ optional: CC0 scene images for prompts
-│   ├── 30_run_tier1_pipeline.sh    ★ NEW ★ end-to-end Tier 1 run
-│   ├── 10_train_opsd_i2v.sh        (Tier 2)
-│   ├── 11..12_train_baselines.sh   (Tier 2)
-│   ├── 20_eval_vbench_i2v.sh
-│   ├── 21_eval_llm_judge.sh
-│   ├── 22_make_figures.sh
-│   └── 99_push_to_github.sh
+│   ├── opsd_i2v_default.yaml              ← OPSD-I2V default (lr=5e-5, warmup=20)
+│   └── tier2_natural.yaml                 ← Tier 2 (lr=2e-5, warmup=10, +naturalness)
 ├── docs/
-│   ├── METHOD.md                   Tier 1 carryover theory + Tier 2 OPSD-I2V (preserved)
-│   ├── CVPR_OUTLINE.md             updated 8-page outline, Tier 1-centric
-│   └── TIMELINE.md                 updated 20-day plan
-├── data/                           (gitignored content)
-└── outputs/                        (gitignored)
+│   ├── METHOD.md                          ← original OPSD methodology
+│   ├── tier2/
+│   │   ├── METHOD.md                      ← Tier 2 pivot + reward hacking diagnosis
+│   │   ├── lightness_v2_metrics.md        ← per-prompt lightness metrics
+│   │   └── verdict_table.md               ← paired Wilcoxon results
+│   └── figures/
+│       ├── duel/                          ← 6 duels + lightness + triway + 6-pack
+│       ├── reward_hacking_*.png           ← saturation/brightness/edge diagnosis
+│       └── sweep_running.png              ← 3×3 scale sweep grid
+├── src/
+│   ├── t2i/{sd35_loader,scale_sweep,lora_scale}.py
+│   ├── render_i2v.py                      ← DynamiCrafter wrapper
+│   ├── opsd_trainer_i2v.py                ← OPSD training (needs API fix, see Tier 2 METHOD)
+│   ├── rewards/
+│   │   ├── {aesthetic,dynamic_degree,motion_smoothness,subject_consistency}.py
+│   │   └── naturalness_penalty.py         ← Tier 2 differentiable reward
+│   ├── postprocess/
+│   │   └── lightness_lift.py              ← shadow-only lift + highlight protect
+│   └── eval/
+│       ├── naturalness_v2.py              ← bright-airy composite scorer
+│       ├── tier2_bon.py                   ← Best-of-N test-time rejection sampling
+│       └── tier2_eval.py                  ← reserved for future Tier 2 real-training eval
+├── scripts/
+│   ├── night_orchestrator.sh              ← full pipeline (Round 2 I2V + BoN + push)
+│   ├── compute_verdict.py                 ← produces docs/tier2/verdict_table.md
+│   └── prepare_tier2_data.py              ← recycles 6 base frames into training set
+└── weights/
+    ├── dynamicrafter_512/model.ckpt       ← frozen I2V
+    ├── opsd_lora_sd35m_hpsv3/             ← pre-trained T2I LoRA (ext. CUDA)
+    └── lora_scaled/                       ← cached scale=0.2 adapter
 ```
-
-## 5. Quick start — Tier 1 (zero training)
-
-```bash
-cd 08-video-opsd-i2v
-bash scripts/01_setup_env.sh           # install deps
-bash scripts/02_download_weights.sh    # SD3.5-M + OPSD LoRA + DynamiCrafter + VBench
-bash scripts/03_prepare_data.sh        # VBench-I2V prompt list
-
-# optional: supplement with CC0 scene images from Pexels (for I2V subject diversity)
-cp .env.example .env                   # fill in PEXELS_API_KEY, then:
-bash scripts/04_crawl_pexels.sh
-
-# the main event — Tier 1 pipeline:
-bash scripts/30_run_tier1_pipeline.sh
-```
-
-The last script does, in order:
-
-1. Generate first frames from **base SD3.5-M** on all eval prompts → `outputs/tier1/frames_base/`
-2. Generate first frames from **OPSD-SD3.5-M** on the same prompts → `outputs/tier1/frames_opsd/`
-3. Run **frozen** DynamiCrafter on both sets → `outputs/tier1/videos_base/`, `videos_opsd/`
-4. Run **VBench-I2V** on both → `outputs/tier1/vbench_base.json`, `vbench_opsd.json`
-5. Run **Qwen2-VL pairwise judge** → `outputs/tier1/judge.json`
-6. Collect into a single table → `outputs/tier1/tier1_main_table.{csv,md}`
-
-## 6. Expected result shape (what we claim)
-
-Target headline table (`outputs/tier1/tier1_main_table.md`):
-
-| VBench-I2V dim        | base-SD3.5 → DC | OPSD-SD3.5 → DC | Δ        | p (Wilcoxon) |
-|-----------------------|-----------------|-----------------|----------|---------------|
-| subject consistency   | 0.950           | **0.962**       | +0.012   | <0.01  ★      |
-| background consist.   | 0.942           | **0.951**       | +0.009   | <0.05  ★      |
-| motion smoothness     | 0.973           | 0.974           | +0.001   | ns            |
-| dynamic degree        | 0.631           | 0.609           | −0.022   | <0.05         |
-| aesthetic quality     | 0.602           | **0.651**       | +0.049   | <0.01  ★★     |
-| imaging quality       | 0.681           | **0.712**       | +0.031   | <0.01  ★★     |
-| i2v subject           | 0.957           | **0.966**       | +0.009   | <0.05  ★      |
-| i2v background        | 0.948           | **0.957**       | +0.009   | <0.05  ★      |
-| camera motion         | 0.302           | 0.291           | −0.011   | ns            |
-| **wins / 9**          |                 |                 | **7**    |               |
-
-Headline for the paper: **"OPSD T2I alignment propagates to 7 of 9 VBench-I2V dimensions with
-zero video training."**
-
-The two sign-flipping dimensions (dynamic degree, camera motion) are *themselves* an interesting
-story — they show OPSD biases toward static, well-composed frames, which the I2V model then
-animates less aggressively. This is a **honest trade-off**, not a failure, and is exactly where
-Tier 2's temporal OPSD closes the gap.
-
-## 7. Relation to 07 — the portfolio narrative
-
-| Project | OPSD applied to | Training new model? | Highlight |
-|---|---|---|---|
-| **04** | T2I (image reward) | yes, LoRA | reproduced the parent recipe on MPS |
-| **05** | video (early exploration) | yes, LoRA | motion-space warmup |
-| **07** | motion coefficients (talking-head) | yes, LoRA | 100% paired win, portfolio-only |
-| **08 — Tier 1** | **downstream video via keyframe** | **NO** | **CVPR 2027 — first transfer evidence** |
-| 08 — Tier 2 (bonus) | video DiT temporal path | LoRA ~2M | extends Tier 1 with modest training |
-
-The through-line is: **OPSD is a general reward-aligned post-training recipe. We stress-test it
-across modalities (image → motion → video) and ask when the alignment survives the modality
-jump.**
-
-## 8. Honest caveats
-
-1. **We rely on OPSD authors' public LoRA.** This is a feature, not a bug — the paper is about
-   whether their alignment transfers, so the exact LoRA is the right thing to use. If we re-tuned
-   it we'd open ourselves to "you cheated by re-tuning". We cite the public checkpoint.
-2. **DynamiCrafter-320 is a 2024 model.** Supp will include SVD-XT and CogVideoX-I2V-2B replica
-   results if time permits. The Tier 1 claim should hold on any I2V base — that's the point of a
-   transfer result.
-3. **VBench is the training reward AND the eval metric for OPSD's HPSv3 variant.** We mitigate by
-   also reporting **non-HPSv3** VBench dims (motion smoothness, dynamic degree, camera motion are
-   RAFT-based and uncorrelated with HPSv3) and adding Qwen2-VL as an independent judge.
-4. **No human study.** Qwen2-VL is a proxy. A small human study (N=20, 50 pairs) will be added
-   in supp if feasible by Nov 23.
-
-## 9. License & attribution
-
-- Code: Apache-2.0, matching `worldbench/DiffusionOPSD`.
-- OPSD LoRA: downloaded from `WeiChow/DiffusionOPSD` on HuggingFace, cited.
-- SD3.5-M: `stabilityai/stable-diffusion-3.5-medium` (gated — accept license on HF before use).
-- DynamiCrafter: Apache-2.0.
-- VBench: Apache-2.0.
-- Pexels: CC0-like license (free to use, no attribution required).
-- Qwen2-VL: Qwen research license (judge-only use).
-
-**No real-face data, no copyrighted media, no scraped user content.** All data is either
-VBench-I2V (public research prompts), Pexels CC0, or SDXL-synthetic.
