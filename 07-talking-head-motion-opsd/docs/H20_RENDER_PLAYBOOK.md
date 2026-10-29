@@ -34,30 +34,25 @@ variants × 20s ≈ 10 minutes end-to-end (versus 85 min on Mac).
 ## The commands
 
 ```bash
-# 0. prerequisites: inside H20 container, after cloning the repo
-cd ~/ml-portfolio/07-talking-head-motion-opsd
+# 0. SSH key (plant your Mac ~/.ssh/id_ed25519 into the H20 container first;
+#    see 08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md §SSH setup)
+ssh -T git@github.com   # must say: Hi jingxiduan! ...
 
-# 1. environment --- same recipe as the README's Repro section, but with
-#    onnxruntime-gpu instead of onnxruntime (if available)
-python3 -m venv .venv && source .venv/bin/activate
-pip install torch torchvision torchaudio "numpy<2" opencv-python librosa pyyaml tyro rich \
-  imageio imageio-ffmpeg scikit-image onnxruntime-gpu onnx "transformers<4.46" pykalman \
-  matplotlib scipy tqdm huggingface_hub mediapipe soundfile diffusers
+# 1. clone and set up (one command)
+cd ~ && git clone git@github.com:jingxiduan/ml-portfolio.git
+cd ml-portfolio/07-talking-head-motion-opsd
+bash scripts/h20_render_setup.sh
+# → downloads JoyVASA + LivePortrait + HuBERT + InsightFace + MP (~2.5 GB, 10-20 min)
+# → applies MPS→CUDA patches to JoyVASA
+# → loads selected_coefs.pt + eye_probe + landmarker to verify pipeline is alive
 
-# 2. third-party (JoyVASA + LivePortrait weights + MediaPipe landmarker)
-#    - clone JoyVASA to third_party/JoyVASA
-#    - download: KwaiVGI/LivePortrait (human), jdh-algo/JoyVASA, TencentGameMate/chinese-hubert-base
-#    - MediaPipe face_landmarker.task -> third_party/mediapipe/
-#    - then apply MPS patches (also harmless on CUDA):
-python src/patch_joyvasa.py
-
-# 3. render all 32 videos (motion coefs are cached, no gen)
+# 2. render all 32 videos (motion coefs are cached, no gen)
 python src/tier2_bon.py --load-coefs outputs/tier2/selected_coefs.pt --n-eval-clips 8
 
-# 4. build 8 comparison GIFs
+# 3. build 8 comparison GIFs
 python src/make_tier2_gifs.py --max-side 240 --fps 12
 
-# 5. commit and push
+# 4. commit and push
 git add outputs/tier2/bon_metrics.{json,md} outputs/tier2/tier2_compare_*.gif
 git commit -m "07: Tier-2 BoN+thin · 8 clips rendered on H20"
 git push
