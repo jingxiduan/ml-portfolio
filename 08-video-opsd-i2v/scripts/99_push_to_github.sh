@@ -54,7 +54,7 @@ if git diff --cached --quiet; then
   echo "[push] nothing to commit."
   exit 0
 fi
-MSG="08: OPSD-I2V scaffold — CVPR 2027 draft (code + docs + configs)"
+MSG="08: OPSD-I2V scaffold — code + docs + configs"
 git commit -m "$MSG"
 git push origin main
 echo "[push] done."

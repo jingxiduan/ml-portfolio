@@ -1,244 +1,268 @@
 # 08 — Diagnosing & Repairing a Reward-Hacked OPSD-I2V Pipeline
 
-> **TL;DR**  We take a pre-trained **OPSD-LoRA** (trained externally on
-> SD3.5-M with HPSv3 reward) and discover it is **reward-hacked** when
-> applied at scale=1.0 — oversaturated, overexposed, over-sharpened. We
-> then **(a)** find the LoRA-rescale sweet-spot (scale=0.2) via a cheap
-> T2I sweep; **(b)** propose a differentiable **naturalness penalty**;
-> **(c)** pivot to a **Best-of-N test-time rejection sampling** path when
-> the OPSD-I2V trainer API-mismatch stalled training; **(d)** add a
-> physics-motivated **shadow-only lightness lift** post-process (what the
-> user calls "光感", as opposed to brightness).  On 6 held-out prompts,
-> the final pipeline **beats base DynamiCrafter at p=0.016 (Wilcoxon)**.
+> **One-line summary.**  Given a pre-trained OPSD-LoRA that reward-hacks when
+> applied at full strength, we **(1)** diagnose the hacking quantitatively,
+> **(2)** find a usable LoRA-rescale sweet-spot via user preference, **(3)**
+> design a differentiable naturalness penalty for future retraining, **(4)**
+> pivot from training to a Best-of-N test-time sampling path (training stalled
+> on an API mismatch), and **(5)** add a shadow-only lightness post-process
+> that measurably **outperforms base DynamiCrafter at p=0.016 (Wilcoxon)** on
+> a 6-prompt set.
+>
+> All numbers in this README are produced by scripts in this repo on the
+> actual video files under `outputs/`. See `scripts/compute_verdict.py`.
 
 ![6 prompts duel](docs/figures/duel/t2i_duel_6pack.png)
 
 ---
 
-## 1 · The problem
+## 1 · Diagnosis — the OPSD-LoRA is reward-hacking at scale=1.0
 
-The pre-existing LoRA (`weights/opsd_lora_sd35m_hpsv3`, trained externally on
-CUDA because we don't have HPSv3 on MPS) *looks great in isolation* but
-visibly degrades once applied at `scale=1.0`:
+Pre-existing LoRA under test: `weights/opsd_lora_sd35m_hpsv3` (trained externally
+on CUDA with HPSv3 reward; the training stack is not in this repo).
 
-| metric (mean of 3 prompts, first-frame) | base SD3.5-M | OPSD-LoRA @ 1.0 |
-|---|---|---|
-| saturation | 0.247 | **0.470** |
-| overexposed pixels | 0.023 | **0.263** |
-| sobel-p95 edge | 58.4 | **84.9** |
-| naturalness (our v2) | **0.880** | 0.102 |
+### Pixel-space diagnostic — Tier 1-mini (n=2 clips each)
 
-This is classic **reward hacking**: the reward model (HPSv3, LAION-Aesthetic
-v2) prefers high saturation / high contrast → the LoRA exploits exactly
-that direction.  See the triway animations:
+Source: `docs/figures/reward_hacking_summary.json` (produced by the Tier-1-mini
+smoke run `outputs/tier1_mini/`):
+
+| metric (mean over n=2 videos) | base SD3.5-M | OPSD-LoRA @ 1.0 | ratio |
+|---|---|---|---|
+| saturation | 0.243 | **0.473** | ×1.95 |
+| overexposed fraction | 0.206 | **0.341** | ×1.65 |
+| sobel-p95 edge | 57.7 | **107.2** | ×1.86 |
+| frame-diff RMS (motion proxy) | 31.0 | 67.0 | ×2.16 |
+| pixel variance | 4881 | 8217 | ×1.68 |
+
+The reward (HPSv3, used in training) and the downstream LAION-Aesthetic-v2
+in-combo both prefer **high saturation / high contrast / sharp edges**. The
+LoRA at scale=1.0 moves along that direction.  See `docs/figures/reward_hacking_*.png`.
+
+### Triway demonstrations (base vs scale=0.2 vs scale=1.0 — same seed, same prompt)
 
 - [`triway_sunrays_base_0.2_1.0.gif`](docs/figures/duel/triway_sunrays_base_0.2_1.0.gif)
 - [`triway_pagoda_base_0.2_1.0.gif`](docs/figures/duel/triway_pagoda_base_0.2_1.0.gif)
 
-Full diagnosis plots in `docs/figures/reward_hacking_*.png`.
+## 2 · Fix 1 — LoRA-rescale sweet-spot (first-frame sweep)
 
-## 2 · Fix 1 — LoRA scale sweep (T2I only, cheap)
+Rescaling `lora_B` by a scalar `s` is mathematically equivalent to
+PEFT's `set_adapters([…], adapter_weights=[s])`. We ran a sweep of three
+scales {0.0, 0.2, 0.4} on **3 identical prompts**; what we actually have:
 
-Rescaling `lora_B` tensors is mathematically identical to
-PEFT's `set_adapters([…], adapter_weights=[s])`. Code: `src/t2i/lora_scale.py`.
+Source: `outputs/scale_sweep/` (re-computed from the on-disk PNGs — the
+`sweep_summary.json` was only emitted for scale=0.2, so the other rows are
+re-derived from `src.t2i.scale_sweep._naturalness_frame` on the PNG files).
+
+| scale | n | sat | overexp | sob_p95 | nat |
+|---|---|---|---|---|---|
+| 0.0 | 3 | 0.325 | 0.273 | 50.8 | 0.572 |
+| **0.2** | 3 | **0.406** | 0.310 | 58.8 | 0.477 |
+| 0.4 | 2 | 0.521 | 0.251 | 49.2 | 0.628 |
+
+> **Honest note.** The 3-prompt first-frame naturalness is **noisy** and does
+> not pick a clean winner (scale=0.4 scores *higher* than 0.2 on n=2).
+> We did **not** choose scale=0.2 from these metrics.  We chose it from
+> **direct visual preference** on the full I2V duel videos (see §3), where
+> scale=0.2 keeps colour and contour cleanly above base without the obvious
+> plastic / over-sharpened look of higher scales.
+> The sweep established the **band** (0 < s ≤ ~0.2 avoids hacking); user
+> preference picked the exact value.
 
 ![scale sweep](docs/figures/sweep_running.png)
 
-| scale | sat | overexp | nat | verdict |
-|---|---|---|---|---|
-| 0.0 (base) | 0.247 | 0.023 | 0.880 | grey, muddy, but natural |
-| **0.20** | **0.346** | **0.020** | **0.878** | ✅ sweet-spot |
-| 0.40 | 0.398 | 0.055 | 0.733 | starting to plasticise |
-| 1.00 | 0.470 | 0.263 | 0.102 | reward-hacked |
+## 3 · Duel videos — 6 prompts (Round 1 + Round 2)
 
-Verified qualitatively on **6 prompts (Round 1 + Round 2)**:
+Side-by-side **left = base** · **right = scale=0.2** (same seed, same first frame).
 
-| Round 1 (initial 3) | Round 2 (robustness probe) |
+| Round 1 — initial 3 prompts | Round 2 — robustness probe 3 prompts |
 |---|---|
 | ![sun rays](docs/figures/duel/duel_sun_rays.gif) | ![candle](docs/figures/duel/duel_candle_dark.gif) |
 | ![houses](docs/figures/duel/duel_houses_hillside.gif) | ![fog](docs/figures/duel/duel_fog_pine_dawn.gif) |
 | ![pagoda](docs/figures/duel/duel_pagoda_snowy.gif) | ![waterfall](docs/figures/duel/duel_waterfall_zoom.gif) |
 
-Each gif: **left = base** · **right = scale=0.2**. Same seed, same first frame.
+Round 2 was added because Round 1 could have been cherry-picked; it includes
+intentionally hard cases (low light, low saturation, fine water detail).
 
-## 3 · Fix 2 — differentiable naturalness penalty
+## 4 · What "Tier 2" actually consisted of
 
-The reward combo that caused the hack included **LAION-Aesthetic v2**
-(a saturation-biased predictor). We added a new reward,
-`src/rewards/naturalness_penalty.py`:
+**Tier 2 goal (as designed in `configs/tier2_natural.yaml`):** re-train the
+OPSD-I2V LoRA with a redesigned reward that penalises the hacking directions.
 
-```python
-pen_sat   = relu(mean_saturation - 0.40)                   # anti-plastic
-pen_over  = fraction_pixels_max>=0.95                      # anti-overexpose
-pen_edge  = relu( (sobel_p95(grey) - 70) / 80 )            # anti-oversharpen
-naturalness = clip(1 - (pen_sat + pen_over + pen_edge), 0, 1)
-```
+### What we delivered under "Tier 2"
 
-All ops are pure arithmetic + 3×3 Sobel conv → **fully differentiable**.
-Tier-2 training `configs/tier2_natural.yaml`:
-
-| component | default | Tier 2 |
+| artefact | code | status |
 |---|---|---|
-| LAION-aesthetic | 0.5 | **REMOVED** (root cause) |
-| naturalness_penalty | — | **+0.5** |
-| motion_smoothness | 0.5 | **1.0** |
-| lr | 5e-5 | **2e-5** |
+| differentiable naturalness reward | `src/rewards/naturalness_penalty.py` | ✅ written, unit-tested, registered |
+| Tier-2 training config | `configs/tier2_natural.yaml` | ✅ written (LAION-aesthetic weight dropped from 0.5→0; motion_smoothness 0.5→1.0; new reward +0.5; lr 5e-5→2e-5; warmup 20→10 of 50 steps) |
+| v2 scorer (anti-grey, pro-bright-airy) | `src/eval/naturalness_v2.py` | ✅ written, tested on synthetic & real clips |
+| Best-of-N rejection sampler (pivot) | `src/eval/tier2_bon.py` | ✅ written; running on 6 prompts × 4 seeds at commit time |
+| Lightness post-process | `src/postprocess/lightness_lift.py` | ✅ shadow-only lift + highlight tanh + sat pullback + edge soften |
+| Night pipeline orchestration | `scripts/night_orchestrator.sh` | ✅ idempotent, resumable |
+| Quantitative verdict | `scripts/compute_verdict.py` → `docs/tier2/verdict_table.md` | ✅ 6 prompts, Wilcoxon p-values |
 
-## 4 · Pivot — Best-of-N when training stalled
+### What we did **not** deliver
 
-Running the OPSD-I2V trainer against the vendored DynamiCrafter DiT
-exposed two API mismatches:
+- **A trained Tier-2 LoRA.**  Running
+  `python -m src.train_entry --method opsd_i2v --config configs/tier2_natural.yaml`
+  revealed two API mismatches between `src/opsd_trainer_i2v.py` and the
+  vendored DynamiCrafter DiT:
+  1. `v(z, t, cond=cond_dict)` — `UNetModel.forward(x, t, context=None, …, **kwargs)` swallows the `cond` dict into `**kwargs`.
+  2. `vae.decode(…).sample` — DynamiCrafter's VAE returns a tensor directly, not a `DecoderOutput`.
+  Fixing both is ~200 lines of plumbing that we did not have audit bandwidth
+  for. Rather than ship broken training we **pivoted to Best-of-N**.
+- **Tier-1 full evaluation (n=50, paired Wilcoxon with p<0.05).** Requires ~37h
+  of compute on M3 Pro.  Not run.
 
-1. `v(z, t, cond=cond)` — DynamiCrafter's `UNetModel.forward(x, t, context,
-   **kwargs)` silently swallows `cond` into `**kwargs`, degenerating to
-   unconditional generation.
-2. `vae.decode(…).sample` — DynamiCrafter's VAE returns a tensor directly.
+### Best-of-N pivot (what runs instead of training)
 
-Rather than ship broken training, we **pivoted to Best-of-N rejection
-sampling** against the same naturalness reward.  Code: `src/eval/tier2_bon.py`.
+For each prompt, generate 4 I2V samples with different seeds (same scale=0.2
+first frame).  Score each with `naturalness_v2`.  Pick argmax `appeal` as the
+Tier-2 output.  This is a legitimate ML technique (same family as
+RSFT / Best-of-N / rejection sampling) and uses **every line** of the
+naturalness code — just as inference-time selection rather than training-time loss.
+See `docs/tier2/METHOD.md` for discussion of limits.
 
-> This is a valid ML technique (same family as RSFT / Best-of-N) and uses
-> every line of the naturalness code — just as inference-time selection
-> rather than training-time loss.  Fully documented in
-> [`docs/tier2/METHOD.md`](docs/tier2/METHOD.md).
+## 5 · Fix 2 — "lightness" post-process (shadow lift, not uniform brightness)
 
-Compute: 4 seeds × 6 prompts × 7 min ≈ 2.8 h on M3 Pro.
+User distinction (correct, captured here as the design spec):
 
-## 5 · Fix 3 — physics-motivated "lightness" post-process
-
-User distinction (highly accurate):
-
-| 维度 | 亮度 (Brightness) | **光感 (Lightness)** |
+| | 亮度 (Brightness) | **光感 (Lightness)** |
 |---|---|---|
-| 调整范围 | 画面整体平均亮度 | **侧重暗部层次与通透感** |
-| 高光影响 | 高光和暗部同步变 | **高光保留；暗部拉起** |
-| 色彩饱和度 | 不变 | **会微调（且常常降回自然）** |
+| 范围 | 画面整体平均亮度 | **只提暗部层次与通透感** |
+| 高光 | 跟暗部一起变 | **保留；用 tanh 压缩不炸** |
+| 饱和度 | 不变 | **可降回自然** |
 
-Our v2 pipeline (`src/postprocess/lightness_lift.py`):
+Our implementation (`src/postprocess/lightness_lift.py`):
 
 ```
-1. shadow mask        exp(-6·L)                    # weight ~1 on shadows
-2. lift               a + 0.15·shadow_mask         # add in RGB preserves hue
-3. highlight knee     tanh above L=0.80            # compress, don't clip
-4. sat pullback       to target 0.40 if over       # kill "七彩光" clipping
-5. edge soften        25% box-blur mix             # kill over-sharp rings
+1. shadow mask        exp(-6·L)                     # ≈1 on shadows, ≈0 on highlights
+2. lift               a + 0.15·shadow_mask          # add in RGB preserves hue
+3. highlight knee     tanh above L=0.80             # compress rather than clip
+4. sat pullback       to target 0.40 if over        # kill "七彩光" edge artefacts
+5. edge soften        mix in 25% box-blur           # kill over-sharp ring/sprite
 ```
 
-Qualitative evidence (left = base · middle = scale=0.2 · **right = +lightness**):
+Qualitative comparisons (**left = base** · **middle = scale=0.2** · **right = +lightness**):
 
 | sun_rays | fog_pine_dawn | waterfall_zoom |
 |---|---|---|
 | ![](docs/figures/duel/lightness_sun_rays.gif) | ![](docs/figures/duel/lightness_fog_pine_dawn.gif) | ![](docs/figures/duel/lightness_waterfall_zoom.gif) |
 
-Full 6-prompt set under `docs/figures/duel/lightness_*.gif`.
+Full 6-prompt set: `docs/figures/duel/lightness_*.gif`.
 
-## 6 · Quantitative verdict (n=6)
+## 6 · Quantitative verdict (n=6 videos, 1 seed each)
 
-Metrics from `src/eval/naturalness_v2.py`
-(composite `appeal = 0.60·naturalness + 0.25·motion + 0.15·bonus_lift`):
+Computed by `scripts/compute_verdict.py` on the actual on-disk mp4s under
+`outputs/duel*/videos_*/seed_00/`.  Scorer: `src/eval/naturalness_v2.py`.
 
-| condition | lum | sat | overexp | shadow% | nat | motion | **appeal** |
-|---|---|---|---|---|---|---|---|
-| base | 0.390 | 0.438 | 0.187 | 31.6% | 0.625 | 0.791 | 0.578 |
-| scale=0.2 | 0.391 | 0.490 | 0.206 | 35.4% | 0.590 | 0.850 | 0.572 |
-| **+lightness** | 0.432 | 0.321 | 0.119 | **17.8%** | **0.805** | 0.768 | **0.680** |
+**Composite**: `appeal = 0.60·naturalness + 0.25·motion_score + 0.15·bonus_lift`
+(bonus_lift rewards bright-airy frames; motion_score caps around 0.08 RMS
+to penalise both stillness and jittery over-motion.)
 
-**Pairwise Wilcoxon (one-sided, n=6)**:
+### Mean across 6 prompts
 
-- appeal(+lightness) > appeal(base):        statistic=21.00, **p=0.016**
-- appeal(+lightness) > appeal(scale=0.2):   statistic=20.00, **p=0.031**
+| condition | lum | sat | overexp | sob_p95 | shadow% | nat | motion | **appeal** |
+|---|---|---|---|---|---|---|---|---|
+| base | 0.390 | 0.438 | 0.187 | 33.8 | 31.6% | 0.625 | 0.791 | 0.578 |
+| scale=0.2 | 0.391 | 0.490 | 0.206 | 43.9 | 35.4% | 0.590 | 0.850 | 0.572 |
+| **+lightness** | **0.432** | **0.321** | **0.119** | **29.1** | **17.8%** | **0.805** | 0.768 | **0.680** |
 
-**Winner per prompt (max appeal)** — 5/6 go to +lightness, 1 to scale=0.2:
+### Pairwise Wilcoxon, one-sided (n=6)
 
-| prompt | winner | runner-up |
-|---|---|---|
-| sun_rays | **+lightness** (0.840) | base (0.838) |
-| houses_hillside | **+lightness** (0.726) | base (0.592) |
-| pagoda_snowy | **+lightness** (0.710) | base (0.684) |
-| candle_dark | **+lightness** (0.375) | scale=0.2 (0.222) |
-| fog_pine_dawn | scale=0.2 (0.722) | +lightness (0.714) |
-| waterfall_zoom | **+lightness** (0.715) | base (0.556) |
+- `appeal(+lightness) > appeal(base)`:      statistic=21.00, **p=0.016**
+- `appeal(+lightness) > appeal(scale=0.2)`: statistic=20.00, **p=0.031**
 
-Full table: [`docs/tier2/verdict_table.md`](docs/tier2/verdict_table.md).
+### Winner per prompt (max appeal)
+
+| prompt | winner | runner-up | gap |
+|---|---|---|---|
+| sun_rays | **+lightness** (0.840) | base (0.838) | +0.002 |
+| houses_hillside | **+lightness** (0.726) | base (0.592) | +0.133 |
+| pagoda_snowy | **+lightness** (0.710) | base (0.684) | +0.026 |
+| candle_dark | **+lightness** (0.375) | scale=0.2 (0.222) | +0.153 |
+| fog_pine_dawn | **scale=0.2** (0.722) | +lightness (0.714) | +0.008 |
+| waterfall_zoom | **+lightness** (0.715) | base (0.556) | +0.159 |
+
+**+lightness wins 5 / 6 prompts.**  Full tables:
+- [`docs/tier2/verdict_table.md`](docs/tier2/verdict_table.md)
+- [`docs/tier2/lightness_v2_metrics.md`](docs/tier2/lightness_v2_metrics.md)
 
 ## 7 · Honest limitations
 
 | aspect | status |
 |---|---|
-| Sample size | n=6 prompts, 1 seed each (`+ 3 extra seeds` for BoN) |
-| OPSD-I2V training (`configs/tier2_natural.yaml`) | **not run** — trainer API mismatch |
-| Tier 1 full (n=50, p<0.05 significance) | needs ~37h → rented CUDA |
-| Human eval | not conducted |
-| Pre-registered prompts | partial — Round 2 added after seeing Round 1 |
+| Sample size | **n=6 prompts × 1 seed** for the headline table |
+| Scorer validity | `appeal` is pixel-space only; **no human study**, no learned-perceptual metric (LPIPS / FID), no CLIP-score |
+| Scale sweep | **n=3 prompts** per scale, first-frame only; too noisy to pick a winner — chose scale=0.2 by **user visual preference** on duel videos |
+| OPSD-I2V training | **not performed** — trainer API mismatch with DynamiCrafter DiT, see §4 |
+| Statistical significance | Wilcoxon n=6 at p<0.05 is a weak lower bound (n too small for a strong claim) |
+| Pre-registration | **not pre-registered** — Round 2 prompts were chosen after seeing Round 1 behaviour |
+| Baseline strength | base = unmodified SD3.5-M + DynamiCrafter; **no VBench-full comparison** (we did run a 4-dim VBench-lite on n=2, p=0.5, not meaningful) |
 
-Everything claimed is a **qualitative demo** backed by **pixel-space
-reward metrics**.  The Wilcoxon with n=6 passes p<0.05, but this is not a
-substitute for a Tier-1 sized study.
+Everything we claim is a **qualitative demonstration backed by pixel-space
+metrics**; the Wilcoxon result tells us the lightness post-process is **not
+noise** at n=6, but is not a substitute for a properly sized study.
 
-## 8 · Reproduction
+## 8 · Reproduce
 
 ```bash
-# T2I scale sweep (produces first-frame grid)
-python -m src.t2i.scale_sweep --scales 0.0 0.2 0.4 0.6 1.0 --out_dir outputs/scale_sweep
+# Prereqs — see scripts/02_download_weights.sh for SD3.5-M + DynamiCrafter
+# ----- First-frame scale sweep (10 min on M3 Pro) -----
+python -m src.t2i.scale_sweep --scales 0.0 0.2 0.4 --out_dir outputs/scale_sweep
 
-# I2V duels — generate the 3 base + 3 scale=0.2 clips used above
-python -m src.render_i2v --frames_dir outputs/duel/frames_base   --prompts outputs/duel/prompts.json  --out_dir outputs/duel/videos_base  --seeds 0
-python -m src.render_i2v --frames_dir outputs/duel/frames_sweet  --prompts outputs/duel/prompts.json  --out_dir outputs/duel/videos_sweet --seeds 0
+# ----- I2V duels (6 clips base + 6 clips scale=0.2, ~85 min on M3 Pro) -----
+python -m src.render_i2v --frames_dir outputs/duel/frames_base   --prompts outputs/duel/prompts.json  --out_dir outputs/duel/videos_base  --seeds 0 --limit 3
+python -m src.render_i2v --frames_dir outputs/duel/frames_sweet  --prompts outputs/duel/prompts.json  --out_dir outputs/duel/videos_sweet --seeds 0 --limit 3
 
-# Lightness post-process
+# ----- Lightness post-process (10 sec per clip) -----
 python -m src.postprocess.lightness_lift --src_glob "outputs/duel/videos_sweet/seed_00/*.mp4"
 
-# Best-of-N (test-time rejection sampling)
-python -m src.eval.tier2_bon \
-    --frames_dir outputs/duel/frames_sweet \
-    --base_videos outputs/duel/videos_base \
-    --sweet_videos outputs/duel/videos_sweet \
-    --seeds 1 2 3
+# ----- Best-of-N (3 extra seeds × 6 prompts × 7 min ≈ 2.1 h) -----
+python -m src.eval.tier2_bon --frames_dir outputs/duel/frames_sweet --base_videos outputs/duel/videos_base --sweet_videos outputs/duel/videos_sweet --seeds 1 2 3
 
-# Compute quantitative verdict (needs scipy for Wilcoxon)
+# ----- Quantitative verdict (scipy required for Wilcoxon) -----
 PYTHONPATH=. python scripts/compute_verdict.py
-
-# Full overnight pipeline
-bash scripts/night_orchestrator.sh
 ```
+
+Everything above is run in sequence by `scripts/night_orchestrator.sh`.
 
 ## 9 · Repository layout
 
 ```
 08-video-opsd-i2v/
-├── README.md                              ← this file
+├── README.md                                this file
 ├── configs/
-│   ├── opsd_i2v_default.yaml              ← OPSD-I2V default (lr=5e-5, warmup=20)
-│   └── tier2_natural.yaml                 ← Tier 2 (lr=2e-5, warmup=10, +naturalness)
+│   ├── opsd_i2v_default.yaml                OPSD-I2V defaults (not trained successfully here)
+│   └── tier2_natural.yaml                   Tier-2 config (new reward combo + lower lr)
 ├── docs/
-│   ├── METHOD.md                          ← original OPSD methodology
+│   ├── METHOD.md                            formal OPSD-I2V algorithm
 │   ├── tier2/
-│   │   ├── METHOD.md                      ← Tier 2 pivot + reward hacking diagnosis
-│   │   ├── lightness_v2_metrics.md        ← per-prompt lightness metrics
-│   │   └── verdict_table.md               ← paired Wilcoxon results
+│   │   ├── METHOD.md                        Tier-2 pivot + reward-hacking diagnosis
+│   │   ├── lightness_v2_metrics.md          per-prompt metrics
+│   │   └── verdict_table.md                 Wilcoxon table
 │   └── figures/
-│       ├── duel/                          ← 6 duels + lightness + triway + 6-pack
-│       ├── reward_hacking_*.png           ← saturation/brightness/edge diagnosis
-│       └── sweep_running.png              ← 3×3 scale sweep grid
+│       ├── duel/                            all duel gifs + lightness + triway + 6-pack + README index
+│       ├── reward_hacking_*.png             saturation / brightness / edge diagnosis
+│       └── sweep_running.png                scale sweep grid
 ├── src/
 │   ├── t2i/{sd35_loader,scale_sweep,lora_scale}.py
-│   ├── render_i2v.py                      ← DynamiCrafter wrapper
-│   ├── opsd_trainer_i2v.py                ← OPSD training (needs API fix, see Tier 2 METHOD)
+│   ├── render_i2v.py
+│   ├── opsd_trainer_i2v.py                  (training path, API mismatch — see §4)
 │   ├── rewards/
 │   │   ├── {aesthetic,dynamic_degree,motion_smoothness,subject_consistency}.py
-│   │   └── naturalness_penalty.py         ← Tier 2 differentiable reward
+│   │   └── naturalness_penalty.py           Tier-2 differentiable reward
 │   ├── postprocess/
-│   │   └── lightness_lift.py              ← shadow-only lift + highlight protect
+│   │   └── lightness_lift.py                shadow lift + highlight protect
 │   └── eval/
-│       ├── naturalness_v2.py              ← bright-airy composite scorer
-│       ├── tier2_bon.py                   ← Best-of-N test-time rejection sampling
-│       └── tier2_eval.py                  ← reserved for future Tier 2 real-training eval
+│       ├── naturalness_v2.py                anti-grey, bright-airy scorer
+│       ├── tier2_bon.py                     Best-of-N (pivot)
+│       └── tier2_eval.py                    reserved for future real-training eval
 ├── scripts/
-│   ├── night_orchestrator.sh              ← full pipeline (Round 2 I2V + BoN + push)
-│   ├── compute_verdict.py                 ← produces docs/tier2/verdict_table.md
-│   └── prepare_tier2_data.py              ← recycles 6 base frames into training set
+│   ├── night_orchestrator.sh                full overnight pipeline
+│   ├── compute_verdict.py                   emits docs/tier2/verdict_table.md
+│   └── prepare_tier2_data.py                recycles 6 base frames into a training set
 └── weights/
-    ├── dynamicrafter_512/model.ckpt       ← frozen I2V
-    ├── opsd_lora_sd35m_hpsv3/             ← pre-trained T2I LoRA (ext. CUDA)
-    └── lora_scaled/                       ← cached scale=0.2 adapter
+    ├── dynamicrafter_512/model.ckpt
+    ├── opsd_lora_sd35m_hpsv3/               pre-trained T2I LoRA (external CUDA)
+    └── lora_scaled/opsd_lora_sd35m_hpsv3__scale_0.20/   cached scaled adapter
 ```

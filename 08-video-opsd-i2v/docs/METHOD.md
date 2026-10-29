@@ -8,8 +8,8 @@
 > `dynamic_degree` without improving perceived motion**. We retain the method
 > text below as the experimental protocol; the **interpretation** of the
 > resulting numbers is now explicitly a *carryover diagnostic* rather than
-> a *carryover-improvement claim*. See `README.md` §0 and `CVPR_OUTLINE.md`
-> for the revised framing.
+> a *carryover-improvement claim*. See the top-level `README.md` for the
+> revised framing.
 
 Two tiers, each self-contained. Tier 1 is the main contribution; Tier 2 is a bonus extension.
 
@@ -81,8 +81,8 @@ No gradient is ever taken; no checkpoint is ever updated.
   showing the strongest effects (these are the dims OPSD was explicitly tuned for).
 - **Possible negative** on dynamic degree, because OPSD's T2I rewards favor well-composed static
   frames which the I2V model animates with less motion.
-- **Null hypothesis realized** (no transfer) would itself be a publishable negative result for a
-  venue like TMLR; for CVPR we'd pivot to Tier 2 as the primary contribution.
+- **Null hypothesis realized** (no transfer) would itself be a useful negative result; in that
+  case Tier 2 becomes the primary contribution.
 
 ---
 
