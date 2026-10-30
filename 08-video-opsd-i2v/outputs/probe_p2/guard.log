@@ -1,0 +1,2 @@
+[GUARD] kind=i2v log=/root/ml-portfolio/08-video-opsd-i2v/outputs/probe_p2/train_metrics.jsonl pid=14369 window=50
+[GUARD] pid 14369 exited after 200 steps, no trip
