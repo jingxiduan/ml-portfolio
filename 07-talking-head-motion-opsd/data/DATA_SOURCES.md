@@ -61,6 +61,20 @@ diversity. To make the demos show real people, two more public sets were added.
 Using CelebV-HQ gives demos driven by **real human speech** (not only TTS) on
 **real faces**, which is what makes blink / nod / listening behaviour visible.
 
+### HDTF — high-definition talking face
+
+| Field | Value |
+|---|---|
+| Source | `saeed-5959/hdtf` on Hugging Face (HDTF: High-Definition Talking Face) |
+| Downloaded | 20 of 6 817 clips, 10 s each |
+| Resolution | 512×512 (lower than CelebA-HQ's 1024) |
+| Used for | 19 near-frontal portraits + 20 real-speech audio clips |
+
+HDTF is the reference set for **natural talking behaviour**: it supplies real
+human speech and real faces, and its motion statistics are what "natural" means
+here. It is a **reference / upper bound**, never a baseline — see the
+"WHAT BASE MEANS" section in the README.
+
 ### License note
 Both sets cover celebrity imagery and are used here only to demonstrate the
 method. They are not redistributed into `main`; generated videos go to a

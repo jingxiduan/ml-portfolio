@@ -1,8 +1,8 @@
 {
  "max_yaw": 15.0,
  "max_pitch": 15.0,
- "n_input": 72,
- "n_kept": 42,
+ "n_input": 92,
+ "n_kept": 61,
  "per_file": [
   {
    "file": "celebahq_000.png",
@@ -503,6 +503,146 @@
    "yaw": 4.3,
    "pitch": 13.5,
    "roll": -173.1,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_001.png",
+   "yaw": -0.4,
+   "pitch": -0.2,
+   "roll": -164.0,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_002.png",
+   "yaw": 0.2,
+   "pitch": 0.8,
+   "roll": -166.6,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_003.png",
+   "yaw": -9.1,
+   "pitch": 9.2,
+   "roll": -169.6,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_004.png",
+   "yaw": -7.3,
+   "pitch": 9.6,
+   "roll": -170.5,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_005.png",
+   "yaw": 1.9,
+   "pitch": -3.7,
+   "roll": -169.2,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_006.png",
+   "yaw": -7.1,
+   "pitch": 3.9,
+   "roll": -171.9,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_007.png",
+   "yaw": -1.9,
+   "pitch": -0.3,
+   "roll": -168.6,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_008.png",
+   "yaw": -8.8,
+   "pitch": 20.7,
+   "roll": -164.5,
+   "kept": false
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_009.png",
+   "yaw": 1.7,
+   "pitch": 7.6,
+   "roll": -177.8,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_010.png",
+   "yaw": -7.6,
+   "pitch": 7.5,
+   "roll": -170.4,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_011.png",
+   "yaw": -2.7,
+   "pitch": 3.0,
+   "roll": -170.9,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_012.png",
+   "yaw": 3.3,
+   "pitch": -0.4,
+   "roll": -168.0,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_013.png",
+   "yaw": 0.1,
+   "pitch": 3.6,
+   "roll": -174.7,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_014.png",
+   "yaw": -0.4,
+   "pitch": 2.9,
+   "roll": -171.8,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_015.png",
+   "yaw": -5.0,
+   "pitch": 4.7,
+   "roll": -170.3,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_016.png",
+   "yaw": -4.4,
+   "pitch": 3.4,
+   "roll": -174.3,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_017.png",
+   "yaw": -10.1,
+   "pitch": 11.2,
+   "roll": -171.1,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger0_018.png",
+   "yaw": -4.8,
+   "pitch": 10.5,
+   "roll": -172.4,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger1_001.png",
+   "yaw": 1.0,
+   "pitch": 2.7,
+   "roll": -163.0,
+   "kept": true
+  },
+  {
+   "file": "hdtf_AdamKinzinger1_002.png",
+   "yaw": -5.7,
+   "pitch": 7.3,
+   "roll": -171.6,
    "kept": true
   }
  ]

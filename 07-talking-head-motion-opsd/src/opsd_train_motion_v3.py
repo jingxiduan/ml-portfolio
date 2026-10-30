@@ -42,6 +42,8 @@ def main():
     ap.add_argument("--blink-overshoot-penalty", type=float, default=4.0)
     ap.add_argument("--jitter-cap-deg", type=float, default=0.2)
     ap.add_argument("--jitter-cap-penalty", type=float, default=5.0)
+    ap.add_argument("--weights", default=None,
+                    help='JSON reward weights, e.g. \'{"amp":0.35,"jitter":1.2}\'')
     ap.add_argument("--data-dir", default=os.path.join(ROOT, "data", "audio", "train"),
                     help="directory of training wavs (default: legacy 25 TTS clips)")
     ap.add_argument("--out", default=os.path.join(ROOT, "outputs", "opsd_v3"))
@@ -60,8 +62,11 @@ def main():
     probe = EyeProbe()
     probe.load_state_dict(torch.load(os.path.join(ROOT, "outputs", "eye_probe", "eye_probe.pt"),
                                      map_location="cpu"))
+    weights = json.loads(a.weights) if a.weights else None
+    if weights:
+        print(f"[style] reward weights: {weights}", flush=True)
     reward_fn = LivelinessRewardV3(
-        eng.tpl, eye_probe=probe,
+        eng.tpl, eye_probe=probe, weights=weights,
         blink_target_mean=a.blink_target_mean,
         blink_overshoot_penalty=a.blink_overshoot_penalty,
         jitter_cap_deg=a.jitter_cap_deg,

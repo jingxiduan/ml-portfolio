@@ -80,6 +80,52 @@ ema_update_behaviour_policy()
 
 ---
 
+## 🎯 WHAT "BASE" MEANS — and why real video is NOT the baseline
+
+This is the single most important thing to read before the numbers.
+
+**`base` = the same pretrained model with no OPSD post-training.** Following
+DiffusionOPSD, the comparison is always *same model, with vs without the
+on-policy self-distillation stage*. It is **not** real video.
+
+| term | what it is | role |
+|---|---|---|
+| **base** | JoyVASA `motion_generator_hubert_chinese`, untouched | the baseline the method must beat |
+| **OPSD (v2/v3)** | the same model + trained LoRA | the method |
+| **real video** (HDTF / CelebV-HQ) | human talking footage | **reference / upper bound only** — shows where natural behaviour sits; not a baseline |
+
+Real footage is used here for two things only: (1) extracting still portraits, and
+(2) reading off what natural motion statistics look like, which is how the jitter
+cap was calibrated (base p90 = 0.263°). It is never scored against the model.
+
+## 👤 PERSONA PRESETS (finance / real-estate / entertainment)
+
+The reward is the control surface. Three personas are trained from the **same**
+reward function, changing **only** the weights and the OPSD step size `c_adv`:
+
+| knob | finance | real estate | entertainment hook |
+|---|---|---|---|
+| `amp` (motion magnitude reward) | **0.35** | 0.6 | **1.4** |
+| `jitter` (anti-jitter pressure) | **1.2** | 0.8 | 0.4 |
+| `gaze` (eye wandering) | 0.2 | 0.3 | 0.45 |
+| `couple` (speech-rhythm coupling) | 0.6 | 0.5 | 0.7 |
+| `blink` target | 0.10 | 0.13 | 0.18 |
+| `c_adv` (OPSD target radius) | **1.5** | 2.2 | **3.5** |
+| `jitter_cap_deg` | 0.15 | 0.20 | 0.35 |
+| intent | rigorous, sincere, believable | gentle, trustworthy | exaggerated, energetic |
+
+**Why this addresses the uncanny valley.** The uncanny look is not caused by
+jitter — OPSD's motion is actually ~10× *smoother* than base once amplitude is
+divided out. It is caused by **amplitude overshoot**: `amp` uses `tanh(std_low/3)`,
+which OPSD drives to saturation, giving ~20× base amplitude. Lowering the `amp`
+weight (and `c_adv`) is therefore the correct lever for a restrained persona,
+which is why finance gets 0.35 and entertainment gets 1.4.
+
+```bash
+ROUNDS=3000 GPU=0 bash scripts/train_styles.sh
+# -> outputs/opsd_style_finance|realestate|hook/lora.pt
+```
+
 ## 📊 MAIN RESULTS
 
 ### Motion-space evaluation (n = 20 clips)
