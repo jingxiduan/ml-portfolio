@@ -1,0 +1,2 @@
+[GUARD] kind=motion log=/root/ml-portfolio/07-talking-head-motion-opsd/outputs/opsd_v2_large/metrics.jsonl pid=25350 window=50
+[GUARD] pid 25350 exited after 3000 steps, no trip
