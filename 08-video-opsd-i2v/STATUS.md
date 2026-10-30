@@ -1,6 +1,10 @@
 # 08 -- OPSD-I2V: Project Status and Continuation Guide
 
 > Last updated: 2026-10-30 10:48 -- pre-expiry backup
+>
+> **Next-session task spec: [`docs/NEXT_H20_TASKS.md`](docs/NEXT_H20_TASKS.md)**
+> (LoRA-effect check and lr probe first, then 2000-step paired V2 / NoNat runs, then n=40 evaluation).
+> It supersedes "3. Next Steps" below.
 
 ---
 

@@ -1,12 +1,15 @@
 # 07 — Talking-Head Motion OPSD · 项目状态
 
 > 最后更新：2026-10-30 H20 session 到期前
+>
+> **下一轮任务见 [`docs/NEXT_H20_TASKS.md`](docs/NEXT_H20_TASKS.md)**（jitter 单点优化 + 放大数据 + 独立评测）。
+> 下面"尚未完成"一节是旧清单，以任务书为准。
 
 ## 已完成
 
 ### 1. OPSD LoRA 训练（motion-space）
 - **V1**: 600步，reward 从 0.35 → 1.16（win rate 100% vs base）
-- **V2**: 600步，修复了 blink reward（改为 gaussian target + hard jitter cap）
+- **V2**: 600步，reward 改为 gaussian blink target + jitter hard cap（阈值 1.0°；从训练日志反推 jitter 实际约 0.2°，cap 很可能从未触发，待诊断）
 - LoRA checkpoints: `outputs/opsd/lora.pt`, `outputs/opsd_v2/lora.pt`
 - 训练 metrics: `outputs/opsd/metrics.jsonl`, `outputs/opsd_v2/metrics.jsonl`（各 600 步）
 

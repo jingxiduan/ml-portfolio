@@ -95,11 +95,24 @@
 reward at any level of the stack reaches the same equilibrium"是方法学规律，
 不是巧合。
 
-**待做**（H20 窗口 ~45 min 完成）：
-- H20 侧渲染 20 × 7 = 140 videos
-- 生成 20 个 3-way 对比 GIF
-- 产出 n=20 的 video-space metrics 表（`bon_metrics.{json,md}`）
-- commit + push
+**H20 渲染已完成**（commit `a7595ef`）：20 clips × 6 variants = 120 videos + 20 GIF + n=20 video-space 指标。
+
+**视频空间 n=20 的真实结果**（`outputs/tier2/bon_metrics.md`）：
+
+| 指标 | base | OPSD v1 | v1+BoN+thin | v2+BoN | 人类范围 |
+|---|---|---|---|---|---|
+| blink/min | 0 | 50.5 | 24.8 | 25.6 | 10-20 |
+| head_jitter | 120 | 262 | 265 | 257 | ~120 |
+| jaw_audio_corr | -0.14 | -0.09 | -0.09 | -0.10 | 0.3-0.5 |
+
+- blink：BoN/thin 可压到约 25，两条路径收敛，但仍高于人类范围。
+- **head_jitter：OPSD 后翻倍，所有 lever 都没动。** 训练日志反推 jitter 实际约 0.2°，
+  而 v2 的 hard cap 阈值是 1.0°，很可能从未触发（待诊断）。
+- jaw_audio_corr：base 本身为负，6 个 variant 不可区分，不能当作 lip-sync 证据。
+- 早先 Mac 上 n=1 的 blink 18.75 属于小样本偶然值，n=20 平均为 24.8。
+
+**下一轮任务书**：`07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md`
+（诊断 jitter → reward v3 只改 jitter → 放大数据 → SyncNet 与盲评表）。
 
 **playbook**: `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md`
 **narrative**: `07-talking-head-motion-opsd/docs/TIER2_NOTE.md`
@@ -118,59 +131,37 @@ reward at any level of the stack reaches the same equilibrium"是方法学规律
 - H20 setup/run/infer 三脚本就位（`scripts/h20_{setup,run_tier2,infer_compare}.sh`）
 - H20 playbook + SSH 预配置文档就位
 
-**待做**（H20 窗口里主任务，~7h）：
-- `bash scripts/h20_setup.sh` — 装环境、下 DynamiCrafter 512 ckpt、production-shape smoke（45 min）
-- `bash scripts/h20_run_tier2.sh` — 50 步 OPSD 训练，ckpt_every=10 存 5 份 LoRA（4-6h）
-- `bash scripts/h20_infer_compare.sh` — 6 prompts × 3 variants 推理 + metrics（1-1.5h）
-- commit + push 产出
+**H20 训练已完成**（commits `5acd805` … `95a1f6d`）：200 prompts（160 训练 / 40 评测），
+V1 / V2 / NoNat 三组各 500 步，约 4.6 GPU-h。
+
+**真实结果**：
+- 训练曲线：V1 的 naturalness 梯度全程为 0；V2（sigmoid）梯度存活，`R_naturalness` 由 -1.47 升到 -0.79。
+- n=10 评测：base / V1 / V2 / NoNat 的 Appeal、Naturalness、Dynamic 在小数点后第四位才有差异，
+  即**评测上没有可测提升**。目前能支持的结论只有"sigmoid 修复了梯度死区"。
+- 疑点：`lr=1e-5` 偏低、500 步偏少；500 步后 LoRA 范数约 27。
+
+**下一轮任务书**：`08-video-opsd-i2v/docs/NEXT_H20_TASKS.md`
+（先确认 LoRA 有效并做 lr 探针 → V2 / NoNat 配对长训 2000 步 → n=40 评测与盲评表）。
 
 **playbook**: `08-video-opsd-i2v/docs/H20_PLAYBOOK.md`
 
 ---
 
-## 3 · H20 窗口任务板
+## 3 · H20 窗口任务板（下一轮）
 
-### 预约信息
+上一轮（10/29-30）已完成：07 渲染 120 videos、08 三组 500 步消融。结果见 §2。
+**下一轮不是继续堆规模，而是先把"为什么没提升"弄清楚，再放大。**
 
-- **时间**：10/30（周五）21:00 — 次日 11:00（14h）
-- **规格**：H20 **单机 2 卡**（长时）= **28 卡时**
-  - ⚠ 用户 note：本周配额 168 卡时，28 卡时够用；但 2 卡对我们的任务**没加速**
-    （07 用 onnxruntime 单实例、08 trainer 没写 DDP），第 2 张卡会空转。
-    想省配额可考虑在页面改成单机 1 卡 14h（14 卡时）。决定权在用户。
+| 项目 | 任务书 | 核心内容 | 预计 |
+|---|---|---|---|
+| 07 | `07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md` | 诊断 jitter（hard cap 疑似失效）→ reward v3 只改 jitter → 放大到约 2000 条语音 → SyncNet 与盲评表 | 约 6 h |
+| 08 | `08-video-opsd-i2v/docs/NEXT_H20_TASKS.md` | 确认 LoRA 有效 + lr 探针 → V2 / NoNat 配对长训 2000 步 → n=40 评测与盲评表 | 约 9.5 h |
 
-### 执行顺序
-
-```
-21:00 ──┬── 0. SSH key 粘贴 (3 min)        ← Mac id_ed25519 已存好
-        │
-        ├── 1. clone portfolio             (1 min)
-        │
-        ├── 2. 【07】Tier-2 render         (45 min)
-        │     bash 07-talking-head-motion-opsd/scripts/h20_render_setup.sh
-        │     python src/tier2_bon.py --load-coefs outputs/tier2/selected_coefs.pt --n-eval-clips 20
-        │     python src/make_tier2_gifs.py --max-side 240 --fps 12
-        │     产出: 20 clips × 7 variants = 140 mp4, 20 GIFs, bon_metrics.md
-        │     commit + push                ← 45 min 内已经有新 demo
-        │
-        └── 3. 【08】Tier-2 LoRA 真训      (~7h)
-              bash scripts/h20_setup.sh    (45 min, 必须 smoke pass)
-              bash scripts/h20_run_tier2.sh (4-6h, nohup 后台)
-              bash scripts/h20_infer_compare.sh (1-1.5h)
-              commit + push
-              
-≈ 04:00 ── 预计全部完成，剩余 ~6h buffer
-```
-
-### 进入 H20 侧 CodeBuddy 的提示语
-
-```
-请读以下 3 份文档，然后按它们的指示执行：
-1. https://github.com/jingxiduan/ml-portfolio/blob/main/AGENTS.md
-2. https://github.com/jingxiduan/ml-portfolio/blob/main/08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md
-3. https://github.com/jingxiduan/ml-portfolio/blob/main/PROJECT_STATUS.md  ← 本文件
-```
-
----
+- 两个项目共用 2 张卡：08 长训一卡一组并行；07 的 motion 训练很小，插在空档，先看 `nvidia-smi` 再放卡。
+- 每个任务书都带 gate：前一阶段不过，就停下写结论，不往下走。
+- 成功标准已写在任务书里，**结果出来后不改**。
+- 硬件：上一轮报告里机器是 2 卡 H100 80GB（预约页写 H20），文档里以实际 `nvidia-smi` 为准。
+- 每个阶段结束就 commit + push；mp4 不进 git。
 
 ## 4 · 跨会话约定（House Rules）
 
