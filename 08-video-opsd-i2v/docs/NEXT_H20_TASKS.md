@@ -42,6 +42,96 @@ n=10 留出 prompt 上的评测（`outputs/eval/metrics_table.md`）：
 
 ---
 
+## 0b · 硬性约束（先读这里，优先级高于后面所有章节）
+
+### A. 已核对的日志事实（T1 之前先自己复核一遍）
+
+对 `outputs/opsd_tier2*/train_metrics.jsonl` 的 1500 步统计：
+
+| 现象 | 数据 | 含义 |
+|---|---|---|
+| `grad_norm` 恒为 1.0 | 三组 500 步全部 | 这是归一化后的**奖励梯度**，不是参数梯度，**不能用来监控训练** |
+| 奖励几乎没动 | NoNat：前 50 步均值 2.21，后 50 步 2.18；V2：-0.28 到 -0.18 | 模型基本没在学 |
+| 对比损失约等于 0 | `loss_plus` 与 `loss_minus` 都约 3.8e-4，差值约 0 | 正负目标拟合得一样好，没有梯度信号 |
+| 一项奖励是死的 | `R_motion_smoothness` 500 步恒为 0.36788（即 e^-1） | 这一项对训练没有贡献，本轮**只记录，不修改** |
+| dynamic_degree 没饱和 | 0.86 到 0.83 | 上一份报告说"50 步内饱和到 1.0"，与日志不符，以日志为准 |
+| 学习率曲线 | 起点 2e-7，终点 0（warmup 50 步 + 余弦衰减） | 平均有效学习率只有标称值的约一半 |
+
+所以这一轮的风险有两种：**训崩**，和**没训动**。两种都算失败，都要停下写结论。
+
+### B. 禁止事项
+
+1. **不修改已有文件**：`src/rewards/*`、`configs/tier2*.yaml`、`outputs/opsd_tier2*`、`data/prompts/*`、评测首帧。只新增文件。
+   - 唯一允许的对已有文件的改动：在 `src/opsd_trainer_i2v.py` 的 metrics 里**追加** `param_grad_norm`
+     （`clip_grad_norm_` 的返回值，目前被丢弃了），不改变任何训练行为。
+2. **不改成功标准、不改守护脚本阈值**，不为了让 gate 通过而放宽。
+3. **不加新奖励项**，不改奖励权重、`cap_tau`、`sat_threshold` 等。本轮只允许动 `lr` 和 `num_steps`。
+4. **gate 没过不进入下一阶段。**
+5. 不 `git push --force`，不 `git reset --hard`，不删除 `outputs/` 下任何已有内容；
+   不 commit mp4、不 commit 超过 50MB 的文件。
+6. 不使用或保存任何 token；凭据不得写入文件、remote URL、命令历史。
+7. 不重新生成评测首帧与 prompts，不更换 seed（固定 0）。
+
+### C. 参数硬上限
+
+| 项 | 上限 / 固定值 |
+|---|---|
+| `lr` | **≤ 1e-4**（探针最大值，不得更大）；长训的 lr 必须取自已通过探针的值 |
+| `num_steps` | ≤ 2000 |
+| `grad_clip` | 1.0 不变 |
+| LoRA | rank 16 / alpha 32 不变 |
+| `c_adv` | 5.0 不变 |
+| seed | 0 |
+| 重试次数 | 每组最多 1 次（lr 改为原来的 1/3），仍触发则停 |
+
+### D. 训练必须通过守护脚本启动
+
+先自检：`python ../tools/train_guard.py --selftest`，必须输出 `selftest OK`。
+
+```bash
+OUT=outputs/opsd_long_v2
+mkdir -p $OUT
+nohup python -m src.train_entry --method opsd_i2v --config configs/long_v2.yaml > $OUT/train.log 2>&1 &
+TRAIN_PID=$!
+nohup python ../tools/train_guard.py --kind i2v --log $OUT/train_metrics.jsonl --pid $TRAIN_PID > $OUT/guard.log 2>&1 &
+```
+
+守护脚本每 20 秒读一次日志，触发时写 `$OUT/GUARD_STOP.json` 并给训练进程发 SIGTERM。
+这些阈值已在现有 3 份日志上回放过，**没有误报**；对 NaN、主体漂移、奖励塌陷等合成场景能正确触发。
+
+| 规则 | 触发条件（50 步窗口均值） | 依据 |
+|---|---|---|
+| `nonfinite` | 任一指标出现 NaN / inf | |
+| `loss_blowup` | `loss_plus` > 前 50 步均值的 10 倍 | 基线约 3.8e-4，正常波动在 2 倍以内 |
+| `subject_drift` | `R_subject_consistency` < 0.95 | 实测 0.984，单步标准差 0.014 |
+| `reward_collapse` | `reward` 比前 50 步均值低 1.0 以上 | 窗口均值噪声约 0.07，现有三组前后变化都小于 0.1 |
+| `naturalness_worse` | `R_naturalness_penalty` 比前 50 步低 0.5 以上 | V2 实测是上升的 |
+| `stalled` | 1200 秒没有新日志 | |
+
+### E. 触发后怎么处理
+
+1. **不要手动继续，也不要原样重启。**
+2. 保留 `outputs/<run>/` 与 `GUARD_STOP.json`，commit + push 日志与曲线（不含大权重）。
+3. 用最近一个 checkpoint 渲染 4 条 eval 视频，目视确认是否崩坏。
+4. 允许重试 1 次：`lr` 改为原来的 1/3，`out_dir` 加后缀 `_retry`。再次触发就停，不要第三次。
+5. V2 与 NoNat 是配对实验：一组被停，配对对比只用**两组都跑到的最大共同步数**。
+6. 在 `docs/RESULTS_LONG.md` 里写明：哪条规则触发、触发步数、日志数值。
+
+### F. "没训动"也是失败
+
+T1 探针 200 步后，如果同时满足下面两条，视为没训动，**停下，不进入 T2**：
+- 像素差异相对 1e-5 基线没有明显增大；
+- `reward` 的 50 步窗口均值相对前 50 步变化小于窗口噪声（约 0.1）。
+
+此时的产出是诊断（为什么 `loss_plus - loss_minus` 约等于 0；怀疑点：目标偏移量
+`c_adv * sigma * g` 相对 `y0` 太小；`lr` 太小），并向用户汇报，而不是把步数加大。
+
+### G. Gate 记录
+
+每个 gate 在 `docs/GATE_LOG.md` 追加一行：时间 | gate | 关键数值 | PASS 或 FAIL。人工汇报时直接引用这个文件。
+
+---
+
 ## 1 · 任务总览与 gate
 
 | 阶段 | 内容 | 预计时间 | 通过条件（否则停下写结论） |
@@ -109,13 +199,13 @@ wait
 （`configs/probe_*.yaml` 从 `tier2_v2.yaml` 复制，仅改 `lr`、`num_steps: 200`、`out_dir`、`ckpt_every: 50`。）
 
 每个探针要看：
-- `train_metrics.jsonl` 中 `reward`、`R_naturalness_penalty`、`grad_norm` 是否正常，没有发散；
+- `train_metrics.jsonl` 中 `reward`、`R_naturalness_penalty`、`loss_plus` 是否正常（用 50 步窗口均值，单步噪声很大），没有发散；`grad_norm` 恒为 1.0，不能用；
 - 对 3.1 同一条 prompt 重新做差异量化；
 - 8 条 eval prompt 的视频是否出现崩坏（全黑、闪烁、过饱和）。
 
 ### 3.3 选 lr 的规则（先写下来）
 
-- 选"像素差异明显大于 1e-5 基线，且没有崩坏、`grad_norm` 稳定"的最大 lr。
+- 选"像素差异明显大于 1e-5 基线，且没有崩坏、守护脚本未触发"的最大 lr。
 - 两个都崩 → 选更小的那个，并在文档里写明；
 - 两个都不崩且差异接近 → 选较小的。
 - 如果全部都没有可测差异（即使 1e-4），停下，把现象写清楚，不进 T2。
@@ -132,6 +222,8 @@ wait
 | NoNat | `configs/tier2_ablation_no_nat.yaml` | 同样的 `lr`、`num_steps`，`out_dir: outputs/opsd_long_no_nat` |
 
 - 一卡一组并行，`nohup` 后台跑，日志落盘。500 步约 1.43 GPU-h，2000 步约 5.7 h。
+- 配置文件是**新增**的 `configs/long_v2.yaml` 与 `configs/long_no_nat.yaml`（分别从 `tier2_v2.yaml`、`tier2_ablation_no_nat.yaml` 复制，只改上表的几项），原文件不动。
+- 必须按 §0b-D 通过守护脚本启动。
 - `ckpt_every: 50` 保持不变，评测只用 500 / 1000 / 2000 三个点。
 - **不要同时改 `cap_tau`、reward 权重等其他东西**，否则无法归因。
   `dynamic_degree` 在 50 步内就饱和（`cap_tau: 0.6` 偏低）是已知问题，列为后续项，本轮不动。
@@ -139,7 +231,8 @@ wait
 ### 中途检查（1000 步处，写进日志）
 
 - `reward` 与 `R_naturalness_penalty` 是否仍有趋势（V2）；
-- `grad_norm` 没有塌缩到接近 0；
+- 守护脚本全程未触发；
+- 50 步窗口均值的 `reward` 相对前 50 步有变化（不是持平）；
 - 用 1000 步 checkpoint 渲染 4 条 eval 视频，目视没有崩坏。
 
 任一项不过 → 停掉该组，保留已有 checkpoint 和日志，写结论，不要硬跑到 2000 步。

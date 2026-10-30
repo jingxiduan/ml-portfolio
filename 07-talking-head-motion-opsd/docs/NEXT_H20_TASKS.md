@@ -41,6 +41,79 @@ v2 的 jitter 改动因此等于没改，v1 与 v2 曲线几乎重合也符合�
 
 ---
 
+## 0b · 硬性约束（先读这里，优先级高于后面所有章节）
+
+### A. 07 特有的崩法
+
+收紧 jitter 惩罚后，策略可以靠"头不动"拿到满分。这是比 NaN 更现实的风险：
+amp（头部运动幅度）项会与之对抗，但如果 jitter 阈值设得太低，头会被压死。
+现有日志里 `amp` 的 50 步窗口均值最低是 0.307（之后一路升到 0.85），守护脚本用 0.15 作为冻结线。
+
+### B. 禁止事项
+
+1. **不修改已有文件**：`src/motion_reward.py`、`src/motion_reward_v2.py`、`src/opsd_train_motion*.py`、
+   `outputs/opsd*`、`outputs/tier2/*`、`data/audio/eval/*`。只新增文件（`motion_reward_v3.py` 等）。
+2. **只改 jitter 的 cap 阈值**。`amp / couple / blink / gaze / ood` 的权重和公式与 v2 完全一致，否则无法归因。
+3. **评测集与训练集的说话人不能重叠**；放大数据时先按说话人切分，再抽样。
+4. 不改成功标准、不改守护脚本阈值。
+5. gate 没过不进入下一阶段。
+6. 不 `git push --force`，不 `git reset --hard`，不删除已有 `outputs/`；
+   不 commit mp4、音频文件、超过 50MB 的文件。
+7. 不使用或保存任何 token；凭据不得写入文件、remote URL、命令历史。
+
+### C. 参数硬上限
+
+| 项 | 上限 / 固定值 |
+|---|---|
+| `jitter_cap_deg` | 取 T1 测得的 base p90，并**限制在 [0.1, 0.5] 度**之内；低于 0.1 会把头压死 |
+| `jitter_cap_penalty` | ≤ 5.0（与 v2 相同） |
+| `lr` | 3e-4 不变 |
+| `rounds` | 25 条数据 600；放大数据 ≤ 3000 |
+| LoRA | r=8 / alpha=8，batch 8，seed 0 |
+| 重试次数 | 最多 1 次，把 `jitter_cap_deg` 放宽 1.5 倍；仍触发就停 |
+
+### D. 训练必须通过守护脚本启动
+
+先自检：`python ../tools/train_guard.py --selftest`，必须输出 `selftest OK`。
+
+```bash
+OUT=outputs/opsd_v3
+mkdir -p $OUT
+nohup python src/opsd_train_motion_v3.py --out $OUT > $OUT/train.log 2>&1 &
+TRAIN_PID=$!
+nohup python ../tools/train_guard.py --kind motion --log $OUT/metrics.jsonl --pid $TRAIN_PID > $OUT/guard.log 2>&1 &
+```
+
+这些阈值已在 v1、v2 两份 600 步日志上回放过，**没有误报**；对 NaN、loss 爆炸、头部冻结等合成场景能正确触发。
+
+| 规则 | 触发条件（50 步窗口均值） | 依据 |
+|---|---|---|
+| `nonfinite` | 任一指标出现 NaN / inf | |
+| `loss_blowup` | `loss` > 前 50 步均值的 3 倍 | 实测范围 0.0089 到 0.0118，很稳定 |
+| `ood_blowup` | `ood` < -0.05 | 实测最差 -0.0046 |
+| `reward_collapse` | `reward` 比此前最好的窗口低 0.3 以上 | v1 / v2 都是单调上升 |
+| `jitter_blowup` | `jitter` 项比前 50 步低 0.5 以上 | v1 / v2 只下降了约 0.15 |
+| `head_frozen` | `amp` < 0.15 | 实测最低 0.307 |
+| `stalled` | 1200 秒没有新日志 | |
+
+### E. 触发后怎么处理
+
+1. 不要手动继续，也不要原样重启。
+2. 保留 `outputs/<run>/` 与 `GUARD_STOP.json`，commit + push 日志。
+3. 允许 1 次重试，按 §C 放宽 cap；再次触发就停。
+4. 在 `docs/RESULTS_NEXT.md` 里写明：哪条规则触发、触发步数、日志数值。
+
+### F. 没生效也是失败
+
+v3 的目的是让 jitter 下降。训练到第 300 步时，如果 `jitter` 项相对前 50 步**没有改善**
+（窗口均值没有上升），说明改动没有生效，**停下，不要跑完 600 轮**，写诊断并汇报。
+
+### G. Gate 记录
+
+每个 gate 在 `docs/GATE_LOG.md` 追加一行：时间 | gate | 关键数值 | PASS 或 FAIL。
+
+---
+
 ## 1 · 任务总览与 gate
 
 | 阶段 | 内容 | 预计时间 | 通过条件（否则停下写结论） |
