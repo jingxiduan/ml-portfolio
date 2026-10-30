@@ -1,0 +1,2024 @@
+[init] load engine (renderer=on) ...
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:209: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(ckpt_path, map_location=lambda storage, loc: storage))
+[23:55:36] Load appearance_feature_extractor     live_portrait_wmg_wrapper.py:55
+           from                                                                 
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           appearance_feature_extractor.pth                                     
+           done.                                                                
+           Load motion_extractor from            live_portrait_wmg_wrapper.py:58
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           motion_extractor.pth done.                                           
+[23:55:37] Load warping_module from              live_portrait_wmg_wrapper.py:61
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           warping_module.pth done.                                             
+           Load spade_generator from             live_portrait_wmg_wrapper.py:64
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           spade_generator.pth done.                                            
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:184: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+           Load stitching_retargeting_module     live_portrait_wmg_wrapper.py:68
+           from                                                                 
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/retargeting_                                
+           models/stitching_retargeting_module.p                                
+           th done.                                                             
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:163: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_data = torch.load(ckpt_path, map_location=device)
+using hubert chinese ori
+[23:55:38] Load motion_generator from            live_portrait_wmg_wrapper.py:82
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/JoyVASA/motion_generator/                                
+           motion_generator_hubert_chinese.pt                                   
+           done.                                                                
+[23:55:39] FaceAnalysisDIY warmup time: 0.837s           face_analysis_diy.py:79
+[23:55:41] LandmarkRunner warmup time: 1.519s        human_landmark_runner.py:95
+/root/ml-portfolio/07-talking-head-motion-opsd/src/tier2_bon.py:252: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  bundle = torch.load(a.load_coefs, map_location="cpu")
+[load-coefs] loaded 140 entries for 20 clips from outputs/tier2/selected_coefs.pt
+
+[render] 20 clips × 6 variants = 120 videos
+
+[render clip 0] face=host_f.png
+           Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_00.wav
+[23:55:56] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_00.mp4                                              
+  rendered bon_c00_base_naive  (14.8s)  seed=0
+WARNING: Logging before InitGoogle() is written to STDERR
+W0000 00:00:1793289356.262177   64934 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+W0000 00:00:1793289356.271324   64938 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289356.280535   64940 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=148.7  speech_head_corr=-0.094
+[23:55:59] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_00.wav
+[23:56:12] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_00.mp4                                              
+  rendered bon_c00_opsd_naive  (12.4s)  seed=0
+W0000 00:00:1793289372.458044   65573 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289372.462289   65576 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289372.471190   65575 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=37.5  head_jitter=233.4  speech_head_corr=0.113
+[23:56:14] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_00.wav
+[23:56:27] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_00.mp4                                              
+  rendered bon_c00_opsd_bon  (12.3s)  seed=4
+W0000 00:00:1793289387.334650   66171 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289387.339168   66173 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289387.347135   66175 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=31.3  head_jitter=244.9  speech_head_corr=0.139
+[23:56:29] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_00.wav
+[23:56:42] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_00.mp4                                              
+  rendered bon_c00_opsd_bon_thin  (12.4s)  seed=4
+W0000 00:00:1793289402.337701   66772 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289402.342156   66774 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289402.351342   66776 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=18.8  head_jitter=246.8  speech_head_corr=0.142
+[23:56:44] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_00.wav
+[23:56:57] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_00.mp4                                              
+  rendered bon_c00_opsd_v2_naive  (12.4s)  seed=0
+W0000 00:00:1793289417.347187   67451 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289417.351671   67454 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289417.360490   67455 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=31.3  head_jitter=234.4  speech_head_corr=0.089
+[23:56:59] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_00.wav
+[23:57:12] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_00.mp4                                              
+  rendered bon_c00_opsd_v2_bon  (12.3s)  seed=14
+W0000 00:00:1793289432.336124   68073 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289432.340685   68076 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289432.348735   68076 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=25.0  head_jitter=235.5  speech_head_corr=0.070
+
+[render clip 1] face=host_m.png
+[23:57:14] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_01.wav
+[23:57:24] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_01.mp4                                              
+  rendered bon_c01_base_naive  (9.9s)  seed=0
+W0000 00:00:1793289444.846547   68667 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289444.851061   68669 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289444.860289   68671 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=125.5  speech_head_corr=-0.024
+[23:57:26] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_01.wav
+[23:57:36] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_01.mp4                                              
+  rendered bon_c01_opsd_naive  (10.2s)  seed=0
+W0000 00:00:1793289457.239476   69719 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289457.244668   69721 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289457.254245   69723 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.7  head_jitter=259.9  speech_head_corr=0.197
+[23:57:39] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_01.wav
+[23:57:49] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_01.mp4                                              
+  rendered bon_c01_opsd_bon  (10.0s)  seed=5
+W0000 00:00:1793289469.532986   70303 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289469.538219   70305 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289469.547216   70307 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.7  head_jitter=253.5  speech_head_corr=0.346
+[23:57:51] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_01.wav
+[23:58:02] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_01.mp4                                              
+  rendered bon_c01_opsd_bon_thin  (10.3s)  seed=5
+W0000 00:00:1793289482.284659   70906 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289482.289917   70908 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289482.298858   70909 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=46.4  head_jitter=252.5  speech_head_corr=0.340
+[23:58:04] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_01.wav
+[23:58:14] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_01.mp4                                              
+  rendered bon_c01_opsd_v2_naive  (10.1s)  seed=0
+W0000 00:00:1793289495.024683   71568 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289495.029901   71570 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289495.038655   71571 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=46.4  head_jitter=253.8  speech_head_corr=0.193
+[23:58:17] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_01.wav
+[23:58:27] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_01.mp4                                              
+  rendered bon_c01_opsd_v2_bon  (10.1s)  seed=13
+W0000 00:00:1793289507.585346   72434 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289507.590626   72437 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289507.599319   72437 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=23.2  head_jitter=238.0  speech_head_corr=0.290
+
+[render clip 2] face=host_f2.png
+[23:58:29] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_02.wav
+[23:58:38] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_02.mp4                                             
+  rendered bon_c02_base_naive  (8.6s)  seed=0
+W0000 00:00:1793289518.581733   73214 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289518.586930   73216 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289518.595643   73216 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=110.1  speech_head_corr=0.312
+[23:58:40] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_02.wav
+[23:58:49] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_02.mp4                                             
+  rendered bon_c02_opsd_naive  (8.6s)  seed=0
+W0000 00:00:1793289529.282719   73800 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289529.287174   73802 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289529.295690   73802 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=73.2  head_jitter=242.1  speech_head_corr=0.370
+[23:58:51] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_02.wav
+[23:58:59] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_02.mp4                                             
+  rendered bon_c02_opsd_bon  (8.8s)  seed=10
+W0000 00:00:1793289540.209361   74396 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289540.214755   74398 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289540.223928   74399 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.6  head_jitter=239.8  speech_head_corr=0.409
+[23:59:02] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_02.wav
+[23:59:10] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_02.mp4                                             
+  rendered bon_c02_opsd_bon_thin  (8.8s)  seed=10
+W0000 00:00:1793289551.215804   74999 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289551.220786   75001 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289551.230216   75001 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.6  head_jitter=243.9  speech_head_corr=0.416
+[23:59:13] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_02.wav
+[23:59:21] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_02.mp4                                             
+  rendered bon_c02_opsd_v2_naive  (8.7s)  seed=0
+W0000 00:00:1793289562.250163   75591 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289562.254987   75593 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289562.263584   75593 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=45.7  head_jitter=247.7  speech_head_corr=0.316
+[23:59:24] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_02.wav
+[23:59:32] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_02.mp4                                             
+  rendered bon_c02_opsd_v2_bon  (8.8s)  seed=3
+W0000 00:00:1793289573.137764   76641 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289573.143481   76644 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289573.152141   76643 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=27.4  head_jitter=227.5  speech_head_corr=0.432
+
+[render clip 3] face=host_f.png
+[23:59:34] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_03.wav
+[23:59:46] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_03.mp4                                              
+  rendered bon_c03_base_naive  (11.2s)  seed=0
+W0000 00:00:1793289586.371967   77228 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289586.376915   77230 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289586.385665   77232 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=103.7  speech_head_corr=0.130
+[23:59:48] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_03.wav
+[00:00:00] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_03.mp4                                              
+  rendered bon_c03_opsd_naive  (11.3s)  seed=0
+W0000 00:00:1793289600.394583   77831 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289600.398854   77833 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289600.407541   77833 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=55.8  head_jitter=218.2  speech_head_corr=0.075
+[00:00:02] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_03.wav
+[00:00:14] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_03.mp4                                              
+  rendered bon_c03_opsd_bon  (11.3s)  seed=6
+W0000 00:00:1793289614.432901   78422 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289614.438134   78424 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289614.446768   78425 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=34.9  head_jitter=218.0  speech_head_corr=0.110
+[00:00:16] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_03.wav
+[00:00:27] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_03.mp4                                              
+  rendered bon_c03_opsd_bon_thin  (11.1s)  seed=6
+W0000 00:00:1793289628.094918   79025 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289628.099839   79027 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289628.109918   79027 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=20.9  head_jitter=218.7  speech_head_corr=0.118
+[00:00:30] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_03.wav
+[00:00:41] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_03.mp4                                              
+  rendered bon_c03_opsd_v2_naive  (11.2s)  seed=0
+W0000 00:00:1793289642.060164   79613 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289642.064683   79615 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289642.073325   79615 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=41.9  head_jitter=206.5  speech_head_corr=-0.013
+[00:00:44] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_03.wav
+[00:00:55] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_03.mp4                                              
+  rendered bon_c03_opsd_v2_bon  (11.2s)  seed=8
+W0000 00:00:1793289655.775882   80678 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289655.780997   80680 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289655.789395   80680 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=27.9  head_jitter=209.8  speech_head_corr=-0.004
+
+[render clip 4] face=host_m.png
+[00:00:58] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_04.wav
+[00:01:04] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_04.mp4                                              
+  rendered bon_c04_base_naive  (7.2s)  seed=0
+W0000 00:00:1793289665.417433   81284 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289665.422955   81286 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289665.430938   81286 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=123.1  speech_head_corr=0.234
+[00:01:06] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_04.wav
+[00:01:13] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_04.mp4                                              
+  rendered bon_c04_opsd_naive  (6.9s)  seed=0
+W0000 00:00:1793289673.994869   81870 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289674.000104   81872 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289674.009337   81873 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=69.2  head_jitter=304.2  speech_head_corr=0.343
+[00:01:15] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_04.wav
+[00:01:22] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_04.mp4                                              
+  rendered bon_c04_opsd_bon  (7.0s)  seed=10
+W0000 00:00:1793289682.709317   82449 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289682.713751   82452 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289682.721993   82452 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=57.7  head_jitter=344.2  speech_head_corr=0.396
+[00:01:24] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_04.wav
+[00:01:31] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_04.mp4                                              
+  rendered bon_c04_opsd_bon_thin  (6.9s)  seed=10
+W0000 00:00:1793289691.311874   83029 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289691.317140   83031 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289691.325307   83031 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=46.2  head_jitter=344.3  speech_head_corr=0.394
+[00:01:32] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_04.wav
+[00:01:39] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_04.mp4                                              
+  rendered bon_c04_opsd_v2_naive  (6.9s)  seed=0
+W0000 00:00:1793289700.059336   83612 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289700.064659   83614 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289700.073241   83614 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=57.7  head_jitter=318.9  speech_head_corr=0.441
+[00:01:41] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:06
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_04.wav
+[00:01:48] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_04.mp4                                              
+  rendered bon_c04_opsd_v2_bon  (6.9s)  seed=3
+W0000 00:00:1793289708.757134   84190 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289708.762298   84192 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289708.770086   84192 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=34.6  head_jitter=330.4  speech_head_corr=0.393
+
+[render clip 5] face=host_f2.png
+[00:01:50] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_05.wav
+[00:01:59] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_05.mp4                                             
+  rendered bon_c05_base_naive  (9.6s)  seed=0
+W0000 00:00:1793289720.113177   85179 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289720.117480   85181 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289720.125968   85182 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=81.0  speech_head_corr=0.129
+[00:02:02] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_05.wav
+[00:02:11] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_05.mp4                                             
+  rendered bon_c05_opsd_naive  (9.5s)  seed=0
+W0000 00:00:1793289731.948115   85774 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289731.953015   85776 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289731.961066   85776 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=49.5  head_jitter=219.3  speech_head_corr=0.200
+[00:02:13] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_05.wav
+[00:02:23] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_05.mp4                                             
+  rendered bon_c05_opsd_bon  (9.6s)  seed=12
+W0000 00:00:1793289743.726549   86759 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289743.730952   86762 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289743.739493   86763 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=33.0  head_jitter=227.7  speech_head_corr=0.177
+[00:02:25] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_05.wav
+[00:02:35] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_05.mp4                                             
+  rendered bon_c05_opsd_bon_thin  (9.5s)  seed=12
+W0000 00:00:1793289755.478592   87345 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289755.482934   87347 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289755.490870   87349 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=24.7  head_jitter=231.0  speech_head_corr=0.181
+[00:02:37] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_05.wav
+[00:02:46] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_05.mp4                                             
+  rendered bon_c05_opsd_v2_naive  (9.5s)  seed=0
+W0000 00:00:1793289767.081960   87934 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289767.086565   87937 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289767.095935   87938 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=33.0  head_jitter=236.2  speech_head_corr=0.195
+[00:02:49] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_05.wav
+[00:02:58] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_05.mp4                                             
+  rendered bon_c05_opsd_v2_bon  (9.6s)  seed=11
+W0000 00:00:1793289779.121944   89370 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289779.127032   89373 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289779.135227   89372 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=24.7  head_jitter=210.0  speech_head_corr=0.214
+
+[render clip 6] face=host_f.png
+[00:03:01] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_06.wav
+[00:03:11] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_06.mp4                                              
+  rendered bon_c06_base_naive  (10.8s)  seed=0
+W0000 00:00:1793289792.241243   89976 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289792.247732   89980 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289792.259835   89981 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=130.0  speech_head_corr=0.175
+[00:03:14] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_06.wav
+[00:03:25] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_06.mp4                                              
+  rendered bon_c06_opsd_naive  (11.1s)  seed=0
+W0000 00:00:1793289805.613882   90569 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289805.620218   90571 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289805.634302   90573 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=43.7  head_jitter=261.7  speech_head_corr=0.343
+[00:03:27] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_06.wav
+[00:03:38] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_06.mp4                                              
+  rendered bon_c06_opsd_bon  (10.6s)  seed=11
+W0000 00:00:1793289818.813015   91154 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289818.817653   91156 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289818.825992   91158 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=14.6  head_jitter=261.1  speech_head_corr=0.375
+[00:03:41] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_06.wav
+[00:03:51] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_06.mp4                                              
+  rendered bon_c06_opsd_bon_thin  (10.7s)  seed=11
+W0000 00:00:1793289832.000554   91746 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289832.004753   91748 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289832.013177   91748 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=14.6  head_jitter=261.1  speech_head_corr=0.375
+[00:03:54] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_06.wav
+[00:04:05] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_06.mp4                                              
+  rendered bon_c06_opsd_v2_naive  (10.8s)  seed=0
+W0000 00:00:1793289845.525913   92741 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289845.530293   92743 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289845.538834   92745 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.4  head_jitter=268.4  speech_head_corr=0.293
+[00:04:07] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_06.wav
+[00:04:18] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_06.mp4                                              
+  rendered bon_c06_opsd_v2_bon  (10.7s)  seed=11
+W0000 00:00:1793289858.784997   93333 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289858.789545   93335 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289858.798764   93335 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=14.6  head_jitter=260.6  speech_head_corr=0.327
+
+[render clip 7] face=host_m.png
+[00:04:20] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_07.wav
+[00:04:29] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_07.mp4                                              
+  rendered bon_c07_base_naive  (8.3s)  seed=0
+W0000 00:00:1793289869.353904   94315 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289869.359236   94317 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289869.368919   94319 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=120.5  speech_head_corr=0.268
+[00:04:31] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_07.wav
+[00:04:39] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_07.mp4                                              
+  rendered bon_c07_opsd_naive  (8.2s)  seed=0
+W0000 00:00:1793289879.650069   94896 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289879.654736   94898 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289879.663581   94900 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=75.9  head_jitter=245.3  speech_head_corr=0.412
+[00:04:41] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_07.wav
+[00:04:49] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_07.mp4                                              
+  rendered bon_c07_opsd_bon  (8.2s)  seed=3
+W0000 00:00:1793289889.867862   95482 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289889.873151   95484 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289889.881406   95485 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=57.0  head_jitter=238.6  speech_head_corr=0.409
+[00:04:51] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_07.wav
+[00:04:59] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_07.mp4                                              
+  rendered bon_c07_opsd_bon_thin  (8.2s)  seed=3
+W0000 00:00:1793289900.032240   99027 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289900.036984   99030 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289900.045894   99031 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=19.0  head_jitter=237.1  speech_head_corr=0.395
+[00:05:02] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_07.wav
+[00:05:10] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_07.mp4                                              
+  rendered bon_c07_opsd_v2_naive  (8.2s)  seed=0
+W0000 00:00:1793289910.518342   99614 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289910.522805   99616 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289910.531322   99618 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=75.9  head_jitter=245.5  speech_head_corr=0.446
+[00:05:12] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_07.wav
+[00:05:20] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_07.mp4                                              
+  rendered bon_c07_opsd_v2_bon  (8.2s)  seed=9
+W0000 00:00:1793289920.731105  100206 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289920.735516  100208 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289920.744438  100209 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=28.5  head_jitter=252.3  speech_head_corr=0.499
+
+[render clip 8] face=host_f2.png
+[00:05:22] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_08.wav
+[00:05:35] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_08.mp4                                             
+  rendered bon_c08_base_naive  (12.8s)  seed=0
+W0000 00:00:1793289935.599868  101249 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289935.604942  101252 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289935.613212  101252 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=141.4  speech_head_corr=0.241
+[00:05:38] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_08.wav
+[00:05:51] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_08.mp4                                             
+  rendered bon_c08_opsd_naive  (12.9s)  seed=0
+W0000 00:00:1793289951.502688  101844 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289951.507698  101847 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289951.515872  101848 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.3  head_jitter=292.2  speech_head_corr=0.297
+[00:05:54] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_08.wav
+[00:06:07] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_08.mp4                                             
+  rendered bon_c08_opsd_bon  (13.0s)  seed=3
+W0000 00:00:1793289967.379218  102449 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289967.383762  102451 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289967.391766  102453 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=30.2  head_jitter=310.1  speech_head_corr=0.311
+[00:06:09] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_08.wav
+[00:06:22] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_08.mp4                                             
+  rendered bon_c08_opsd_bon_thin  (13.0s)  seed=3
+W0000 00:00:1793289983.155806  103044 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289983.160302  103046 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289983.168529  103048 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=24.2  head_jitter=309.3  speech_head_corr=0.315
+[00:06:25] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_08.wav
+[00:06:38] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_08.mp4                                             
+  rendered bon_c08_opsd_v2_naive  (12.7s)  seed=0
+W0000 00:00:1793289998.935258  104033 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793289998.939701  104035 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793289998.947970  104037 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=42.3  head_jitter=291.5  speech_head_corr=0.212
+[00:06:41] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_08.wav
+[00:06:54] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_08.mp4                                             
+  rendered bon_c08_opsd_v2_bon  (12.8s)  seed=11
+W0000 00:00:1793290014.396656  104628 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290014.401054  104630 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290014.409039  104630 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=24.2  head_jitter=296.6  speech_head_corr=0.194
+
+[render clip 9] face=host_f.png
+[00:06:57] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_09.wav
+[00:07:11] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_09.mp4                                              
+  rendered bon_c09_base_naive  (14.0s)  seed=0
+W0000 00:00:1793290031.294423  105628 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290031.298809  105630 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290031.307094  105630 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=119.6  speech_head_corr=0.210
+[00:07:14] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_09.wav
+[00:07:28] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_09.mp4                                              
+  rendered bon_c09_opsd_naive  (14.1s)  seed=0
+W0000 00:00:1793290048.514420  106884 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290048.518889  106886 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290048.527472  106888 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=43.8  head_jitter=266.0  speech_head_corr=0.222
+[00:07:31] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_09.wav
+[00:07:45] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_09.mp4                                              
+  rendered bon_c09_opsd_bon  (14.3s)  seed=6
+W0000 00:00:1793290066.424654  107680 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290066.429348  107682 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290066.437029  107682 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=32.8  head_jitter=268.4  speech_head_corr=0.130
+[00:07:49] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_09.wav
+[00:08:03] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_09.mp4                                              
+  rendered bon_c09_opsd_bon_thin  (14.3s)  seed=6
+W0000 00:00:1793290083.567330  108287 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290083.571870  108289 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290083.579654  108290 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=27.4  head_jitter=266.2  speech_head_corr=0.132
+[00:08:06] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_09.wav
+[00:08:20] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_09.mp4                                              
+  rendered bon_c09_opsd_v2_naive  (14.1s)  seed=0
+W0000 00:00:1793290100.716548  108889 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290100.721239  108892 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290100.729091  108891 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=43.8  head_jitter=265.1  speech_head_corr=0.227
+[00:08:23] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:12
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_09.wav
+[00:08:37] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_09.mp4                                              
+  rendered bon_c09_opsd_v2_bon  (14.1s)  seed=3
+W0000 00:00:1793290117.849950  109881 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290117.854447  109883 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290117.862464  109883 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=27.4  head_jitter=271.8  speech_head_corr=0.224
+
+[render clip 10] face=host_m.png
+[00:08:40] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_10.wav
+[00:08:51] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_10.mp4                                              
+  rendered bon_c10_base_naive  (11.1s)  seed=0
+W0000 00:00:1793290131.945290  110472 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290131.949704  110474 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290131.957350  110474 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=124.7  speech_head_corr=0.105
+[00:08:54] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_10.wav
+[00:09:05] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_10.mp4                                              
+  rendered bon_c10_opsd_naive  (11.2s)  seed=0
+W0000 00:00:1793290145.462678  111480 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290145.468071  111482 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290145.476425  111482 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=48.8  head_jitter=274.9  speech_head_corr=0.452
+[00:09:07] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_10.wav
+[00:09:18] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_10.mp4                                              
+  rendered bon_c10_opsd_bon  (11.1s)  seed=5
+W0000 00:00:1793290159.229311  112073 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290159.234420  112075 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290159.242487  112075 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=34.9  head_jitter=277.2  speech_head_corr=0.471
+[00:09:21] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_10.wav
+[00:09:32] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_10.mp4                                              
+  rendered bon_c10_opsd_bon_thin  (11.3s)  seed=5
+W0000 00:00:1793290173.042385  113506 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290173.047739  113508 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290173.056072  113509 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=27.9  head_jitter=276.8  speech_head_corr=0.461
+[00:09:35] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_10.wav
+[00:09:46] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_10.mp4                                              
+  rendered bon_c10_opsd_v2_naive  (11.2s)  seed=0
+W0000 00:00:1793290187.006170  114098 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290187.011408  114100 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290187.020515  114101 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=41.9  head_jitter=264.7  speech_head_corr=0.467
+[00:09:49] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_10.wav
+[00:10:00] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_10.mp4                                              
+  rendered bon_c10_opsd_v2_bon  (11.3s)  seed=5
+W0000 00:00:1793290201.209327  114694 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290201.214488  114697 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290201.223338  114698 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=34.9  head_jitter=254.7  speech_head_corr=0.470
+
+[render clip 11] face=host_f2.png
+[00:10:03] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_11.wav
+[00:10:14] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_11.mp4                                             
+  rendered bon_c11_base_naive  (10.8s)  seed=0
+W0000 00:00:1793290214.779906  115293 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290214.785069  115295 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290214.793645  115295 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=115.2  speech_head_corr=0.106
+[00:10:17] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_11.wav
+[00:10:28] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_11.mp4                                             
+  rendered bon_c11_opsd_naive  (10.8s)  seed=0
+W0000 00:00:1793290228.345562  116282 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290228.350733  116284 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290228.359428  116285 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.2  head_jitter=253.6  speech_head_corr=0.246
+[00:10:30] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_11.wav
+[00:10:41] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_11.mp4                                             
+  rendered bon_c11_opsd_bon  (10.8s)  seed=2
+W0000 00:00:1793290241.538048  116874 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290241.543341  116877 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290241.556067  116876 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=29.0  head_jitter=252.8  speech_head_corr=0.243
+[00:10:43] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_11.wav
+[00:10:54] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_11.mp4                                             
+  rendered bon_c11_opsd_bon_thin  (11.0s)  seed=2
+W0000 00:00:1793290255.001877  117860 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290255.007205  117863 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290255.016309  117862 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=21.7  head_jitter=253.2  speech_head_corr=0.232
+[00:10:57] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_11.wav
+[00:11:08] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_11.mp4                                             
+  rendered bon_c11_opsd_v2_naive  (10.8s)  seed=0
+W0000 00:00:1793290268.434259  118461 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290268.439490  118463 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290268.448131  118464 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=21.7  head_jitter=243.4  speech_head_corr=0.198
+[00:11:10] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_11.wav
+[00:11:21] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_11.mp4                                             
+  rendered bon_c11_opsd_v2_bon  (10.8s)  seed=4
+W0000 00:00:1793290281.867047  119522 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290281.872205  119524 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290281.880936  119525 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=21.7  head_jitter=243.0  speech_head_corr=0.197
+
+[render clip 12] face=host_f.png
+[00:11:24] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_12.wav
+[00:11:33] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_12.mp4                                              
+  rendered bon_c12_base_naive  (9.1s)  seed=0
+W0000 00:00:1793290293.457461  120491 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290293.462524  120494 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290293.471556  120493 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=119.7  speech_head_corr=0.126
+[00:11:35] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_12.wav
+[00:11:44] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_12.mp4                                              
+  rendered bon_c12_opsd_naive  (9.1s)  seed=0
+W0000 00:00:1793290304.802684  121080 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290304.808076  121083 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290304.817098  121082 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=52.0  head_jitter=235.3  speech_head_corr=0.144
+[00:11:46] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_12.wav
+[00:11:55] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_12.mp4                                              
+  rendered bon_c12_opsd_bon  (9.2s)  seed=13
+W0000 00:00:1793290316.091419  121667 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290316.096465  121669 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290316.105126  121670 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=17.3  head_jitter=268.5  speech_head_corr=0.154
+[00:11:58] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_12.wav
+[00:12:07] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_12.mp4                                              
+  rendered bon_c12_opsd_bon_thin  (9.1s)  seed=13
+W0000 00:00:1793290327.607517  122266 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290327.612496  122268 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290327.620615  122270 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=17.3  head_jitter=268.5  speech_head_corr=0.154
+[00:12:09] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_12.wav
+[00:12:18] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_12.mp4                                              
+  rendered bon_c12_opsd_v2_naive  (9.0s)  seed=0
+W0000 00:00:1793290338.632143  122852 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290338.636525  122854 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290338.644391  122854 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=43.4  head_jitter=233.3  speech_head_corr=0.121
+[00:12:20] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_12.wav
+[00:12:29] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_12.mp4                                              
+  rendered bon_c12_opsd_v2_bon  (9.0s)  seed=2
+W0000 00:00:1793290349.678577  123833 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290349.683220  123835 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290349.691606  123835 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=17.3  head_jitter=234.0  speech_head_corr=0.173
+
+[render clip 13] face=host_m.png
+[00:12:31] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_13.wav
+[00:12:43] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_13.mp4                                              
+  rendered bon_c13_base_naive  (12.0s)  seed=0
+W0000 00:00:1793290363.803486  124424 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290363.808125  124427 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290363.817092  124428 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=134.6  speech_head_corr=0.114
+[00:12:46] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_13.wav
+[00:12:58] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_13.mp4                                              
+  rendered bon_c13_opsd_naive  (12.0s)  seed=0
+W0000 00:00:1793290378.604190  125412 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290378.608723  125414 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290378.616671  125416 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=57.4  head_jitter=324.8  speech_head_corr=0.362
+[00:13:00] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:10
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_13.wav
+[00:13:12] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_13.mp4                                              
+  rendered bon_c13_opsd_bon  (12.0s)  seed=6
+W0000 00:00:1793290393.214443  126025 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290393.218837  126028 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290393.228894  126029 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.3  head_jitter=290.7  speech_head_corr=0.373
+[00:13:15] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_13.wav
+[00:13:28] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_13.mp4                                              
+  rendered bon_c13_opsd_bon_thin  (12.2s)  seed=6
+W0000 00:00:1793290408.319113  127020 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290408.323445  127023 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290408.332380  127024 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=25.5  head_jitter=292.4  speech_head_corr=0.367
+[00:13:30] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_13.wav
+[00:13:42] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_13.mp4                                              
+  rendered bon_c13_opsd_v2_naive  (12.1s)  seed=0
+W0000 00:00:1793290423.125814  137297 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290423.129855  137299 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290423.138822  137301 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=44.7  head_jitter=315.2  speech_head_corr=0.313
+[00:13:45] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:11
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_13.wav
+[00:13:57] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_13.mp4                                              
+  rendered bon_c13_opsd_v2_bon  (12.0s)  seed=12
+W0000 00:00:1793290438.011264  137893 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290438.015747  137895 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290438.024775  137897 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=31.9  head_jitter=328.5  speech_head_corr=0.329
+
+[render clip 14] face=host_f2.png
+[00:14:00] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_14.wav
+[00:14:10] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_14.mp4                                             
+  rendered bon_c14_base_naive  (9.7s)  seed=0
+W0000 00:00:1793290450.316917  145799 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290450.322313  145802 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290450.331193  145803 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=111.9  speech_head_corr=0.247
+[00:14:12] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_14.wav
+[00:14:22] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_14.mp4                                             
+  rendered bon_c14_opsd_naive  (9.6s)  seed=0
+W0000 00:00:1793290462.258223  146400 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290462.262247  146402 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290462.270166  146404 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=48.4  head_jitter=299.7  speech_head_corr=0.414
+[00:14:24] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_14.wav
+[00:14:34] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_14.mp4                                             
+  rendered bon_c14_opsd_bon  (9.8s)  seed=1
+W0000 00:00:1793290474.382235  147008 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290474.386524  147010 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290474.396890  147012 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=40.3  head_jitter=303.5  speech_head_corr=0.440
+[00:14:36] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_14.wav
+[00:14:46] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_14.mp4                                             
+  rendered bon_c14_opsd_bon_thin  (9.7s)  seed=1
+W0000 00:00:1793290486.421174  147602 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290486.425393  147605 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290486.433660  147605 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=24.2  head_jitter=303.8  speech_head_corr=0.446
+[00:14:48] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_14.wav
+[00:14:58] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_14.mp4                                             
+  rendered bon_c14_opsd_v2_naive  (9.8s)  seed=0
+W0000 00:00:1793290498.524806  148222 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290498.529464  148224 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290498.537680  148224 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=48.4  head_jitter=294.0  speech_head_corr=0.426
+[00:15:00] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:08
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_14.wav
+[00:15:10] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_14.mp4                                             
+  rendered bon_c14_opsd_v2_bon  (9.7s)  seed=15
+W0000 00:00:1793290510.526315  148841 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290510.531029  148844 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290510.540041  148845 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=32.3  head_jitter=294.6  speech_head_corr=0.420
+
+[render clip 15] face=host_f.png
+[00:15:12] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_15.wav
+[00:15:22] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_15.mp4                                              
+  rendered bon_c15_base_naive  (10.1s)  seed=0
+W0000 00:00:1793290522.993874  149445 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290522.998589  149447 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290523.006534  149449 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=129.1  speech_head_corr=0.012
+[00:15:25] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_15.wav
+[00:15:35] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_15.mp4                                              
+  rendered bon_c15_opsd_naive  (10.2s)  seed=0
+W0000 00:00:1793290535.534759  150038 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290535.539341  150040 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290535.547723  150040 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.3  head_jitter=273.5  speech_head_corr=0.118
+[00:15:37] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_15.wav
+[00:15:47] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_15.mp4                                              
+  rendered bon_c15_opsd_bon  (10.1s)  seed=7
+W0000 00:00:1793290548.091585  150630 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290548.096040  150632 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290548.103946  150634 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.3  head_jitter=285.0  speech_head_corr=0.157
+[00:15:50] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_15.wav
+[00:16:00] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_15.mp4                                              
+  rendered bon_c15_opsd_bon_thin  (10.2s)  seed=7
+W0000 00:00:1793290560.493359  151222 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290560.497603  151224 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290560.505968  151226 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=30.6  head_jitter=285.1  speech_head_corr=0.152
+[00:16:02] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_15.wav
+[00:16:12] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_15.mp4                                              
+  rendered bon_c15_opsd_v2_naive  (10.2s)  seed=0
+W0000 00:00:1793290573.086177  151817 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290573.090816  151819 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290573.099061  151821 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.3  head_jitter=268.2  speech_head_corr=0.120
+[00:16:15] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_15.wav
+[00:16:25] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_15.mp4                                              
+  rendered bon_c15_opsd_v2_bon  (10.2s)  seed=0
+W0000 00:00:1793290585.421114  152406 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290585.425715  152408 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290585.434438  152409 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.3  head_jitter=268.2  speech_head_corr=0.120
+
+[render clip 16] face=host_m.png
+[00:16:27] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_16.wav
+[00:16:36] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_16.mp4                                              
+  rendered bon_c16_base_naive  (8.7s)  seed=0
+W0000 00:00:1793290596.460815  152992 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290596.465192  152994 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290596.473169  152996 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=130.4  speech_head_corr=0.075
+[00:16:38] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_16.wav
+[00:16:46] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_16.mp4                                              
+  rendered bon_c16_opsd_naive  (8.7s)  seed=0
+W0000 00:00:1793290607.210566  153578 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290607.215158  153580 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290607.223867  153580 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=44.6  head_jitter=279.5  speech_head_corr=0.105
+[00:16:49] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_16.wav
+[00:16:57] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_16.mp4                                              
+  rendered bon_c16_opsd_bon  (8.7s)  seed=12
+W0000 00:00:1793290618.039046  154167 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290618.043727  154170 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290618.051725  154169 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=17.9  head_jitter=258.6  speech_head_corr=0.054
+[00:16:59] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_16.wav
+[00:17:08] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_16.mp4                                              
+  rendered bon_c16_opsd_bon_thin  (8.7s)  seed=12
+W0000 00:00:1793290628.750851  154775 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290628.755140  154777 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290628.762862  154779 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=8.9  head_jitter=256.9  speech_head_corr=0.050
+[00:17:10] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_16.wav
+[00:17:19] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_16.mp4                                              
+  rendered bon_c16_opsd_v2_naive  (8.8s)  seed=0
+W0000 00:00:1793290639.638637  155360 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290639.643129  155363 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290639.651980  155364 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=35.7  head_jitter=250.8  speech_head_corr=0.098
+[00:17:21] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:07
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_16.wav
+[00:17:30] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_16.mp4                                              
+  rendered bon_c16_opsd_v2_bon  (8.8s)  seed=14
+W0000 00:00:1793290650.517246  155959 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290650.521764  155962 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290650.530737  155963 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=17.9  head_jitter=243.8  speech_head_corr=0.100
+
+[render clip 17] face=host_f2.png
+[00:17:32] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_17.wav
+[00:17:42] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_17.mp4                                             
+  rendered bon_c17_base_naive  (10.1s)  seed=0
+W0000 00:00:1793290662.741927  156552 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290662.746476  156554 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290662.754411  156554 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=99.5  speech_head_corr=0.127
+[00:17:45] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_17.wav
+[00:17:55] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_17.mp4                                             
+  rendered bon_c17_opsd_naive  (10.3s)  seed=0
+W0000 00:00:1793290675.542119  157141 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290675.546607  157143 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290675.554419  157145 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=61.5  head_jitter=239.2  speech_head_corr=0.425
+[00:17:57] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_17.wav
+[00:18:07] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_17.mp4                                             
+  rendered bon_c17_opsd_bon  (10.2s)  seed=9
+W0000 00:00:1793290688.006415  157739 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290688.011025  157742 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290688.020067  157741 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=23.1  head_jitter=244.9  speech_head_corr=0.315
+[00:18:10] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_17.wav
+[00:18:20] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_17.mp4                                             
+  rendered bon_c17_opsd_bon_thin  (10.2s)  seed=9
+W0000 00:00:1793290700.565641  158328 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290700.570367  158330 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290700.578384  158331 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=15.4  head_jitter=246.4  speech_head_corr=0.314
+[00:18:22] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_17.wav
+[00:18:32] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_17.mp4                                             
+  rendered bon_c17_opsd_v2_naive  (10.3s)  seed=0
+W0000 00:00:1793290712.918925  158917 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290712.923246  158919 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290712.931366  158920 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.5  head_jitter=261.1  speech_head_corr=0.375
+[00:18:34] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f2.pn                                 
+           g                                                                    
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_17.wav
+[00:18:44] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f2_eval_17.mp4                                             
+  rendered bon_c17_opsd_v2_bon  (10.1s)  seed=3
+W0000 00:00:1793290725.246089  159505 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290725.250823  159507 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290725.259522  159507 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=15.4  head_jitter=245.2  speech_head_corr=0.388
+
+[render clip 18] face=host_f.png
+[00:18:47] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_18.wav
+[00:18:57] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_18.mp4                                              
+  rendered bon_c18_base_naive  (10.5s)  seed=0
+W0000 00:00:1793290738.206687  160097 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290738.211956  160099 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290738.220444  160099 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=104.1  speech_head_corr=-0.102
+[00:19:00] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_18.wav
+[00:19:11] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_18.mp4                                              
+  rendered bon_c18_opsd_naive  (10.5s)  seed=0
+W0000 00:00:1793290751.405869  160703 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290751.411399  160705 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290751.419418  160707 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.9  head_jitter=220.5  speech_head_corr=0.296
+[00:19:13] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_18.wav
+[00:19:23] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_18.mp4                                              
+  rendered bon_c18_opsd_bon  (10.5s)  seed=12
+W0000 00:00:1793290764.161688  161292 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290764.166032  161294 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290764.173855  161296 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.9  head_jitter=219.6  speech_head_corr=0.292
+[00:19:26] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_18.wav
+[00:19:36] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_18.mp4                                              
+  rendered bon_c18_opsd_bon_thin  (10.5s)  seed=12
+W0000 00:00:1793290776.970723  161884 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290776.976476  161887 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290776.985531  161886 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=22.2  head_jitter=219.1  speech_head_corr=0.290
+[00:19:39] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_18.wav
+[00:19:49] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_18.mp4                                              
+  rendered bon_c18_opsd_v2_naive  (10.5s)  seed=0
+W0000 00:00:1793290790.024861  162473 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290790.029328  162475 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290790.038122  162477 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=36.9  head_jitter=230.1  speech_head_corr=0.275
+[00:19:52] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_f.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_18.wav
+[00:20:02] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_f_eval_18.mp4                                              
+  rendered bon_c18_opsd_v2_bon  (10.5s)  seed=11
+W0000 00:00:1793290802.948464  163067 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290802.953139  163069 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290802.962003  163070 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=22.2  head_jitter=231.1  speech_head_corr=0.225
+
+[render clip 19] face=host_m.png
+[00:20:05] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_19.wav
+[00:20:15] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_19.mp4                                              
+  rendered bon_c19_base_naive  (10.0s)  seed=0
+W0000 00:00:1793290815.601331  163665 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290815.605764  163668 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290815.614645  163667 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=0.0  head_jitter=122.9  speech_head_corr=0.174
+[00:20:17] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_19.wav
+[00:20:27] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_19.mp4                                              
+  rendered bon_c19_opsd_naive  (10.0s)  seed=0
+W0000 00:00:1793290827.932269  164256 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290827.936957  164258 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290827.944822  164260 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=61.9  head_jitter=298.3  speech_head_corr=0.174
+[00:20:29] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_19.wav
+[00:20:39] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_19.mp4                                              
+  rendered bon_c19_opsd_bon  (9.9s)  seed=5
+W0000 00:00:1793290840.147313  164852 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290840.151396  164855 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290840.159307  164856 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=38.7  head_jitter=286.7  speech_head_corr=0.094
+[00:20:42] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_19.wav
+[00:20:52] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_19.mp4                                              
+  rendered bon_c19_opsd_bon_thin  (10.0s)  seed=5
+W0000 00:00:1793290852.433223  165445 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290852.437572  165448 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290852.446226  165450 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=23.2  head_jitter=291.4  speech_head_corr=0.114
+[00:20:54] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_19.wav
+[00:21:04] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_19.mp4                                              
+  rendered bon_c19_opsd_v2_naive  (10.2s)  seed=0
+W0000 00:00:1793290865.012111  166058 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290865.016489  166060 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290865.024484  166062 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=54.1  head_jitter=292.4  speech_head_corr=0.199
+[00:21:07] Load reference image from            live_portrait_wmg_pipeline.py:46
+           /root/ml-portfolio/07-talking-head-m                                 
+           otion-opsd/data/portraits/host_m.png                                 
+🚀Animating Image with Generated Motions... ━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:09
+
+audio:  
+/root/ml-portfolio/07-talking-head-motion-opsd/data/audio/eval/eval_19.wav
+[00:21:17] Video with audio generated successfully:                 video.py:218
+           /root/ml-portfolio/07-talking-head-motion-opsd/outputs/t             
+           ier2/host_m_eval_19.mp4                                              
+  rendered bon_c19_opsd_v2_bon  (10.1s)  seed=1
+W0000 00:00:1793290877.438562  166647 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+W0000 00:00:1793290877.443143  166649 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793290877.451127  166651 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+    blink_rate=23.2  head_jitter=262.4  speech_head_corr=0.212
+
+[video summary]
+{
+ "base_naive": {
+  "head_pitch_std": 1.2664351942443917,
+  "head_yaw_std": 0.9954829625586923,
+  "head_roll_std": 1.5907968811627404,
+  "head_speed_mean": 10.045008986465204,
+  "head_jitter": 119.78698069403939,
+  "nod_rate": 1.0786805474315095,
+  "speech_head_corr": 0.12822376754847675,
+  "still_ratio": 0.06578264494489024,
+  "blink_rate": 0.0,
+  "gaze_std": 0.06795105771589911,
+  "gaze_shift_rate": 1.8276564769750316,
+  "jaw_open_mean": 0.0814296892237062,
+  "jaw_audio_corr": -0.13594523991869267
+ },
+ "opsd_naive": {
+  "head_pitch_std": 3.6837642730389653,
+  "head_yaw_std": 3.299282158948438,
+  "head_roll_std": 3.269374506930872,
+  "head_speed_mean": 24.352719167524413,
+  "head_jitter": 262.0933013060325,
+  "nod_rate": 1.1648802404332592,
+  "speech_head_corr": 0.26531257105124945,
+  "still_ratio": 0.018687550560455457,
+  "blink_rate": 50.486232796707654,
+  "gaze_std": 0.23447919235959835,
+  "gaze_shift_rate": 2.745915131828261,
+  "jaw_open_mean": 0.09553958214407209,
+  "jaw_audio_corr": -0.08693075474150484
+ },
+ "opsd_bon": {
+  "head_pitch_std": 3.6727159811051657,
+  "head_yaw_std": 3.305637218746669,
+  "head_roll_std": 3.3380817863912333,
+  "head_speed_mean": 24.599991388449546,
+  "head_jitter": 264.6876309641959,
+  "nod_rate": 1.143482891003333,
+  "speech_head_corr": 0.26978174400970667,
+  "still_ratio": 0.017685309059105116,
+  "blink_rate": 34.06438522430143,
+  "gaze_std": 0.22547878120826245,
+  "gaze_shift_rate": 2.516821583892155,
+  "jaw_open_mean": 0.09297545772845144,
+  "jaw_audio_corr": -0.08305582261075546
+ },
+ "opsd_bon_thin": {
+  "head_pitch_std": 3.6578112652783736,
+  "head_yaw_std": 3.304630623975426,
+  "head_roll_std": 3.3333420672349616,
+  "head_speed_mean": 24.574912281847524,
+  "head_jitter": 265.22186104730116,
+  "nod_rate": 1.1506742373254473,
+  "speech_head_corr": 0.26933665939374707,
+  "still_ratio": 0.01795077730918745,
+  "blink_rate": 24.78270691019857,
+  "gaze_std": 0.20475647194894392,
+  "gaze_shift_rate": 2.518101255416956,
+  "jaw_open_mean": 0.09213768320152187,
+  "jaw_audio_corr": -0.09073852927078915
+ },
+ "opsd_v2_naive": {
+  "head_pitch_std": 3.3476519883233244,
+  "head_yaw_std": 3.2166437743265766,
+  "head_roll_std": 3.1107778952331753,
+  "head_speed_mean": 23.747374310974546,
+  "head_jitter": 261.0620392928002,
+  "nod_rate": 1.1747784784587492,
+  "speech_head_corr": 0.24939555281693698,
+  "still_ratio": 0.017999208581796537,
+  "blink_rate": 42.89577644279012,
+  "gaze_std": 0.22669491143153603,
+  "gaze_shift_rate": 2.534475922806299,
+  "jaw_open_mean": 0.08933547769395982,
+  "jaw_audio_corr": -0.09619661479926962
+ },
+ "opsd_v2_bon": {
+  "head_pitch_std": 3.3504493079372795,
+  "head_yaw_std": 3.279169569001064,
+  "head_roll_std": 3.1683263483370308,
+  "head_speed_mean": 23.696403337392265,
+  "head_jitter": 256.90511221094187,
+  "nod_rate": 1.212317673390757,
+  "speech_head_corr": 0.26362306679284175,
+  "still_ratio": 0.016229200560953765,
+  "blink_rate": 25.624987283855102,
+  "gaze_std": 0.2169394901899826,
+  "gaze_shift_rate": 2.4455677498005004,
+  "jaw_open_mean": 0.08867026948428769,
+  "jaw_audio_corr": -0.10004567727370692
+ }
+}
+
+[done] wrote /root/ml-portfolio/07-talking-head-motion-opsd/outputs/tier2/bon_metrics.{json,md} + 120 mp4s

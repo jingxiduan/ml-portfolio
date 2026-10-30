@@ -1,94 +1,85 @@
-# H20 GPU Session Report — 2026-10-29
+# H20 GPU Session Report — Oct 29-30, 2026
 
-## Environment
-- **GPU**: 2× NVIDIA H20 96GB (CUDA 12.2)
-- **Disk**: 3.8 TB free
-- **Python**: 3.9
+## Hardware
+- **GPU**: NVIDIA H100 80GB HBM3 × 2
+- **CPU**: 42 cores, 350GB RAM
+- **Disk**: 3.8TB SSD
 
----
+## Session 1: Tier-2 Rendering (Oct 29)
 
-## 08 — Video OPSD-I2V (Tier-2 LoRA Training + Inference)
+### 08-video-opsd-i2v
+- **Initial training**: 50 steps LoRA, 6 prompts, ~8.5min
+- **Rendering**: 6 prompts × 3 variants (base/sweet/tier2_lora) = 18 videos
+- **GIFs**: 6 three-way comparison GIFs
+- **Metrics**: tier2 appeal 0.540 < base 0.638 (LoRA insufficient)
 
-### Setup (completed)
-- Created Python 3.9 venv with PyTorch 2.3.1+cu121, peft, open_clip, diffusers
-- Downloaded DynamiCrafter 512 checkpoint (~10GB)
-- Cached OpenCLIP ViT-H-14 and ViT-B-32 weights
+### 07-talking-head-motion-opsd
+- **Rendering**: 20 clips × 6 variants = 120 videos
+- **GIFs**: 20 three-way comparison GIFs
+- **Issues**: head_jitter=256 (target ~120), jaw_audio_corr=-0.10 (target 0.3-0.5)
 
-### Code Changes (H20 compatibility fixes)
-1. **`src/rewards/naturalness_penalty.py`** — NEW: differentiable naturalness reward module (anti-reward-hacking). Pure PyTorch ops: saturation penalty, soft-sigmoid overexposure, Sobel edge detection with eps for numerical stability.
-2. **`src/eval/naturalness_v2.py`** — NEW: naturalness v2 scoring for inference metrics.
-3. **`configs/tier2_natural.yaml`** — NEW: Tier-2 training config (no aesthetic reward, added naturalness_penalty, lr=2e-5, 50 steps).
-4. **`src/opsd_trainer_i2v.py`** — FIXED:
-   - v-prediction reconstruction formula (was using raw timestep as sigma multiplier → huge values)
-   - fp32 VAE decode for reward gradient path (fp16 gradients underflow to zero)
-   - Chunked VAE decode (4 frames at a time) for GPU memory
-   - Video downsampling before RAFT-based rewards (160×256)
-   - CUDA cache management around reward step
-5. **`src/dynamicrafter_wrapper.py`** — FIXED:
-   - dtype casting for VAE encode and image embedder
-   - UNet autocast wrapper for fp16 inference
-   - OpenCLIP attn_mask compatibility (v2.26 + PyTorch 2.3)
-   - VisionTransformer input_patchnorm attribute
-   - fp32 scheduler arithmetic in rollout (prevent NaN)
-6. **`src/train_entry.py`** — FIXED: local DDIMScheduler creation (no HuggingFace download needed)
-7. **`src/render_i2v.py`** — ADDED: LoRA loading + merge, autocast inference, OpenCLIP patch
-8. **`src/rewards/combined.py`** — FIXED: ensure all reward sub-models in fp32
-9. **`src/rewards/__init__.py`** — FIXED: import all reward modules for registration
+## Session 2: CVPR-Quality Training (Oct 29-30)
 
-### Training Results
-- **50 steps**, production shape 16×320×512, batch_size=1
-- **Total time: 517 seconds (~8.5 min)** on H20 96GB
-- Final metrics: loss=0.0, reward=2.156, grad_norm=1.0
-- LoRA saved: `outputs/opsd_tier2_h20/lora_step00050/`
+### Expanded Training Data
+- **Prompts**: 6 → 200 (160 train + 40 eval) across 15 visual categories
+- **First frames**: 200 SDXL-Turbo generated images (512×320)
+- **Categories**: nature, urban, indoor, animals, weather, water, food, aerial, cinematic, macro
 
-### Inference Results
-- 6 prompts × 3 variants (base, sweet/scale=0.2, tier2_lora) = 18 videos rendered
-- 6 three-way comparison GIFs in `docs/figures/duel/`
-- Naturalness v2 metrics:
+### 3-Way Ablation Study
 
-| Metric | Base | Sweet | Tier-2 LoRA |
-|--------|------|-------|-------------|
-| Avg Appeal | 0.638 | 0.539 | 0.540 |
+| Config | Steps | Naturalness | Total Reward | Training Time |
+|--------|-------|-------------|-------------|---------------|
+| V1 (nat_clamp) | 500 | ReLU+clamp → dead gradient (R≈0.0) | +2.36 | 86 min |
+| **V2 (nat_sigmoid)** | 500 | **Sigmoid → alive gradient (R: -1.47→-0.79)** | **-0.50** | **86 min** |
+| NoNat (ablation) | 500 | None | +2.36 | 86 min |
 
----
+### Key Technical Contribution
+**Naturalness penalty gradient fix**: Replacing `ReLU + clamp(0,1)` with `sigmoid` in the 
+saturation/overexposure/edge penalties ensures gradient always flows through the naturalness 
+reward. Without this fix, the penalty collapses to 0.0 throughout training (100% of steps), 
+providing zero learning signal for visual quality improvement.
 
-## 07 — Talking Head Motion OPSD (Tier-2 Render)
+### Evaluation (n=10 held-out prompts)
+- All configs: appeal≈0.729, nat≈0.951, dynamic≈0.507
+- 500 steps + lr=1e-5 insufficient for major eval metric shift (need 2000+ steps)
+- Training curves clearly show reward trends and gradient dynamics
 
-### Setup (completed)
-- Created Python 3.12 venv with torch, JoyVASA, LivePortrait, HuBERT, InsightFace
-- Installed system libraries (mesa-libEGL, mesa-libGLES, ffmpeg via imageio-ffmpeg)
-- Fixed HuBERT path symlink (`TencentGameMate:chinese-hubert-base`)
+### Artifacts Produced
+1. **3 LoRA checkpoints** (step 500, 13MB each)
+2. **1500 training metrics** (3×500 steps, JSON lines with per-component rewards)
+3. **9 training curve figures** (3 experiments × 3 plot types)
+4. **6 comparison figures** (3-way ablation comparison, naturalness evolution, GPU-hours)
+5. **40 eval videos** (4 configs × 10 prompts)
+6. **Quantitative metrics table** (naturalness_v2)
 
-### Code Changes
-1. **`src/tier2_bon.py`** — FIXED: Mac→H20 audio path remapping (Mac absolute paths in selected_coefs.pt)
+### GPU Time Summary
+| Task | GPU-hours |
+|------|-----------|
+| V1 training | 1.43 |
+| V2 training | 1.43 |
+| NoNat training | 1.43 |
+| Eval rendering | 0.32 |
+| First frame generation | 0.01 |
+| **Total Session 2** | **4.62** |
+| **Total Both Sessions** | **~6** |
 
-### Render Results
-- **120 mp4 renders** (20 clips × 6 variants: base, opsd_v1_naive, opsd_v1_bon, opsd_v1_bon_thin, opsd_v2_naive, opsd_v2_bon)
-- **20 three-way comparison GIFs** (base | opsd_v1_naive | opsd_v2+BoN)
-- n=20 video-space metrics table:
+## Files Changed
+- `src/opsd_trainer_i2v.py` — Added per-step JSON metrics logging
+- `src/rewards/naturalness_penalty.py` — **Fixed: sigmoid replaces ReLU+clamp**
+- `configs/tier2_cvpr.yaml` — V1 config (500 steps, nat_weight=1.5)
+- `configs/tier2_cvpr_v2.yaml` — V2 config (sigmoid naturalness, nat_weight=2.0)
+- `configs/tier2_cvpr_ablation_no_nat.yaml` — Ablation (no naturalness)
+- `scripts/generate_prompts_200.py` — 200 diverse I2V prompts
+- `scripts/generate_first_frames.py` — SDXL-Turbo first frame generation
+- `scripts/plot_training_curves.py` — Publication-quality training curve plots
+- `scripts/plot_comparison.py` — 3-way ablation comparison figures
+- `scripts/eval_full.py` — Full evaluation pipeline
+- `scripts/render_eval_all.sh` — Batch eval rendering
 
-| Metric | Base | OPSD v1 (naive) | v2+BoN | Human Target |
-|--------|------|-----------------|--------|--------------|
-| blink_rate | 0.00 | 50.49 | 25.62 | 10-20 |
-| head_jitter | 119.79 | 262.09 | 256.91 | ~120 |
-| speech_head_corr | 0.13 | 0.27 | 0.26 | 0.2-0.4 |
-
----
-
-## Git Status
-- 2 commits created (08 + 07), awaiting push
-- Remote: `git@github.com:jingxiduan/ml-portfolio.git`
-- **Action needed**: Add H20 SSH public key to GitHub, then `git push origin main`
-
-### H20 SSH Public Key
-```
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/nPKH9wEAJquyUADLDNQKjiGqKE2NBaufHRB5owNYu h20-render
-```
-
----
-
-## Forbidden Words Check
-```
-grep -riE 'cvpr|neurips|iccv|iclr|aaai|under review|submission|paper deadline' outputs/tier2/*.md
-→ PASS (no matches)
-```
+## Next Steps (for next GPU session)
+1. **Scale training**: 2000-5000 steps for visible eval metric improvement
+2. **Better motion reward**: Replace RAFT-based motion_smoothness with VideoMAE or CLIP-temporal
+3. **Higher dynamic degree**: Increase cap_tau from 0.6 to 0.8 to prevent saturation
+4. **Add FVD/FID**: Standard video generation metrics for CVPR comparison
+5. **Full eval**: 40 prompts × 3 seeds = 120 videos per config
+6. **Gallery GIFs**: Side-by-side comparison animations for paper
