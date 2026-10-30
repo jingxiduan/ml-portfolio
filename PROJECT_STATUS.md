@@ -154,16 +154,17 @@ V1 / V2 / NoNat 三组各 500 步，约 4.6 GPU-h。
 
 | 项目 | 任务书 | 核心内容 | 预计 |
 |---|---|---|---|
-| 07 | `07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md` | 诊断 jitter（hard cap 疑似失效）→ reward v3 只改 jitter → 放大到约 2000 条语音 → SyncNet 与盲评表 | 约 6 h |
-| 08 | `08-video-opsd-i2v/docs/NEXT_H20_TASKS.md` | 确认 LoRA 有效 + lr 探针 → V2 / NoNat 配对长训 2000 步 → n=40 评测与盲评表 | 约 9.5 h |
+| 07 | `07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md` | 诊断 jitter（hard cap 疑似失效）→ reward v3 只改 jitter → 公开中文语音集（AISHELL）放大到约 2000 段 → SyncNet 与盲评表 | 约 6 h |
+| 08 | `08-video-opsd-i2v/docs/NEXT_H20_TASKS.md` | 先查没训动的根因（目标偏移只有 y0 的约 1%、lr 偏低）并做探针 → 公开视频集上 V2 / NoNat 配对长训 → 评测与盲评表 | 约 10 h |
 
 - 两个项目共用 2 张卡：08 长训一卡一组并行；07 的 motion 训练很小，插在空档，先看 `nvidia-smi` 再放卡。
 - 每个任务书都带 gate：前一阶段不过，就停下写结论，不往下走。
 - 每个任务书的 §0b 是硬性约束（禁止事项、参数上限、触发后的处理）；
-  所有训练都必须经 `tools/train_guard.py` 启动，阈值已在现有 5 份日志上回放验证过。
+  所有训练都必须经 `tools/train_guard.py` 启动，备份用 `tools/backup_push.sh`，阈值已在现有 5 份日志上回放验证过。
 - 成功标准已写在任务书里，**结果出来后不改**。
 - 硬件：上一轮报告里机器是 2 卡 H100 80GB（预约页写 H20），文档里以实际 `nvidia-smi` 为准。
-- 每个阶段结束就 commit + push；mp4 不进 git。
+- **训完就推**：每个任务结束立刻用 `tools/backup_push.sh` 备份（小文件上 `main`，mp4 与大文件走 `backup/*` 分支），到期前 90 分钟转入全量备份。
+- **数据必须是公开数据集**：08 用 OpenVid-1M 子集，07 用 AISHELL；来源、许可证写进 `data/DATA_SOURCES.md`。联网不通就汇报，不要退回合成数据。
 
 ## 4 · 跨会话约定（House Rules）
 

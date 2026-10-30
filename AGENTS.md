@@ -71,7 +71,7 @@ Reward-Hacked Image-to-Video LoRA". See its README for the full story.
 | If your task is… | Start with |
 |---|---|
 | **anything** — know what's done / what's next | `PROJECT_STATUS.md` ← **start here always** |
-| **H20 next round (07 and 08)** | `07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md` and `08-video-opsd-i2v/docs/NEXT_H20_TASKS.md` — read section 0b (hard constraints) first; launch every training run through `tools/train_guard.py` |
+| **H20 next round (07 and 08)** | `07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md` and `08-video-opsd-i2v/docs/NEXT_H20_TASKS.md` — read section 0b (hard constraints) first; launch every training run through `tools/train_guard.py`; back up with `tools/backup_push.sh` the moment a job ends (GPU disks are reclaimed on expiry) |
 | H20 training/render on 10/30 (previous round) | `08-video-opsd-i2v/docs/H20_SESSION_HANDOFF.md` |
 | 07 Tier-2 render on H20 | `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md` |
 | 08 Tier-2 training on H20 | `08-video-opsd-i2v/docs/H20_PLAYBOOK.md` |
