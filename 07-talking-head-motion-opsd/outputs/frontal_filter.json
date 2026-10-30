@@ -1,0 +1,509 @@
+{
+ "max_yaw": 15.0,
+ "max_pitch": 15.0,
+ "n_input": 72,
+ "n_kept": 42,
+ "per_file": [
+  {
+   "file": "celebahq_000.png",
+   "yaw": -9.3,
+   "pitch": -41.9,
+   "roll": -158.0,
+   "kept": false
+  },
+  {
+   "file": "celebahq_001.png",
+   "yaw": -0.5,
+   "pitch": -18.3,
+   "roll": -166.9,
+   "kept": false
+  },
+  {
+   "file": "celebahq_002.png",
+   "yaw": 0.2,
+   "pitch": -17.0,
+   "roll": -165.1,
+   "kept": false
+  },
+  {
+   "file": "celebahq_003.png",
+   "yaw": 2.7,
+   "pitch": 10.1,
+   "roll": -159.1,
+   "kept": true
+  },
+  {
+   "file": "celebahq_004.png",
+   "yaw": 0.9,
+   "pitch": -2.4,
+   "roll": 160.5,
+   "kept": true
+  },
+  {
+   "file": "celebahq_005.png",
+   "yaw": 0.0,
+   "pitch": 13.8,
+   "roll": -169.3,
+   "kept": true
+  },
+  {
+   "file": "celebahq_006.png",
+   "yaw": 2.0,
+   "pitch": -13.0,
+   "roll": 173.4,
+   "kept": true
+  },
+  {
+   "file": "celebahq_007.png",
+   "yaw": 0.1,
+   "pitch": -0.5,
+   "roll": -159.4,
+   "kept": true
+  },
+  {
+   "file": "celebahq_008.png",
+   "yaw": -0.3,
+   "pitch": 21.5,
+   "roll": -170.2,
+   "kept": false
+  },
+  {
+   "file": "celebahq_009.png",
+   "yaw": 0.3,
+   "pitch": 0.9,
+   "roll": -171.4,
+   "kept": true
+  },
+  {
+   "file": "celebahq_010.png",
+   "yaw": -0.6,
+   "pitch": -32.4,
+   "roll": -170.5,
+   "kept": false
+  },
+  {
+   "file": "celebahq_011.png",
+   "yaw": -0.7,
+   "pitch": 12.0,
+   "roll": -173.6,
+   "kept": true
+  },
+  {
+   "file": "celebahq_012.png",
+   "yaw": -5.3,
+   "pitch": -8.7,
+   "roll": -141.7,
+   "kept": true
+  },
+  {
+   "file": "celebahq_013.png",
+   "yaw": -0.0,
+   "pitch": -5.0,
+   "roll": -174.8,
+   "kept": true
+  },
+  {
+   "file": "celebahq_014.png",
+   "yaw": -2.0,
+   "pitch": -4.2,
+   "roll": -135.2,
+   "kept": true
+  },
+  {
+   "file": "celebahq_015.png",
+   "yaw": 0.0,
+   "pitch": 8.2,
+   "roll": -166.7,
+   "kept": true
+  },
+  {
+   "file": "celebahq_016.png",
+   "yaw": -0.2,
+   "pitch": -1.0,
+   "roll": -173.7,
+   "kept": true
+  },
+  {
+   "file": "celebahq_017.png",
+   "yaw": -0.6,
+   "pitch": 9.6,
+   "roll": 173.6,
+   "kept": true
+  },
+  {
+   "file": "celebahq_018.png",
+   "yaw": -0.8,
+   "pitch": 18.1,
+   "roll": 178.7,
+   "kept": false
+  },
+  {
+   "file": "celebahq_019.png",
+   "yaw": -2.7,
+   "pitch": 15.2,
+   "roll": -178.6,
+   "kept": false
+  },
+  {
+   "file": "celebahq_020.png",
+   "yaw": -0.5,
+   "pitch": 9.0,
+   "roll": 178.9,
+   "kept": true
+  },
+  {
+   "file": "celebahq_021.png",
+   "yaw": 0.6,
+   "pitch": 23.3,
+   "roll": -165.0,
+   "kept": false
+  },
+  {
+   "file": "celebahq_022.png",
+   "yaw": -1.7,
+   "pitch": 20.5,
+   "roll": -171.1,
+   "kept": false
+  },
+  {
+   "file": "celebahq_023.png",
+   "yaw": 0.1,
+   "pitch": 8.2,
+   "roll": -170.0,
+   "kept": true
+  },
+  {
+   "file": "celebahq_024.png",
+   "yaw": -0.7,
+   "pitch": 25.2,
+   "roll": -170.6,
+   "kept": false
+  },
+  {
+   "file": "celebahq_025.png",
+   "yaw": -1.1,
+   "pitch": 4.5,
+   "roll": -178.3,
+   "kept": true
+  },
+  {
+   "file": "celebahq_026.png",
+   "yaw": -2.2,
+   "pitch": 7.3,
+   "roll": 165.1,
+   "kept": true
+  },
+  {
+   "file": "celebahq_027.png",
+   "yaw": 0.4,
+   "pitch": -0.6,
+   "roll": -178.5,
+   "kept": true
+  },
+  {
+   "file": "celebahq_028.png",
+   "yaw": -0.4,
+   "pitch": 6.4,
+   "roll": -172.9,
+   "kept": true
+  },
+  {
+   "file": "celebahq_029.png",
+   "yaw": -1.3,
+   "pitch": 11.7,
+   "roll": -177.1,
+   "kept": true
+  },
+  {
+   "file": "celebahq_030.png",
+   "yaw": -1.0,
+   "pitch": -4.3,
+   "roll": 179.0,
+   "kept": true
+  },
+  {
+   "file": "celebahq_031.png",
+   "yaw": -1.3,
+   "pitch": 14.1,
+   "roll": 178.8,
+   "kept": true
+  },
+  {
+   "file": "celebahq_032.png",
+   "yaw": -2.8,
+   "pitch": 35.7,
+   "roll": -179.0,
+   "kept": false
+  },
+  {
+   "file": "celebahq_033.png",
+   "yaw": -0.6,
+   "pitch": 6.0,
+   "roll": 177.3,
+   "kept": true
+  },
+  {
+   "file": "celebahq_034.png",
+   "yaw": 0.4,
+   "pitch": -1.3,
+   "roll": 165.5,
+   "kept": true
+  },
+  {
+   "file": "celebahq_035.png",
+   "yaw": -0.3,
+   "pitch": 1.7,
+   "roll": 176.5,
+   "kept": true
+  },
+  {
+   "file": "celebahq_036.png",
+   "yaw": 0.1,
+   "pitch": 3.5,
+   "roll": -174.7,
+   "kept": true
+  },
+  {
+   "file": "celebahq_037.png",
+   "status": "no_face"
+  },
+  {
+   "file": "celebahq_038.png",
+   "yaw": 0.2,
+   "pitch": 27.4,
+   "roll": -173.5,
+   "kept": false
+  },
+  {
+   "file": "celebahq_039.png",
+   "yaw": 11.8,
+   "pitch": -35.5,
+   "roll": 152.1,
+   "kept": false
+  },
+  {
+   "file": "celebahq_040.png",
+   "yaw": -0.7,
+   "pitch": 2.0,
+   "roll": -177.0,
+   "kept": true
+  },
+  {
+   "file": "celebahq_041.png",
+   "yaw": -0.9,
+   "pitch": 3.3,
+   "roll": -171.7,
+   "kept": true
+  },
+  {
+   "file": "celebahq_042.png",
+   "yaw": -0.1,
+   "pitch": -0.3,
+   "roll": 171.8,
+   "kept": true
+  },
+  {
+   "file": "celebahq_043.png",
+   "yaw": -0.1,
+   "pitch": 1.2,
+   "roll": 174.4,
+   "kept": true
+  },
+  {
+   "file": "celebahq_044.png",
+   "yaw": 1.2,
+   "pitch": 30.3,
+   "roll": -162.7,
+   "kept": false
+  },
+  {
+   "file": "celebahq_045.png",
+   "yaw": -1.0,
+   "pitch": 7.2,
+   "roll": -174.8,
+   "kept": true
+  },
+  {
+   "file": "celebahq_046.png",
+   "yaw": 0.9,
+   "pitch": 11.1,
+   "roll": -165.9,
+   "kept": true
+  },
+  {
+   "file": "celebahq_047.png",
+   "yaw": 0.9,
+   "pitch": -8.3,
+   "roll": -178.5,
+   "kept": true
+  },
+  {
+   "file": "celebahq_048.png",
+   "yaw": -0.6,
+   "pitch": -1.0,
+   "roll": 169.4,
+   "kept": true
+  },
+  {
+   "file": "celebahq_049.png",
+   "yaw": 0.3,
+   "pitch": 1.5,
+   "roll": -176.2,
+   "kept": true
+  },
+  {
+   "file": "celebahq_050.png",
+   "yaw": 0.7,
+   "pitch": -5.2,
+   "roll": -171.1,
+   "kept": true
+  },
+  {
+   "file": "celebahq_051.png",
+   "yaw": 0.2,
+   "pitch": 15.2,
+   "roll": -165.7,
+   "kept": false
+  },
+  {
+   "file": "celebahq_052.png",
+   "yaw": 0.5,
+   "pitch": 18.7,
+   "roll": -167.8,
+   "kept": false
+  },
+  {
+   "file": "celebahq_053.png",
+   "yaw": -0.6,
+   "pitch": 9.8,
+   "roll": 174.3,
+   "kept": true
+  },
+  {
+   "file": "celebahq_054.png",
+   "yaw": -0.9,
+   "pitch": 15.1,
+   "roll": -177.7,
+   "kept": false
+  },
+  {
+   "file": "celebahq_055.png",
+   "yaw": -0.3,
+   "pitch": 18.9,
+   "roll": -170.6,
+   "kept": false
+  },
+  {
+   "file": "celebahq_056.png",
+   "yaw": -0.2,
+   "pitch": -0.6,
+   "roll": -166.1,
+   "kept": true
+  },
+  {
+   "file": "celebahq_057.png",
+   "yaw": -2.2,
+   "pitch": -33.8,
+   "roll": -160.9,
+   "kept": false
+  },
+  {
+   "file": "celebahq_058.png",
+   "yaw": -1.9,
+   "pitch": -24.2,
+   "roll": -167.7,
+   "kept": false
+  },
+  {
+   "file": "celebahq_059.png",
+   "yaw": -8.8,
+   "pitch": -16.3,
+   "roll": -153.1,
+   "kept": false
+  },
+  {
+   "file": "celebv_--QCZKgJt6o_0.png",
+   "yaw": -4.8,
+   "pitch": -70.8,
+   "roll": -178.7,
+   "kept": false
+  },
+  {
+   "file": "celebv_-1eKufUP5XQ_3.png",
+   "yaw": 11.2,
+   "pitch": -29.1,
+   "roll": 178.8,
+   "kept": false
+  },
+  {
+   "file": "celebv_-2KG4lLGEl0_2.png",
+   "yaw": -1.0,
+   "pitch": -11.2,
+   "roll": 178.7,
+   "kept": true
+  },
+  {
+   "file": "celebv_-2KG4lLGEl0_3.png",
+   "yaw": 5.5,
+   "pitch": -14.0,
+   "roll": -178.3,
+   "kept": true
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_11.png",
+   "yaw": 7.7,
+   "pitch": -0.1,
+   "roll": -160.5,
+   "kept": true
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_2.png",
+   "yaw": -5.7,
+   "pitch": 35.0,
+   "roll": -169.6,
+   "kept": false
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_3.png",
+   "yaw": -9.3,
+   "pitch": 23.3,
+   "roll": 177.1,
+   "kept": false
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_5.png",
+   "yaw": 0.8,
+   "pitch": 27.5,
+   "roll": 175.4,
+   "kept": false
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_6.png",
+   "yaw": 9.1,
+   "pitch": -24.5,
+   "roll": 173.4,
+   "kept": false
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_7.png",
+   "yaw": -4.8,
+   "pitch": 23.2,
+   "roll": 173.2,
+   "kept": false
+  },
+  {
+   "file": "celebv_-2KGPYEFnsU_9.png",
+   "yaw": -4.1,
+   "pitch": 25.0,
+   "roll": 168.5,
+   "kept": false
+  },
+  {
+   "file": "celebv_-3Bl8i34Z7Q_0.png",
+   "yaw": 4.3,
+   "pitch": 13.5,
+   "roll": -173.1,
+   "kept": true
+  }
+ ]
+}

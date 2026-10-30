@@ -131,6 +131,33 @@ jitter look bad. This is the next lever, not the jitter term itself.
 
 ---
 
+## 🐛 LORA LOADING BUG (why an earlier gallery showed no change)
+
+`DualLoRALinear.forward` branches on a mode string:
+
+| mode | weights used |
+|---|---|
+| `"trainable"` | `A_t / B_t` — the trained weights |
+| `"behavior"` | `A_b / B_b` — the EMA copy (`B_b` initialised to zeros) |
+| anything else | `base(x)` only — **no LoRA contribution** |
+
+Inference must therefore load `A_t/B_t` **and** call `set_mode("trainable")`.
+An earlier version of `scripts/render_hd_compare.py` loaded `A_t/B_t` but then
+called `set_mode("behavior")`, so the sampled trajectory used `A_b/B_b ≈ 0`.
+
+Measured on one clip (mean |Δ| of motion coefficients vs base):
+
+| mode used | diff vs base |
+|---|---|
+| `"behavior"` (buggy) | **0.000000** — v3 rendered identical to base |
+| `"trainable"` (fixed) | **0.795556** |
+
+After the fix, base vs v3 differs by **20.5 / 255** mean per-frame pixel difference
+over 91 frames at 1024×1024. Every figure in this README is from the fixed code.
+`B_t` norm in the trained checkpoint is 6.65, confirming the weights are non-zero.
+
+---
+
 ## 🔬 THE BUG THIS ROUND FIXED
 
 v2 added a "hard jitter cap" at 1.0° that never fired. Measured over 140 entries
@@ -214,26 +241,34 @@ tracks drive the animation — no TTS). Rendered with `source_max_dim=1280` +
 portrait. **Verified output: 1024×1024, H.264 High, 25 fps, audio muxed in**
 (previously 256/512 on-face only).
 
-**Portrait pool (24 identities, extracted in `scripts/prep_public_portraits.py`):**
+**Portrait pool.** CelebA-HQ + CelebV-HQ candidates are filtered to **near-frontal
+poses** (`|yaw| ≤ 15°`, `|pitch| ≤ 15°`, MediaPipe + solvePnP): **42 of 72 kept**.
+Profiles were removed because a talking-head demo on a side-view face hides
+exactly the behaviour being measured.
 
-![portrait sheet](outputs/demo_gifs/portrait_sheet.png)
+![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
-**base (left) vs v3 (right)**, driven by real speech from CelebV-HQ:
+**base (left) vs v3 (right)**, driven by real speech from CelebV-HQ, frontal portraits:
 
 | | |
 |---|---|
-| ![base vs v3, CelebA-HQ portrait](outputs/demo_gifs/c00__celebahq_000__base_vs_v3.gif) | ![base vs v3, CelebA-HQ portrait](outputs/demo_gifs/c01__celebahq_000__base_vs_v3.gif) |
-| ![base vs v3, CelebV-HQ portrait](outputs/demo_gifs/c00__celebv_--QCZKgJt6o_0__base_vs_v3.gif) | ![base vs v3, CelebV-HQ portrait](outputs/demo_gifs/c01__celebv_--QCZKgJt6o_0__base_vs_v3.gif) |
+| ![base vs v3](outputs/demo_gifs_frontal/c00__celebahq_004__base_vs_v3.gif) | ![base vs v3](outputs/demo_gifs_frontal/c01__celebahq_004__base_vs_v3.gif) |
+| ![base vs v3](outputs/demo_gifs_frontal/c00__celebahq_007__base_vs_v3.gif) | ![base vs v3](outputs/demo_gifs_frontal/c01__celebahq_007__base_vs_v3.gif) |
 
-Full set: `outputs/hd_compare_public/` (12 videos), `outputs/hd_compare/` (36 videos
-on the original 3 portraits), `outputs/demo_gifs/` (side-by-side GIFs).
-`manifest.json` in each directory records every (clip, portrait, variant) mapping.
+Verified that the LoRA is actually applied: mean per-frame pixel difference between
+base and v3 is **20.5 / 255** over 91 frames (1024×1024). See the "LoRA loading bug"
+note below — an earlier version of this gallery rendered v3 identically to base.
+
+Full set: `outputs/hd_frontal/` (16 videos), `outputs/demo_gifs_frontal/` (8 GIFs),
+`outputs/hd_compare_public/`, `outputs/hd_compare/`. `manifest.json` in each directory
+records every (clip, portrait, variant) mapping.
 
 ```bash
-python scripts/prep_public_portraits.py        # extract portraits + real audio
-python scripts/render_hd_compare.py --n-clips 4 --variants base v2 v3
-python scripts/make_demo_gifs.py               # side-by-side GIFs for the README
-# ~45 s per 12 s clip on one H20
+python scripts/prep_public_portraits.py     # extract portraits + real audio
+python scripts/filter_frontal.py            # keep near-frontal faces only
+python scripts/render_hd_compare.py --clips <wav...> --portraits <png...> --variants base v3
+python scripts/make_demo_gifs.py --video-dir outputs/hd_frontal
+# ~8 s per 8 s clip on one H20
 ```
 
 What to look for, and what is still weak:

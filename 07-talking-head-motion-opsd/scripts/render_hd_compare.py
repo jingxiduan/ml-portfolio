@@ -43,28 +43,30 @@ HD_OPTS = dict(
 
 
 def load_lora(eng, path):
-    """Hot-swap a LoRA onto the motion generator; None restores base weights."""
+    """Hot-swap a LoRA onto the motion generator; None restores pure base.
+
+    IMPORTANT: DualLoRALinear.forward branches on the mode string:
+        "trainable" -> uses A_t / B_t (the trained weights)
+        "behavior"  -> uses A_b / B_b (the EMA copy)
+        anything else -> returns base(x) with NO LoRA at all
+
+    We load A_t / B_t, so the mode MUST be "trainable". Using "behavior" here
+    silently ignores the loaded weights and renders near-base output (B_b starts
+    at zeros), which is exactly the bug that made v3 look identical to base.
+    """
     import opsd_train_motion as T
     if not hasattr(eng, "_lora_layers"):
         eng._lora_layers = T.add_lora(eng.mg.denoising_net, 8, 8)
-        eng._lora_sd = {f"{i}.{k}": v for i, l in enumerate(eng._lora_layers)
-                        for k, v in (("A_t", l.A_t.detach().clone()),
-                                     ("B_t", l.B_t.detach().clone()),
-                                     ("A_b", l.A_b.clone()),
-                                     ("B_b", l.B_b.clone()))}
     if path is None:
-        T.set_mode("none")
+        T.set_mode("base")          # pure base, no LoRA contribution
         return
-    sd = torch.load(path, map_location="cpu")
-    lora = sd["lora"]
+    ck = torch.load(path, map_location="cpu")
+    lora = ck["lora"]
     with torch.no_grad():
         for i, l in enumerate(eng._lora_layers):
-            l.A_t.copy_(lora[f"{i}.A_t"])
-            l.B_t.copy_(lora[f"{i}.B_t"])
-            if f"{i}.A_b" in lora:
-                l.A_b.copy_(lora[f"{i}.A_b"])
-                l.B_b.copy_(lora[f"{i}.B_b"])
-    T.set_mode("behavior")
+            l.A_t.data.copy_(lora[f"{i}.A_t"].to(l.A_t.device))
+            l.B_t.data.copy_(lora[f"{i}.B_t"].to(l.B_t.device))
+    T.set_mode("trainable")          # <-- must match the branch we loaded
 
 
 def main():
