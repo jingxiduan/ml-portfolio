@@ -1,0 +1,59 @@
+# Probe P1: higher lr (1e-4), original c_adv (5)
+# Question: does raising lr alone make LoRA learn?
+
+model:
+  ckpt_path: "weights/dynamicrafter_512/model.ckpt"
+  resolution: [320, 512]
+  num_frames: 16
+  fps: 8
+  guidance_scale: 7.5
+  num_inference_steps: 50
+  lora_rank: 16
+  lora_alpha: 32
+  dtype_override: null
+
+train:
+  first_frame_dir: "data/first_frames_200"
+  train_prompts: "data/prompts/tier2_train_200.json"
+  batch_size: 1
+  num_workers: 0
+
+  num_steps: 200
+  lr: 1.0e-4
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+  warmup_steps: 20
+
+  c_adv: 5.0
+  sigma_q_min: 0.2
+  sigma_q_max: 0.8
+  inner_fit_steps: 1
+  reward_grad_rescale: "l2"
+
+  ema_decay: 0.999
+  ema_refresh_every: 25
+  ema_warmup_steps: 50
+
+  log_every: 5
+  ckpt_every: 50
+  out_dir: "outputs/probe_p1"
+  seed: 0
+  wandb_project: null
+  wandb_run_name: null
+
+reward:
+  components:
+    subject_consistency:
+      weight: 0.8
+      model_name: "ViT-B-32"
+      pretrained: "openai"
+    motion_smoothness:
+      weight: 1.0
+    dynamic_degree:
+      weight: 0.8
+      cap_tau: 0.6
+    naturalness_penalty:
+      weight: 2.0
+      sat_threshold: 0.25
+      sobel_threshold: 70.0
+      sobel_scale: 80.0

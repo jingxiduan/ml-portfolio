@@ -1,0 +1,2 @@
+[GUARD] kind=motion log=07-talking-head-motion-opsd/outputs/opsd_v3/metrics.jsonl pid=7323 window=50
+[GUARD] pid 7323 exited after 600 steps, no trip

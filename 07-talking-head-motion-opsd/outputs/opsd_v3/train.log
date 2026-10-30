@@ -1,0 +1,79 @@
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:209: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(ckpt_path, map_location=lambda storage, loc: storage))
+[18:35:56] Load appearance_feature_extractor     live_portrait_wmg_wrapper.py:55
+           from                                                                 
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           appearance_feature_extractor.pth                                     
+           done.                                                                
+           Load motion_extractor from            live_portrait_wmg_wrapper.py:58
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           motion_extractor.pth done.                                           
+           Load warping_module from              live_portrait_wmg_wrapper.py:61
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           warping_module.pth done.                                             
+[18:35:57] Load spade_generator from             live_portrait_wmg_wrapper.py:64
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           spade_generator.pth done.                                            
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:184: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+           Load stitching_retargeting_module     live_portrait_wmg_wrapper.py:68
+           from                                                                 
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/retargeting_                                
+           models/stitching_retargeting_module.p                                
+           th done.                                                             
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:163: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_data = torch.load(ckpt_path, map_location=device)
+using hubert chinese ori
+[18:35:58] Load motion_generator from            live_portrait_wmg_wrapper.py:82
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/JoyVASA/motion_generator/                                
+           motion_generator_hubert_chinese.pt                                   
+           done.                                                                
+/root/ml-portfolio/07-talking-head-motion-opsd/src/opsd_train_motion_v3.py:59: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  probe.load_state_dict(torch.load(os.path.join(ROOT, "outputs", "eye_probe", "eye_probe.pt"),
+[lora-v3] 21 layers, 179.3K trainable params
+HubertModel is using HubertSdpaAttention, but `torch.nn.functional.scaled_dot_product_attention` does not support `output_attentions=True` or `layer_head_mask` not None. Falling back to the manual attention implementation, but specifying the manual implementation will be required from Transformers version v5.0.0 onwards. This warning can be removed using the argument `attn_implementation="eager"` when loading the model.
+[data] 25 train clips -> 107 4-sec windows
+[   1/600] loss=0.01024 R=0.281 amp=0.257 jitter=-0.339 couple=-0.063 blink=0.097 gaze=0.592 ood=-0.000 cap_frac=0.08  t=1s
+[  20/600] loss=0.01001 R=0.209 amp=0.283 jitter=-0.338 couple=-0.145 blink=0.046 gaze=0.485 ood=-0.001 cap_frac=0.17  t=6s
+[  40/600] loss=0.01019 R=0.298 amp=0.319 jitter=-0.367 couple=-0.029 blink=0.051 gaze=0.509 ood=-0.001 cap_frac=0.08  t=12s
+[  60/600] loss=0.01013 R=0.322 amp=0.323 jitter=-0.356 couple=-0.058 blink=0.085 gaze=0.545 ood=-0.000 cap_frac=0.17  t=18s
+[  80/600] loss=0.01005 R=0.455 amp=0.368 jitter=-0.370 couple=0.065 blink=0.124 gaze=0.594 ood=-0.001 cap_frac=0.17  t=23s
+[ 100/600] loss=0.01012 R=0.483 amp=0.389 jitter=-0.346 couple=-0.017 blink=0.173 gaze=0.629 ood=-0.000 cap_frac=0.08  t=29s
+[ 120/600] loss=0.01017 R=0.529 amp=0.398 jitter=-0.385 couple=-0.043 blink=0.262 gaze=0.713 ood=-0.000 cap_frac=0.21  t=35s
+[ 140/600] loss=0.00985 R=0.630 amp=0.424 jitter=-0.360 couple=0.072 blink=0.272 gaze=0.714 ood=-0.000 cap_frac=0.17  t=40s
+[ 160/600] loss=0.01017 R=0.646 amp=0.470 jitter=-0.437 couple=0.077 blink=0.274 gaze=0.732 ood=-0.000 cap_frac=0.33  t=46s
+[ 180/600] loss=0.01020 R=0.668 amp=0.493 jitter=-0.465 couple=0.068 blink=0.304 gaze=0.740 ood=-0.000 cap_frac=0.25  t=52s
+[ 200/600] loss=0.01019 R=0.691 amp=0.510 jitter=-0.453 couple=0.067 blink=0.296 gaze=0.755 ood=-0.000 cap_frac=0.21  t=57s
+[ 220/600] loss=0.01025 R=0.705 amp=0.507 jitter=-0.483 couple=0.102 blink=0.325 gaze=0.753 ood=-0.000 cap_frac=0.38  t=63s
+[ 240/600] loss=0.01013 R=0.667 amp=0.521 jitter=-0.487 couple=-0.015 blink=0.321 gaze=0.789 ood=-0.000 cap_frac=0.29  t=68s
+[ 260/600] loss=0.01020 R=0.799 amp=0.583 jitter=-0.421 couple=0.118 blink=0.291 gaze=0.741 ood=-0.000 cap_frac=0.25  t=74s
+[ 280/600] loss=0.01017 R=0.851 amp=0.593 jitter=-0.488 couple=0.151 blink=0.386 gaze=0.777 ood=-0.000 cap_frac=0.29  t=80s
+[ 300/600] loss=0.01019 R=0.749 amp=0.596 jitter=-0.577 couple=0.088 blink=0.324 gaze=0.784 ood=-0.000 cap_frac=0.67  t=86s
+[ 320/600] loss=0.01010 R=0.882 amp=0.623 jitter=-0.445 couple=0.141 blink=0.340 gaze=0.801 ood=-0.000 cap_frac=0.25  t=91s
+[ 340/600] loss=0.01017 R=0.854 amp=0.587 jitter=-0.439 couple=0.136 blink=0.377 gaze=0.771 ood=-0.001 cap_frac=0.38  t=97s
+[ 360/600] loss=0.01021 R=0.881 amp=0.610 jitter=-0.474 couple=0.201 blink=0.336 gaze=0.803 ood=-0.000 cap_frac=0.29  t=103s
+[ 380/600] loss=0.01016 R=1.013 amp=0.645 jitter=-0.379 couple=0.278 blink=0.355 gaze=0.804 ood=-0.000 cap_frac=0.21  t=108s
+[ 400/600] loss=0.01027 R=0.876 amp=0.615 jitter=-0.361 couple=0.048 blink=0.350 gaze=0.812 ood=-0.000 cap_frac=0.17  t=114s
+[ 420/600] loss=0.01015 R=1.017 amp=0.669 jitter=-0.405 couple=0.216 blink=0.382 gaze=0.841 ood=-0.000 cap_frac=0.38  t=120s
+[ 440/600] loss=0.01031 R=0.976 amp=0.686 jitter=-0.354 couple=0.103 blink=0.327 gaze=0.841 ood=-0.000 cap_frac=0.12  t=125s
+[ 460/600] loss=0.01029 R=1.046 amp=0.689 jitter=-0.421 couple=0.234 blink=0.402 gaze=0.834 ood=-0.001 cap_frac=0.33  t=131s
+[ 480/600] loss=0.01023 R=1.024 amp=0.724 jitter=-0.458 couple=0.149 blink=0.391 gaze=0.864 ood=-0.001 cap_frac=0.33  t=136s
+[ 500/600] loss=0.01037 R=1.062 amp=0.732 jitter=-0.460 couple=0.194 blink=0.407 gaze=0.865 ood=-0.001 cap_frac=0.50  t=142s
+[ 520/600] loss=0.01037 R=1.079 amp=0.735 jitter=-0.494 couple=0.237 blink=0.414 gaze=0.884 ood=-0.000 cap_frac=0.42  t=148s
+[ 540/600] loss=0.01053 R=1.170 amp=0.813 jitter=-0.404 couple=0.140 blink=0.437 gaze=0.906 ood=-0.001 cap_frac=0.25  t=153s
+[ 560/600] loss=0.01010 R=1.112 amp=0.735 jitter=-0.359 couple=0.176 blink=0.416 gaze=0.868 ood=-0.000 cap_frac=0.12  t=159s
+[ 580/600] loss=0.01048 R=1.088 amp=0.709 jitter=-0.424 couple=0.214 blink=0.442 gaze=0.878 ood=-0.001 cap_frac=0.33  t=164s
+[ 600/600] loss=0.01023 R=1.179 amp=0.781 jitter=-0.427 couple=0.221 blink=0.476 gaze=0.883 ood=-0.001 cap_frac=0.29  t=170s
+[ok] saved outputs/opsd_v3/lora.pt

@@ -352,7 +352,7 @@ class OPSDI2VTrainer:
 
             self.optimizer.zero_grad(set_to_none=True)
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(
+            _param_grad_norm = torch.nn.utils.clip_grad_norm_(
                 [p for p in self.p.v_theta.parameters() if p.requires_grad], self.cfg.grad_clip
             )
             self.optimizer.step()
@@ -361,6 +361,19 @@ class OPSDI2VTrainer:
             last_loss_plus = float(loss_plus.detach().cpu())
             last_loss_minus = float(loss_minus.detach().cpu())
 
+        # --- diagnostic metrics (logging only, does not affect training) ---
+        # shift_ratio: ||c_adv * sigma_t * g|| / ||y0||
+        _shift_norm = float((step_size.view(-1, 1, 1, 1, 1) * g).flatten(1).norm(dim=1).mean().cpu())
+        _y0_norm = float(y0.flatten(1).norm(dim=1).mean().cpu())
+        _shift_ratio = _shift_norm / max(_y0_norm, 1e-8)
+
+        # lora_B_norm: L2 norm of all LoRA B matrices
+        _lora_b_sq = 0.0
+        for n, p in self.p.v_theta.named_parameters():
+            if "lora_B" in n:
+                _lora_b_sq += float(p.detach().float().norm().cpu().item()) ** 2
+        _lora_b_norm = _lora_b_sq ** 0.5
+
         metrics = {
             "loss": last_loss,
             "loss_plus": last_loss_plus,
@@ -368,6 +381,9 @@ class OPSDI2VTrainer:
             "reward": float(reward_val.mean().cpu()),
             "sigma_q": float(sigma_q.detach().cpu().item()),
             "grad_norm": float(g.flatten(1).norm(dim=1).mean().cpu()),
+            "param_grad_norm": float(_param_grad_norm.cpu()),
+            "shift_ratio": _shift_ratio,
+            "lora_B_norm": _lora_b_norm,
         }
         # Attach per-component reward breakdown
         metrics.update({f"R_{k}": v for k, v in self._last_reward_components.items()})
