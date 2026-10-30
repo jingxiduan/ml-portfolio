@@ -1,0 +1,81 @@
+{
+  "per_variant": {
+    "base_naive": {
+      "std_high_mean": 0.17824794352054596,
+      "std_high_p90": 0.26329209208488463,
+      "std_high_max": 0.35479772090911865,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.2833333333333333
+    },
+    "base_bon": {
+      "std_high_mean": 0.17507219314575195,
+      "std_high_p90": 0.2591373234987259,
+      "std_high_max": 0.30165234208106995,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.35
+    },
+    "opsd_naive": {
+      "std_high_mean": 0.2547534704208374,
+      "std_high_p90": 0.38403956592082983,
+      "std_high_max": 0.44342949986457825,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.7
+    },
+    "opsd_bon": {
+      "std_high_mean": 0.2516304552555084,
+      "std_high_p90": 0.3535139232873917,
+      "std_high_max": 0.46059519052505493,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.7666666666666667
+    },
+    "opsd_bon_thin": {
+      "std_high_mean": 0.2516304552555084,
+      "std_high_p90": 0.3535139232873917,
+      "std_high_max": 0.46059519052505493,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.7666666666666667
+    },
+    "opsd_v2_naive": {
+      "std_high_mean": 0.2430843710899353,
+      "std_high_p90": 0.3382233142852783,
+      "std_high_max": 0.441977858543396,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.75
+    },
+    "opsd_v2_bon": {
+      "std_high_mean": 0.24248507618904114,
+      "std_high_p90": 0.346168240904808,
+      "std_high_max": 0.5017583966255188,
+      "frac_above_cap_1deg": 0.0,
+      "frac_above_0p2deg": 0.75
+    }
+  },
+  "cap_deg": 1.0,
+  "grad_share": {
+    "amp": {
+      "l2": 0.5866076946258545,
+      "share": 0.11918754419653302
+    },
+    "jitter": {
+      "l2": 4.222842216491699,
+      "share": 0.8580013489835097
+    },
+    "couple": {
+      "l2": 0.0,
+      "share": null
+    },
+    "blink": {
+      "l2": 0.01559615321457386,
+      "share": 0.0031688421709904955
+    },
+    "gaze": {
+      "l2": 0.09637820720672607,
+      "share": 0.019582221536253254
+    },
+    "ood": {
+      "l2": 0.00029551537591032684,
+      "share": 6.004311271356918e-05
+    }
+  },
+  "corr_std_high_vs_jitter_hp": null
+}
