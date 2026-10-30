@@ -1,0 +1,488 @@
+{
+ "source": "HDTF (news-anchor / professional speech), MediaPipe + solvePnP",
+ "n_clips": 40,
+ "pose_std_deg": {
+  "median": 3.5539370014775216,
+  "p10": 2.2059627926557352,
+  "p90": 30.455785632214006,
+  "mean": 9.757592263457742
+ },
+ "amp_power": {
+  "median": 40.35612197492048,
+  "p10": 28.402492201339836,
+  "p90": 557.7199563546224,
+  "mean": 164.21502721665345
+ },
+ "jitter_power": {
+  "median": 3.967772752392501,
+  "p10": 2.2728092377444833,
+  "p90": 122.64276961480387,
+  "mean": 45.14718905005682
+ },
+ "blink_per_min": {
+  "median": 15.0,
+  "p10": 7.5,
+  "p90": 37.5,
+  "mean": 21.9375
+ },
+ "luminance": {
+  "median": 128.2410237598419,
+  "p10": 105.06755395698546,
+  "p90": 145.09389279556274,
+  "mean": 123.89623325395584
+ },
+ "contrast": {
+  "median": 2.709085989713265,
+  "p10": 1.383722648970923,
+  "p90": 5.006529594377845,
+  "mean": 2.9267149731215354
+ },
+ "saturation": {
+  "median": 99.73795823097228,
+  "p10": 93.560607213974,
+  "p90": 103.96384014892578,
+  "mean": 98.81845513582229
+ },
+ "per_clip": [
+  {
+   "video": "AdamKinzinger0_001.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.105759515636915,
+   "amp_power": 39.89777395863465,
+   "jitter_power": 3.8762306690581383,
+   "blink_per_min": 22.5,
+   "luminance": 112.78270483016968,
+   "contrast": 4.793318704640434,
+   "saturation": 103.95358875274658
+  },
+  {
+   "video": "AdamKinzinger0_002.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.8993869948654414,
+   "amp_power": 49.917414503932896,
+   "jitter_power": 4.059314835726863,
+   "blink_per_min": 30.0,
+   "luminance": 109.92445991516114,
+   "contrast": 5.391143843152378,
+   "saturation": 105.33906185150147
+  },
+  {
+   "video": "AdamKinzinger0_003.mp4",
+   "frames": 200,
+   "pose_std_deg": 40.75599407808529,
+   "amp_power": 452.05566654262617,
+   "jitter_power": 135.95891933425708,
+   "blink_per_min": 7.5,
+   "luminance": 111.71358871459961,
+   "contrast": 3.433052288224599,
+   "saturation": 107.37046648025513
+  },
+  {
+   "video": "AdamKinzinger0_004.mp4",
+   "frames": 200,
+   "pose_std_deg": 4.519868337476115,
+   "amp_power": 42.18189010533996,
+   "jitter_power": 3.546284868538216,
+   "blink_per_min": 30.0,
+   "luminance": 114.50074867248536,
+   "contrast": 3.121418243559531,
+   "saturation": 104.05610271453857
+  },
+  {
+   "video": "AdamKinzinger0_005.mp4",
+   "frames": 200,
+   "pose_std_deg": 21.081030923936016,
+   "amp_power": 492.3413978858698,
+   "jitter_power": 96.66403771801912,
+   "blink_per_min": 15.0,
+   "luminance": 104.83490247726441,
+   "contrast": 5.236117735241458,
+   "saturation": 101.44527782440186
+  },
+  {
+   "video": "AdamKinzinger0_006.mp4",
+   "frames": 200,
+   "pose_std_deg": 26.796328997342982,
+   "amp_power": 535.2032101998983,
+   "jitter_power": 92.11422434722148,
+   "blink_per_min": 7.5,
+   "luminance": 103.73995758056641,
+   "contrast": 3.321463805118425,
+   "saturation": 98.1858953666687
+  },
+  {
+   "video": "AdamKinzinger0_007.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.2696177801768216,
+   "amp_power": 40.769933783460495,
+   "jitter_power": 3.310699588595357,
+   "blink_per_min": 37.5,
+   "luminance": 107.94607500076295,
+   "contrast": 3.558893832587035,
+   "saturation": 100.28983726501465
+  },
+  {
+   "video": "AdamKinzinger0_008.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.824054466950719,
+   "amp_power": 45.59419856004953,
+   "jitter_power": 6.403123952639117,
+   "blink_per_min": 30.0,
+   "luminance": 105.26614456176758,
+   "contrast": 2.843367089733644,
+   "saturation": 100.95517520904541
+  },
+  {
+   "video": "AdamKinzinger0_009.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.6447154455863573,
+   "amp_power": 36.942711905673356,
+   "jitter_power": 4.383469980027744,
+   "blink_per_min": 15.0,
+   "luminance": 116.67808805465698,
+   "contrast": 5.858953194789712,
+   "saturation": 105.6028078842163
+  },
+  {
+   "video": "AdamKinzinger0_010.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.463158557368686,
+   "amp_power": 34.70638337358443,
+   "jitter_power": 2.2860018127510418,
+   "blink_per_min": 0.0,
+   "luminance": 105.09340412139892,
+   "contrast": 4.481625800751082,
+   "saturation": 103.03450634002685
+  },
+  {
+   "video": "AdamKinzinger0_011.mp4",
+   "frames": 200,
+   "pose_std_deg": 13.290211677202231,
+   "amp_power": 247.9761629299572,
+   "jitter_power": 91.68116070203024,
+   "blink_per_min": 15.0,
+   "luminance": 105.81745363235474,
+   "contrast": 3.3595802311526124,
+   "saturation": 100.66894811630249
+  },
+  {
+   "video": "AdamKinzinger0_012.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.207151435136091,
+   "amp_power": 28.57982304933833,
+   "jitter_power": 2.6522451480297757,
+   "blink_per_min": 7.5,
+   "luminance": 105.97607948303222,
+   "contrast": 2.0712460242193447,
+   "saturation": 100.21281393051147
+  },
+  {
+   "video": "AdamKinzinger0_013.mp4",
+   "frames": 200,
+   "pose_std_deg": 25.496142919936716,
+   "amp_power": 554.6388387016782,
+   "jitter_power": 83.45459918274071,
+   "blink_per_min": 15.0,
+   "luminance": 106.33918823242188,
+   "contrast": 5.270881779658386,
+   "saturation": 99.15453271865844
+  },
+  {
+   "video": "AdamKinzinger0_014.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.1486617482960297,
+   "amp_power": 35.87295397691419,
+   "jitter_power": 2.851826681406719,
+   "blink_per_min": 15.0,
+   "luminance": 105.43977821350097,
+   "contrast": 2.63947956827722,
+   "saturation": 99.80459928512573
+  },
+  {
+   "video": "AdamKinzinger0_015.mp4",
+   "frames": 200,
+   "pose_std_deg": 30.62552841424151,
+   "amp_power": 585.4500152311196,
+   "jitter_power": 91.00958496261457,
+   "blink_per_min": 15.0,
+   "luminance": 106.5373849105835,
+   "contrast": 3.93056263187596,
+   "saturation": 97.19263372421264
+  },
+  {
+   "video": "AdamKinzinger0_016.mp4",
+   "frames": 200,
+   "pose_std_deg": 32.89337474026629,
+   "amp_power": 681.6197763563187,
+   "jitter_power": 115.05750993725194,
+   "blink_per_min": 22.5,
+   "luminance": 101.93117515563965,
+   "contrast": 4.9810198009485545,
+   "saturation": 95.01849994659423
+  },
+  {
+   "video": "AdamKinzinger0_017.mp4",
+   "frames": 200,
+   "pose_std_deg": 4.905223984087702,
+   "amp_power": 56.875807304963864,
+   "jitter_power": 5.538668656613403,
+   "blink_per_min": 30.0,
+   "luminance": 101.17414470672607,
+   "contrast": 4.405290251186259,
+   "saturation": 98.57520839691162
+  },
+  {
+   "video": "AdamKinzinger0_018.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.2544207688111766,
+   "amp_power": 32.24326148692022,
+   "jitter_power": 2.761494852395064,
+   "blink_per_min": 15.0,
+   "luminance": 109.55609481811524,
+   "contrast": 1.9519128809083692,
+   "saturation": 99.67131717681885
+  },
+  {
+   "video": "AdamKinzinger1_001.mp4",
+   "frames": 200,
+   "pose_std_deg": 30.43692532309984,
+   "amp_power": 659.2198794858676,
+   "jitter_power": 130.41674918095035,
+   "blink_per_min": 22.5,
+   "luminance": 132.743515625,
+   "contrast": 3.021756506857299,
+   "saturation": 92.53135604858399
+  },
+  {
+   "video": "AdamKinzinger1_002.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.3018727070686897,
+   "amp_power": 25.975386729917336,
+   "jitter_power": 1.744092900597393,
+   "blink_per_min": 7.5,
+   "luminance": 133.57747667312623,
+   "contrast": 2.9831946060752315,
+   "saturation": 93.57408485412597
+  },
+  {
+   "video": "AdamKinzinger1_003.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.3678435897054158,
+   "amp_power": 31.661825477886424,
+   "jitter_power": 2.62046442188375,
+   "blink_per_min": 15.0,
+   "luminance": 129.5823900604248,
+   "contrast": 2.9425448401951475,
+   "saturation": 95.05759662628174
+  },
+  {
+   "video": "AdamKinzinger1_004.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.840998302104881,
+   "amp_power": 26.806514569353368,
+   "jitter_power": 2.154076062685455,
+   "blink_per_min": 0.0,
+   "luminance": 128.40111307144164,
+   "contrast": 3.8975390172891853,
+   "saturation": 95.65620635986328
+  },
+  {
+   "video": "AdamKinzinger1_005.mp4",
+   "frames": 200,
+   "pose_std_deg": 10.111309043536567,
+   "amp_power": 120.9870749883154,
+   "jitter_power": 120.68927133458385,
+   "blink_per_min": 15.0,
+   "luminance": 125.934694480896,
+   "contrast": 2.271502125391007,
+   "saturation": 93.4393084526062
+  },
+  {
+   "video": "AdamKinzinger1_006.mp4",
+   "frames": 200,
+   "pose_std_deg": 10.556473718045286,
+   "amp_power": 130.37343399711384,
+   "jitter_power": 121.77899410745424,
+   "blink_per_min": 7.5,
+   "luminance": 128.08093444824217,
+   "contrast": 2.149565833540363,
+   "saturation": 94.13459838867188
+  },
+  {
+   "video": "AdamKinzinger1_007.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.1649757372307854,
+   "amp_power": 30.911575462999213,
+   "jitter_power": 3.380975584641942,
+   "blink_per_min": 15.0,
+   "luminance": 134.34586933135986,
+   "contrast": 2.7786924111493096,
+   "saturation": 95.97598403930664
+  },
+  {
+   "video": "AdamKinzinger1_008.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.021230243064315,
+   "amp_power": 28.750193809240415,
+   "jitter_power": 2.824216231236727,
+   "blink_per_min": 15.0,
+   "luminance": 129.69228605270385,
+   "contrast": 1.6662904733094186,
+   "saturation": 94.30478326797486
+  },
+  {
+   "video": "AdamKinzinger1_009.mp4",
+   "frames": 200,
+   "pose_std_deg": 1.5201389202092583,
+   "amp_power": 23.287788993397868,
+   "jitter_power": 1.2200117649836537,
+   "blink_per_min": 7.5,
+   "luminance": 132.5570708847046,
+   "contrast": 2.5180462215584463,
+   "saturation": 95.92234210968017
+  },
+  {
+   "video": "AdamKinzinger1_010.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.6450941226838265,
+   "amp_power": 30.656152534206402,
+   "jitter_power": 2.39212112603189,
+   "blink_per_min": 15.0,
+   "luminance": 128.84658164978026,
+   "contrast": 2.141865811653706,
+   "saturation": 93.09068223953247
+  },
+  {
+   "video": "AdamKinzinger1_011.mp4",
+   "frames": 200,
+   "pose_std_deg": 1.449246227640203,
+   "amp_power": 18.522147905604342,
+   "jitter_power": 1.7351358484151473,
+   "blink_per_min": 15.0,
+   "luminance": 129.5520715904236,
+   "contrast": 2.1078732934020445,
+   "saturation": 92.30891750335694
+  },
+  {
+   "video": "AdamKinzinger2_002.mp4",
+   "frames": 200,
+   "pose_std_deg": 14.76020280000248,
+   "amp_power": 240.9767492437273,
+   "jitter_power": 147.47158218021585,
+   "blink_per_min": 37.5,
+   "luminance": 145.2777516746521,
+   "contrast": 0.6472250173185758,
+   "saturation": 100.35169862747192
+  },
+  {
+   "video": "AdamKinzinger2_003.mp4",
+   "frames": 200,
+   "pose_std_deg": 8.589285225196983,
+   "amp_power": 119.2380481762512,
+   "jitter_power": 118.80319050658306,
+   "blink_per_min": 30.0,
+   "luminance": 145.35089847564697,
+   "contrast": 0.5044204522852872,
+   "saturation": 98.54815883636475
+  },
+  {
+   "video": "AdamKinzinger2_005.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.4301673471836955,
+   "amp_power": 37.39050112254571,
+   "jitter_power": 4.08603529519437,
+   "blink_per_min": 45.0,
+   "luminance": 141.96595470428466,
+   "contrast": 2.307250711001472,
+   "saturation": 102.20536352157593
+  },
+  {
+   "video": "AdamKinzinger2_006.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.668995542844056,
+   "amp_power": 43.048753358291,
+   "jitter_power": 4.26749446587264,
+   "blink_per_min": 45.0,
+   "luminance": 141.4723559188843,
+   "contrast": 2.3863923975365147,
+   "saturation": 100.42126710891723
+  },
+  {
+   "video": "AdamKinzinger2_007.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.579619447393638,
+   "amp_power": 39.94231016638046,
+   "jitter_power": 2.790230382316922,
+   "blink_per_min": 30.0,
+   "luminance": 144.33041866302491,
+   "contrast": 2.440967104709605,
+   "saturation": 99.80485054016113
+  },
+  {
+   "video": "AdamKinzinger2_008.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.1952650103325335,
+   "amp_power": 32.72354126896107,
+   "jitter_power": 3.063229598984407,
+   "blink_per_min": 30.0,
+   "luminance": 145.78933464050294,
+   "contrast": 1.3405839927642484,
+   "saturation": 100.41314683914185
+  },
+  {
+   "video": "AdamKinzinger2_009.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.312071704961036,
+   "amp_power": 36.61897314336226,
+   "jitter_power": 3.6067333791331753,
+   "blink_per_min": 15.0,
+   "luminance": 143.78709339141847,
+   "contrast": 1.3885158329938867,
+   "saturation": 100.12010948181153
+  },
+  {
+   "video": "AdamKinzinger2_011.mp4",
+   "frames": 200,
+   "pose_std_deg": 37.238457373818385,
+   "amp_power": 702.5953875475919,
+   "jitter_power": 257.16930274782374,
+   "blink_per_min": 90.0,
+   "luminance": 145.0734640312195,
+   "contrast": 1.1888889886845782,
+   "saturation": 94.96447282791138
+  },
+  {
+   "video": "AdamKinzinger2_013.mp4",
+   "frames": 200,
+   "pose_std_deg": 10.005189670111909,
+   "amp_power": 124.1095204798964,
+   "jitter_power": 121.1492678383649,
+   "blink_per_min": 30.0,
+   "luminance": 144.60436758041382,
+   "contrast": 2.162407534838854,
+   "saturation": 99.41055271148682
+  },
+  {
+   "video": "AdamKinzinger2_014.mp4",
+   "frames": 200,
+   "pose_std_deg": 2.5140057344370397,
+   "amp_power": 32.978585693385064,
+   "jitter_power": 2.427978498027487,
+   "blink_per_min": 37.5,
+   "luminance": 143.7907547569275,
+   "contrast": 1.9474201270544917,
+   "saturation": 99.92677446365356
+  },
+  {
+   "video": "AdamKinzinger2_015.mp4",
+   "frames": 200,
+   "pose_std_deg": 3.413691962235737,
+   "amp_power": 38.95952465556314,
+   "jitter_power": 2.4870113163751246,
+   "blink_per_min": 22.5,
+   "luminance": 145.84155937194825,
+   "contrast": 1.6263279192277462,
+   "saturation": 100.0446776008606
+  }
+ ]
+}
