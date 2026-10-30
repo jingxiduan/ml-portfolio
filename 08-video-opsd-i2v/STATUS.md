@@ -1,77 +1,83 @@
-# 08 — OPSD-I2V · 项目状态与接续指南
+# 08 -- OPSD-I2V: Project Status and Continuation Guide
 
-> 最后更新：2026-10-30 10:20 — H20 到期前紧急备份
+> Last updated: 2026-10-30 10:48 -- pre-expiry backup
 
 ---
 
-## ⚠️ 下次开机第一件事
+## On Next Boot
 
 ```bash
 cd ~/ml-portfolio/08-video-opsd-i2v
 git pull
-source .venv/bin/activate  # 如果 venv 还在；否则重建
+source .venv/bin/activate   # rebuild if venv is gone
 export PYTHONPATH="$PWD"
 ```
 
 ---
 
-## 一、已有数据盘点
+## 1. Data Inventory
 
-### 训练数据（已生成，在 git 中）
-| 数据 | 数量 | 路径 | 说明 |
-|------|------|------|------|
-| 训练 prompts | 160 | `data/prompts/tier2_train_200.json` | 15 个场景类别，GPT 生成 |
-| 评估 prompts | 40 | `data/prompts/tier2_eval_40.json` | held-out，不参与训练 |
-| 训练首帧 | 200 张 | `data/first_frames_200/*.png` | SDXL-Turbo 512×320 |
-| 评估首帧 | 40 张 | `data/first_frames_eval/*.png` | SDXL-Turbo 512×320 |
-| 旧 prompts（小规模） | 6 / 894 | `data/prompts/tier2_train.json` / `train.json` | Tier-1 时期用的 |
+### Training Data (in git)
+| Data | Count | Path | Notes |
+|------|-------|------|-------|
+| Train prompts | 160 | `data/prompts/tier2_train_200.json` | 15 scene categories, GPT-generated |
+| Eval prompts | 40 | `data/prompts/tier2_eval_40.json` | Held-out, not used in training |
+| Train first frames | 200 | `data/first_frames_200/*.png` | SDXL-Turbo 512x320 |
+| Eval first frames | 40 | `data/first_frames_eval/*.png` | SDXL-Turbo 512x320 |
+| Legacy prompts | 6 / 894 | `data/prompts/tier2_train.json` / `train.json` | From Tier-1 phase |
 
-### LoRA Checkpoints（已训练，在 git 中）
-| 实验 | 步数 | 路径 | 大小 |
-|------|------|------|------|
+### LoRA Checkpoints (in git)
+| Experiment | Steps | Path | Size |
+|------------|-------|------|------|
 | V1 (nat_clamp) | 500 | `outputs/opsd_tier2/lora_step00500/` | 13MB |
 | V2 (nat_sigmoid) | 500 | `outputs/opsd_tier2_v2/lora_step00500/` | 13MB |
-| NoNat (消融) | 500 | `outputs/opsd_tier2_no_nat/lora_step00500/` | 13MB |
+| NoNat (ablation) | 500 | `outputs/opsd_tier2_no_nat/lora_step00500/` | 13MB |
 
-### 训练 Metrics（在 git 中）
-- 每组 500 行 JSON (per-step)：`outputs/opsd_tier2{,_v2,_no_nat}/train_metrics.jsonl`
-- 字段：step, reward, loss, R_subject_consistency, R_dynamic_degree, R_motion_smoothness, R_naturalness_penalty, grad_norm, lr
+### Training Metrics (in git)
+- 500 lines JSON per experiment: `outputs/opsd_tier2{,_v2,_no_nat}/train_metrics.jsonl`
+- Fields: step, reward, loss, R_subject_consistency, R_dynamic_degree, R_motion_smoothness, R_naturalness_penalty, grad_norm, lr
 
-### 训练曲线图（在 git 中）
-- 单组：`outputs/opsd_tier2{,_v2,_no_nat}/figures/fig_reward_curves.png` 等（各 3 张）
-- 三组对比：`outputs/figures_comparison/comparison_rewards.png`, `naturalness_evolution.png`, `reward_vs_gpu_hours.png`
+### Training Curve Plots (in git)
+- Per-experiment: `outputs/opsd_tier2{,_v2,_no_nat}/figures/fig_reward_curves.png` etc (3 each)
+- 3-way comparison: `outputs/figures_comparison/comparison_rewards.png`, `naturalness_evolution.png`, `reward_vs_gpu_hours.png`
 
-### Eval 视频（在本地，mp4 被 gitignore）
-| 配置 | 已渲染 | 路径 |
-|------|--------|------|
-| Base（无 LoRA） | **40/40** ✅ | `outputs/eval/videos_base/seed_00/` |
-| V1 (nat_clamp) | **10/40** ❌ | `outputs/eval/videos_v1_nat_clamp/seed_00/` |
-| V2 (nat_sigmoid) | **10/40** ❌ | `outputs/eval/videos_v2_nat_sigmoid/seed_00/` |
-| NoNat (消融) | **10/40** ❌ | `outputs/eval/videos_ablation_no_nat/seed_00/` |
+### Eval Videos (local only, mp4 gitignored -- lost on server expiry)
+| Config | Rendered | Path |
+|--------|----------|------|
+| Base (no LoRA) | 40/40 done | `outputs/eval/videos_base/seed_00/` |
+| V1 (nat_clamp) | 10/40 partial | `outputs/eval/videos_v1_nat_clamp/seed_00/` |
+| V2 (nat_sigmoid) | 10/40 partial | `outputs/eval/videos_v2_nat_sigmoid/seed_00/` |
+| V2 alpha=32 | 10/10 done | `outputs/eval/videos_v2_alpha32/seed_00/` |
+| V2 alpha=6 | 10/10 done | `outputs/eval/videos_v2_alpha6/seed_00/` |
+| NoNat (ablation) | 10/40 partial | `outputs/eval/videos_ablation_no_nat/seed_00/` |
 
-> ⚠️ mp4 视频在 `.gitignore` 中，**服务器到期后丢失**。下次需要重新渲染。
+Note: mp4 files are in `.gitignore` and will be **lost when server expires**. Re-render with commands below.
 
-### GIF 对比（在 git 中，但只有 6 个老场景）
-- 32 个 GIF 在 `docs/figures/duel/`：duel × 6、fourway × 6、lightness × 6、tier2_lora × 6、tier2_bon × 6、triway × 2
-- **全部基于旧的 6 个 prompt**（sun_rays, candle_dark, houses_hillside, fog_pine_dawn, pagoda_snowy, waterfall_zoom）
-- **需要从 40 eval 新场景生成新 GIF**
+### GIF Comparisons (in git)
+- 32 GIFs in `docs/figures/duel/`: duel x6, fourway x6, lightness x6, tier2_lora x6, tier2_bon x6, triway x2 (6 legacy scenes)
+- 10 GIFs in `docs/figures/tier2_new/`: 3-way Base/alpha=6/alpha=32 (10 new eval scenes)
+- 10 GIFs in `docs/figures/eval_compare/`: Base vs V2 side-by-side (10 eval scenes)
 
-### Eval Metrics（在 git 中）
-- `outputs/eval/metrics_summary.json` — 4 组 × 3 指标（仅基于 n=10）
+### Eval Metrics (in git)
+- `outputs/eval/metrics_summary.json` -- 4 configs x 3 metrics (based on n=10)
 - `outputs/eval/metrics_table.md`
 
 ---
 
-## 二、关键实验结论
+## 2. Key Experimental Findings
 
-### 三组消融训练结果
-| 实验 | 最终 Reward | R_naturalness | 发现 |
-|------|------------|---------------|------|
-| V1 (ReLU+clamp) | +2.16 | **0.000** | 梯度 100% 死亡，naturalness 约束无效 |
-| **V2 (sigmoid)** | -0.50 | **-0.786** | ✅ 梯度活的，naturalness 从 -1.47→-0.79 |
-| NoNat (消融) | +2.36 | N/A | 纯 reward hacking baseline |
+### 3-Way Ablation Training Results
+| Experiment | Final Reward | R_naturalness | Finding |
+|------------|-------------|---------------|---------|
+| V1 (ReLU+clamp) | +2.16 | **0.000** | Gradient 100% dead, naturalness constraint ineffective |
+| **V2 (sigmoid)** | -0.50 | **-0.786** | Gradient alive, naturalness improved -1.47 to -0.79 |
+| NoNat (ablation) | +2.36 | N/A | Pure reward hacking baseline |
 
-### 已解决的 8 个 DynamiCrafter 适配 Bug
+### Tier-1 LoRA Scale Sweep (T2I)
+- Scale=0.2 is the sweet spot for T2I LoRA: improved dynamics without over-saturation
+- Scale=1.0 causes reward hacking: saturation x1.95, overexposure x1.65, edge x1.86
+
+### 8 DynamiCrafter API Bug Fixes
 | # | Bug | Fix |
 |---|-----|-----|
 | 1 | conditioning dropped in UNetModel.forward | `_call_unet` helper |
@@ -85,18 +91,20 @@ export PYTHONPATH="$PWD"
 
 ---
 
-## 三、下次要做的事（按顺序）
+## 3. Next Steps (in order)
 
-### Step 1：重新渲染 eval 视频（~30 min GPU）
+### Step 1: Re-render eval videos (~30 min GPU)
 
-V1/V2/NoNat 各只渲了 10/40，需要补齐剩下 30 个。
+V1/V2/NoNat only rendered 10/40 each. Complete the remaining 30.
 
 ```bash
-# 首先重建 seed_00 子目录（渲染器需要）
+# Recreate seed_00 symlinks (renderer requires this structure)
 mkdir -p data/first_frames_eval/seed_00
-cp data/first_frames_eval/*.png data/first_frames_eval/seed_00/
+for f in data/first_frames_eval/*.png; do
+  ln -sf "$(realpath $f)" "data/first_frames_eval/seed_00/$(basename $f)"
+done
 
-# 渲染剩余视频（每组 ~8 min）
+# Render remaining videos (~8 min per config)
 for tag_lora in \
   "videos_v1_nat_clamp outputs/opsd_tier2/lora_step00500" \
   "videos_v2_nat_sigmoid outputs/opsd_tier2_v2/lora_step00500" \
@@ -112,112 +120,94 @@ for tag_lora in \
 done
 ```
 
-### Step 2：生成 GIF 对比（新的 40 eval 场景）
-
-当前只有 6 个旧场景的 GIF，需要从 40 eval 视频生成 Base vs V2 对比。
+### Step 2: Generate more GIF comparisons
 
 ```bash
-# 需要写一个 mp4→GIF 并排对比脚本，大致逻辑：
-# for each of 40 eval prompts:
-#   left = outputs/eval/videos_base/seed_00/{idx:03d}.mp4
-#   right = outputs/eval/videos_v2_nat_sigmoid/seed_00/{idx:03d}.mp4
-#   → docs/figures/eval_duel/duel_{idx:03d}.gif (side-by-side, 256px wide each)
+# Existing script for Tier-2 3-way GIFs
+python scripts/make_tier2_gifs.py
+
+# For Tier-1 T2I scale=0.2, need T2I LoRA from project 07
+# Then: python scripts/generate_first_frames.py --lora_scale 0.2 ...
 ```
 
-### Step 3：增加训练步数到 2000+
+### Step 3: Increase training to 2000+ steps
 
-500 步 LoRA L2 norm 仅 ~27，eval metrics 无显著差异。需要至少 2000 步：
+500-step LoRA L2 norm is only ~27, eval metrics show no significant change. Need 2000+:
 
 ```bash
-# 修改 configs/tier2_v2.yaml: max_train_steps: 500 → 2000
-# 从现有 checkpoint 续训（如果支持）或重新训练
+# Edit configs/tier2_v2.yaml: max_train_steps: 500 -> 2000
 python -m src.train_entry --method opsd_i2v --config configs/tier2_v2.yaml
 ```
 
-### Step 4：用 n=40 重新计算 eval metrics
+### Step 4: Recompute eval metrics with n=40
 
-```bash
-# 当 40 个视频全部渲染完成后
-python -c "
-import json, numpy as np
-from pathlib import Path
-from src.eval.naturalness_v2 import naturalness_v2_video
-import imageio.v3 as iio
+After rendering all 40 videos per config, re-run evaluation.
 
-configs = {
-    'base': 'outputs/eval/videos_base/seed_00',
-    'v1_nat_clamp': 'outputs/eval/videos_v1_nat_clamp/seed_00',
-    'v2_nat_sigmoid': 'outputs/eval/videos_v2_nat_sigmoid/seed_00',
-    'ablation_no_nat': 'outputs/eval/videos_ablation_no_nat/seed_00',
-}
-# ... (eval 代码同之前，改 n=40)
-"
-```
+### Step 5: Update README with new GIFs and metrics
 
-### Step 5：更新 README
-
-- 用新的 40 场景 GIF 替换旧的 6 场景
-- 更新 eval metrics 表格
-- 如果 2000 步训练完成，更新训练曲线
-
-### Step 6（可选）：调 reward 参数
-- `dynamic_degree` 的 `cap_tau=0.6` 太低（50 步就饱和），改 0.85+
-- `motion_smoothness` 在高噪声下 RAFT 不可靠，加 `sigma_threshold`
-- 考虑加 FVD/FID 标准视频 metrics
+### Step 6 (optional): Tune reward parameters
+- `dynamic_degree` cap_tau=0.6 is too low (saturates in 50 steps) -- increase to 0.85+
+- `motion_smoothness` is unreliable under high noise -- add sigma_threshold
+- Consider adding FVD/FID standard video metrics
 
 ---
 
-## 四、环境依赖
+## 4. Environment Dependencies
 
 ```
-# H20 GPU 环境
+# H20 GPU environment
 - NVIDIA H20 80GB
 - Python 3.10 + .venv
 - PyTorch 2.x + CUDA
-- DynamiCrafter（在 third_party/，被 gitignore）
-- RAFT（在 third_party/，被 gitignore）
-- 基座模型权重在 weights/（被 gitignore，~4GB）
+- DynamiCrafter (in third_party/, gitignored)
+- RAFT (in third_party/, gitignored)
+- Base model weights in weights/ (gitignored, ~4GB)
 
-# 需要重新下载的：
-pip install -r requirements.txt  # 如果 venv 丢失
-# DynamiCrafter 和 RAFT 需要重新 clone
-# 基座模型权重需要重新下载（见 README "Setup" 部分）
+# To rebuild:
+pip install -r requirements.txt
+# Clone DynamiCrafter and RAFT into third_party/
+# Download base model weights (see README "Reproduce" section)
 ```
 
 ---
 
-## 五、文件结构
+## 5. File Structure
 
 ```
 08-video-opsd-i2v/
-├── README.md                               ← GitHub 首页（GIF + 训练曲线 + metrics）
-├── STATUS.md                               ← 本文件（进度 + 下一步指南）
-├── requirements.txt
-├── configs/                                10 套 YAML 配置
-│   ├── tier2.yaml                     V1 (nat_clamp)
-│   ├── tier2_v2.yaml                  V2 (nat_sigmoid) ← 主力
-│   └── tier2_ablation_no_nat.yaml     消融
-├── src/
-│   ├── opsd_trainer_i2v.py                 训练循环（OPSD RL）
-│   ├── render_i2v.py                       推理渲染
-│   ├── rewards/                            4 个 reward 函数
-│   ├── postprocess/                        lightness 后处理
-│   └── eval/                               naturalness_v2 评估
-├── scripts/
-│   ├── generate_prompts_200.py             生成 200 prompts
-│   ├── generate_first_frames.py            SDXL-Turbo 生成首帧
-│   ├── plot_training_curves.py             单组训练曲线
-│   ├── plot_comparison.py                  三组对比曲线
-│   └── render_eval_all.sh                  批量渲染脚本
-├── data/
-│   ├── prompts/                            5 个 JSON prompt 文件
-│   ├── first_frames_200/                   200 张训练首帧 (35MB)
-│   └── first_frames_eval/                  40 张 eval 首帧 (8.7MB)
-├── outputs/
-│   ├── opsd_tier2/                    V1: metrics + figures + LoRA
-│   ├── opsd_tier2_v2/                 V2: metrics + figures + LoRA
-│   ├── opsd_tier2_no_nat/             NoNat: metrics + figures + LoRA
-│   ├── figures_comparison/                 三组对比图 (3 张 PNG)
-│   └── eval/                          eval metrics + 视频(gitignored)
-└── docs/figures/duel/                      32 个 GIF (161MB, 仅 6 场景)
+  README.md                               -- GitHub front page (GIFs + curves + metrics)
+  STATUS.md                               -- this file (progress + continuation guide)
+  requirements.txt
+  configs/                                training configs (V1/V2/NoNat + baselines)
+    tier2.yaml                            V1 (nat_clamp)
+    tier2_v2.yaml                         V2 (nat_sigmoid) -- primary
+    tier2_ablation_no_nat.yaml            ablation
+  src/
+    opsd_trainer_i2v.py                   training loop (OPSD RL)
+    render_i2v.py                         inference rendering
+    rewards/                              4 reward functions
+    postprocess/                          lightness post-processing
+    eval/                                 naturalness_v2 evaluator
+  scripts/
+    generate_prompts_200.py               generate 200 prompts
+    generate_first_frames.py              SDXL-Turbo first frame generation
+    make_tier2_gifs.py                    Tier-2 3-way comparison GIFs
+    make_eval_gifs.py                     Base vs V2 comparison GIFs
+    plot_training_curves.py               per-experiment training curves
+    plot_comparison.py                    3-way comparison curves
+    render_eval_all.sh                    batch rendering script
+  data/
+    prompts/                              5 JSON prompt files
+    first_frames_200/                     200 train first frames (35MB)
+    first_frames_eval/                    40 eval first frames (8.7MB)
+  outputs/
+    opsd_tier2/                           V1: metrics + figures + LoRA
+    opsd_tier2_v2/                        V2: metrics + figures + LoRA
+    opsd_tier2_no_nat/                    NoNat: metrics + figures + LoRA
+    figures_comparison/                   3-way comparison plots (3 PNGs)
+    eval/                                 eval metrics + videos (mp4 gitignored)
+  docs/figures/
+    duel/                                 32 GIFs -- Tier-1 comparisons (6 scenes)
+    tier2_new/                            10 GIFs -- Tier-2 alpha sweep (10 new scenes)
+    eval_compare/                         10 GIFs -- Base vs V2 (10 eval scenes)
 ```
