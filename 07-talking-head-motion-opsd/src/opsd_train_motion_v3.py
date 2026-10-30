@@ -42,6 +42,8 @@ def main():
     ap.add_argument("--blink-overshoot-penalty", type=float, default=4.0)
     ap.add_argument("--jitter-cap-deg", type=float, default=0.2)
     ap.add_argument("--jitter-cap-penalty", type=float, default=5.0)
+    ap.add_argument("--data-dir", default=os.path.join(ROOT, "data", "audio", "train"),
+                    help="directory of training wavs (default: legacy 25 TTS clips)")
     ap.add_argument("--out", default=os.path.join(ROOT, "outputs", "opsd_v3"))
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
@@ -72,7 +74,7 @@ def main():
     print(f"[lora-v3] {len(layers)} layers, {sum(p.numel() for p in train_params)/1e3:.1f}K trainable params")
     opt = torch.optim.AdamW(train_params, lr=a.lr, weight_decay=0.0)
 
-    train_paths = sorted(glob.glob(os.path.join(ROOT, "data", "audio", "train", "*.wav")))
+    train_paths = sorted(glob.glob(os.path.join(a.data_dir, "*.wav")))
     feats, envs = build_windows(eng, train_paths)
     print(f"[data] {len(train_paths)} train clips -> {len(feats)} 4-sec windows")
 
