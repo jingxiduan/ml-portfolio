@@ -8,7 +8,35 @@
 
 ## Visual Results
 
-### Problem: Reward Hacking
+### Base vs V2 (Sigmoid Naturalness) — 10 New Eval Scenes
+
+Each GIF: **Left = Base** (no LoRA) → **Right = V2** (RL-trained with sigmoid naturalness penalty, 500 steps)
+
+| Penguin on ice 🐧 | Lighthouse 🏠 |
+|---|---|
+| ![](docs/figures/eval_compare/eval_000_a_penguin_sliding_on_ice_into_the_water.gif) | ![](docs/figures/eval_compare/eval_001_a_lighthouse_on_a_rocky_coast_drone_cir.gif) |
+
+| Construction crane 🏗️ | Bee on flower 🐝 |
+|---|---|
+| ![](docs/figures/eval_compare/eval_002_construction_crane_moving_against_a_blue.gif) | ![](docs/figures/eval_compare/eval_003_a_bee_collecting_pollen_from_a_flower_e.gif) |
+
+| Owl at night 🦉 | Volcano crater 🌋 |
+|---|---|
+| ![](docs/figures/eval_compare/eval_004_a_owl_perched_on_a_branch_at_night_eyes.gif) | ![](docs/figures/eval_compare/eval_005_a_dormant_volcano_crater_with_a_lake_ins.gif) |
+
+| Ferris wheel 🎡 | Pine forest fog 🌲 |
+|---|---|
+| ![](docs/figures/eval_compare/eval_006_a_ferris_wheel_spinning_at_an_amusement_.gif) | ![](docs/figures/eval_compare/eval_007_fog_drifting_through_a_pine_forest_at_da.gif) |
+
+| Art studio 🎨 | Rain puddle reflection 🌧️ |
+|---|---|
+| ![](docs/figures/eval_compare/eval_008_an_art_studio_with_paint_splatters_and_c.gif) | ![](docs/figures/eval_compare/eval_009_a_reflection_in_a_rain_puddle_of_city_bu.gif) |
+
+> 500 步 LoRA 微调变化较小（L2 norm ≈ 27），视觉差异细微。训练曲线显示 V2 的 naturalness penalty 有效收敛（见下方）。
+
+---
+
+### Tier-1 Diagnosis: Reward Hacking Problem
 
 LoRA @ scale=1.0 追求高 reward → 饱和度 ×1.95、过曝 ×1.65、边缘 ×1.86。
 
