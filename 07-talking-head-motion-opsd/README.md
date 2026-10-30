@@ -126,6 +126,50 @@ ROUNDS=3000 GPU=0 bash scripts/train_styles.sh
 # -> outputs/opsd_style_finance|realestate|hook/lora.pt
 ```
 
+## 🏆 THE FIX: reward v4, amplitude peaked at the measured human band
+
+**This is the main result of the round.** Every number below is measured in the
+reward's own units against the real professional-speech band
+(`scripts/eval_naturalness.py`, `outputs/naturalness_eval.json`):
+
+| variant | low-band amplitude | vs real | high-band jitter | vs real |
+|---|---|---|---|---|
+| **real professional speech** | **1.878°** | 1.00× | **0.107°** | 1.00× |
+| base (untrained) | 1.042° | 0.55× — too stiff | 0.137° | 1.28× |
+| v2 | 5.125° | **2.73× — overshoot** | 0.215° | 2.01× |
+| v3 | 4.524° | **2.41× — overshoot** | 0.188° | 1.76× |
+| **v4 (calibrated)** | **1.651°** | **0.88×** | **0.124°** | **1.16×** |
+
+v2 and v3 overshoot real speech by 2.4–2.7× — that overshoot *is* the uncanny
+valley. v4 lands within 12 % of the human band on amplitude and within 16 % on
+jitter, and it also scores a **higher** reward (R = 1.776 vs v3's 1.512):
+the reward went up *because* the motion became more human, not by inflating it.
+
+The only change is the amplitude term:
+
+```python
+# v3 -- MONOTONE: reward keeps rising with size, so OPSD amplifies without bound
+amp = tanh(std_low / 3.0)
+
+# v4 -- PEAKED at the measured human band; under- and over-shoot both penalised
+amp = exp(-0.5 * ((std_low - 1.878) / 1.0) ** 2)
+```
+
+| amplitude | v3 reward | v4 reward |
+|---|---|---|
+| 1.273° (base) | 0.40 | 0.83 |
+| **1.878° (real)** | 0.55 | **1.00** |
+| 4.446° (v3 result) | 0.90 | 0.04 |
+| 6.0° | 0.96 | 0.00 |
+
+```bash
+python scripts/calibrate_reward_targets.py   # measure the band from real video
+CUDA_VISIBLE_DEVICES=1 python src/opsd_train_motion_v4.py \
+    --out outputs/opsd_v4 --data-dir data/audio_public/train \
+    --rounds 3000 --amp-target-deg 1.878 --amp-tol-deg 1.0
+python scripts/eval_naturalness.py           # score every variant vs the band
+```
+
 ## 📊 MAIN RESULTS
 
 ### Motion-space evaluation (n = 20 clips)
@@ -300,6 +344,17 @@ exactly the behaviour being measured.
 |---|---|
 | ![base vs v3](outputs/demo_gifs_frontal/c00__celebahq_004__base_vs_v3.gif) | ![base vs v3](outputs/demo_gifs_frontal/c01__celebahq_004__base_vs_v3.gif) |
 | ![base vs v3](outputs/demo_gifs_frontal/c00__celebahq_007__base_vs_v3.gif) | ![base vs v3](outputs/demo_gifs_frontal/c01__celebahq_007__base_vs_v3.gif) |
+
+**base (left) vs v4 (right)** — the calibrated reward, on HDTF news-anchor
+portraits driven by real news speech:
+
+| | |
+|---|---|
+| ![base vs v4](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_001__base_vs_v4.gif) | ![base vs v4](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_001__base_vs_v4.gif) |
+| ![base vs v4](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_003__base_vs_v4.gif) | ![base vs v4](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_003__base_vs_v4.gif) |
+
+v4 is the restrained one: v2/v3 amplify head motion to 2.4–2.7× real, which reads
+as uncanny; v4 holds it at 0.88× real.
 
 Verified that the LoRA is actually applied: mean per-frame pixel difference between
 base and v3 is **20.5 / 255** over 91 frames (1024×1024). See the "LoRA loading bug"

@@ -1,0 +1,119 @@
+{
+ "source_max_dim": 1280,
+ "pasteback": true,
+ "seed": 0,
+ "entries": [
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_001__base",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_001.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_001__base.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_001__v4",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_001.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_001__v4.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_002__base",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_002.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_002__base.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_002__v4",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_002.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_002__v4.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_003__base",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_003.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_003__base.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_003__v4",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_003.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_003__v4.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_004__base",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_004.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_004__base.mp4"
+  },
+  {
+   "tag": "c00_hdtf_AdamKinzinger0_004__v4",
+   "clip": "hdtf_AdamKinzinger0_001.wav",
+   "portrait": "hdtf_AdamKinzinger0_004.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c00_hdtf_AdamKinzinger0_004__v4.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_001__base",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_001.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_001__base.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_001__v4",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_001.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_001__v4.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_002__base",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_002.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_002__base.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_002__v4",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_002.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_002__v4.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_003__base",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_003.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_003__base.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_003__v4",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_003.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_003__v4.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_004__base",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_004.png",
+   "variant": "base",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_004__base.mp4"
+  },
+  {
+   "tag": "c01_hdtf_AdamKinzinger0_004__v4",
+   "clip": "hdtf_AdamKinzinger0_002.wav",
+   "portrait": "hdtf_AdamKinzinger0_004.png",
+   "variant": "v4",
+   "video": "outputs/hd_v4/c01_hdtf_AdamKinzinger0_004__v4.mp4"
+  }
+ ]
+}

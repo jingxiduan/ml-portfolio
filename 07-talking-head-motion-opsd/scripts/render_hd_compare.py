@@ -28,6 +28,7 @@ VARIANTS = [
     ("base", None),
     ("v2", "outputs/opsd_v2_large/lora.pt"),
     ("v3", "outputs/opsd_v3_large/lora.pt"),
+    ("v4", "outputs/opsd_v4/lora.pt"),   # amplitude peaked at the real-human band
 ]
 
 HD_OPTS = dict(
