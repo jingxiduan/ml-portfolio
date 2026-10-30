@@ -62,8 +62,8 @@ def make_sidebyside_gif(left_mp4, right_mp4, out_gif, labels=("Base", "V2 (sigmo
 def main():
     prompts = json.load(open(ROOT / "data/prompts/tier2_eval_40.json"))
     
-    base_dir = ROOT / "outputs/eval_cvpr/videos_base/seed_00"
-    v2_dir = ROOT / "outputs/eval_cvpr/videos_v2_nat_sigmoid/seed_00"
+    base_dir = ROOT / "outputs/eval/videos_base/seed_00"
+    v2_dir = ROOT / "outputs/eval/videos_v2_nat_sigmoid/seed_00"
     out_dir = ROOT / "docs/figures/eval_compare"
     out_dir.mkdir(parents=True, exist_ok=True)
     

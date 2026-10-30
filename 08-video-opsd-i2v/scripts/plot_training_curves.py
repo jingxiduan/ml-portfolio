@@ -1,6 +1,6 @@
 """Plot OPSD-I2V training curves from train_metrics.jsonl.
 
-Produces publication-quality figures for CVPR:
+Produces publication-quality training figures:
   - Fig 1: Total reward + per-component rewards vs GPU-hours
   - Fig 2: Loss (L+, L-, contrastive) vs steps
   - Fig 3: Learning rate schedule + gradient norm
@@ -144,7 +144,7 @@ def plot_diagnostics(rows, out_dir: Path, label: str = ""):
 
 
 if __name__ == "__main__":
-    metrics_path = sys.argv[1] if len(sys.argv) > 1 else "outputs/opsd_tier2_cvpr/train_metrics.jsonl"
+    metrics_path = sys.argv[1] if len(sys.argv) > 1 else "outputs/opsd_tier2/train_metrics.jsonl"
     out_dir = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(metrics_path).parent / "figures"
     label = sys.argv[3] if len(sys.argv) > 3 else ""
     

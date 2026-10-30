@@ -1,7 +1,7 @@
 """InstructVideo-style reward fine-tuning baseline.
 
 Reference: Yuan et al., "InstructVideo: Instructing Video Diffusion Models with Human Feedback",
-           CVPR 2024.
+           2024.
 
 Core idea (ReFL applied to video): roll out the full denoising trajectory, decode to pixels,
 compute the reward, and back-prop the reward gradient through the final few denoising steps

@@ -29,25 +29,25 @@ export PYTHONPATH="$PWD"
 ### LoRA Checkpoints（已训练，在 git 中）
 | 实验 | 步数 | 路径 | 大小 |
 |------|------|------|------|
-| V1 (nat_clamp) | 500 | `outputs/opsd_tier2_cvpr/lora_step00500/` | 13MB |
-| V2 (nat_sigmoid) | 500 | `outputs/opsd_tier2_cvpr_v2/lora_step00500/` | 13MB |
-| NoNat (消融) | 500 | `outputs/opsd_tier2_cvpr_no_nat/lora_step00500/` | 13MB |
+| V1 (nat_clamp) | 500 | `outputs/opsd_tier2/lora_step00500/` | 13MB |
+| V2 (nat_sigmoid) | 500 | `outputs/opsd_tier2_v2/lora_step00500/` | 13MB |
+| NoNat (消融) | 500 | `outputs/opsd_tier2_no_nat/lora_step00500/` | 13MB |
 
 ### 训练 Metrics（在 git 中）
-- 每组 500 行 JSON (per-step)：`outputs/opsd_tier2_cvpr{,_v2,_no_nat}/train_metrics.jsonl`
+- 每组 500 行 JSON (per-step)：`outputs/opsd_tier2{,_v2,_no_nat}/train_metrics.jsonl`
 - 字段：step, reward, loss, R_subject_consistency, R_dynamic_degree, R_motion_smoothness, R_naturalness_penalty, grad_norm, lr
 
 ### 训练曲线图（在 git 中）
-- 单组：`outputs/opsd_tier2_cvpr{,_v2,_no_nat}/figures/fig_reward_curves.png` 等（各 3 张）
+- 单组：`outputs/opsd_tier2{,_v2,_no_nat}/figures/fig_reward_curves.png` 等（各 3 张）
 - 三组对比：`outputs/figures_comparison/comparison_rewards.png`, `naturalness_evolution.png`, `reward_vs_gpu_hours.png`
 
 ### Eval 视频（在本地，mp4 被 gitignore）
 | 配置 | 已渲染 | 路径 |
 |------|--------|------|
-| Base（无 LoRA） | **40/40** ✅ | `outputs/eval_cvpr/videos_base/seed_00/` |
-| V1 (nat_clamp) | **10/40** ❌ | `outputs/eval_cvpr/videos_v1_nat_clamp/seed_00/` |
-| V2 (nat_sigmoid) | **10/40** ❌ | `outputs/eval_cvpr/videos_v2_nat_sigmoid/seed_00/` |
-| NoNat (消融) | **10/40** ❌ | `outputs/eval_cvpr/videos_ablation_no_nat/seed_00/` |
+| Base（无 LoRA） | **40/40** ✅ | `outputs/eval/videos_base/seed_00/` |
+| V1 (nat_clamp) | **10/40** ❌ | `outputs/eval/videos_v1_nat_clamp/seed_00/` |
+| V2 (nat_sigmoid) | **10/40** ❌ | `outputs/eval/videos_v2_nat_sigmoid/seed_00/` |
+| NoNat (消融) | **10/40** ❌ | `outputs/eval/videos_ablation_no_nat/seed_00/` |
 
 > ⚠️ mp4 视频在 `.gitignore` 中，**服务器到期后丢失**。下次需要重新渲染。
 
@@ -57,8 +57,8 @@ export PYTHONPATH="$PWD"
 - **需要从 40 eval 新场景生成新 GIF**
 
 ### Eval Metrics（在 git 中）
-- `outputs/eval_cvpr/metrics_summary.json` — 4 组 × 3 指标（仅基于 n=10）
-- `outputs/eval_cvpr/metrics_table.md`
+- `outputs/eval/metrics_summary.json` — 4 组 × 3 指标（仅基于 n=10）
+- `outputs/eval/metrics_table.md`
 
 ---
 
@@ -98,15 +98,15 @@ cp data/first_frames_eval/*.png data/first_frames_eval/seed_00/
 
 # 渲染剩余视频（每组 ~8 min）
 for tag_lora in \
-  "videos_v1_nat_clamp outputs/opsd_tier2_cvpr/lora_step00500" \
-  "videos_v2_nat_sigmoid outputs/opsd_tier2_cvpr_v2/lora_step00500" \
-  "videos_ablation_no_nat outputs/opsd_tier2_cvpr_no_nat/lora_step00500"; do
+  "videos_v1_nat_clamp outputs/opsd_tier2/lora_step00500" \
+  "videos_v2_nat_sigmoid outputs/opsd_tier2_v2/lora_step00500" \
+  "videos_ablation_no_nat outputs/opsd_tier2_no_nat/lora_step00500"; do
   tag=$(echo $tag_lora | cut -d' ' -f1)
   lora=$(echo $tag_lora | cut -d' ' -f2)
   python -m src.render_i2v \
     --frames_dir data/first_frames_eval \
     --prompts data/prompts/tier2_eval_40.json \
-    --out_dir outputs/eval_cvpr/$tag \
+    --out_dir outputs/eval/$tag \
     --seeds 0 --num_frames 16 --fps 8 --limit 40 \
     --i2v_lora_dir $lora
 done
@@ -119,8 +119,8 @@ done
 ```bash
 # 需要写一个 mp4→GIF 并排对比脚本，大致逻辑：
 # for each of 40 eval prompts:
-#   left = outputs/eval_cvpr/videos_base/seed_00/{idx:03d}.mp4
-#   right = outputs/eval_cvpr/videos_v2_nat_sigmoid/seed_00/{idx:03d}.mp4
+#   left = outputs/eval/videos_base/seed_00/{idx:03d}.mp4
+#   right = outputs/eval/videos_v2_nat_sigmoid/seed_00/{idx:03d}.mp4
 #   → docs/figures/eval_duel/duel_{idx:03d}.gif (side-by-side, 256px wide each)
 ```
 
@@ -129,9 +129,9 @@ done
 500 步 LoRA L2 norm 仅 ~27，eval metrics 无显著差异。需要至少 2000 步：
 
 ```bash
-# 修改 configs/tier2_cvpr_v2.yaml: max_train_steps: 500 → 2000
+# 修改 configs/tier2_v2.yaml: max_train_steps: 500 → 2000
 # 从现有 checkpoint 续训（如果支持）或重新训练
-python -m src.train_entry --method opsd_i2v --config configs/tier2_cvpr_v2.yaml
+python -m src.train_entry --method opsd_i2v --config configs/tier2_v2.yaml
 ```
 
 ### Step 4：用 n=40 重新计算 eval metrics
@@ -145,10 +145,10 @@ from src.eval.naturalness_v2 import naturalness_v2_video
 import imageio.v3 as iio
 
 configs = {
-    'base': 'outputs/eval_cvpr/videos_base/seed_00',
-    'v1_nat_clamp': 'outputs/eval_cvpr/videos_v1_nat_clamp/seed_00',
-    'v2_nat_sigmoid': 'outputs/eval_cvpr/videos_v2_nat_sigmoid/seed_00',
-    'ablation_no_nat': 'outputs/eval_cvpr/videos_ablation_no_nat/seed_00',
+    'base': 'outputs/eval/videos_base/seed_00',
+    'v1_nat_clamp': 'outputs/eval/videos_v1_nat_clamp/seed_00',
+    'v2_nat_sigmoid': 'outputs/eval/videos_v2_nat_sigmoid/seed_00',
+    'ablation_no_nat': 'outputs/eval/videos_ablation_no_nat/seed_00',
 }
 # ... (eval 代码同之前，改 n=40)
 "
@@ -194,9 +194,9 @@ pip install -r requirements.txt  # 如果 venv 丢失
 ├── STATUS.md                               ← 本文件（进度 + 下一步指南）
 ├── requirements.txt
 ├── configs/                                10 套 YAML 配置
-│   ├── tier2_cvpr.yaml                     V1 (nat_clamp)
-│   ├── tier2_cvpr_v2.yaml                  V2 (nat_sigmoid) ← 主力
-│   └── tier2_cvpr_ablation_no_nat.yaml     消融
+│   ├── tier2.yaml                     V1 (nat_clamp)
+│   ├── tier2_v2.yaml                  V2 (nat_sigmoid) ← 主力
+│   └── tier2_ablation_no_nat.yaml     消融
 ├── src/
 │   ├── opsd_trainer_i2v.py                 训练循环（OPSD RL）
 │   ├── render_i2v.py                       推理渲染
@@ -214,10 +214,10 @@ pip install -r requirements.txt  # 如果 venv 丢失
 │   ├── first_frames_200/                   200 张训练首帧 (35MB)
 │   └── first_frames_eval/                  40 张 eval 首帧 (8.7MB)
 ├── outputs/
-│   ├── opsd_tier2_cvpr/                    V1: metrics + figures + LoRA
-│   ├── opsd_tier2_cvpr_v2/                 V2: metrics + figures + LoRA
-│   ├── opsd_tier2_cvpr_no_nat/             NoNat: metrics + figures + LoRA
+│   ├── opsd_tier2/                    V1: metrics + figures + LoRA
+│   ├── opsd_tier2_v2/                 V2: metrics + figures + LoRA
+│   ├── opsd_tier2_no_nat/             NoNat: metrics + figures + LoRA
 │   ├── figures_comparison/                 三组对比图 (3 张 PNG)
-│   └── eval_cvpr/                          eval metrics + 视频(gitignored)
+│   └── eval/                          eval metrics + 视频(gitignored)
 └── docs/figures/duel/                      32 个 GIF (161MB, 仅 6 场景)
 ```

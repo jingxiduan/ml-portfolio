@@ -8,9 +8,9 @@ weights/
 # ---- LoRA checkpoints: only track final step 500 ----
 # Allow .safetensors in lora_step00500 directories
 *.safetensors
-!outputs/opsd_tier2_cvpr/lora_step00500/adapter_model.safetensors
-!outputs/opsd_tier2_cvpr_v2/lora_step00500/adapter_model.safetensors
-!outputs/opsd_tier2_cvpr_no_nat/lora_step00500/adapter_model.safetensors
+!outputs/opsd_tier2/lora_step00500/adapter_model.safetensors
+!outputs/opsd_tier2_v2/lora_step00500/adapter_model.safetensors
+!outputs/opsd_tier2_no_nat/lora_step00500/adapter_model.safetensors
 
 # ---- data (first frames: track 200 train + 40 eval) ----
 data/first_frames/*.png
@@ -45,19 +45,19 @@ outputs/duel2/frames_sweet/*
 !outputs/duel2/frames_base/manifest.json
 !outputs/duel2/frames_sweet/manifest.json
 
-# Keep CVPR training outputs (metrics, figures, LoRA configs)
-!outputs/opsd_tier2_cvpr/
-!outputs/opsd_tier2_cvpr_v2/
-!outputs/opsd_tier2_cvpr_no_nat/
-!outputs/eval_cvpr/
+# Keep training outputs (metrics, figures, LoRA configs)
+!outputs/opsd_tier2/
+!outputs/opsd_tier2_v2/
+!outputs/opsd_tier2_no_nat/
+!outputs/eval/
 
 # Ignore intermediate LoRA checkpoints (not step 500)
-outputs/opsd_tier2_cvpr/lora_step00[0-4]*/
-outputs/opsd_tier2_cvpr_v2/lora_step00[0-4]*/
-outputs/opsd_tier2_cvpr_no_nat/lora_step00[0-4]*/
+outputs/opsd_tier2/lora_step00[0-4]*/
+outputs/opsd_tier2_v2/lora_step00[0-4]*/
+outputs/opsd_tier2_no_nat/lora_step00[0-4]*/
 
 # Ignore rendered videos inside eval
-outputs/eval_cvpr/videos_*/**/*.mp4
+outputs/eval/videos_*/**/*.mp4
 
 # Ignore old tier2 outputs
 outputs/opsd_tier2_h20/

@@ -1,6 +1,12 @@
-# Ablation: NO naturalness penalty — pure reward optimization.
-# Expected: higher raw reward but more saturation/hue drift artifacts.
-# This demonstrates why naturalness_penalty is necessary.
+# Tier-2 v2 — with FIXED naturalness penalty (sigmoid, always gradient).
+# This is the "main" config. tier2.yaml (v1) serves as the ablation baseline
+# where naturalness_penalty was effectively dead (clamped to 0).
+#
+# Changes vs v1:
+#   - naturalness_penalty weight: 2.0 (was 1.5) — stronger since now it can go negative
+#   - sat_threshold: 0.25 (was 0.30) — more aggressive
+#   - subject_consistency weight: 0.8 (was 1.0) — slightly reduced to give naturalness more room
+#   - out_dir: outputs/opsd_tier2_v2
 
 model:
   ckpt_path: "weights/dynamicrafter_512/model.ckpt"
@@ -37,7 +43,7 @@ train:
 
   log_every: 5
   ckpt_every: 50
-  out_dir: "outputs/opsd_tier2_cvpr_no_nat"
+  out_dir: "outputs/opsd_tier2_v2"
   seed: 0
   wandb_project: null
   wandb_run_name: null
@@ -45,11 +51,16 @@ train:
 reward:
   components:
     subject_consistency:
-      weight: 1.0
+      weight: 0.8
       model_name: "ViT-B-32"
       pretrained: "openai"
     motion_smoothness:
       weight: 1.0
     dynamic_degree:
-      weight: 1.0
+      weight: 0.8
       cap_tau: 0.6
+    naturalness_penalty:
+      weight: 2.0
+      sat_threshold: 0.25
+      sobel_threshold: 70.0
+      sobel_scale: 80.0

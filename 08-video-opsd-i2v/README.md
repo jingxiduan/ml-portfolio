@@ -141,19 +141,19 @@ V2 的 naturalness penalty 从 −1.47 改善到 −0.79（500 步），确认�
 
 | Reward | Loss | Diagnostics |
 |---|---|---|
-| ![](outputs/opsd_tier2_cvpr/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_cvpr/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_cvpr/figures/fig_diagnostics.png) |
+| ![](outputs/opsd_tier2/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2/figures/fig_diagnostics.png) |
 
 **V2 (sigmoid, gradient alive)**
 
 | Reward | Loss | Diagnostics |
 |---|---|---|
-| ![](outputs/opsd_tier2_cvpr_v2/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_cvpr_v2/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_cvpr_v2/figures/fig_diagnostics.png) |
+| ![](outputs/opsd_tier2_v2/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_v2/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_v2/figures/fig_diagnostics.png) |
 
 **NoNat (no naturalness)**
 
 | Reward | Loss | Diagnostics |
 |---|---|---|
-| ![](outputs/opsd_tier2_cvpr_no_nat/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_cvpr_no_nat/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_cvpr_no_nat/figures/fig_diagnostics.png) |
+| ![](outputs/opsd_tier2_no_nat/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_no_nat/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_no_nat/figures/fig_diagnostics.png) |
 
 </details>
 
@@ -275,13 +275,13 @@ python scripts/generate_prompts_200.py
 CUDA_VISIBLE_DEVICES=0 python scripts/generate_first_frames.py cuda:0
 
 # 训练 V2（sigmoid naturalness, ~86min on H20）
-python -m src.train_entry --method opsd_i2v --config configs/tier2_cvpr_v2.yaml
+python -m src.train_entry --method opsd_i2v --config configs/tier2_v2.yaml
 
 # 训练消融（无 naturalness）
-python -m src.train_entry --method opsd_i2v --config configs/tier2_cvpr_ablation_no_nat.yaml
+python -m src.train_entry --method opsd_i2v --config configs/tier2_ablation_no_nat.yaml
 
 # 画训练曲线
-python scripts/plot_training_curves.py outputs/opsd_tier2_cvpr_v2/train_metrics.jsonl outputs/opsd_tier2_cvpr_v2/figures "v2"
+python scripts/plot_training_curves.py outputs/opsd_tier2_v2/train_metrics.jsonl outputs/opsd_tier2_v2/figures "v2"
 python scripts/plot_comparison.py
 
 # 渲染 eval 视频
@@ -301,8 +301,8 @@ bash scripts/render_eval_all.sh 40
 │   └── first_frames_eval/              40 张 held-out eval 首帧
 ├── outputs/
 │   ├── figures_comparison/             三组对比训练曲线
-│   ├── opsd_tier2_cvpr{,_v2,_no_nat}/  训练 metrics + curves + LoRA checkpoint
-│   └── eval_cvpr/                      评估 metrics
+│   ├── opsd_tier2{,_v2,_no_nat}/  训练 metrics + curves + LoRA checkpoint
+│   └── eval/                      评估 metrics
 ├── src/
 │   ├── opsd_trainer_i2v.py             训练循环
 │   ├── rewards/                        4 个 reward + naturalness penalty

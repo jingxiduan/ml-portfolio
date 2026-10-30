@@ -26,7 +26,7 @@
   - 不要改 `src/opsd_trainer_i2v.py` 的训练循环逻辑（已被 6 个单测 pin 死）
   - 不要改 `src/dynamicrafter_wrapper.py` 的 `build_cond` / `CondStage`（已和 DynamiCrafter 源码对齐）
   - 不要改 reward 配置权重（`configs/tier2_natural.yaml` 是精心设计的）
-  - **绝对不要**在任何 commit 消息里出现 "paper / submission / CVPR / under review" 字样（用户明确标记为敏感）
+  - **绝对不要**在任何 commit 消息里出现 "paper / submission / / under review" 字样（用户明确标记为敏感）
 
 ## 3 · 前情提要（压缩版）
 

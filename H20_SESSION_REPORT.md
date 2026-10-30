@@ -18,7 +18,7 @@
 - **GIFs**: 20 three-way comparison GIFs
 - **Issues**: head_jitter=256 (target ~120), jaw_audio_corr=-0.10 (target 0.3-0.5)
 
-## Session 2: CVPR-Quality Training (Oct 29-30)
+## Session 2: Tier-2 Training (Oct 29-30)
 
 ### Expanded Training Data
 - **Prompts**: 6 → 200 (160 train + 40 eval) across 15 visual categories
@@ -66,9 +66,9 @@ providing zero learning signal for visual quality improvement.
 ## Files Changed
 - `src/opsd_trainer_i2v.py` — Added per-step JSON metrics logging
 - `src/rewards/naturalness_penalty.py` — **Fixed: sigmoid replaces ReLU+clamp**
-- `configs/tier2_cvpr.yaml` — V1 config (500 steps, nat_weight=1.5)
-- `configs/tier2_cvpr_v2.yaml` — V2 config (sigmoid naturalness, nat_weight=2.0)
-- `configs/tier2_cvpr_ablation_no_nat.yaml` — Ablation (no naturalness)
+- `configs/tier2.yaml` — V1 config (500 steps, nat_weight=1.5)
+- `configs/tier2_v2.yaml` — V2 config (sigmoid naturalness, nat_weight=2.0)
+- `configs/tier2_ablation_no_nat.yaml` — Ablation (no naturalness)
 - `scripts/generate_prompts_200.py` — 200 diverse I2V prompts
 - `scripts/generate_first_frames.py` — SDXL-Turbo first frame generation
 - `scripts/plot_training_curves.py` — Publication-quality training curve plots
@@ -80,6 +80,6 @@ providing zero learning signal for visual quality improvement.
 1. **Scale training**: 2000-5000 steps for visible eval metric improvement
 2. **Better motion reward**: Replace RAFT-based motion_smoothness with VideoMAE or CLIP-temporal
 3. **Higher dynamic degree**: Increase cap_tau from 0.6 to 0.8 to prevent saturation
-4. **Add FVD/FID**: Standard video generation metrics for CVPR comparison
+4. **Add FVD/FID**: Standard video generation metrics for comparison
 5. **Full eval**: 40 prompts × 3 seeds = 120 videos per config
 6. **Gallery GIFs**: Side-by-side comparison animations for paper

@@ -6,9 +6,9 @@ For each config (base, v1, v2, ablation_no_nat):
   3. Generate comparison gallery
 
 Produces:
-  - outputs/eval_cvpr/metrics_all.json
-  - outputs/eval_cvpr/metrics_table.md
-  - outputs/eval_cvpr/gallery/*.gif
+  - outputs/eval/metrics_all.json
+  - outputs/eval/metrics_table.md
+  - outputs/eval/gallery/*.gif
 """
 import json, os, sys, time, subprocess
 from pathlib import Path
@@ -18,7 +18,7 @@ import numpy as np
 # ---- Configuration ----
 EVAL_PROMPTS = "data/prompts/tier2_eval_40.json"
 EVAL_FRAMES  = "data/first_frames_eval"
-BASE_OUT     = "outputs/eval_cvpr"
+BASE_OUT     = "outputs/eval"
 
 CONFIGS = {
     "base": {
@@ -27,15 +27,15 @@ CONFIGS = {
     },
     "v1_nat_clamp": {
         "desc": "OPSD v1 (naturalness clamped → dead)",
-        "lora_dir": "outputs/opsd_tier2_cvpr/lora_step00500",
+        "lora_dir": "outputs/opsd_tier2/lora_step00500",
     },
     "v2_nat_sigmoid": {
         "desc": "OPSD v2 (naturalness sigmoid → active)",
-        "lora_dir": "outputs/opsd_tier2_cvpr_v2/lora_step00500",
+        "lora_dir": "outputs/opsd_tier2_v2/lora_step00500",
     },
     "ablation_no_nat": {
         "desc": "Ablation: no naturalness penalty",
-        "lora_dir": "outputs/opsd_tier2_cvpr_no_nat/lora_step00500",
+        "lora_dir": "outputs/opsd_tier2_no_nat/lora_step00500",
     },
 }
 

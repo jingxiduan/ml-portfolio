@@ -23,19 +23,19 @@ plt.rcParams.update({
 
 EXPERIMENTS = {
     "v1_nat_clamp": {
-        "path": "outputs/opsd_tier2_cvpr/train_metrics.jsonl",
+        "path": "outputs/opsd_tier2/train_metrics.jsonl",
         "label": "V1: Naturalness (clamped)",
         "color": "#2196F3",
         "ls": "--",
     },
     "v2_nat_sigmoid": {
-        "path": "outputs/opsd_tier2_cvpr_v2/train_metrics.jsonl",
+        "path": "outputs/opsd_tier2_v2/train_metrics.jsonl",
         "label": "V2: Naturalness (sigmoid) [Ours]",
         "color": "#4CAF50",
         "ls": "-",
     },
     "no_nat": {
-        "path": "outputs/opsd_tier2_cvpr_no_nat/train_metrics.jsonl",
+        "path": "outputs/opsd_tier2_no_nat/train_metrics.jsonl",
         "label": "Ablation: No Naturalness",
         "color": "#F44336",
         "ls": "-.",

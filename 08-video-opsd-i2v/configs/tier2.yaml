@@ -1,4 +1,4 @@
-# Tier-2 CVPR-quality OPSD-I2V LoRA training config.
+# Tier-2 OPSD-I2V LoRA training config.
 # Key changes vs tier2_natural.yaml:
 #   - 200 training prompts (was 6)
 #   - 500 steps (was 50)
@@ -47,7 +47,7 @@ train:
 
   log_every: 5
   ckpt_every: 50
-  out_dir: "outputs/opsd_tier2_cvpr"
+  out_dir: "outputs/opsd_tier2"
   seed: 0
   wandb_project: null
   wandb_run_name: null
