@@ -1,0 +1,42 @@
+{
+  "base": {
+    "n": 10,
+    "nat": 0.9515,
+    "dynamic": 0.5075,
+    "appeal": 0.7295,
+    "sat": 0.3648,
+    "overexp": 0.0035,
+    "sobel_p95": 29.2856,
+    "frame_rms": 30.4486
+  },
+  "v1_nat_clamp": {
+    "n": 10,
+    "nat": 0.9515,
+    "dynamic": 0.5074,
+    "appeal": 0.7294,
+    "sat": 0.3647,
+    "overexp": 0.0036,
+    "sobel_p95": 29.2747,
+    "frame_rms": 30.4422
+  },
+  "v2_nat_sigmoid": {
+    "n": 10,
+    "nat": 0.9513,
+    "dynamic": 0.5069,
+    "appeal": 0.7291,
+    "sat": 0.3649,
+    "overexp": 0.0036,
+    "sobel_p95": 29.2261,
+    "frame_rms": 30.4159
+  },
+  "ablation_no_nat": {
+    "n": 10,
+    "nat": 0.9512,
+    "dynamic": 0.5079,
+    "appeal": 0.7296,
+    "sat": 0.3648,
+    "overexp": 0.0037,
+    "sobel_p95": 29.3036,
+    "frame_rms": 30.4761
+  }
+}

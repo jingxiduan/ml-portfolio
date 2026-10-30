@@ -1,0 +1,62 @@
+[
+  {
+    "index": 0,
+    "prompt": "a penguin sliding on ice into the water, Antarctic",
+    "seed": 0,
+    "file": "seed_00/000.mp4"
+  },
+  {
+    "index": 1,
+    "prompt": "a lighthouse on a rocky coast, drone circling shot",
+    "seed": 0,
+    "file": "seed_00/001.mp4"
+  },
+  {
+    "index": 2,
+    "prompt": "construction crane moving against a blue sky, urban development",
+    "seed": 0,
+    "file": "seed_00/002.mp4"
+  },
+  {
+    "index": 3,
+    "prompt": "a bee collecting pollen from a flower, extreme close-up",
+    "seed": 0,
+    "file": "seed_00/003.mp4"
+  },
+  {
+    "index": 4,
+    "prompt": "a owl perched on a branch at night, eyes glowing",
+    "seed": 0,
+    "file": "seed_00/004.mp4"
+  },
+  {
+    "index": 5,
+    "prompt": "a dormant volcano crater with a lake inside, aerial",
+    "seed": 0,
+    "file": "seed_00/005.mp4"
+  },
+  {
+    "index": 6,
+    "prompt": "a ferris wheel spinning at an amusement park at dusk",
+    "seed": 0,
+    "file": "seed_00/006.mp4"
+  },
+  {
+    "index": 7,
+    "prompt": "fog drifting through a pine forest at dawn",
+    "seed": 0,
+    "file": "seed_00/007.mp4"
+  },
+  {
+    "index": 8,
+    "prompt": "an art studio with paint splatters and canvases everywhere",
+    "seed": 0,
+    "file": "seed_00/008.mp4"
+  },
+  {
+    "index": 9,
+    "prompt": "a reflection in a rain puddle of city buildings at night",
+    "seed": 0,
+    "file": "seed_00/009.mp4"
+  }
+]
