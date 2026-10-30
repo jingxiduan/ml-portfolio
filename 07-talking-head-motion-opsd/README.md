@@ -207,16 +207,32 @@ All training runs must be launched through the guard
 
 ## 🎬 QUALITATIVE GALLERY
 
-`outputs/hd_compare/` — rendered with `source_max_dim=1280` and `flag_pasteback=True`,
-so the animated face is composited back into the full-resolution portrait instead of
-being squeezed to 256 px. **Verified output: 1024×1024, H.264 High, 25 fps, with the
-driving audio muxed in** (previously the pipeline emitted 256/512 on-face only).
+Real faces, real speech. Source portraits come from **CelebA-HQ** (studio-quality
+stills) and **CelebV-HQ** (first frames of real talking-head videos, whose audio
+tracks drive the animation — no TTS). Rendered with `source_max_dim=1280` +
+`flag_pasteback=True`: the animated face is composited back into the full-resolution
+portrait. **Verified output: 1024×1024, H.264 High, 25 fps, audio muxed in**
+(previously 256/512 on-face only).
 
-Grid: 4 audio clips × 3 portraits × 3 variants (base / v2 / v3) = 36 videos;
-`manifest.json` records every (clip, portrait, variant) mapping.
+**Portrait pool (24 identities, extracted in `scripts/prep_public_portraits.py`):**
+
+![portrait sheet](outputs/demo_gifs/portrait_sheet.png)
+
+**base (left) vs v3 (right)**, driven by real speech from CelebV-HQ:
+
+| | |
+|---|---|
+| ![base vs v3, CelebA-HQ portrait](outputs/demo_gifs/c00__celebahq_000__base_vs_v3.gif) | ![base vs v3, CelebA-HQ portrait](outputs/demo_gifs/c01__celebahq_000__base_vs_v3.gif) |
+| ![base vs v3, CelebV-HQ portrait](outputs/demo_gifs/c00__celebv_--QCZKgJt6o_0__base_vs_v3.gif) | ![base vs v3, CelebV-HQ portrait](outputs/demo_gifs/c01__celebv_--QCZKgJt6o_0__base_vs_v3.gif) |
+
+Full set: `outputs/hd_compare_public/` (12 videos), `outputs/hd_compare/` (36 videos
+on the original 3 portraits), `outputs/demo_gifs/` (side-by-side GIFs).
+`manifest.json` in each directory records every (clip, portrait, variant) mapping.
 
 ```bash
+python scripts/prep_public_portraits.py        # extract portraits + real audio
 python scripts/render_hd_compare.py --n-clips 4 --variants base v2 v3
+python scripts/make_demo_gifs.py               # side-by-side GIFs for the README
 # ~45 s per 12 s clip on one H20
 ```
 

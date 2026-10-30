@@ -35,6 +35,37 @@ Concatenation never crosses speakers. Segments longer than 15 s are truncated.
 - Audio wavs: `data/audio_public/train/`, `data/audio_public/eval/` — **not** in `main`
   (backed up to a `backup/*` branch).
 
+## Public portrait / talking-head datasets (qualitative gallery)
+
+The original 3 portraits in `data/portraits/` are few and give no identity
+diversity. To make the demos show real people, two more public sets were added.
+
+### CelebA-HQ — still portraits
+
+| Field | Value |
+|---|---|
+| Source | `mattymchen/celeba-hq` on Hugging Face (derivative of CelebA) |
+| License | CelebA terms: research / non-commercial use |
+| Downloaded | 1 of 6 parquet shards (454 MB) |
+| Extracted | 12 portraits at 1024×1024 → `data/portraits_public/celebahq_*.png` |
+
+### CelebV-HQ — real talking-head video
+
+| Field | Value |
+|---|---|
+| Source | `saeed-5959/celebv_hq_head_talking` on Hugging Face |
+| Downloaded | 12 of 23 191 clips |
+| What is taken | first frame → portrait; audio track → 16 kHz mono wav |
+| Outputs | `data/portraits_public/celebv_*.png`, `data/audio_public/celebv/*.wav` |
+
+Using CelebV-HQ gives demos driven by **real human speech** (not only TTS) on
+**real faces**, which is what makes blink / nod / listening behaviour visible.
+
+### License note
+Both sets cover celebrity imagery and are used here only to demonstrate the
+method. They are not redistributed into `main`; generated videos go to a
+`backup/*` branch.
+
 ## Legacy evaluation set (retained)
 The original 20 macOS TTS clips in `data/audio/eval/` are retained as `legacy eval`
 so results stay comparable with the previous round.
