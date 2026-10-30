@@ -1,0 +1,4 @@
+[GUARD] kind=i2v log=/root/ml-portfolio/08-video-opsd-i2v/outputs/opsd_long_v2/train_metrics.jsonl pid=19570 window=50
+[GUARD] TRIPPED rule=loss_blowup: loss_plus window-mean 0.07294 > 10.0x baseline 0.00666 at step 306
+[GUARD] wrote /root/ml-portfolio/08-video-opsd-i2v/outputs/opsd_long_v2/GUARD_STOP.json
+[GUARD] sent SIGTERM to pid 19570

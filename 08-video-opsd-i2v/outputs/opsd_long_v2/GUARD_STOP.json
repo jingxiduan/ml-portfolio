@@ -1,0 +1,5 @@
+{
+  "rule": "loss_blowup",
+  "message": "loss_plus window-mean 0.07294 > 10.0x baseline 0.00666 at step 306",
+  "time": "2026-10-30 21:16:14"
+}
