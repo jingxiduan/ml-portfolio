@@ -1,9 +1,13 @@
 # 07 — Talking-Head Motion OPSD · 项目状态
 
-> 最后更新：2026-10-30 H20 session 到期前
+> 最后更新：2026-11-01（跨行业轮）
 >
-> **下一轮任务见 [`docs/NEXT_H20_TASKS.md`](docs/NEXT_H20_TASKS.md)**（jitter 单点优化 + 放大数据 + 独立评测）。
-> 下面"尚未完成"一节是旧清单，以任务书为准。
+> **最新一轮：三行业数字人（金融 / 房地产 / 短视频），见
+> [`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md)。**
+> 三个行业的 reward 目标带全部来自真实公开视频实测（非手调），persona 落点
+> 0.84–0.90× 目标、无一过冲；demo 与同脸跨行业对照已渲染。
+> 下一轮任务书（jitter 单点优化 + 放大数据）见 [`docs/NEXT_H20_TASKS.md`](docs/NEXT_H20_TASKS.md)，
+> 其中 T1–T3 已于 10-30 完成（v3 / v4），v4 即本轮三行业的共同起点。
 
 ## 已完成
 

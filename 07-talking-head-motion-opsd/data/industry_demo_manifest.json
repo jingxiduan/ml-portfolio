@@ -1,0 +1,275 @@
+{
+ "per_industry": 8,
+ "industries": {
+  "finance": [
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger0_002.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger0_002.wav",
+    "video": "AdamKinzinger0_002.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": 0.2,
+    "pitch": 0.8,
+    "smile": 0.109,
+    "rank": 0.556
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger0_014.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger0_014.wav",
+    "video": "AdamKinzinger0_014.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": -0.4,
+    "pitch": 2.9,
+    "smile": 0.133,
+    "rank": 0.547
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger0_007.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger0_007.wav",
+    "video": "AdamKinzinger0_007.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": -1.9,
+    "pitch": -0.3,
+    "smile": 0.064,
+    "rank": 0.517
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger0_001.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger0_001.wav",
+    "video": "AdamKinzinger0_001.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": -0.4,
+    "pitch": -0.2,
+    "smile": 0.022,
+    "rank": 0.507
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger2_006.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger2_006.wav",
+    "video": "AdamKinzinger2_006.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": 2.4,
+    "pitch": -3.9,
+    "smile": 0.111,
+    "rank": 0.504
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger2_008.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger2_008.wav",
+    "video": "AdamKinzinger2_008.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": -3.8,
+    "pitch": 2.4,
+    "smile": 0.11,
+    "rank": 0.504
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger2_014.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger2_014.wav",
+    "video": "AdamKinzinger2_014.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": -3.7,
+    "pitch": 0.9,
+    "smile": 0.077,
+    "rank": 0.5
+   },
+   {
+    "portrait": "data/portraits_ind/finance/finance_AdamKinzinger2_005.png",
+    "audio": "data/audio_ind/finance/finance_AdamKinzinger2_005.wav",
+    "video": "AdamKinzinger2_005.mp4",
+    "w": 512,
+    "h": 512,
+    "yaw": -2.6,
+    "pitch": 5.3,
+    "smile": 0.124,
+    "rank": 0.495
+   }
+  ],
+  "realestate": [
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_06DLNzLaTlE_0.png",
+    "audio": "data/audio_ind/realestate/realestate_06DLNzLaTlE_0.wav",
+    "video": "06DLNzLaTlE_0.mp4",
+    "w": 914,
+    "h": 914,
+    "yaw": -1.2,
+    "pitch": -7.5,
+    "smile": -0.029,
+    "rank": 0.805
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_0XWLhe6xyvs_3.png",
+    "audio": "data/audio_ind/realestate/realestate_0XWLhe6xyvs_3.wav",
+    "video": "0XWLhe6xyvs_3.mp4",
+    "w": 912,
+    "h": 912,
+    "yaw": -4.5,
+    "pitch": -14.6,
+    "smile": 0.135,
+    "rank": 0.78
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_0zgTcrZ5030_1.png",
+    "audio": "data/audio_ind/realestate/realestate_0zgTcrZ5030_1.wav",
+    "video": "0zgTcrZ5030_1.mp4",
+    "w": 882,
+    "h": 882,
+    "yaw": -1.4,
+    "pitch": 14.2,
+    "smile": 0.115,
+    "rank": 0.774
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_12biqDwIRx0_4_0.png",
+    "audio": "data/audio_ind/realestate/realestate_12biqDwIRx0_4_0.wav",
+    "video": "12biqDwIRx0_4_0.mp4",
+    "w": 886,
+    "h": 886,
+    "yaw": 7.1,
+    "pitch": -8.3,
+    "smile": 0.022,
+    "rank": 0.725
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_0wqS5RelbtA_8.png",
+    "audio": "data/audio_ind/realestate/realestate_0wqS5RelbtA_8.wav",
+    "video": "0wqS5RelbtA_8.mp4",
+    "w": 790,
+    "h": 790,
+    "yaw": -2.4,
+    "pitch": 4.1,
+    "smile": -0.001,
+    "rank": 0.707
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_0QDJobWO4Vc_0.png",
+    "audio": "data/audio_ind/realestate/realestate_0QDJobWO4Vc_0.wav",
+    "video": "0QDJobWO4Vc_0.mp4",
+    "w": 884,
+    "h": 884,
+    "yaw": 9.8,
+    "pitch": 9.4,
+    "smile": -0.083,
+    "rank": 0.671
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_0gBZ0ItGq_0_1.png",
+    "audio": "data/audio_ind/realestate/realestate_0gBZ0ItGq_0_1.wav",
+    "video": "0gBZ0ItGq_0_1.mp4",
+    "w": 702,
+    "h": 702,
+    "yaw": -5.0,
+    "pitch": 0.9,
+    "smile": 0.037,
+    "rank": 0.649
+   },
+   {
+    "portrait": "data/portraits_ind/realestate/realestate_-uCFfGjnRa8_24.png",
+    "audio": "data/audio_ind/realestate/realestate_-uCFfGjnRa8_24.wav",
+    "video": "-uCFfGjnRa8_24.mp4",
+    "w": 606,
+    "h": 606,
+    "yaw": 1.7,
+    "pitch": -2.8,
+    "smile": 0.137,
+    "rank": 0.629
+   }
+  ],
+  "shortvideo": [
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_0wLgQQGob1U_20.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_0wLgQQGob1U_20.wav",
+    "video": "0wLgQQGob1U_20.mp4",
+    "w": 1082,
+    "h": 1082,
+    "yaw": 0.4,
+    "pitch": -1.8,
+    "smile": 0.036,
+    "rank": 1.056
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_-R5aAhsrS9w_3_0.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_-R5aAhsrS9w_3_0.wav",
+    "video": "-R5aAhsrS9w_3_0.mp4",
+    "w": 1030,
+    "h": 1030,
+    "yaw": -1.7,
+    "pitch": 0.7,
+    "smile": 0.023,
+    "rank": 0.995
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_-3KCgSpt3hU_0.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_-3KCgSpt3hU_0.wav",
+    "video": "-3KCgSpt3hU_0.mp4",
+    "w": 926,
+    "h": 926,
+    "yaw": 4.4,
+    "pitch": 0.4,
+    "smile": 0.126,
+    "rank": 0.932
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_0qkVyahL10U_1.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_0qkVyahL10U_1.wav",
+    "video": "0qkVyahL10U_1.mp4",
+    "w": 864,
+    "h": 864,
+    "yaw": -14.9,
+    "pitch": 2.9,
+    "smile": 0.058,
+    "rank": 0.701
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_0KjO3YwlhEE_6.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_0KjO3YwlhEE_6.wav",
+    "video": "0KjO3YwlhEE_6.mp4",
+    "w": 910,
+    "h": 910,
+    "yaw": 8.6,
+    "pitch": -13.5,
+    "smile": -0.026,
+    "rank": 0.667
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_0tjBBO2SUbE_1.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_0tjBBO2SUbE_1.wav",
+    "video": "0tjBBO2SUbE_1.mp4",
+    "w": 714,
+    "h": 714,
+    "yaw": 9.9,
+    "pitch": -1.9,
+    "smile": -0.057,
+    "rank": 0.579
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_-uCFfGjnRa8_23.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_-uCFfGjnRa8_23.wav",
+    "video": "-uCFfGjnRa8_23.mp4",
+    "w": 638,
+    "h": 638,
+    "yaw": -2.9,
+    "pitch": 3.2,
+    "smile": -0.008,
+    "rank": 0.562
+   },
+   {
+    "portrait": "data/portraits_ind/shortvideo/shortvideo_0OEvuXnKvR4_4.png",
+    "audio": "data/audio_ind/shortvideo/shortvideo_0OEvuXnKvR4_4.wav",
+    "video": "0OEvuXnKvR4_4.mp4",
+    "w": 638,
+    "h": 638,
+    "yaw": -5.0,
+    "pitch": -2.1,
+    "smile": 0.01,
+    "rank": 0.558
+   }
+  ]
+ }
+}

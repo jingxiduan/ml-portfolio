@@ -1,0 +1,37 @@
+{
+ "n_clips": 12,
+ "variants": [
+  {
+   "variant": "base",
+   "low_std_deg": 0.8904605319450647,
+   "high_std_deg": 0.1186765403641328
+  },
+  {
+   "variant": "finance",
+   "low_std_deg": 1.162177612224339,
+   "high_std_deg": 0.11962006303764347,
+   "target_low_deg": 1.383826798899463,
+   "target_high_deg": 0.09413451872163818,
+   "ratio_vs_target_amp": 0.8398288088860555,
+   "ratio_vs_target_jitter": 1.2707353759503215
+  },
+  {
+   "variant": "realestate",
+   "low_std_deg": 1.134190084992245,
+   "high_std_deg": 0.11241915774166322,
+   "target_low_deg": 1.2567535595611086,
+   "target_high_deg": 0.1179308670333962,
+   "ratio_vs_target_amp": 0.9024761269730034,
+   "ratio_vs_target_jitter": 0.9532632174223552
+  },
+  {
+   "variant": "shortvideo",
+   "low_std_deg": 2.6992264106803114,
+   "high_std_deg": 0.15612311470166337,
+   "target_low_deg": 3.038777802737111,
+   "target_high_deg": 0.34899626469294376,
+   "ratio_vs_target_amp": 0.8882605395659543,
+   "ratio_vs_target_jitter": 0.44734895612428593
+  }
+ ]
+}

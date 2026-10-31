@@ -1,0 +1,199 @@
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:209: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(ckpt_path, map_location=lambda storage, loc: storage))
+[02:44:07] Load appearance_feature_extractor     live_portrait_wmg_wrapper.py:55
+           from                                                                 
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           appearance_feature_extractor.pth                                     
+           done.                                                                
+           Load motion_extractor from            live_portrait_wmg_wrapper.py:58
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           motion_extractor.pth done.                                           
+[02:44:08] Load warping_module from              live_portrait_wmg_wrapper.py:61
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           warping_module.pth done.                                             
+           Load spade_generator from             live_portrait_wmg_wrapper.py:64
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/base_models/                                
+           spade_generator.pth done.                                            
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:184: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+           Load stitching_retargeting_module     live_portrait_wmg_wrapper.py:68
+           from                                                                 
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/liveportrait/retargeting_                                
+           models/stitching_retargeting_module.p                                
+           th done.                                                             
+/root/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:163: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_data = torch.load(ckpt_path, map_location=device)
+using hubert chinese ori
+[02:44:09] Load motion_generator from            live_portrait_wmg_wrapper.py:82
+           /root/ml-portfolio/07-talking-head-mo                                
+           tion-opsd/third_party/JoyVASA/pretrai                                
+           ned_weights/JoyVASA/motion_generator/                                
+           motion_generator_hubert_chinese.pt                                   
+           done.                                                                
+/root/ml-portfolio/07-talking-head-motion-opsd/src/opsd_train_motion_v4.py:67: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  probe.load_state_dict(torch.load(os.path.join(ROOT, "outputs", "eye_probe", "eye_probe.pt"),
+[lora-v3] 21 layers, 179.3K trainable params
+HubertModel is using HubertSdpaAttention, but `torch.nn.functional.scaled_dot_product_attention` does not support `output_attentions=True` or `layer_head_mask` not None. Falling back to the manual attention implementation, but specifying the manual implementation will be required from Transformers version v5.0.0 onwards. This warning can be removed using the argument `attn_implementation="eager"` when loading the model.
+[data] 2000 train clips -> 14260 4-sec windows
+[   1/3000] loss=0.01050 R=0.883 amp=0.869 jitter=-0.360 couple=0.050 blink=0.045 gaze=0.493 ood=-0.001 cap_frac=0.08  t=1s
+[  20/3000] loss=0.01034 R=0.859 amp=0.846 jitter=-0.305 couple=0.032 blink=0.022 gaze=0.464 ood=-0.000 cap_frac=0.17  t=6s
+[  40/3000] loss=0.01010 R=0.973 amp=0.879 jitter=-0.360 couple=0.118 blink=0.097 gaze=0.557 ood=-0.001 cap_frac=0.21  t=12s
+[  60/3000] loss=0.01011 R=1.114 amp=0.905 jitter=-0.236 couple=0.192 blink=0.116 gaze=0.578 ood=-0.001 cap_frac=0.00  t=17s
+[  80/3000] loss=0.00977 R=1.085 amp=0.894 jitter=-0.252 couple=0.175 blink=0.102 gaze=0.598 ood=-0.000 cap_frac=0.00  t=23s
+[ 100/3000] loss=0.00972 R=1.157 amp=0.908 jitter=-0.259 couple=0.156 blink=0.205 gaze=0.657 ood=-0.000 cap_frac=0.00  t=29s
+[ 120/3000] loss=0.00981 R=1.224 amp=0.938 jitter=-0.368 couple=0.169 blink=0.314 gaze=0.764 ood=-0.000 cap_frac=0.17  t=34s
+[ 140/3000] loss=0.01021 R=1.227 amp=0.938 jitter=-0.320 couple=0.117 blink=0.302 gaze=0.803 ood=-0.001 cap_frac=0.21  t=40s
+[ 160/3000] loss=0.01016 R=1.315 amp=0.957 jitter=-0.325 couple=0.213 blink=0.347 gaze=0.804 ood=-0.000 cap_frac=0.12  t=46s
+[ 180/3000] loss=0.01033 R=1.364 amp=0.960 jitter=-0.293 couple=0.231 blink=0.394 gaze=0.796 ood=-0.000 cap_frac=0.12  t=51s
+[ 200/3000] loss=0.01032 R=1.317 amp=0.951 jitter=-0.295 couple=0.259 blink=0.308 gaze=0.767 ood=-0.000 cap_frac=0.08  t=57s
+[ 220/3000] loss=0.01023 R=1.347 amp=0.955 jitter=-0.299 couple=0.177 blink=0.405 gaze=0.834 ood=-0.000 cap_frac=0.12  t=63s
+[ 240/3000] loss=0.01024 R=1.349 amp=0.958 jitter=-0.376 couple=0.303 blink=0.372 gaze=0.809 ood=-0.000 cap_frac=0.38  t=68s
+[ 260/3000] loss=0.01020 R=1.446 amp=0.961 jitter=-0.266 couple=0.338 blink=0.404 gaze=0.821 ood=-0.000 cap_frac=0.04  t=74s
+[ 280/3000] loss=0.01024 R=1.390 amp=0.958 jitter=-0.287 couple=0.254 blink=0.391 gaze=0.848 ood=-0.000 cap_frac=0.04  t=80s
+[ 300/3000] loss=0.01025 R=1.330 amp=0.967 jitter=-0.263 couple=0.122 blink=0.391 gaze=0.794 ood=-0.000 cap_frac=0.04  t=85s
+[ 320/3000] loss=0.01027 R=1.381 amp=0.943 jitter=-0.243 couple=0.194 blink=0.433 gaze=0.822 ood=-0.000 cap_frac=0.08  t=91s
+[ 340/3000] loss=0.01045 R=1.383 amp=0.969 jitter=-0.275 couple=0.208 blink=0.397 gaze=0.832 ood=-0.000 cap_frac=0.17  t=97s
+[ 360/3000] loss=0.01021 R=1.478 amp=0.959 jitter=-0.221 couple=0.245 blink=0.494 gaze=0.867 ood=-0.000 cap_frac=0.04  t=102s
+[ 380/3000] loss=0.01019 R=1.512 amp=0.972 jitter=-0.246 couple=0.320 blink=0.485 gaze=0.869 ood=-0.000 cap_frac=0.00  t=108s
+[ 400/3000] loss=0.01026 R=1.489 amp=0.970 jitter=-0.271 couple=0.365 blink=0.432 gaze=0.851 ood=-0.000 cap_frac=0.04  t=114s
+[ 420/3000] loss=0.01016 R=1.496 amp=0.968 jitter=-0.233 couple=0.331 blink=0.438 gaze=0.867 ood=-0.000 cap_frac=0.00  t=119s
+[ 440/3000] loss=0.01022 R=1.512 amp=0.972 jitter=-0.240 couple=0.362 blink=0.440 gaze=0.864 ood=-0.000 cap_frac=0.04  t=125s
+[ 460/3000] loss=0.01033 R=1.522 amp=0.969 jitter=-0.245 couple=0.323 blink=0.500 gaze=0.880 ood=-0.000 cap_frac=0.00  t=130s
+[ 480/3000] loss=0.01040 R=1.481 amp=0.972 jitter=-0.240 couple=0.347 blink=0.401 gaze=0.851 ood=-0.000 cap_frac=0.00  t=136s
+[ 500/3000] loss=0.01045 R=1.448 amp=0.974 jitter=-0.349 couple=0.298 blink=0.484 gaze=0.857 ood=-0.000 cap_frac=0.17  t=142s
+[ 520/3000] loss=0.01140 R=1.506 amp=0.979 jitter=-0.252 couple=0.287 blink=0.498 gaze=0.869 ood=-0.000 cap_frac=0.04  t=147s
+[ 540/3000] loss=0.01026 R=1.464 amp=0.966 jitter=-0.264 couple=0.350 blink=0.403 gaze=0.846 ood=-0.000 cap_frac=0.00  t=153s
+[ 560/3000] loss=0.01038 R=1.453 amp=0.973 jitter=-0.278 couple=0.246 blink=0.480 gaze=0.857 ood=-0.000 cap_frac=0.08  t=158s
+[ 580/3000] loss=0.01018 R=1.511 amp=0.966 jitter=-0.243 couple=0.314 blink=0.497 gaze=0.872 ood=-0.000 cap_frac=0.00  t=164s
+[ 600/3000] loss=0.01018 R=1.495 amp=0.966 jitter=-0.254 couple=0.359 blink=0.433 gaze=0.868 ood=-0.000 cap_frac=0.00  t=169s
+[ 620/3000] loss=0.01017 R=1.554 amp=0.948 jitter=-0.244 couple=0.433 blink=0.500 gaze=0.872 ood=-0.000 cap_frac=0.00  t=175s
+[ 640/3000] loss=0.01015 R=1.552 amp=0.972 jitter=-0.258 couple=0.422 blink=0.470 gaze=0.879 ood=-0.000 cap_frac=0.00  t=180s
+[ 660/3000] loss=0.01009 R=1.525 amp=0.969 jitter=-0.284 couple=0.364 blink=0.502 gaze=0.883 ood=-0.000 cap_frac=0.08  t=186s
+[ 680/3000] loss=0.01048 R=1.548 amp=0.972 jitter=-0.233 couple=0.341 blink=0.522 gaze=0.869 ood=-0.000 cap_frac=0.00  t=192s
+[ 700/3000] loss=0.01040 R=1.566 amp=0.964 jitter=-0.236 couple=0.424 blink=0.486 gaze=0.887 ood=-0.000 cap_frac=0.00  t=197s
+[ 720/3000] loss=0.00998 R=1.483 amp=0.989 jitter=-0.266 couple=0.323 blink=0.401 gaze=0.885 ood=-0.000 cap_frac=0.08  t=203s
+[ 740/3000] loss=0.01028 R=1.558 amp=0.974 jitter=-0.298 couple=0.396 blink=0.545 gaze=0.875 ood=-0.000 cap_frac=0.12  t=208s
+[ 760/3000] loss=0.01032 R=1.550 amp=0.978 jitter=-0.240 couple=0.372 blink=0.481 gaze=0.884 ood=-0.000 cap_frac=0.00  t=214s
+[ 780/3000] loss=0.01020 R=1.552 amp=0.977 jitter=-0.279 couple=0.470 blink=0.434 gaze=0.877 ood=-0.000 cap_frac=0.04  t=220s
+[ 800/3000] loss=0.01043 R=1.554 amp=0.972 jitter=-0.256 couple=0.402 blink=0.484 gaze=0.890 ood=-0.000 cap_frac=0.04  t=225s
+[ 820/3000] loss=0.01035 R=1.519 amp=0.978 jitter=-0.236 couple=0.294 blink=0.495 gaze=0.882 ood=-0.000 cap_frac=0.00  t=231s
+[ 840/3000] loss=0.01033 R=1.586 amp=0.969 jitter=-0.241 couple=0.481 blink=0.463 gaze=0.885 ood=-0.000 cap_frac=0.04  t=236s
+[ 860/3000] loss=0.00997 R=1.520 amp=0.978 jitter=-0.234 couple=0.350 blink=0.442 gaze=0.876 ood=-0.000 cap_frac=0.00  t=242s
+[ 880/3000] loss=0.01018 R=1.569 amp=0.979 jitter=-0.253 couple=0.421 blink=0.482 gaze=0.885 ood=-0.000 cap_frac=0.00  t=248s
+[ 900/3000] loss=0.01047 R=1.496 amp=0.966 jitter=-0.244 couple=0.225 blink=0.540 gaze=0.897 ood=-0.000 cap_frac=0.04  t=253s
+[ 920/3000] loss=0.01048 R=1.586 amp=0.980 jitter=-0.231 couple=0.347 blink=0.570 gaze=0.878 ood=-0.000 cap_frac=0.00  t=259s
+[ 940/3000] loss=0.01015 R=1.559 amp=0.980 jitter=-0.258 couple=0.402 blink=0.477 gaze=0.892 ood=-0.000 cap_frac=0.04  t=264s
+[ 960/3000] loss=0.01213 R=1.564 amp=0.970 jitter=-0.250 couple=0.361 blink=0.542 gaze=0.891 ood=-0.000 cap_frac=0.00  t=270s
+[ 980/3000] loss=0.01053 R=1.540 amp=0.975 jitter=-0.259 couple=0.354 blink=0.511 gaze=0.877 ood=-0.000 cap_frac=0.08  t=276s
+[1000/3000] loss=0.01034 R=1.525 amp=0.975 jitter=-0.251 couple=0.285 blink=0.535 gaze=0.886 ood=-0.000 cap_frac=0.00  t=281s
+[1020/3000] loss=0.01034 R=1.528 amp=0.984 jitter=-0.291 couple=0.320 blink=0.527 gaze=0.889 ood=-0.000 cap_frac=0.08  t=287s
+[1040/3000] loss=0.01042 R=1.553 amp=0.973 jitter=-0.244 couple=0.325 blink=0.549 gaze=0.886 ood=-0.000 cap_frac=0.00  t=292s
+[1060/3000] loss=0.01035 R=1.550 amp=0.982 jitter=-0.295 couple=0.342 blink=0.560 gaze=0.884 ood=-0.000 cap_frac=0.12  t=298s
+[1080/3000] loss=0.01034 R=1.606 amp=0.978 jitter=-0.273 couple=0.400 blink=0.594 gaze=0.893 ood=-0.000 cap_frac=0.04  t=304s
+[1100/3000] loss=0.01016 R=1.589 amp=0.981 jitter=-0.252 couple=0.383 blink=0.543 gaze=0.904 ood=-0.001 cap_frac=0.04  t=309s
+[1120/3000] loss=0.01040 R=1.548 amp=0.978 jitter=-0.269 couple=0.357 blink=0.523 gaze=0.883 ood=-0.000 cap_frac=0.04  t=315s
+[1140/3000] loss=0.01046 R=1.601 amp=0.987 jitter=-0.272 couple=0.427 blink=0.541 gaze=0.888 ood=-0.000 cap_frac=0.00  t=321s
+[1160/3000] loss=0.01012 R=1.560 amp=0.971 jitter=-0.237 couple=0.348 blink=0.531 gaze=0.896 ood=-0.000 cap_frac=0.04  t=326s
+[1180/3000] loss=0.01057 R=1.645 amp=0.995 jitter=-0.247 couple=0.477 blink=0.533 gaze=0.895 ood=-0.000 cap_frac=0.00  t=332s
+[1200/3000] loss=0.01026 R=1.639 amp=0.987 jitter=-0.220 couple=0.394 blink=0.597 gaze=0.890 ood=-0.000 cap_frac=0.00  t=338s
+[1220/3000] loss=0.01063 R=1.570 amp=0.977 jitter=-0.236 couple=0.371 blink=0.531 gaze=0.872 ood=-0.000 cap_frac=0.00  t=343s
+[1240/3000] loss=0.01024 R=1.625 amp=0.974 jitter=-0.236 couple=0.375 blink=0.625 gaze=0.898 ood=-0.000 cap_frac=0.00  t=349s
+[1260/3000] loss=0.00989 R=1.506 amp=0.978 jitter=-0.292 couple=0.269 blink=0.547 gaze=0.888 ood=-0.000 cap_frac=0.12  t=354s
+[1280/3000] loss=0.01031 R=1.618 amp=0.970 jitter=-0.213 couple=0.391 blink=0.585 gaze=0.890 ood=-0.000 cap_frac=0.00  t=360s
+[1300/3000] loss=0.01013 R=1.691 amp=0.972 jitter=-0.238 couple=0.512 blink=0.628 gaze=0.894 ood=-0.000 cap_frac=0.00  t=366s
+[1320/3000] loss=0.00992 R=1.629 amp=0.980 jitter=-0.238 couple=0.448 blink=0.552 gaze=0.894 ood=-0.000 cap_frac=0.00  t=371s
+[1340/3000] loss=0.01019 R=1.552 amp=0.986 jitter=-0.238 couple=0.262 blink=0.577 gaze=0.885 ood=-0.000 cap_frac=0.00  t=377s
+[1360/3000] loss=0.01026 R=1.585 amp=0.982 jitter=-0.271 couple=0.348 blink=0.594 gaze=0.891 ood=-0.000 cap_frac=0.04  t=382s
+[1380/3000] loss=0.01041 R=1.591 amp=0.981 jitter=-0.244 couple=0.330 blink=0.606 gaze=0.886 ood=-0.001 cap_frac=0.00  t=388s
+[1400/3000] loss=0.01016 R=1.637 amp=0.979 jitter=-0.240 couple=0.426 blink=0.591 gaze=0.902 ood=-0.001 cap_frac=0.00  t=394s
+[1420/3000] loss=0.01043 R=1.625 amp=0.983 jitter=-0.272 couple=0.479 blink=0.545 gaze=0.890 ood=-0.001 cap_frac=0.04  t=399s
+[1440/3000] loss=0.01028 R=1.563 amp=0.979 jitter=-0.204 couple=0.333 blink=0.505 gaze=0.893 ood=-0.000 cap_frac=0.00  t=405s
+[1460/3000] loss=0.01023 R=1.602 amp=0.975 jitter=-0.270 couple=0.333 blink=0.656 gaze=0.893 ood=-0.001 cap_frac=0.04  t=411s
+[1480/3000] loss=0.01013 R=1.582 amp=0.963 jitter=-0.276 couple=0.360 blink=0.614 gaze=0.901 ood=-0.001 cap_frac=0.04  t=416s
+[1500/3000] loss=0.01027 R=1.575 amp=0.964 jitter=-0.263 couple=0.342 blink=0.604 gaze=0.902 ood=-0.000 cap_frac=0.04  t=422s
+[1520/3000] loss=0.01023 R=1.624 amp=0.988 jitter=-0.253 couple=0.371 blink=0.620 gaze=0.893 ood=-0.000 cap_frac=0.04  t=427s
+[1540/3000] loss=0.01026 R=1.621 amp=0.973 jitter=-0.255 couple=0.483 blink=0.529 gaze=0.901 ood=-0.000 cap_frac=0.00  t=433s
+[1560/3000] loss=0.01028 R=1.588 amp=0.981 jitter=-0.263 couple=0.312 blink=0.626 gaze=0.899 ood=-0.001 cap_frac=0.00  t=439s
+[1580/3000] loss=0.01055 R=1.655 amp=0.971 jitter=-0.242 couple=0.464 blink=0.607 gaze=0.901 ood=-0.001 cap_frac=0.00  t=444s
+[1600/3000] loss=0.01020 R=1.651 amp=0.979 jitter=-0.242 couple=0.471 blink=0.581 gaze=0.894 ood=-0.001 cap_frac=0.04  t=450s
+[1620/3000] loss=0.01116 R=1.580 amp=0.974 jitter=-0.265 couple=0.362 blink=0.573 gaze=0.904 ood=-0.000 cap_frac=0.08  t=456s
+[1640/3000] loss=0.01097 R=1.664 amp=0.987 jitter=-0.241 couple=0.412 blink=0.649 gaze=0.891 ood=-0.000 cap_frac=0.00  t=462s
+[1660/3000] loss=0.01023 R=1.608 amp=0.982 jitter=-0.271 couple=0.333 blink=0.652 gaze=0.901 ood=-0.000 cap_frac=0.04  t=467s
+[1680/3000] loss=0.01008 R=1.658 amp=0.968 jitter=-0.236 couple=0.447 blink=0.631 gaze=0.903 ood=-0.001 cap_frac=0.00  t=473s
+[1700/3000] loss=0.01023 R=1.612 amp=0.992 jitter=-0.263 couple=0.344 blink=0.609 gaze=0.917 ood=-0.001 cap_frac=0.04  t=478s
+[1720/3000] loss=0.01061 R=1.647 amp=0.975 jitter=-0.262 couple=0.372 blink=0.691 gaze=0.907 ood=-0.001 cap_frac=0.04  t=484s
+[1740/3000] loss=0.01035 R=1.616 amp=0.982 jitter=-0.257 couple=0.475 blink=0.521 gaze=0.883 ood=-0.001 cap_frac=0.00  t=490s
+[1760/3000] loss=0.01077 R=1.567 amp=0.975 jitter=-0.277 couple=0.336 blink=0.582 gaze=0.908 ood=-0.001 cap_frac=0.04  t=495s
+[1780/3000] loss=0.01670 R=1.602 amp=0.972 jitter=-0.239 couple=0.373 blink=0.577 gaze=0.919 ood=-0.001 cap_frac=0.00  t=501s
+[1800/3000] loss=0.01017 R=1.638 amp=0.972 jitter=-0.258 couple=0.384 blink=0.663 gaze=0.906 ood=-0.001 cap_frac=0.00  t=507s
+[1820/3000] loss=0.01084 R=1.667 amp=0.986 jitter=-0.263 couple=0.372 blink=0.704 gaze=0.915 ood=-0.001 cap_frac=0.04  t=512s
+[1840/3000] loss=0.00957 R=1.702 amp=0.983 jitter=-0.278 couple=0.471 blink=0.696 gaze=0.920 ood=-0.001 cap_frac=0.08  t=518s
+[1860/3000] loss=0.01042 R=1.624 amp=0.980 jitter=-0.282 couple=0.364 blink=0.653 gaze=0.924 ood=-0.001 cap_frac=0.08  t=524s
+[1880/3000] loss=0.01067 R=1.712 amp=0.989 jitter=-0.270 couple=0.450 blink=0.713 gaze=0.928 ood=-0.001 cap_frac=0.08  t=529s
+[1900/3000] loss=0.01068 R=1.715 amp=0.982 jitter=-0.278 couple=0.476 blink=0.713 gaze=0.929 ood=-0.001 cap_frac=0.08  t=535s
+[1920/3000] loss=0.01036 R=1.623 amp=0.980 jitter=-0.282 couple=0.424 blink=0.589 gaze=0.928 ood=-0.001 cap_frac=0.04  t=541s
+[1940/3000] loss=0.01070 R=1.729 amp=0.981 jitter=-0.242 couple=0.477 blink=0.709 gaze=0.922 ood=-0.001 cap_frac=0.00  t=546s
+[1960/3000] loss=0.01085 R=1.616 amp=0.966 jitter=-0.249 couple=0.325 blink=0.668 gaze=0.929 ood=-0.001 cap_frac=0.00  t=552s
+[1980/3000] loss=0.01014 R=1.727 amp=0.972 jitter=-0.264 couple=0.542 blink=0.684 gaze=0.920 ood=-0.001 cap_frac=0.08  t=558s
+[2000/3000] loss=0.01036 R=1.746 amp=0.975 jitter=-0.252 couple=0.520 blink=0.721 gaze=0.925 ood=-0.002 cap_frac=0.00  t=563s
+[2020/3000] loss=0.01017 R=1.644 amp=0.960 jitter=-0.277 couple=0.447 blink=0.646 gaze=0.926 ood=-0.002 cap_frac=0.08  t=569s
+[2040/3000] loss=0.01043 R=1.672 amp=0.984 jitter=-0.290 couple=0.427 blink=0.687 gaze=0.929 ood=-0.002 cap_frac=0.04  t=574s
+[2060/3000] loss=0.01053 R=1.643 amp=0.981 jitter=-0.261 couple=0.429 blink=0.605 gaze=0.926 ood=-0.002 cap_frac=0.00  t=580s
+[2080/3000] loss=0.01031 R=1.686 amp=0.987 jitter=-0.288 couple=0.396 blink=0.739 gaze=0.928 ood=-0.003 cap_frac=0.12  t=586s
+[2100/3000] loss=0.01091 R=1.705 amp=0.975 jitter=-0.252 couple=0.476 blink=0.683 gaze=0.934 ood=-0.004 cap_frac=0.00  t=591s
+[2120/3000] loss=0.01035 R=1.667 amp=0.971 jitter=-0.290 couple=0.391 blink=0.740 gaze=0.935 ood=-0.005 cap_frac=0.08  t=597s
+[2140/3000] loss=0.01232 R=1.664 amp=0.977 jitter=-0.277 couple=0.385 blink=0.708 gaze=0.943 ood=-0.003 cap_frac=0.04  t=603s
+[2160/3000] loss=0.01078 R=1.695 amp=0.984 jitter=-0.249 couple=0.411 blink=0.711 gaze=0.934 ood=-0.006 cap_frac=0.00  t=608s
+[2180/3000] loss=0.01028 R=1.659 amp=0.978 jitter=-0.270 couple=0.436 blink=0.646 gaze=0.933 ood=-0.005 cap_frac=0.04  t=614s
+[2200/3000] loss=0.01044 R=1.703 amp=0.977 jitter=-0.264 couple=0.474 blink=0.696 gaze=0.931 ood=-0.007 cap_frac=0.04  t=620s
+[2220/3000] loss=0.01038 R=1.669 amp=0.984 jitter=-0.249 couple=0.380 blink=0.686 gaze=0.939 ood=-0.006 cap_frac=0.04  t=625s
+[2240/3000] loss=0.01026 R=1.631 amp=0.982 jitter=-0.261 couple=0.359 blink=0.653 gaze=0.937 ood=-0.007 cap_frac=0.00  t=631s
+[2260/3000] loss=0.01026 R=1.718 amp=0.985 jitter=-0.231 couple=0.492 blink=0.651 gaze=0.944 ood=-0.006 cap_frac=0.00  t=636s
+[2280/3000] loss=0.01047 R=1.720 amp=0.975 jitter=-0.248 couple=0.497 blink=0.690 gaze=0.944 ood=-0.008 cap_frac=0.00  t=642s
+[2300/3000] loss=0.01033 R=1.667 amp=0.978 jitter=-0.255 couple=0.384 blink=0.704 gaze=0.936 ood=-0.008 cap_frac=0.00  t=647s
+[2320/3000] loss=0.01024 R=1.692 amp=0.985 jitter=-0.238 couple=0.490 blink=0.612 gaze=0.938 ood=-0.006 cap_frac=0.00  t=653s
+[2340/3000] loss=0.01022 R=1.754 amp=0.985 jitter=-0.264 couple=0.577 blink=0.680 gaze=0.932 ood=-0.007 cap_frac=0.04  t=658s
+[2360/3000] loss=0.01020 R=1.657 amp=0.982 jitter=-0.270 couple=0.373 blink=0.699 gaze=0.943 ood=-0.009 cap_frac=0.04  t=664s
+[2380/3000] loss=0.01021 R=1.645 amp=0.975 jitter=-0.282 couple=0.329 blink=0.750 gaze=0.937 ood=-0.010 cap_frac=0.04  t=670s
+[2400/3000] loss=0.01037 R=1.689 amp=0.985 jitter=-0.263 couple=0.396 blink=0.734 gaze=0.933 ood=-0.009 cap_frac=0.04  t=675s
+[2420/3000] loss=0.01031 R=1.670 amp=0.985 jitter=-0.248 couple=0.414 blink=0.661 gaze=0.938 ood=-0.009 cap_frac=0.04  t=681s
+[2440/3000] loss=0.01029 R=1.679 amp=0.972 jitter=-0.235 couple=0.406 blink=0.701 gaze=0.936 ood=-0.009 cap_frac=0.00  t=686s
+[2460/3000] loss=0.01050 R=1.659 amp=0.962 jitter=-0.279 couple=0.445 blink=0.686 gaze=0.932 ood=-0.008 cap_frac=0.08  t=692s
+[2480/3000] loss=0.01019 R=1.720 amp=0.986 jitter=-0.246 couple=0.417 blink=0.749 gaze=0.943 ood=-0.008 cap_frac=0.00  t=697s
+[2500/3000] loss=0.01026 R=1.663 amp=0.983 jitter=-0.263 couple=0.368 blink=0.714 gaze=0.940 ood=-0.011 cap_frac=0.00  t=703s
+[2520/3000] loss=0.01046 R=1.721 amp=0.987 jitter=-0.247 couple=0.505 blink=0.664 gaze=0.947 ood=-0.011 cap_frac=0.00  t=708s
+[2540/3000] loss=0.01030 R=1.681 amp=0.963 jitter=-0.274 couple=0.380 blink=0.782 gaze=0.947 ood=-0.010 cap_frac=0.08  t=714s
+[2560/3000] loss=0.01065 R=1.672 amp=0.983 jitter=-0.320 couple=0.419 blink=0.739 gaze=0.938 ood=-0.012 cap_frac=0.12  t=720s
+[2580/3000] loss=0.01049 R=1.776 amp=0.985 jitter=-0.228 couple=0.469 blink=0.795 gaze=0.947 ood=-0.012 cap_frac=0.00  t=725s
+[2600/3000] loss=0.01032 R=1.708 amp=0.974 jitter=-0.271 couple=0.444 blink=0.748 gaze=0.943 ood=-0.010 cap_frac=0.08  t=731s
+[2620/3000] loss=0.01042 R=1.716 amp=0.983 jitter=-0.228 couple=0.449 blink=0.702 gaze=0.947 ood=-0.012 cap_frac=0.00  t=736s
+[2640/3000] loss=0.01042 R=1.751 amp=0.982 jitter=-0.230 couple=0.483 blink=0.741 gaze=0.946 ood=-0.011 cap_frac=0.00  t=742s
+[2660/3000] loss=0.01016 R=1.719 amp=0.979 jitter=-0.270 couple=0.474 blink=0.736 gaze=0.937 ood=-0.011 cap_frac=0.12  t=747s
+[2680/3000] loss=0.01036 R=1.716 amp=0.981 jitter=-0.269 couple=0.495 blink=0.700 gaze=0.942 ood=-0.010 cap_frac=0.04  t=753s
+[2700/3000] loss=0.01041 R=1.688 amp=0.970 jitter=-0.249 couple=0.487 blink=0.658 gaze=0.936 ood=-0.011 cap_frac=0.00  t=758s
+[2720/3000] loss=0.01068 R=1.701 amp=0.974 jitter=-0.246 couple=0.468 blink=0.692 gaze=0.938 ood=-0.011 cap_frac=0.00  t=764s
+[2740/3000] loss=0.01042 R=1.667 amp=0.974 jitter=-0.255 couple=0.406 blink=0.699 gaze=0.931 ood=-0.011 cap_frac=0.08  t=769s
+[2760/3000] loss=0.01022 R=1.763 amp=0.983 jitter=-0.267 couple=0.495 blink=0.785 gaze=0.949 ood=-0.011 cap_frac=0.08  t=775s
+[2780/3000] loss=0.01040 R=1.700 amp=0.985 jitter=-0.272 couple=0.407 blink=0.746 gaze=0.951 ood=-0.011 cap_frac=0.08  t=780s
+[2800/3000] loss=0.01043 R=1.722 amp=0.986 jitter=-0.268 couple=0.412 blink=0.789 gaze=0.947 ood=-0.014 cap_frac=0.00  t=786s
+[2820/3000] loss=0.01033 R=1.697 amp=0.990 jitter=-0.264 couple=0.395 blink=0.741 gaze=0.938 ood=-0.011 cap_frac=0.04  t=792s
+[2840/3000] loss=0.01025 R=1.776 amp=0.987 jitter=-0.269 couple=0.508 blink=0.798 gaze=0.941 ood=-0.012 cap_frac=0.04  t=797s
+[2860/3000] loss=0.01026 R=1.763 amp=0.984 jitter=-0.250 couple=0.481 blink=0.789 gaze=0.943 ood=-0.013 cap_frac=0.00  t=803s
+[2880/3000] loss=0.01023 R=1.710 amp=0.989 jitter=-0.255 couple=0.378 blink=0.771 gaze=0.950 ood=-0.011 cap_frac=0.04  t=808s
+[2900/3000] loss=0.01056 R=1.716 amp=0.978 jitter=-0.242 couple=0.469 blink=0.706 gaze=0.946 ood=-0.012 cap_frac=0.00  t=814s
+[2920/3000] loss=0.01041 R=1.708 amp=0.975 jitter=-0.283 couple=0.434 blink=0.776 gaze=0.946 ood=-0.015 cap_frac=0.12  t=820s
+[2940/3000] loss=0.01074 R=1.722 amp=0.982 jitter=-0.301 couple=0.522 blink=0.712 gaze=0.957 ood=-0.014 cap_frac=0.08  t=825s
+[2960/3000] loss=0.01037 R=1.746 amp=0.988 jitter=-0.279 couple=0.460 blink=0.793 gaze=0.948 ood=-0.014 cap_frac=0.08  t=831s
+[2980/3000] loss=0.01043 R=1.723 amp=0.975 jitter=-0.285 couple=0.485 blink=0.754 gaze=0.947 ood=-0.013 cap_frac=0.08  t=836s
+[3000/3000] loss=0.01144 R=1.649 amp=0.986 jitter=-0.374 couple=0.450 blink=0.703 gaze=0.947 ood=-0.010 cap_frac=0.12  t=842s
+[ok] saved outputs/opsd_ind_finance/lora.pt

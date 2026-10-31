@@ -1,0 +1,33 @@
+{
+ "real_band": {
+  "low_std_deg": 1.878,
+  "blink_per_min": 15.0,
+  "high_std_deg": 0.107
+ },
+ "variants": [
+  {
+   "variant": "base",
+   "low_std_deg": 0.8785535697731756,
+   "high_std_deg": 0.1186765402960909,
+   "ratio_vs_real_amp": 0.4678134024351308
+  },
+  {
+   "variant": "v2",
+   "low_std_deg": 5.165577435070558,
+   "high_std_deg": 0.1931447130202007,
+   "ratio_vs_real_amp": 2.7505737140950792
+  },
+  {
+   "variant": "v3",
+   "low_std_deg": 4.460298349496746,
+   "high_std_deg": 0.1728429641737071,
+   "ratio_vs_real_amp": 2.375025745205935
+  },
+  {
+   "variant": "v4",
+   "low_std_deg": 1.6588511899970695,
+   "high_std_deg": 0.11583290425168344,
+   "ratio_vs_real_amp": 0.8833073429164375
+  }
+ ]
+}
