@@ -15,6 +15,11 @@
 而 v2/v3 那种 2.4–2.7× 的恐怖谷过冲没有再出现。** 同一张脸在三种行业 LoRA 下
 会呈现三种不同的行为（稳重 / 温和 / 活泼），这就是"行业感"的来源。
 
+**中途发现并修掉了一个真问题**：第一版渲出来的人物**眼睛半闭**（base 反而最好看）。
+根因有两条，都用测量确认（见 §5）：blink 目标被我抬到 0.18–0.21（v4 验证值是 0.15），
+以及部分源肖像本身眼睛就小。修完后 persona 的眼睛开合度 **EAR 0.102 → 0.348**，
+与 base 的 0.343 持平——**行业动作保留，眼睛睁开了**。
+
 ## 2. 三个行业的 reward model 是怎么定的（不是拍脑袋）
 
 v4 的核心经验：**amplitude 项必须是 peaked 的（高斯），中心值必须是实测出来的**。
@@ -112,43 +117,70 @@ HDTF 保留 25/40，CelebV-HQ 保留 18/90（扩采到 390 个后复测为 16/�
 base/v2/v3/v4 对比见 `outputs/figures/fig_main_comparison.png`；
 方法示意见 `outputs/figures/fig_method_motion.png`。
 
-## 4. Demo（跨行业、高清、自然）
+## 4. 中途发现的问题：人物眼睛半闭（已修）
 
-### 肖像与音频（无 TTS）
+第一版三行业 demo 渲出来，三个 persona 都**眯着眼**，而 base 反而最自然。
+这不是"感觉"，用 MediaPipe 逐帧眼睛纵横比（EAR）量出来：
 
-- 肖像 = 真实公开视频的**首帧**（HDTF 新闻主播 → finance；CelebV-HQ → 另两个行业）
-- 驱动音频 = 同一段视频的**真实人声**（16 kHz mono）
-- 候选肖像做了正面性 + 微笑评分（嘴角上扬/嘴宽）排序，每行业取 top-8，
-  渲染时跳过检测不到脸的帧（`render_industry_demo.py` 里有 try/except）
+| | EAR（中位数） | 相对 base |
+|---|---|---|
+| base（未训练） | 0.343 | — |
+| 第一版 persona（blink 目标 0.18–0.21） | **0.102** | 眼睛开合只剩约 30 % |
+| **修好后 persona（blink 目标 0.12，惩罚 ×2）** | **0.348** | **1.01× base** |
+
+两条根因：
+
+1. **blink 目标定高了。** v4 的验证值是 0.15，我按"实测眨眼率 / 100"直译成
+   0.18–0.21。但 blink 项奖励的是 blink 信号的**峰值**（`smoothmax`），
+   目标一高，OPSD 就把表情系数停在接近闭合的位置。
+   → 修：`--blink-target-mean 0.12`，`--blink-overshoot-penalty` 4 → 8。
+2. **部分源肖像本身就眯眼。** 源图的 EAR 低，再怎么训也睁不开。
+   → 修：新增 `scripts/pick_portraits.py`，把 **EAR ≥ 0.30** 作为硬门控，
+   与"≥800 px、正面、微笑"一起筛，220 个候选里只留 9 张。
+
+验证用 `scripts/measure_eye_openness.py`（逐帧 EAR + 闭眼帧占比），
+修复后闭眼帧占比降到 **0.05–0.17**。
+
+## 5. Demo（跨行业、高清、自然）
+
+### 肖像与音频（无 TTS，**英语真人语音**）
+
+- 肖像 = 真实公开视频的**首帧**，门控：EAR ≥ 0.30、≥800 px、|yaw|/|pitch| ≤ 15°、微笑 > 0
+- 驱动音频 = 同一段视频的**真实人声**（CelebV-HQ / HDTF 源片的原始语音，**英语**，16 kHz mono）
+- 每行业 3 组（肖像 + 对应语音）× base/persona = 6 个 mp4，另加同脸跨行业对照 6 个
+- mp4 已直接放进 `main`：`outputs/industry_demo_v3/{finance,realestate,shortvideo}/`，
+  首页 README 里每个行业都有可点的 mp4 链接与并排 GIF
 
 ### 渲染设置（高清）
 
 `source_max_dim=1280` + `flag_pasteback=True`：动画脸合成回原分辨率肖像，
 不是裁成 256 的小脸。输出 H.264 + AAC 音频，25 fps。
 
-| 行业 | 肖像分辨率 | 视频数 |
+| 行业 | 肖像分辨率 | mp4 数 |
 |---|---|---|
-| finance | 512×512（HDTF 上限） | 12 |
-| realestate | 606–914 px | 16 |
-| shortvideo | 638–1082 px | 16 |
+| finance | 844–1030 px | 6 |
+| realestate | 808–1082 px | 6 |
+| shortvideo | 886–1066 px | 6 |
+| 同脸对照 | 1030 px（同一张脸） | 6 |
 
 ### 同脸对照（最有说服力的一组）
 
-同一张高清肖像 + 同一段音频，分别用三个行业 LoRA 渲染
-（`outputs/industry_demo/*_control/`）。因为人脸和语音完全相同，
+同一张高清肖像（1030 px）+ 同一段英语语音，分别用三个行业 LoRA 渲染
+（`outputs/industry_demo_v3/*_control/`）。因为人脸和语音完全相同，
 画面上的任何行为差异都只能来自那个行业的 persona——这是"行业感存在"的直接证据。
+并排四联 GIF：`outputs/industry_gifs_v3/control/`。
 
 ### 眨眼 / 点头 / 倾听 / 微笑 的来源
 
 | 行为 | 从哪来 |
 |---|---|
-| 眨眼 | reward 的 blink 项（peaked，目标 = 该行业实测眨眼率），eye_probe 提供梯度 |
+| 眨眼 | reward 的 blink 项（peaked），目标 **0.12**（保守值：实测眨眼率/100 的直译会让眼睛半闭，见 §4），eye_probe 提供梯度 |
 | 点头 | amplitude 项（peaked 高斯，中心 = 实测低频幅度） |
 | 倾听（非语音段仍有微动作） | couple 项把语音包络和头部速度耦合，没有语音时 amp 仍保持底噪 |
 | 微笑 | **不在 reward 里**。微笑来自源肖像本身（候选按嘴角上扬排序），
   LivePortrait 保留源表情。我们没有把 smile 加进 reward，避免这一轮引入不可归因的变化 |
 
-## 5. 复现
+## 6. 复现
 
 ```bash
 # 0. 环境（JoyVASA + LivePortrait + HuBERT + MediaPipe，~2.5 GB）
@@ -173,8 +205,9 @@ ROUNDS=3000 bash scripts/train_industries.sh          # -> outputs/opsd_ind_*/lo
 python scripts/eval_industries.py --n-clips 12        # -> outputs/industry_eval.json
 
 # 5. demo 肖像 + 渲染 + GIF + 图
-python scripts/prep_industry_demo.py --per-industry 8
-python scripts/render_industry_demo.py --gpu 0
+python scripts/pick_portraits.py --scan 220 --per-industry 3   # EAR>=0.30, >=800px, frontal, smiling
+python scripts/render_industry_demo.py --manifest data/industry_demo_manifest_v3.json --gpu 0
+python scripts/measure_eye_openness.py --pattern 'outputs/industry_demo_v3/finance/*.mp4'
 # 同脸对照（任选 1-2 张高清肖像，三行业同一张脸）
 python scripts/render_industry_demo.py --portrait-override <png...> --gpu 0
 python scripts/make_demo_gifs.py --video-dir outputs/industry_demo/finance \
@@ -185,7 +218,7 @@ python scripts/make_industry_figures.py
 守护：每次训练都通过 `tools/train_guard.py --kind motion` 启动（selftest OK），
 本轮 3 次训练 + 1 次重训**零触发**（无 GUARD_STOP.json）。
 
-## 6. 诚实说明（没做到的）
+## 7. 诚实说明（没做到的）
 
 1. **行业标签是代理**：公开数据没有按行业标注的说话人视频。finance 用新闻主播、
    另两个用 CelebV-HQ 的幅度分位，这是能落地的最诚实做法，但不是"真实房产中介视频"。
@@ -195,11 +228,18 @@ python scripts/make_industry_figures.py
    （0.09–0.35），但没有精确压到目标；这是 peaked reward 在目标较严时的正常松弛。
 4. **微笑不在 reward 里**（见 §4），如果要求"由模型控制的微笑"，需要新增表情项并重训，
    本轮为保持归因清晰没有做。
-5. **没有 SyncNet / 人工盲评**：本轮 GPU 时间给了三行业训练与渲染；
+5. **没有 SyncNet / 人工盲评**：本轮 GPU 时间给了三行业训练与渲染与一次返工；
    口型同步仍未测量（与 README 的 limitation 一致）。
-6. **肖像分辨率不统一**（512–1082）：受公开源限制，HDTF 只有 512。
+6. **眨眼率没有精确校准**：用 EAR 谷值在渲染视频上数出的 blink/min 是 35–77，
+   明显高于人类 10–20，说明这个计数法对渲染噪声太敏感、不可信。
+   本轮因此**只用 EAR（眼睛开合度）和闭眼帧占比**作为眨眼相关的证据，
+   没有把 blink/min 写进结论表。要让眨眼率也进人类区间，需要更可靠的检测与单独一轮调参。
+7. **实测带不能线性直译成 reward 参数**（本轮最大教训）：幅度可以直接用
+   （因为单位与 reward 内部一致），眨眼却不行——reward 内部是 eye_probe 的归一化量，
+   与"次/分钟"不是 1:100。第一版按直译设 0.18–0.21，直接把眼睛训成半闭（§4）。
+   教训写在这里：能对齐量纲的才直译，对不上的先做小规模扫描再定。
 
-## 7. 产出清单
+## 8. 产出清单
 
 ```
 outputs/
@@ -207,16 +247,20 @@ outputs/
 ├── industry_eval.json                  # 12 条独立说话人评测
 ├── naturalness_eval_r3.json            # base/v2/v3/v4 vs 人类带复测
 ├── opsd_ind_finance|realestate|shortvideo/lora.pt + metrics.jsonl
-├── industry_demo/<industry>/*.mp4      # 三行业 demo（base vs persona）
-├── industry_demo/<industry>_control/   # 同脸跨行业对照
-├── industry_gifs/<industry>/*.gif      # 并排对比 GIF
-└── figures/fig_*.png                   # 论文图
+├── industry_demo_v3/<industry>/*.mp4   # 三行业 demo（base vs persona，高清睁眼）
+├── industry_demo_v3/<industry>_control/# 同脸跨行业对照
+├── industry_gifs_v3/<industry>/*.gif   # 并排对比 GIF（每行业 base vs persona）
+├── industry_gifs_v3/control/*.gif      # 同脸四联对照 GIF
+├── eye_openness.json                   # 逐帧 EAR：修眼半闭的前后证据
+└── figures/fig_*.png                   # 论文图（训练曲线 / 行业带 / 主结果 / 方法）
 scripts/
 ├── fetch_public_data.py                # AISHELL-1 / HDTF / CelebV-HQ 下载
 ├── calibrate_industry_bands.py         # 三行业实测运动带（带质量门控）
 ├── train_industries.sh                 # 三行业训练（参数自动从实测 json 读取）
 ├── eval_industries.py                  # 独立说话人评测
 ├── prep_industry_demo.py               # 肖像/音频准备（正面+微笑排序）
+├── pick_portraits.py                   # 肖像门控：EAR ≥ 0.30 + ≥800px + 正面 + 微笑
 ├── render_industry_demo.py             # 高清渲染（支持同脸对照）
+├── measure_eye_openness.py             # 逐帧眼睛开合度（EAR / 闭眼帧占比）
 └── make_industry_figures.py            # 论文图
 ```
