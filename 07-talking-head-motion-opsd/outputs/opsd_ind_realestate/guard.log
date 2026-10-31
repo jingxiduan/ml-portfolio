@@ -1,2 +1,2 @@
-[GUARD] kind=motion log=outputs/opsd_ind_realestate/metrics.jsonl pid=50192 window=50
-[GUARD] pid 50192 exited after 3000 steps, no trip
+[GUARD] kind=motion log=outputs/opsd_ind_realestate/metrics.jsonl pid=85598 window=50
+[GUARD] pid 85598 exited after 2000 steps, no trip

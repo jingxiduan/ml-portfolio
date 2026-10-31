@@ -8,30 +8,30 @@
   },
   {
    "variant": "finance",
-   "low_std_deg": 1.162177612224339,
-   "high_std_deg": 0.11962006303764347,
+   "low_std_deg": 1.2301396556983875,
+   "high_std_deg": 0.10375771780567221,
    "target_low_deg": 1.383826798899463,
    "target_high_deg": 0.09413451872163818,
-   "ratio_vs_target_amp": 0.8398288088860555,
-   "ratio_vs_target_jitter": 1.2707353759503215
+   "ratio_vs_target_amp": 0.8889404777221394,
+   "ratio_vs_target_jitter": 1.1022281647021583
   },
   {
    "variant": "realestate",
-   "low_std_deg": 1.134190084992245,
-   "high_std_deg": 0.11241915774166322,
+   "low_std_deg": 1.1126483285011692,
+   "high_std_deg": 0.10254481157887194,
    "target_low_deg": 1.2567535595611086,
    "target_high_deg": 0.1179308670333962,
-   "ratio_vs_target_amp": 0.9024761269730034,
-   "ratio_vs_target_jitter": 0.9532632174223552
+   "ratio_vs_target_amp": 0.8853353308899601,
+   "ratio_vs_target_jitter": 0.8695332626515231
   },
   {
    "variant": "shortvideo",
-   "low_std_deg": 2.6992264106803114,
-   "high_std_deg": 0.15612311470166337,
+   "low_std_deg": 2.5499941692186447,
+   "high_std_deg": 0.14990715362444162,
    "target_low_deg": 3.038777802737111,
    "target_high_deg": 0.34899626469294376,
-   "ratio_vs_target_amp": 0.8882605395659543,
-   "ratio_vs_target_jitter": 0.44734895612428593
+   "ratio_vs_target_amp": 0.8391512426218839,
+   "ratio_vs_target_jitter": 0.42953798876997706
   }
  ]
 }

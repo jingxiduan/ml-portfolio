@@ -1,0 +1,90 @@
+{
+ "per_video": [
+  {
+   "video": "finance_00_shortvideo_0wLgQQGob1U_20__base.mp4",
+   "frames": 253,
+   "ear_median": 0.27214823026244284,
+   "ear_p10": 0.05618143042169523,
+   "closed_frac": 0.2608695652173913,
+   "blinks_per_min": 65.21739130434784,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_00_shortvideo_0wLgQQGob1U_20__finance.mp4",
+   "frames": 253,
+   "ear_median": 0.015874229676298944,
+   "ear_p10": 0.01033548557863848,
+   "closed_frac": 0.05928853754940711,
+   "blinks_per_min": 0.0,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_01_realestate_06DLNzLaTlE_0__base.mp4",
+   "frames": 253,
+   "ear_median": 0.41400568788169917,
+   "ear_p10": 0.2811750842249714,
+   "closed_frac": 0.02766798418972332,
+   "blinks_per_min": 71.14624505928855,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_01_realestate_06DLNzLaTlE_0__finance.mp4",
+   "frames": 253,
+   "ear_median": 0.18792296107569742,
+   "ear_p10": 0.051241367792891374,
+   "closed_frac": 0.1857707509881423,
+   "blinks_per_min": 65.21739130434784,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_00_financehd_0_-ZtI-HjPMp4_1_0__base.mp4",
+   "frames": 252,
+   "ear_median": 0.4463945106015543,
+   "ear_p10": 0.35701851250669736,
+   "closed_frac": 0.0,
+   "blinks_per_min": 35.714285714285715,
+   "group": "finance"
+  },
+  {
+   "video": "finance_00_financehd_0_-ZtI-HjPMp4_1_0__finance.mp4",
+   "frames": 253,
+   "ear_median": 0.34991370906360586,
+   "ear_p10": 0.14334829144719713,
+   "closed_frac": 0.11857707509881422,
+   "blinks_per_min": 53.359683794466406,
+   "group": "finance"
+  },
+  {
+   "video": "finance_01_financehd_1_-lrjQ18iAqQ_0_0__base.mp4",
+   "frames": 82,
+   "ear_median": 0.18421850336972076,
+   "ear_p10": 0.03653594230161617,
+   "closed_frac": 0.43902439024390244,
+   "blinks_per_min": 36.58536585365854,
+   "group": "finance"
+  },
+  {
+   "video": "finance_01_financehd_1_-lrjQ18iAqQ_0_0__finance.mp4",
+   "frames": 83,
+   "ear_median": 0.03506171330513137,
+   "ear_p10": 0.024125875943888386,
+   "closed_frac": 0.0,
+   "blinks_per_min": 0.0,
+   "group": "finance"
+  }
+ ],
+ "by_group": {
+  "finance": {
+   "n": 4,
+   "ear_median": 0.2670661062166633,
+   "closed_frac": 0.13940036633567918,
+   "blinks_per_min": 36.149825783972126
+  },
+  "finance_control": {
+   "n": 4,
+   "ear_median": 0.23003559566907011,
+   "closed_frac": 0.13339920948616601,
+   "blinks_per_min": 65.21739130434784
+  }
+ }
+}

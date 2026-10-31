@@ -1,0 +1,47 @@
+{
+ "note": "portraits gated on measured eye-openness (EAR>=0.30), >=800px, frontal, smiling; audio is each source clip's real speech",
+ "industries": {
+  "finance": [
+   {
+    "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+    "audio": "data/audio_picked/p00_-R5aAhsrS9w_3_0.wav"
+   },
+   {
+    "portrait": "data/portraits_picked/p03_0tx4o3yXM64_12.png",
+    "audio": "data/audio_picked/p03_0tx4o3yXM64_12.wav"
+   },
+   {
+    "portrait": "data/portraits_picked/p06_17Km-P0IJZY_10.png",
+    "audio": "data/audio_picked/p06_17Km-P0IJZY_10.wav"
+   }
+  ],
+  "realestate": [
+   {
+    "portrait": "data/portraits_picked/p01_0wLgQQGob1U_13.png",
+    "audio": "data/audio_picked/p01_0wLgQQGob1U_13.wav"
+   },
+   {
+    "portrait": "data/portraits_picked/p04_0TvKsVxgbF4_2.png",
+    "audio": "data/audio_picked/p04_0TvKsVxgbF4_2.wav"
+   },
+   {
+    "portrait": "data/portraits_picked/p07_0s1UUn9aSSw_7.png",
+    "audio": "data/audio_picked/p07_0s1UUn9aSSw_7.wav"
+   }
+  ],
+  "shortvideo": [
+   {
+    "portrait": "data/portraits_picked/p02_0Ba6y1Y8JjU_4.png",
+    "audio": "data/audio_picked/p02_0Ba6y1Y8JjU_4.wav"
+   },
+   {
+    "portrait": "data/portraits_picked/p05_0wLgQQGob1U_0.png",
+    "audio": "data/audio_picked/p05_0wLgQQGob1U_0.wav"
+   },
+   {
+    "portrait": "data/portraits_picked/p08_-2KG4lLGEl0_3.png",
+    "audio": "data/audio_picked/p08_-2KG4lLGEl0_3.wav"
+   }
+  ]
+ }
+}

@@ -1,0 +1,5 @@
+{
+  "rule": "head_frozen",
+  "message": "amp window-mean 0.1353 < 0.15 at step 77",
+  "time": "2026-11-01 04:10:01"
+}

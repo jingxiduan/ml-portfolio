@@ -1,0 +1,100 @@
+{
+ "gates": {
+  "min_px": 800,
+  "max_yaw": 15.0,
+  "max_pitch": 15.0,
+  "min_ear": 0.28
+ },
+ "kept": [
+  {
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p00_-R5aAhsrS9w_3_0.wav",
+   "source_clip": "-R5aAhsrS9w_3_0.mp4",
+   "px": "1030x1030",
+   "yaw": -1.7,
+   "pitch": 0.7,
+   "smile": 0.023,
+   "ear": 0.351
+  },
+  {
+   "portrait": "data/portraits_picked/p01_0wLgQQGob1U_13.png",
+   "audio": "data/audio_picked/p01_0wLgQQGob1U_13.wav",
+   "source_clip": "0wLgQQGob1U_13.mp4",
+   "px": "1082x1082",
+   "yaw": -6.6,
+   "pitch": 0.8,
+   "smile": 0.097,
+   "ear": 0.323
+  },
+  {
+   "portrait": "data/portraits_picked/p02_0Ba6y1Y8JjU_4.png",
+   "audio": "data/audio_picked/p02_0Ba6y1Y8JjU_4.wav",
+   "source_clip": "0Ba6y1Y8JjU_4.mp4",
+   "px": "1066x1066",
+   "yaw": 5.3,
+   "pitch": 9.8,
+   "smile": 0.176,
+   "ear": 0.333
+  },
+  {
+   "portrait": "data/portraits_picked/p03_0tx4o3yXM64_12.png",
+   "audio": "data/audio_picked/p03_0tx4o3yXM64_12.wav",
+   "source_clip": "0tx4o3yXM64_12.mp4",
+   "px": "844x844",
+   "yaw": -0.4,
+   "pitch": 2.5,
+   "smile": 0.105,
+   "ear": 0.355
+  },
+  {
+   "portrait": "data/portraits_picked/p04_0TvKsVxgbF4_2.png",
+   "audio": "data/audio_picked/p04_0TvKsVxgbF4_2.wav",
+   "source_clip": "0TvKsVxgbF4_2.mp4",
+   "px": "1016x1016",
+   "yaw": -4.0,
+   "pitch": 14.2,
+   "smile": 0.048,
+   "ear": 0.359
+  },
+  {
+   "portrait": "data/portraits_picked/p05_0wLgQQGob1U_0.png",
+   "audio": "data/audio_picked/p05_0wLgQQGob1U_0.wav",
+   "source_clip": "0wLgQQGob1U_0.mp4",
+   "px": "1064x1064",
+   "yaw": 4.7,
+   "pitch": 8.6,
+   "smile": 0.077,
+   "ear": 0.3
+  },
+  {
+   "portrait": "data/portraits_picked/p06_17Km-P0IJZY_10.png",
+   "audio": "data/audio_picked/p06_17Km-P0IJZY_10.wav",
+   "source_clip": "17Km-P0IJZY_10.mp4",
+   "px": "988x988",
+   "yaw": -5.4,
+   "pitch": 1.1,
+   "smile": 0.024,
+   "ear": 0.297
+  },
+  {
+   "portrait": "data/portraits_picked/p07_0s1UUn9aSSw_7.png",
+   "audio": "data/audio_picked/p07_0s1UUn9aSSw_7.wav",
+   "source_clip": "0s1UUn9aSSw_7.mp4",
+   "px": "808x808",
+   "yaw": -3.4,
+   "pitch": -0.2,
+   "smile": 0.013,
+   "ear": 0.325
+  },
+  {
+   "portrait": "data/portraits_picked/p08_-2KG4lLGEl0_3.png",
+   "audio": "data/audio_picked/p08_-2KG4lLGEl0_3.wav",
+   "source_clip": "-2KG4lLGEl0_3.mp4",
+   "px": "886x886",
+   "yaw": 5.5,
+   "pitch": -14.0,
+   "smile": 0.103,
+   "ear": 0.334
+  }
+ ]
+}

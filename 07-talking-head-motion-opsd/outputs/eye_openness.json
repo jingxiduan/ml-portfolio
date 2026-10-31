@@ -1,0 +1,228 @@
+{
+ "per_video": [
+  {
+   "video": "finance_00_p00_-R5aAhsrS9w_3_0__base.mp4",
+   "frames": 253,
+   "ear_median": 0.3111479351756953,
+   "ear_p10": 0.03667882613269695,
+   "closed_frac": 0.3675889328063241,
+   "blinks_per_min": 83.00395256916997,
+   "group": "finance"
+  },
+  {
+   "video": "finance_00_p00_-R5aAhsrS9w_3_0__finance.mp4",
+   "frames": 253,
+   "ear_median": 0.36003576045652175,
+   "ear_p10": 0.1326867508463408,
+   "closed_frac": 0.1383399209486166,
+   "blinks_per_min": 53.359683794466406,
+   "group": "finance"
+  },
+  {
+   "video": "finance_01_p03_0tx4o3yXM64_12__base.mp4",
+   "frames": 98,
+   "ear_median": 0.45960899209088263,
+   "ear_p10": 0.36280588906075073,
+   "closed_frac": 0.0,
+   "blinks_per_min": 30.612244897959183,
+   "group": "finance"
+  },
+  {
+   "video": "finance_01_p03_0tx4o3yXM64_12__finance.mp4",
+   "frames": 99,
+   "ear_median": 0.3538852100959709,
+   "ear_p10": 0.211043649006723,
+   "closed_frac": 0.10101010101010101,
+   "blinks_per_min": 60.60606060606061,
+   "group": "finance"
+  },
+  {
+   "video": "finance_02_p06_17Km-P0IJZY_10__base.mp4",
+   "frames": 192,
+   "ear_median": 0.2741803723856117,
+   "ear_p10": 0.061650520784990434,
+   "closed_frac": 0.2604166666666667,
+   "blinks_per_min": 62.50000000000001,
+   "group": "finance"
+  },
+  {
+   "video": "finance_02_p06_17Km-P0IJZY_10__finance.mp4",
+   "frames": 193,
+   "ear_median": 0.28585018067355605,
+   "ear_p10": 0.08164307148303818,
+   "closed_frac": 0.13989637305699482,
+   "blinks_per_min": 54.40414507772021,
+   "group": "finance"
+  },
+  {
+   "video": "realestate_00_p01_0wLgQQGob1U_13__base.mp4",
+   "frames": 214,
+   "ear_median": 0.40275605160614275,
+   "ear_p10": 0.29906788467259887,
+   "closed_frac": 0.0,
+   "blinks_per_min": 49.06542056074766,
+   "group": "realestate"
+  },
+  {
+   "video": "realestate_00_p01_0wLgQQGob1U_13__realestate.mp4",
+   "frames": 215,
+   "ear_median": 0.3197969703296877,
+   "ear_p10": 0.18719792546303415,
+   "closed_frac": 0.10232558139534884,
+   "blinks_per_min": 48.83720930232558,
+   "group": "realestate"
+  },
+  {
+   "video": "realestate_01_p04_0TvKsVxgbF4_2__base.mp4",
+   "frames": 86,
+   "ear_median": 0.43673673903058985,
+   "ear_p10": 0.331076581140732,
+   "closed_frac": 0.0,
+   "blinks_per_min": 34.88372093023256,
+   "group": "realestate"
+  },
+  {
+   "video": "realestate_01_p04_0TvKsVxgbF4_2__realestate.mp4",
+   "frames": 87,
+   "ear_median": 0.34752946161378995,
+   "ear_p10": 0.16260846027404877,
+   "closed_frac": 0.11494252873563218,
+   "blinks_per_min": 51.724137931034484,
+   "group": "realestate"
+  },
+  {
+   "video": "realestate_02_p07_0s1UUn9aSSw_7__base.mp4",
+   "frames": 253,
+   "ear_median": 0.43392747722389025,
+   "ear_p10": 0.33084593024744907,
+   "closed_frac": 0.0,
+   "blinks_per_min": 77.07509881422925,
+   "group": "realestate"
+  },
+  {
+   "video": "realestate_02_p07_0s1UUn9aSSw_7__realestate.mp4",
+   "frames": 253,
+   "ear_median": 0.3482487128793265,
+   "ear_p10": 0.0927323852998212,
+   "closed_frac": 0.1383399209486166,
+   "blinks_per_min": 65.21739130434784,
+   "group": "realestate"
+  },
+  {
+   "video": "shortvideo_00_p02_0Ba6y1Y8JjU_4__base.mp4",
+   "frames": 79,
+   "ear_median": 0.4298291940849658,
+   "ear_p10": 0.33566919241020793,
+   "closed_frac": 0.0,
+   "blinks_per_min": 37.974683544303794,
+   "group": "shortvideo"
+  },
+  {
+   "video": "shortvideo_00_p02_0Ba6y1Y8JjU_4__shortvideo.mp4",
+   "frames": 79,
+   "ear_median": 0.3423878231685867,
+   "ear_p10": 0.23158857759938095,
+   "closed_frac": 0.08860759493670886,
+   "blinks_per_min": 56.962025316455694,
+   "group": "shortvideo"
+  },
+  {
+   "video": "shortvideo_01_p05_0wLgQQGob1U_0__base.mp4",
+   "frames": 141,
+   "ear_median": 0.4054833727691455,
+   "ear_p10": 0.283473326315352,
+   "closed_frac": 0.014184397163120567,
+   "blinks_per_min": 53.19148936170213,
+   "group": "shortvideo"
+  },
+  {
+   "video": "shortvideo_01_p05_0wLgQQGob1U_0__shortvideo.mp4",
+   "frames": 142,
+   "ear_median": 0.3026634373142515,
+   "ear_p10": 0.21871843061585775,
+   "closed_frac": 0.09859154929577464,
+   "blinks_per_min": 42.25352112676057,
+   "group": "shortvideo"
+  },
+  {
+   "video": "shortvideo_02_p08_-2KG4lLGEl0_3__base.mp4",
+   "frames": 145,
+   "ear_median": 0.4230596379014434,
+   "ear_p10": 0.3440389139217484,
+   "closed_frac": 0.0,
+   "blinks_per_min": 51.724137931034484,
+   "group": "shortvideo"
+  },
+  {
+   "video": "shortvideo_02_p08_-2KG4lLGEl0_3__shortvideo.mp4",
+   "frames": 145,
+   "ear_median": 0.3300507026519541,
+   "ear_p10": 0.2691108070109541,
+   "closed_frac": 0.09655172413793103,
+   "blinks_per_min": 41.37931034482759,
+   "group": "shortvideo"
+  },
+  {
+   "video": "finance_00_shortvideo_0wLgQQGob1U_20__base.mp4",
+   "frames": 253,
+   "ear_median": 0.27219228393124323,
+   "ear_p10": 0.05720541371704103,
+   "closed_frac": 0.2608695652173913,
+   "blinks_per_min": 65.21739130434784,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_00_shortvideo_0wLgQQGob1U_20__finance.mp4",
+   "frames": 253,
+   "ear_median": 0.01603298329808866,
+   "ear_p10": 0.010309580489072935,
+   "closed_frac": 0.06324110671936758,
+   "blinks_per_min": 0.0,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_01_realestate_06DLNzLaTlE_0__base.mp4",
+   "frames": 253,
+   "ear_median": 0.4131947244587168,
+   "ear_p10": 0.2811379082550492,
+   "closed_frac": 0.02766798418972332,
+   "blinks_per_min": 71.14624505928855,
+   "group": "finance_control"
+  },
+  {
+   "video": "finance_01_realestate_06DLNzLaTlE_0__finance.mp4",
+   "frames": 253,
+   "ear_median": 0.18774308264338646,
+   "ear_p10": 0.050060552359922475,
+   "closed_frac": 0.1857707509881423,
+   "blinks_per_min": 65.21739130434784,
+   "group": "finance_control"
+  }
+ ],
+ "by_group": {
+  "finance": {
+   "n": 6,
+   "ear_median": 0.3325165726358331,
+   "closed_frac": 0.1678753324147839,
+   "blinks_per_min": 57.505102841890405
+  },
+  "finance_control": {
+   "n": 4,
+   "ear_median": 0.22996768328731484,
+   "closed_frac": 0.13438735177865613,
+   "blinks_per_min": 65.21739130434784
+  },
+  "realestate": {
+   "n": 6,
+   "ear_median": 0.37550238224273463,
+   "closed_frac": 0.059268005179932935,
+   "blinks_per_min": 50.39477924589107
+  },
+  "shortvideo": {
+   "n": 6,
+   "ear_median": 0.3739355979688661,
+   "closed_frac": 0.049655877588922516,
+   "blinks_per_min": 46.988829528897526
+  }
+ }
+}

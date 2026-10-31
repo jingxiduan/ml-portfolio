@@ -1,0 +1,63 @@
+{
+ "render": {
+  "flag_do_crop": true,
+  "flag_pasteback": true,
+  "flag_stitching": true,
+  "flag_relative_motion": true,
+  "driving_option": "pose-friendly",
+  "driving_multiplier": 1.0,
+  "source_max_dim": 1280,
+  "animation_region": "all"
+ },
+ "seed": 0,
+ "entries": [
+  {
+   "industry": "finance",
+   "tag": "finance_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "base",
+   "video": "outputs/industry_demo_v3/finance_control/finance_00_p00_-R5aAhsrS9w_3_0__base.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p00_-R5aAhsrS9w_3_0.wav"
+  },
+  {
+   "industry": "finance",
+   "tag": "finance_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "finance",
+   "video": "outputs/industry_demo_v3/finance_control/finance_00_p00_-R5aAhsrS9w_3_0__finance.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p00_-R5aAhsrS9w_3_0.wav"
+  },
+  {
+   "industry": "realestate",
+   "tag": "realestate_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "base",
+   "video": "outputs/industry_demo_v3/realestate_control/realestate_00_p00_-R5aAhsrS9w_3_0__base.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p01_0wLgQQGob1U_13.wav"
+  },
+  {
+   "industry": "realestate",
+   "tag": "realestate_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "realestate",
+   "video": "outputs/industry_demo_v3/realestate_control/realestate_00_p00_-R5aAhsrS9w_3_0__realestate.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p01_0wLgQQGob1U_13.wav"
+  },
+  {
+   "industry": "shortvideo",
+   "tag": "shortvideo_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "base",
+   "video": "outputs/industry_demo_v3/shortvideo_control/shortvideo_00_p00_-R5aAhsrS9w_3_0__base.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p02_0Ba6y1Y8JjU_4.wav"
+  },
+  {
+   "industry": "shortvideo",
+   "tag": "shortvideo_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "shortvideo",
+   "video": "outputs/industry_demo_v3/shortvideo_control/shortvideo_00_p00_-R5aAhsrS9w_3_0__shortvideo.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p02_0Ba6y1Y8JjU_4.wav"
+  }
+ ]
+}

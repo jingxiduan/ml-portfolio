@@ -1,2 +1,4 @@
-[GUARD] kind=motion log=outputs/opsd_ind_shortvideo/metrics.jsonl pid=49560 window=50
-[GUARD] pid 49560 exited after 3000 steps, no trip
+[GUARD] kind=motion log=outputs/opsd_ind_shortvideo/metrics.jsonl pid=115057 window=50
+[GUARD] TRIPPED rule=head_frozen: amp window-mean 0.1353 < 0.15 at step 77
+[GUARD] wrote /root/ml-portfolio/07-talking-head-motion-opsd/outputs/opsd_ind_shortvideo/GUARD_STOP.json
+[GUARD] sent SIGTERM to pid 115057
