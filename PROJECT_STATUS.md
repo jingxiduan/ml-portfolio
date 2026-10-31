@@ -18,7 +18,7 @@
 | 04 | `04-diffusion-opsd-mps` | **OPSD 复刻** (SD-Turbo) | ✅ shipped | DiffusionOPSD paper 的 Mac 单机缩放版（起点） |
 | 05 | `05-video-opsd-mps` | **OPSD → 视频初尝** (AnimateDiff) | ✅ shipped (浅) | 把 OPSD 搬到 video latent，加 temporal consistency reward（粗糙 proof-of-concept）|
 | 06 | — | — | — | *no project at this slot* |
-| 07 | `07-talking-head-motion-opsd` | **OPSD → 数字人 motion** (JoyVASA + LivePortrait) | 🟡 Tier-2 in flight | OPSD 用于 motion diffusion + Part 2 engine routing + LinUCB |
+| 07 | `07-talking-head-motion-opsd` | **OPSD → 数字人 motion** (JoyVASA + LivePortrait) | ✅ 三行业轮已交付 | OPSD 用于 motion diffusion；最新一轮训出金融/房地产/短视频三个 persona，reward 目标带由真实视频实测得到；demo 在 `backup/industry-demo` 分支 |
 | 08 | `08-video-opsd-i2v` | **OPSD → I2V 诊断** (DynamiCrafter + 外部 LoRA) | 🟡 Tier-2 in flight | 拿外部训好的 OPSD-LoRA 做诊断分析 + 多种改进策略 |
 
 **OPSD method thread（04 → 05 → 07 → 08 是同一方法学的延伸）**：
@@ -113,6 +113,27 @@ reward at any level of the stack reaches the same equilibrium"是方法学规律
 
 **下一轮任务书**：`07-talking-head-motion-opsd/docs/NEXT_H20_TASKS.md`
 （诊断 jitter → reward v3 只改 jitter → 放大数据 → SyncNet 与盲评表）。
+
+### 2.1b · 项目 07 · 跨行业轮（2026-11-01，已交付）
+
+在 v4（amplitude 项改成"以实测人类带为中心"的 peaked 高斯）的基础上，把同一方法推广到
+**三个行业**，每个行业的 reward 目标带都来自真实公开视频的实测，而不是手调：
+
+| 行业 | 实测幅度 | 实测抖动 | persona 落点（vs 目标） | vs base |
+|---|---|---|---|---|
+| finance（HDTF 新闻主播，n=25） | 1.384° | 0.094° | 1.162° **0.84×** | 1.31× |
+| real-estate（CelebV-HQ 中幅度，n=16） | 1.257° | 0.118° | 1.134° **0.90×** | 1.27× |
+| short-video（CelebV-HQ 高幅度，n=16） | 3.039° | 0.349° | 2.699° **0.89×** | **3.03×** |
+
+评测用 AISHELL-1 eval 集（15 个说话人与 60 个训练说话人零重叠，n=12）。
+**三个 persona 全部落在目标带内、无一过冲**——v2/v3 那种 2.4–2.7× 的恐怖谷过冲没有复发。
+
+- 完整报告：`07-talking-head-motion-opsd/docs/INDUSTRY_ROUND.md`
+- 首页入口：`07-talking-head-motion-opsd/README.md`（§ THREE-INDUSTRY ROUND，含图与 GIF）
+- demo（44 个高清视频 + 同脸跨行业对照）：分支 `backup/industry-demo`
+- 4 次训练全部经 `tools/train_guard.py` 启动，**零触发**
+- 诚实说明：行业标签是公开数据的代理划分；finance 与 real-estate 差异小是因为它们的实测带本来就接近；
+  smile 未进 reward；SyncNet 与人工盲评仍未做
 
 **playbook**: `07-talking-head-motion-opsd/docs/H20_RENDER_PLAYBOOK.md`
 **narrative**: `07-talking-head-motion-opsd/docs/TIER2_NOTE.md`
@@ -301,7 +322,8 @@ grep -iE 'cvpr|neurips|iccv|under review|submission|paper deadline' <changed fil
 | 2026-10/14-20 | 项目 07 Part 1（JoyVASA OPSD）+ Part 2（engine routing）完工 |
 | 2026-10/21-28 | 项目 08 Tier-1 诊断 + 3 条 Tier-2 track（BoN / lightness / 复合） |
 | 2026-10/29 | 项目 07 加 Tier-2 BoN + blink thinning（本次会话）；H20 playbook 就位 |
-| 2026-10/30 | 【待发生】H20 窗口：07 render 补齐 + 08 真训 LoRA |
+| 2026-10/30 | H20 窗口：07 Tier-2（v3 / v4，AISHELL 放大数据）+ 08 真训 LoRA |
+| 2026-11-01 | **项目 07 跨行业轮**：三行业实测 reward 带 + 3 个 persona LoRA + 44 个高清 demo + 同脸对照；已 push main 与 `backup/industry-demo` |
 
 ---
 
