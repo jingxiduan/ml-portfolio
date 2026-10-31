@@ -153,20 +153,57 @@ target band alone.
 
 ![training curves](outputs/figures/fig_industry_training.png)
 
-### Demos — cross-industry, HD, natural
+### ⚠️ Blink bug found and fixed (measured, not assumed)
 
-Portraits are first frames of real public footage; driving audio is that clip's **real
-human speech** (no TTS). Rendered at `source_max_dim=1280` with pasteback.
-44 videos live on branch **`backup/industry-demo`**.
+The first industry render came out with **half-closed eyes** — visible in the very first
+GIF, and the base model looked better than the trained personas. Two causes, both measured:
+
+1. **The blink target was too high.** v4 shipped with `blink_target = 0.15`; I had raised
+   all three industries to 0.18–0.21 by naively reading "measured blinks/min ÷ 100".
+   The blink term rewards the *peak* of the blink signal, so a higher target parks the
+   expression coefficients near the closed state.
+2. **Some source portraits have small eyes to begin with** — if the still's EAR is low,
+   no amount of training yields an open-eyed video.
+
+Fix: `blink_target = 0.12`, `blink_overshoot_penalty` 4 → 8, and portraits now gated on
+**measured eye-openness** (`EAR ≥ 0.30`) plus ≥800 px, frontal, smiling.
+
+Eye aspect ratio, median over frames, from the rendered videos
+(`scripts/measure_eye_openness.py`):
+
+| | EAR | vs base |
+|---|---|---|
+| base (untrained) | **0.343** | — |
+| round-1 persona (blink 0.18) | **0.102** | eyes shut to ~30 % |
+| **round-2 persona (blink 0.12)** | **0.348** | **1.01× base — eyes open** |
+
+Close-eyed frame fraction dropped to **0.05–0.17**. The personas keep their industry
+motion while looking as open-eyed as the untrained model.
+
+### Demos — cross-industry, HD, natural (mp4 + English speech)
+
+Portraits are first frames of real public footage, gated on measured eye-openness,
+≥800 px, frontal and smiling. **Driving audio is each clip's real human speech —
+English** (CelebV-HQ / HDTF source footage); no TTS anywhere. Rendered at
+`source_max_dim=1280` with pasteback.
 
 **Same-face cross-industry control** — identical portrait, identical audio, three
-personas. Any behavioural difference on screen can only come from the persona:
+personas, so any behavioural difference can only come from the persona:
 
-![same face, three industries](outputs/industry_gifs/control/same_face_shortvideo_0wLgQQGob1U_20__base_vs_three.gif)
+![same face, three industries](outputs/industry_gifs_v3/control/same_face_p00_-R5aAhsrS9w_3_0__base_vs_three.gif)
 
 `base | finance | real-estate | short-video`
 
-Per-industry `base vs persona` GIFs: `outputs/industry_gifs/{finance,realestate,shortvideo}/`.
+**Per-industry `base vs persona`** (left = untrained base, right = that industry's OPSD persona):
+
+| industry | comparison | mp4 |
+|---|---|---|
+| **finance** — restrained, steady | ![finance](outputs/industry_gifs_v3/finance/finance__00_p00_-R5aAhsrS9w_3_0__base_vs_finance.gif) | [base](outputs/industry_demo_v3/finance/finance_00_p00_-R5aAhsrS9w_3_0__base.mp4) · [finance](outputs/industry_demo_v3/finance/finance_00_p00_-R5aAhsrS9w_3_0__finance.mp4) |
+| **real-estate** — warm, conversational | ![realestate](outputs/industry_gifs_v3/realestate/realestate__00_p01_0wLgQQGob1U_13__base_vs_realestate.gif) | [base](outputs/industry_demo_v3/realestate/realestate_00_p01_0wLgQQGob1U_13__base.mp4) · [realestate](outputs/industry_demo_v3/realestate/realestate_00_p01_0wLgQQGob1U_13__realestate.mp4) |
+| **short-video** — energetic, 3.0× base motion | ![shortvideo](outputs/industry_gifs_v3/shortvideo/shortvideo__00_p02_0Ba6y1Y8JjU_4__base_vs_shortvideo.gif) | [base](outputs/industry_demo_v3/shortvideo/shortvideo_00_p02_0Ba6y1Y8JjU_4__base.mp4) · [shortvideo](outputs/industry_demo_v3/shortvideo/shortvideo_00_p02_0Ba6y1Y8JjU_4__shortvideo.mp4) |
+
+More pairs per industry: `outputs/industry_demo_v3/{finance,realestate,shortvideo}/`
+(6 mp4 each) and `outputs/industry_gifs_v3/`.
 
 Where each behaviour comes from:
 
