@@ -1,0 +1,2 @@
+paths: 07-talking-head-motion-opsd/outputs/industry_demo_v2
+restore: cat industry-demo-v2_20261101-043028.tgz.part-* | tar xzf -
