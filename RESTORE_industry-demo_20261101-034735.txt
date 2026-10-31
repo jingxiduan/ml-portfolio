@@ -1,0 +1,2 @@
+paths: 07-talking-head-motion-opsd/outputs/industry_demo 07-talking-head-motion-opsd/data/portraits_ind 07-talking-head-motion-opsd/data/audio_ind
+restore: cat industry-demo_20261101-034735.tgz.part-* | tar xzf -
