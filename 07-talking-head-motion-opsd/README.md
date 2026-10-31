@@ -8,9 +8,16 @@ Post-training a frozen audio→motion diffusion model (JoyVASA) with a different
 sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 > **Honest framing.** This is a *method* project, not production digital-human video.
-> The portrait set is 3 still images (`data/portraits`). The claim is that OPSD can be
-> transferred from pixel diffusion to motion diffusion and measurably change behaviour —
-> not that the output rivals a studio pipeline.
+> The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
+> measurably change behaviour — not that the output rivals a studio pipeline.
+
+> ### 🆕 Latest round: three industry personas (2026-11-01)
+> Same method, three targets — **finance / real-estate / short-video**. Each persona's
+> reward target is *measured from that industry's real public footage*, not hand-tuned.
+> All three land inside the human band (**0.84–0.90× target, no overshoot**), and
+> short-video is **3.0× more animated than base** while staying natural.
+> Full write-up: **[`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md)** ·
+> demos on branch `backup/industry-demo`.
 
 ---
 
@@ -27,6 +34,7 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 | **Best result** | v3 beats v2: **jitter −19 %**, **blink −27 %** (motion space, n=20) |
 | **Known failure** | Absolute jitter is still 2.05× base; the pre-registered ≤1.3× gate **failed** |
 | **Hardware** | 2× H20 (98 GB) this round; originally M3 Pro 36 GB |
+| **🆕 Latest** | **3 industry personas**, target bands measured from real footage; 0.84–0.90× target, **no overshoot**; 44 HD demo videos + same-face cross-industry control |
 
 ---
 
@@ -98,7 +106,101 @@ Real footage is used here for two things only: (1) extracting still portraits, a
 (2) reading off what natural motion statistics look like, which is how the jitter
 cap was calibrated (base p90 = 0.263°). It is never scored against the model.
 
-## 👤 PERSONA PRESETS (finance / real-estate / entertainment)
+## 🏢 THREE-INDUSTRY ROUND — finance / real-estate / short-video
+
+> Full write-up: **[`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md)**.
+> This is the current round; the generic presets further down are the earlier,
+> hand-tuned version that this round replaces with **measured** targets.
+
+### The reward model of each industry is measured, not guessed
+
+v4's lesson: the amplitude term must be *peaked*, centred on a **measured** human
+band. This round extends that per industry. Each industry's band is measured on real
+public footage with the *same filter the reward uses*, so the numbers plug straight
+into `--amp-target-deg`:
+
+| industry | video proxy (public, real speech) | amplitude (0.3–3 Hz) | jitter (6–12.5 Hz) | blink /min | n |
+|---|---|---|---|---|---|
+| finance | HDTF news anchors | **1.384°** | **0.094°** | 18.1 | 25 |
+| real-estate | CelebV-HQ mid-amplitude clips | **1.257°** | **0.118°** | 20.3 | 16 |
+| short-video | CelebV-HQ high-amplitude clips | **3.039°** | **0.349°** | 22.6 | 16 |
+
+Short-video head motion is **2.2× finance** — the industry difference is real, and it
+is measured, not asserted. A quality gate (frontal-ness, amplitude ≤ 8°, jitter ≤ 1°,
+blink ≤ 60/min) removes solvePnP noise; without it CelebV-HQ reported 37° "head
+motion" and would have defined the band by measurement failure.
+
+![measured industry bands vs persona](outputs/figures/fig_industry_bands.png)
+
+### Results on held-out speakers (12 clips, zero speaker overlap with training)
+
+| variant | amplitude | vs its target | vs base | jitter |
+|---|---|---|---|---|
+| base (untrained) | 0.890° | — | 1.00× | 0.119° |
+| **finance** | 1.162° | **0.84×** | **1.31×** | 0.120° |
+| **real-estate** | 1.134° | **0.90×** | **1.27×** | 0.112° |
+| **short-video** | 2.699° | **0.89×** | **3.03×** | 0.156° |
+
+**No overshoot anywhere** — all three sit at 0.84–0.90× their target. The 2.4–2.7×
+uncanny-valley overshoot of v2/v3 does not recur. Finance and real-estate are close
+(1.16 vs 1.13) and that is the honest answer: their *measured* bands are close too
+(1.38 vs 1.26).
+
+Only four numbers differ between the three runs — `--amp-target-deg`, `--amp-tol-deg`,
+`--jitter-cap-deg`, `--blink-target-mean`. Reward weights, formula, LoRA config, lr,
+rounds and seed are byte-identical to v4, so the difference is attributable to the
+target band alone.
+
+![training curves](outputs/figures/fig_industry_training.png)
+
+### Demos — cross-industry, HD, natural
+
+Portraits are first frames of real public footage; driving audio is that clip's **real
+human speech** (no TTS). Rendered at `source_max_dim=1280` with pasteback.
+44 videos live on branch **`backup/industry-demo`**.
+
+**Same-face cross-industry control** — identical portrait, identical audio, three
+personas. Any behavioural difference on screen can only come from the persona:
+
+![same face, three industries](outputs/industry_gifs/control/same_face_shortvideo_0wLgQQGob1U_20__base_vs_three.gif)
+
+`base | finance | real-estate | short-video`
+
+Per-industry `base vs persona` GIFs: `outputs/industry_gifs/{finance,realestate,shortvideo}/`.
+
+Where each behaviour comes from:
+
+| behaviour | source |
+|---|---|
+| blink | reward blink term, target = that industry's measured blink rate |
+| nod / head motion | amplitude term (peaked Gaussian at the measured band) |
+| listening (micro-motion while silent) | `couple` term ties speech envelope to head speed; amplitude keeps a floor |
+| smile | **not in the reward** — comes from the source portrait, which is ranked by mouth-corner lift. We deliberately did not add a smile term this round, to keep the change attributable |
+
+![method](outputs/figures/fig_method_motion.png)
+
+### Reproduce
+
+```bash
+python scripts/fetch_public_data.py --aishell-speakers 75 --hdtf 40 --celebv 300
+python scripts/build_audio_segments.py --n-train 2000 --n-eval 100
+python scripts/calibrate_industry_bands.py     # -> the three reward targets
+ROUNDS=3000 bash scripts/train_industries.sh   # -> outputs/opsd_ind_*/lora.pt
+python scripts/eval_industries.py --n-clips 12
+python scripts/prep_industry_demo.py --per-industry 8
+python scripts/render_industry_demo.py --gpu 0
+python scripts/make_industry_figures.py
+```
+
+All four training runs were launched through `tools/train_guard.py` — **zero trips**.
+
+---
+
+## 👤 PERSONA PRESETS (finance / real-estate / entertainment) — *earlier version*
+
+> **Superseded.** These weights were hand-tuned and driven by the v3 trainer
+> (monotone `tanh` amplitude), which overshoots to 2.4–2.7× real. The round above
+> replaces them with targets measured from real footage. Kept for attribution history.
 
 The reward is the control surface. Three personas are trained from the **same**
 reward function, changing **only** the weights and the OPSD step size `c_adv`:
