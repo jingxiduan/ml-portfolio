@@ -19,9 +19,12 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 | industry | animation (GIF) | full-res video |
 |---|---|---|
-| **finance** — news anchor | ![finance](outputs/demos/finance_base_vs_real.gif) | [mp4 2160×1152](outputs/demos/finance_base_vs_real_1080.mp4) |
-| **real-estate** — property walkthrough | ![realestate](outputs/demos/realestate_base_vs_real.gif) | [mp4 2160×1152](outputs/demos/realestate_base_vs_real_1080.mp4) |
-| **short-video** — energetic hook | ![shortvideo](outputs/demos/shortvideo_base_vs_real.gif) | [mp4 2160×1152](outputs/demos/shortvideo_base_vs_real_1080.mp4) |
+| **finance** — news anchor | ![finance](outputs/demos/finance_base_vs_real.gif?v=4) | [mp4 2160×1152](outputs/demos/finance_base_vs_real_1080.mp4) |
+| **real-estate** — property walkthrough | ![realestate](outputs/demos/realestate_base_vs_real.gif?v=4) | [mp4 2160×1152](outputs/demos/realestate_base_vs_real_1080.mp4) |
+| **short-video** — energetic hook | ![shortvideo](outputs/demos/shortvideo_base_vs_real.gif?v=4) | [mp4 2160×1152](outputs/demos/shortvideo_base_vs_real_1080.mp4) |
+
+*(If a GIF still looks like the old one, hard-refresh — GitHub proxies and caches README
+images; the `?v=4` suffix is there to break that cache.)*
 
 **What to look at:** the left column keeps the same exaggerated grin / wide-open eyes on every
 frame; the right column has a face that actually changes while speaking.
