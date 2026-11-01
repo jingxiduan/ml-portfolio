@@ -11,53 +11,32 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 > The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
 > measurably change behaviour — not that the output rivals a studio pipeline.
 
-> ### 🎬 DEMOS — 最新 demo 一律放这里（新的在最上面）
->
-> **④ 三个行业 · 前后对比在同一个 mp4 里（已修画质与选材）**
-> 左 = base 纯音频驱动 / 右 = 真人视频系数驱动
->
-> | 行业 | 一个 mp4（base ∥ 真人驱动） | 分辨率 |
-> |---|---|---|
-> | **finance 金融播报** | [finance_base_vs_real.mp4](outputs/demos/finance_base_vs_real.mp4) | 2048×1088 |
-> | **real-estate 房产讲解** | [realestate_base_vs_real.mp4](outputs/demos/realestate_base_vs_real.mp4) | 2664×1396 |
-> | **short-video 短视频口播** | [shortvideo_base_vs_real.mp4](outputs/demos/shortvideo_base_vs_real.mp4) | 2152×1140 |
->
-> ![三个行业并排预览](outputs/demos/three_industries_poster.png)
->
-> **base 的问题一眼可见**：左列永远是夸张的咧嘴 / 瞪眼，右列是自然的说话表情。
->
-> 这一版修了三件事（都是上一版被挑出来的毛病）：
-> 1. **换掉唱歌那段**：realestate 上一版是又暗又在唱（亮度 36、harmonic 0.56）。
->    新增 `scripts/screen_clips.py` 量化每个候选的 分辨率 / 亮度 / 是否唱歌 / 是否英文 / 是否正视。
-> 2. **画面不再灰暗**（`scripts/postprocess_video.py`）：直方图拉伸 + CLAHE 提暗部细节 + 锐化。
->    实测 realestate 亮度 **86 → 140**、动态范围 **134 → 198**；finance 512 → **1024**（2× 上采样）。
-> 3. **音画必须同人同性**：肖像 = 该真人视频自己的首帧，结构上不可能错配。
->
-> 选材门控：正视镜头（MediaPipe+solvePnP，46/58 通过）+ **英文经 whisper-tiny 逐个转录验证**（非猜测）。
->
-> **② 真人重建 vs 纯音频驱动**（金融 / 英文真人语音 / 非合成）
->
-> 肖像 = 该真人视频自己的首帧，所以**同一个人、同一个声音**，不存在性别或身份错配；
-> 选片用了正视镜头门控（`scripts/pick_frontal_driving.py`，mean |yaw| 1.8°、|pitch| 2.4°），
-> 不会再把主播看提词器的视线摆动搬过来。
->
-> | | base（纯音频驱动） | **真人视频系数驱动** | 源视频 vs 渲染结果（同帧对照） |
-> |---|---|---|---|
-> | finance 金融播报 | [mp4](outputs/real_driven/finance02__base.mp4) | [mp4](outputs/real_driven/finance02__real.mp4) | [png](outputs/real_driven/finance02_source_vs_render.png) |
->
-> **base 的问题在这组里看得最清楚**：固定咧嘴笑、四帧表情几乎不变、头部一直在抖
-> （`head_jitter` 212 vs 真人驱动 **84**，`head_speed` 16.6 vs **7.9** deg/s，
-> `still_ratio` 0.008 vs **0.194** —— base 从不停下来，真人有停顿）。
-> 右侧"源视频 vs 渲染"同帧对照证明系数抽取与迁移是忠实的：嘴在对应帧自然张开、
-> 眉毛有动作、眼睛正视镜头。
->
-> 这一步的作用：**证明目标可达 + 抽出真人的参数**（非唇表情低频动态 0.00182、头部低频幅度 0.96°）。
-> 它不是产品——产品路径是训练音频驱动模型去逼近这批实测统计量。
->
-> **①（已废弃，留作教训）** [finance01](outputs/real_driven/finance01_base_vs_real.png)：
-> 男主播音频配女肖像 + 未做正视门控 → 性别错配、眼睛看提词器方向。两个都是选材错误，不是方法错误。
->
-> 判定标准：[`docs/NATURALNESS_SPEC.md`](docs/NATURALNESS_SPEC.md)
+> ### 🎬 DEMOS — base vs real-driven, three industries
+
+> **Two clips side by side in one animation.** LEFT = `base` (audio-only, the model as it is
+> today). RIGHT = the same face driven by a **real human's** motion coefficients.
+> Everything else — portrait, audio, seed — is identical.
+
+| industry | animation (GIF) | full-res video |
+|---|---|---|
+| **finance** — news anchor | ![finance](outputs/demos/finance_base_vs_real.gif) | [mp4 2160×1152](outputs/demos/finance_base_vs_real_1080.mp4) |
+| **real-estate** — property walkthrough | ![realestate](outputs/demos/realestate_base_vs_real.gif) | [mp4 2160×1152](outputs/demos/realestate_base_vs_real_1080.mp4) |
+| **short-video** — energetic hook | ![shortvideo](outputs/demos/shortvideo_base_vs_real.gif) | [mp4 2160×1152](outputs/demos/shortvideo_base_vs_real_1080.mp4) |
+
+**What to look at:** the left column keeps the same exaggerated grin / wide-open eyes on every
+frame; the right column has a face that actually changes while speaking.
+
+> #### ⚠️ Neither side is trained
+> `base` is the **frozen pretrained model** run on audio (inference).
+> `real` is **motion transfer** from a real human video (also inference).
+> **No OPSD training has happened yet.** The right side is the *target*, the left side is the
+> *current state* — closing that gap is what training has to do.
+
+**How clips are chosen** (`scripts/screen_clips.py`, all measured, nothing guessed):
+English verified by whisper transcription · frontal pose (MediaPipe + solvePnP) ·
+speech not singing · adequate resolution and luminance.
+**Quality** (`scripts/postprocess_video.py`): luminance stretch + CLAHE shadow detail +
+sharpen + 1080-line upscale; real-estate went from luma 86 → 140 and range 134 → 198.
 
 > ### 🆕 Latest round: three industry personas (2026-11-01)
 > Same method, three targets — **finance / real-estate / short-video**. Each persona's
