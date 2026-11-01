@@ -11,6 +11,23 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 > The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
 > measurably change behaviour — not that the output rivals a studio pipeline.
 
+> ### 🎬 DEMOS — 最新 demo 一律放这里
+>
+> **① 真人视频系数驱动 vs 纯音频驱动**（同一张肖像、同一段英文真人语音、同一个 seed）
+>
+> | | base（纯音频驱动，现在的模型） | **真人视频系数驱动** | 四帧拼图 |
+> |---|---|---|---|
+> | finance 金融播报 | [mp4](outputs/real_driven/finance01__base.mp4) | [mp4](outputs/real_driven/finance01__real.mp4) | [png](outputs/real_driven/finance01_base_vs_real.png) |
+>
+> 左边是现在的问题：**嘴一直大张着、四帧表情几乎不变、面具脸**。
+> 右边把真人的 73 维运动系数直接拿去驱动同一张肖像——眉毛在动、眼睛有神、表情逐帧变化。
+> 实测 `head_jitter` 204 → **104**（真人驱动平滑 2 倍），`head_yaw_std` 1.86° → **5.48°**。
+>
+> 这一步的目的不是当产品（那需要每条输出配一段真人视频，是动作迁移），
+> 而是**证明目标可达 + 抽出真人的参数**：非唇表情低频动态幅度 **0.00183**、头部低频幅度 **1.70°**
+> （对照行业轮实测金融带 1.384°，量纲交叉验证通过）。
+> 脚本：`scripts/render_real_driven.py` · 判定标准：[`docs/NATURALNESS_SPEC.md`](docs/NATURALNESS_SPEC.md)
+
 > ### 🆕 Latest round: three industry personas (2026-11-01)
 > Same method, three targets — **finance / real-estate / short-video**. Each persona's
 > reward target is *measured from that industry's real public footage*, not hand-tuned.
