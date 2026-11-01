@@ -13,6 +13,24 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 > ### 🎬 DEMOS — 最新 demo 一律放这里（新的在最上面）
 >
+> **③ 三个行业 · 前后对比在同一个 mp4 里**（左 = base 纯音频驱动 / 右 = 真人视频系数驱动）
+>
+> 每行一个行业，点开就是一个并排视频，顶部有标签：
+>
+> | 行业 | 一个 mp4（base ∥ 真人驱动） | 时长 |
+> |---|---|---|
+> | **finance 金融播报** | [finance_base_vs_real.mp4](outputs/demos/finance_base_vs_real.mp4) | 9 s |
+> | **real-estate 房产讲解** | [realestate_base_vs_real.mp4](outputs/demos/realestate_base_vs_real.mp4) | 10 s |
+> | **short-video 短视频口播** | [shortvideo_base_vs_real.mp4](outputs/demos/shortvideo_base_vs_real.mp4) | 10 s |
+>
+> ![三个行业并排预览](outputs/demos/three_industries_poster.png)
+>
+> 选材规则（三条都是为了避免上次被挑出的错误）：
+> 1. **肖像 = 该真人视频自己的首帧** → 同一个人、同一个声音，无性别/身份错配；
+> 2. **正视镜头门控**（`scripts/pick_frontal_driving.py`，MediaPipe + solvePnP）：
+>    160 个候选里只有 58 个能量到姿势、46 个通过 15° 门控；
+> 3. **英文经 whisper-tiny 转录验证**，不是猜的（10 个候选全部确认为英文）。
+>
 > **② 真人重建 vs 纯音频驱动**（金融 / 英文真人语音 / 非合成）
 >
 > 肖像 = 该真人视频自己的首帧，所以**同一个人、同一个声音**，不存在性别或身份错配；

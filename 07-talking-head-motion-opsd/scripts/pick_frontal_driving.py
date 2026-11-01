@@ -77,9 +77,8 @@ def main():
 
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     json.dump({"criteria": {"max_abs_yaw": a.max_abs_yaw, "max_abs_pitch": a.max_abs_pitch},
-               "kept": [{k: v for k, v in r.items() if k != "clip"} | {"clip": r["clip"]}
-                        for r in keep],
-               "all_scored": len(rows)},
+               "kept": [dict(r) for r in keep],
+               "all_scored": [dict(r) for r in rows]},
               open(a.out, "w"), indent=1)
     print(f"[ok] -> {a.out}", flush=True)
 

@@ -1,0 +1,13 @@
+{
+ "video": "-H6l6-_elF0_3.mp4",
+ "portrait": "auto",
+ "frames": 250,
+ "windows": 2,
+ "expr_dyn_std_per_window": [
+  0.0013057172764092684,
+  0.0013606543652713299
+ ],
+ "expr_dyn_std_median": 0.0013331858208402991,
+ "expr_abs_max_median": 0.09042397513985634,
+ "pose_low_deg_std": 0.5066705942153931
+}
