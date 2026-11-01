@@ -47,7 +47,7 @@ def grade_resize(path, side, max_frames, gamma=None):
         if not ok:
             break
         fr, gamma = natural_light(fr, gamma=gamma, target_mean=118.0,
-                                  local=1.6, clarity=0.45, sat=1.05, skin=0.35)
+                                  local=1.6, clarity=0.30, sat=1.05, skin=0.35, warm=0.03)
         frames.append(fr)
     cap.release()
     n = min(len(frames), max_frames)
@@ -82,7 +82,7 @@ def main():
             tiles.append((b[:n], p[:n], who, ind))
             print(f"[{ind}] {tag}: {n} frames (base {len(b)}, persona {len(p)})", flush=True)
         n = min(len(t[0]) for t in tiles)
-        lab = [[f"{t[2]} · BASE · v7", f"{t[2]} · {t[3].upper()} PERSONA · v7"] for t in tiles]
+        lab = [[f"{t[2]} · BASE · v8", f"{t[2]} · {t[3].upper()} PERSONA · v8"] for t in tiles]
 
         mp4 = os.path.join(a.out_dir, f"{ind}_two_people_base_vs_persona.mp4")
         tmp = mp4 + ".silent.mp4"

@@ -90,7 +90,7 @@ def levels_and_clahe(bgr, target_p2=12.0, target_p98=236.0, clip=2.0,
 def natural_light(bgr, gamma=None, target_mean=118.0, black_lift=16.0,
                   white_target=240.0, knee=200.0, rolloff=0.80,
                   local=1.6, clarity=0.45, contrast=1.10,
-                  sat=1.05, vibrance=0.25, skin=0.35):
+                  sat=1.05, vibrance=0.25, skin=0.35, warm=0.03):
     """Brightness is global; LIGHT FEEL ("光感") is local.
 
     A picture can sit at the right mean luma and still look dead: flat local
@@ -143,10 +143,15 @@ def natural_light(bgr, gamma=None, target_mean=118.0, black_lift=16.0,
         s_ch = np.clip(s_ch * sat, 0, 255)
     hsv[:, :, 1] = s_ch
     out = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+    if warm > 0:
+        f = out.astype(np.float32)
+        f[:, :, 2] = np.clip(f[:, :, 2] * (1.0 + warm), 0, 255)   # R up
+        f[:, :, 0] = np.clip(f[:, :, 0] * (1.0 - warm), 0, 255)   # B down
+        out = f.astype(np.uint8)
     return skin_smooth(out, skin), gamma
 
 
-def unsharp(bgr, amount=0.55, radius=1.4):
+def unsharp(bgr, amount=0.25, radius=1.8):
     blur = cv2.GaussianBlur(bgr, (0, 0), radius)
     return cv2.addWeighted(bgr, 1 + amount, blur, -amount, 0)
 
@@ -168,7 +173,9 @@ def main():
     ap.add_argument("--light", action="store_true", default=True,
                     help="use natural_light() (brightness + light-feel pass)")
     ap.add_argument("--local", type=float, default=1.6, help="CLAHE clipLimit: local contrast = light feel")
-    ap.add_argument("--clarity", type=float, default=0.45, help="halo-free micro-contrast")
+    ap.add_argument("--clarity", type=float, default=0.30, help="halo-free micro-contrast")
+    ap.add_argument("--warm", type=float, default=0.03, help="warm the tone: R up / B down by this fraction")
+    ap.add_argument("--sharp", type=float, default=0.25, help="unsharp amount (lower = softer)")
     ap.add_argument("--skin", type=float, default=0.35)
     ap.add_argument("--crf", type=int, default=16)
     a = ap.parse_args()
@@ -220,7 +227,7 @@ def main():
             fr = sr.upsample(fr)
         elif upscale != 1.0:
             fr = cv2.resize(fr, None, fx=upscale, fy=upscale, interpolation=cv2.INTER_LANCZOS4)
-        fr = unsharp(fr)
+        fr = unsharp(fr, a.sharp, 1.8)
         if i % 10 == 0:
             g2 = cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY)
             after.append((g2.mean(), np.percentile(g2, 5), np.percentile(g2, 95)))

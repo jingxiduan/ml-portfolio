@@ -9,7 +9,8 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 ---
 
-## ⬇️ LATEST DEMOS (v7 · 2026-11-01 23:20) — start here
+## ⬇️ LATEST DEMOS (v8 · 2026-11-01 23:45) — start here
+*(v8 filenames, so GitHub's image proxy cannot serve you a cached v7)*
 
 Freshly pushed, **new files, old ones kept**. LEFT = `BASE` (audio-only, frozen model) ·
 RIGHT = `REAL DRIVEN` (same face, real human motion coefficients). English speech,
@@ -17,9 +18,9 @@ speaking (not singing), male face ↔ male voice, female face ↔ female voice.
 
 | industry | GIF (v5) | 1080-line mp4 |
 |---|---|---|
-| **finance** — news anchor | ![finance v5](outputs/demos/finance_v5_base_vs_real.gif) | [mp4](outputs/demos/finance_v5_base_vs_real_1080.mp4) |
-| **real-estate** — property walkthrough | ![realestate v5](outputs/demos/realestate_v5_base_vs_real.gif) | [mp4](outputs/demos/realestate_v5_base_vs_real_1080.mp4) |
-| **short-video** — energetic hook | ![shortvideo v5](outputs/demos/shortvideo_v5_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v5_base_vs_real_1080.mp4) |
+| **finance** — news anchor | ![finance v5](outputs/demos/finance_v8_base_vs_real.gif) | [mp4](outputs/demos/finance_v8_base_vs_real_1080.mp4) |
+| **real-estate** — property walkthrough | ![realestate v5](outputs/demos/realestate_v8_base_vs_real.gif) | [mp4](outputs/demos/realestate_v8_base_vs_real_1080.mp4) |
+| **short-video** — energetic hook | ![shortvideo v5](outputs/demos/shortvideo_v8_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v8_base_vs_real_1080.mp4) |
 
 What changed in v5 vs the GIFs above (all measured, table further down):
 
@@ -73,6 +74,42 @@ luminance stretch -> CLAHE shadow detail -> gamma solved against a measured targ
 **highlight rolloff (nothing above 200 blows out)** -> gentle S-curve -> mild saturation
 lift -> **skin-only smoothing ("beauty" pass, eyes/teeth/hair stay sharp)** -> unsharp ->
 lanczos upscale -> 1080-line output.
+
+**v8 (2026-11-01 23:45): softer, warmer — and training finally started.**
+
+| knob | v7 | **v8** | why |
+|---|---|---|---|
+| unsharp (锐化) | amount 0.55, radius 1.4 | **amount 0.25, radius 1.8** | v7 read as crunchy; the sharpening halos were visible around eyes and teeth |
+| clarity (micro-contrast) | 0.45 | **0.30** | keeps the depth, drops the "crispy" edge |
+| tone | neutral | **warm +3 % R / -3 % B** | warmer, more flattering skin without raising saturation |
+| saturation | 1.05 | **1.05 (unchanged)** | deliberately not raised again |
+
+Measured on `finance_v8_base_vs_real_1080.mp4`: mean 104.1, p98 235, clipped **0.0 %**,
+warmth (R-B) **+54.8**, sharpness proxy 10.0 (v7 was crunchier at the same luma).
+
+### 🏃 TRAINING — finance smoke run (600 steps) is DONE
+
+Requested: more warmup, lower learning rate. Both applied in
+`src/opsd_train_motion_v5.py` (`--lr`, new `--warmup`, cosine decay):
+
+| setting | before | **now** |
+|---|---|---|
+| lr | 3e-4 | **1e-4** |
+| warmup | none | **200 steps linear (5e-7 -> 1e-4)**, then cosine to 0.1x |
+| grad clip | 1.0 | 1.0 (unchanged) |
+
+Run: `outputs/opsd_v5_finance_smoke/lora.pt`, 600 steps on 2000 AISHELL windows,
+finance band (amp target 1.384 deg, jitter cap 0.188 deg, blink 0.12).
+
+| metric | step 1 | step 600 |
+|---|---|---|
+| reward | 1.647 | **2.057** (+25 %) |
+| amplitude (deg) | 0.869 | **0.963** (moving toward the 1.384 deg measured band) |
+| lr | 5e-7 | 1e-5 (end of cosine) |
+
+No collapse, no guard trip. Next: render this checkpoint against `base` on the finance
+clips so the trained effect is visible, then scale to 3000 steps and the other two
+industries.
 
 **v7 grading: brightness is global, LIGHT FEEL ("光感") is local.**
 v6 fixed the exposure numbers but still looked flat, because raising mean luma and
@@ -304,9 +341,9 @@ One industry, two different people, `base | persona` side by side in one frame:
 
 | industry | two-person grid (GIF) | full mp4 |
 |---|---|---|
-| **finance** | ![finance](outputs/persona_grids/finance_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/finance_two_people_base_vs_persona.mp4) |
-| **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/realestate_two_people_base_vs_persona.mp4) |
-| **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4) |
+| **finance** | ![finance](outputs/persona_grids/finance_two_people_v8.gif) | [mp4](outputs/persona_grids/finance_two_people_v8.mp4) |
+| **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_v8.gif) | [mp4](outputs/persona_grids/realestate_two_people_v8.mp4) |
+| **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_v8.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_v8.mp4) |
 
 **Every clip was checked, nothing guessed** (`scripts/check_persona_clips.py` +
 `scripts/add_gaze_checks.py`, full numbers in `outputs/persona_clip_checks.json`):

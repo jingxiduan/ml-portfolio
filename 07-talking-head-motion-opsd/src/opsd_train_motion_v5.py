@@ -12,6 +12,7 @@ is byte-identical to v4 so the diff is attributable to the new term alone.
 import argparse
 import glob
 import json
+import math
 import os
 import random
 import time
@@ -31,12 +32,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rounds", type=int, default=600)
+    ap.add_argument("--warmup", type=int, default=200,
+                    help="linear warmup steps before the cosine decay")
+    ap.add_argument("--min-lr-frac", type=float, default=0.1)
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--t1", type=int, default=12)
     ap.add_argument("--cfg-scale", type=float, default=2.0)
     ap.add_argument("--lora-r", type=int, default=8)
     ap.add_argument("--lora-alpha", type=int, default=8)
-    ap.add_argument("--lr", type=float, default=3e-4)
+    ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--reward-step-size", type=float, default=3.0)
     ap.add_argument("--lambda-neg", type=float, default=0.5)
     ap.add_argument("--margin", type=float, default=0.02)
@@ -102,6 +106,16 @@ def main():
           f"{sum(p.numel() for p in train_params)/1e3:.1f}K trainable params")
     opt = torch.optim.AdamW(train_params, lr=a.lr, weight_decay=0.0)
 
+    def lr_at(step):
+        if step < a.warmup:                       # linear warmup 0 -> lr
+            return float(step) / float(max(a.warmup, 1))
+        prog = (step - a.warmup) / float(max(a.rounds - a.warmup, 1))
+        prog = min(max(prog, 0.0), 1.0)
+        cos = 0.5 * (1.0 + math.cos(math.pi * prog))
+        return a.min_lr_frac + (1.0 - a.min_lr_frac) * cos
+    sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_at)
+    print(f"[opt] AdamW lr={a.lr} warmup={a.warmup} -> cosine to {a.min_lr_frac}x", flush=True)
+
     train_paths = sorted(glob.glob(os.path.join(a.data_dir, "*.wav")))
     feats, envs = build_windows(eng, train_paths)
     print(f"[data] {len(train_paths)} train clips -> {len(feats)} 4-sec windows")
@@ -138,6 +152,7 @@ def main():
         loss.backward()
         torch.nn.utils.clip_grad_norm_(train_params, 1.0)
         opt.step()
+        sched.step()
 
         if step % a.ema_every == 0:
             for l in layers:
@@ -148,7 +163,7 @@ def main():
                **{k: v.mean().item() for k, v in terms.items()},
                "cap_active_frac": getattr(reward_fn, '_last_cap_active_frac', 0.0),
                "expr_active_frac": getattr(reward_fn, '_last_expr_active_frac', 0.0),
-               "elapsed_s": round(time.time() - t_start, 1)}
+               "lr": sched.get_last_lr()[0], "elapsed_s": round(time.time() - t_start, 1)}
         log.write(json.dumps(rec) + "\n")
         log.flush()
         if step % 20 == 0 or step == 1:
