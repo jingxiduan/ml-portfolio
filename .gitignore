@@ -3,7 +3,14 @@ __pycache__/
 *.pyc
 .DS_Store
 
-# 07: heavy / regenerable (see docs/HANDOFF_2026-11-02.md)
-07-talking-head-motion-opsd/third_party/
-07-talking-head-motion-opsd/data/audio_public/
-07-talking-head-motion-opsd/outputs/tier2/
+# 07: single files >100 MB cannot be stored on GitHub -- they are split into
+# 90 MB chunks under backups/weights_chunks/ instead (see scripts/restore_chunks.sh)
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/chinese-hubert-base/chinese-hubert-base-fairseq-ckpt.pt
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/JoyVASA/motion_generator/motion_generator_hubert_chinese.pt
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/chinese-hubert-base/pytorch_model.bin
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/liveportrait/base_models/spade_generator.pth
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/liveportrait/base_models/warping_module.pth
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/insightface/models/buffalo_l/w600k_r50.onnx
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/insightface/models/buffalo_l/1k3d68.onnx
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/liveportrait/landmark.onnx
+07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/liveportrait/base_models/motion_extractor.pth
