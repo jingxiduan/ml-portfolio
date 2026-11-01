@@ -87,9 +87,9 @@ def main():
 
     with tempfile.TemporaryDirectory() as td:
         lb = label_video(a.base, os.path.join(td, "base.mp4"),
-                         "BASE", "audio-only, frozen model")
+                         "BASE", "audio-only · v7")
         lr = label_video(a.real, os.path.join(td, "real.mp4"),
-                         "REAL-VIDEO DRIVEN", "human coefficients transferred")
+                         "REAL-VIDEO DRIVEN", "human coefficients · v7")
         mp4 = os.path.join(a.out_dir, f"{a.industry}_base_vs_real_1080.mp4")
         subprocess.run([FFMPEG, "-y", "-loglevel", "error",
                         "-i", lb, "-i", lr, "-i", a.base,

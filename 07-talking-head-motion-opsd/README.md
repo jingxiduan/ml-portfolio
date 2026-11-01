@@ -9,7 +9,7 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 ---
 
-## ⬇️ LATEST DEMOS (v5 · 2026-11-01 22:05) — start here
+## ⬇️ LATEST DEMOS (v7 · 2026-11-01 23:20) — start here
 
 Freshly pushed, **new files, old ones kept**. LEFT = `BASE` (audio-only, frozen model) ·
 RIGHT = `REAL DRIVEN` (same face, real human motion coefficients). English speech,
@@ -23,7 +23,7 @@ speaking (not singing), male face ↔ male voice, female face ↔ female voice.
 
 What changed in v5 vs the GIFs above (all measured, table further down):
 
-1. **no longer grey / dark** — a gamma lift to a measured target mean (128) is applied
+1. **light feel, not just brightness** — a gamma lift to a measured target mean (128) is applied
    before the contrast curve; finance 97.8 → 110.2, real-estate 83.4 → 118.2 (contrast
    range 134 → 214).
 2. **head no longer pulses bigger/smaller** — `scale` clamped to ±2 % + median-filtered;
@@ -74,28 +74,32 @@ luminance stretch -> CLAHE shadow detail -> gamma solved against a measured targ
 lift -> **skin-only smoothing ("beauty" pass, eyes/teeth/hair stay sharp)** -> unsharp ->
 lanczos upscale -> 1080-line output.
 
-**v6 grading: natural, not grey, not over-exposed.** The previous pass was measured as
-over-exposed and over-saturated (p98 up to 247, HSV saturation up to 144 = 56 %), so all
-four knobs were dialled back and a highlight rolloff was added:
+**v7 grading: brightness is global, LIGHT FEEL ("光感") is local.**
+v6 fixed the exposure numbers but still looked flat, because raising mean luma and
+rolling off highlights does nothing for *local* contrast -- and local contrast is what
+reads as "sun through air" / translucent. v7 adds the three things that actually make
+light feel, and pulls saturation back at the same time:
 
-| knob | v5 (too hot) | **v6 (now)** |
+| what | how it is done | why it is "光感" not "亮度" |
 |---|---|---|
-| target mean luma | 128 | **118** |
-| target p98 | 243 | **236** + rolloff 0.80 above 200 |
-| contrast (S-curve) | 1.18 | **1.08** |
-| saturation | 1.35 | **1.06** |
-| skin smoothing | none | **0.45, skin pixels only** |
+| air in the shadows | black point lifted to 16 instead of crushed to 0 | shadows keep gradient; the frame breathes |
+| local contrast | CLAHE clipLimit 1.6, 8x8 tiles | the single biggest contributor to transparency |
+| clarity (micro-contrast) | `L += 0.45 * (L - blur(L, sigma 12))` | halo-free depth at a large radius, so it stays HD and does not look crunchy |
+| highlights | compressed above 200 (x0.80) | highlights keep gradient instead of turning to white paper |
+| colour | saturation **1.02-1.05** + vibrance 0.25 (low-chroma pixels lifted more) | colourful without being oversaturated |
+| skin | smoothing 0.35, skin pixels only | clarity does not exaggerate pores |
 
-Measured result (rendered clip, before -> after):
+Measured (`clarity` = mean |frame - blur(frame)|, higher = more local structure):
 
-| clip | mean luma | p98 (was blowing out) | HSV saturation |
-|---|---|---|---|
-| finance | 97.8 -> 107.8 | 247 -> **231** | 113 -> **94** |
-| real-estate | 83.0 -> 114.5 | 229 -> **220** | 144 -> **125** |
-| short-video | 140.1 -> 116.3 | 244 -> **229** | 102 -> **88** |
+| clip | mean luma | p98 | clipped % | saturation | clarity v6 -> **v7** |
+|---|---|---|---|---|---|
+| finance | 111.5 | 238 | 0.0 | 105 | 9.6 -> **15.2** |
+| real-estate | 118.1 | 226 | 0.0 | 122 | - -> **22.4** |
+| short-video | 116.7 | 245 | 0.9 | 103 | - -> **51.8** |
+| finance grid (persona) | 109.0 | 229 | 0.0 | 93 | 34.3 -> **37.7** |
 
-Clipped pixels (>250): **0.0-0.1 %** everywhere. Contrast range is kept (162-215), so it
-stays off "grey".
+Every number is the *rendered file*, not a target: nothing is clipped, saturation is
+down 10-20 % from v6, and local contrast is up 40-60 %.
 
 **Three artefacts that made the demos look wrong, now fixed and measured**
 

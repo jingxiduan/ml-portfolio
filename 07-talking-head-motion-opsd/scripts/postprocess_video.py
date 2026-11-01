@@ -87,6 +87,65 @@ def levels_and_clahe(bgr, target_p2=12.0, target_p98=236.0, clip=2.0,
     return cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR), gamma
 
 
+def natural_light(bgr, gamma=None, target_mean=118.0, black_lift=16.0,
+                  white_target=240.0, knee=200.0, rolloff=0.80,
+                  local=1.6, clarity=0.45, contrast=1.10,
+                  sat=1.05, vibrance=0.25, skin=0.35):
+    """Brightness is global; LIGHT FEEL ("光感") is local.
+
+    A picture can sit at the right mean luma and still look dead: flat local
+    contrast, crushed blacks, clipped highlights. This pass targets light feel:
+
+      1. black lift  -- shadows stop at `black_lift` instead of 0: air in the shadows.
+      2. highlight rolloff -- everything above `knee` is compressed, so highlights
+         keep gradient instead of turning into white paper.
+      3. local contrast (CLAHE, tile 8x8) -- the "sun through air" effect; this is
+         the single biggest contributor to transparency.
+      4. clarity -- halo-free micro-contrast: L += c * (L - blur(L, sigma 12)).
+         Large radius, so it adds depth without the crunchy unsharp look.
+      5. gentle S-curve (1.10) + gamma solved to a measured mean.
+      6. saturation kept LOW (1.05) with vibrance: low-chroma pixels are lifted
+         more than already-saturated ones, so it reads colourful, not oversaturated.
+      7. skin-only smoothing, so clarity does not exaggerate pores.
+    """
+    lab = cv2.cvtColor(bgr, cv2.COLOR_BGR2LAB)
+    L = lab[:, :, 0].astype(np.float32)
+    p2, p98 = np.percentile(L, 2), np.percentile(L, 98)
+    if p98 - p2 < 1e-3:
+        p2, p98 = float(L.min()), float(L.max()) + 1e-3
+    L = (L - p2) * ((white_target - black_lift) / (p98 - p2)) + black_lift
+    L = np.clip(L, 0, 255)
+    if target_mean is not None and gamma is None:
+        m = max(float(L.mean()), 8.0)
+        gamma = float(np.clip(np.log(target_mean / 255.0) / np.log(m / 255.0), 0.55, 1.8))
+    if gamma is not None:
+        L = 255.0 * np.clip(L / 255.0, 0, 1) ** gamma
+    if local > 0:
+        cl = cv2.createCLAHE(clipLimit=local, tileGridSize=(8, 8))
+        L = cl.apply(np.clip(L, 0, 255).astype(np.uint8)).astype(np.float32)
+    if clarity > 0:
+        blur = cv2.GaussianBlur(L, (0, 0), 12.0)
+        L = L + clarity * (L - blur)
+    L = np.clip(L, 0, 255)
+    if abs(contrast - 1.0) > 1e-3:
+        x = np.clip(L / 255.0, 0, 1)
+        L = 255.0 * (x ** contrast / (x ** contrast + (1 - x) ** contrast + 1e-9))
+    if rolloff < 1.0:
+        hi = np.clip(L - knee, 0, None)
+        L = np.where(L > knee, knee + hi * rolloff, L)
+    lab[:, :, 0] = np.clip(L, 0, 255).astype(np.uint8)
+    out = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+    hsv = cv2.cvtColor(out, cv2.COLOR_BGR2HSV).astype(np.float32)
+    s_ch = hsv[:, :, 1]
+    if vibrance > 0:
+        s_ch = np.clip(s_ch * sat * (1.0 + vibrance * (1.0 - s_ch / 255.0)), 0, 255)
+    else:
+        s_ch = np.clip(s_ch * sat, 0, 255)
+    hsv[:, :, 1] = s_ch
+    out = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+    return skin_smooth(out, skin), gamma
+
+
 def unsharp(bgr, amount=0.55, radius=1.4):
     blur = cv2.GaussianBlur(bgr, (0, 0), radius)
     return cv2.addWeighted(bgr, 1 + amount, blur, -amount, 0)
@@ -106,7 +165,11 @@ def main():
                     help="solve a gamma lift so the graded clip lands on this mean luma")
     ap.add_argument("--highlight", type=float, default=0.80,
                     help="<1 compresses highlights above 200 so nothing blows out")
-    ap.add_argument("--skin", type=float, default=0.45, help="skin-only smoothing amount")
+    ap.add_argument("--light", action="store_true", default=True,
+                    help="use natural_light() (brightness + light-feel pass)")
+    ap.add_argument("--local", type=float, default=1.6, help="CLAHE clipLimit: local contrast = light feel")
+    ap.add_argument("--clarity", type=float, default=0.45, help="halo-free micro-contrast")
+    ap.add_argument("--skin", type=float, default=0.35)
     ap.add_argument("--crf", type=int, default=16)
     a = ap.parse_args()
 
@@ -144,10 +207,15 @@ def main():
         if i % 10 == 0:
             before.append((g.mean(), np.percentile(g, 5), np.percentile(g, 95)))
         if not a.no_levels:
-            fr, gamma = levels_and_clahe(fr, clahe=a.clahe, contrast=a.contrast,
-                                         sat=a.sat, target_mean=a.target_mean,
-                                         gamma=gamma, highlight=a.highlight)
-            fr = skin_smooth(fr, a.skin)
+            if a.light:
+                fr, gamma = natural_light(fr, gamma=gamma, target_mean=a.target_mean,
+                                          local=a.local, clarity=a.clarity,
+                                          sat=a.sat, skin=a.skin)
+            else:
+                fr, gamma = levels_and_clahe(fr, clahe=a.clahe, contrast=a.contrast,
+                                             sat=a.sat, target_mean=a.target_mean,
+                                             gamma=gamma, highlight=a.highlight)
+                fr = skin_smooth(fr, a.skin)
         if sr:
             fr = sr.upsample(fr)
         elif upscale != 1.0:
