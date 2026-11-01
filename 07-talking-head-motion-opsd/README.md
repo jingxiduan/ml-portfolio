@@ -11,17 +11,6 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 > The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
 > measurably change behaviour — not that the output rivals a studio pipeline.
 
-> ### 🎬 DEMOS — 所有 demo 一律放这里（最新在最上面）
->
-> | # | 场景 | base（未训练） | 训完的 persona | 并排 GIF | 关键帧拼图 |
-> |---|---|---|---|---|---|
-> | 01 | finance 金融播报 | [mp4](outputs/demos/01_finance_base.mp4) | [mp4](outputs/demos/01_finance_persona.mp4) | [gif](outputs/demos/01_finance_base_vs_persona.gif) | [png](outputs/demos/finance_base_vs_persona.png) |
-> | 02 | short-video 短视频 | [mp4](outputs/demos/02_shortvideo_base.mp4) | [mp4](outputs/demos/02_shortvideo_persona.mp4) | [gif](outputs/demos/02_shortvideo_base_vs_persona.gif) | [png](outputs/demos/shortvideo_base_vs_persona.png) |
->
-> 上面这组是**基线对照**（v4 reward 训出的行业 LoRA）。实测：finance 头部速度只比 base 快
-> 1.13×、jitter 反而差 1.29×，表情三帧零变化 —— 这就是"跟 base 没区别 + 面具脸"。
-> 判定标准正在重定，见 **[`docs/NATURALNESS_SPEC.md`](docs/NATURALNESS_SPEC.md)**。
-
 > ### 🆕 Latest round: three industry personas (2026-11-01)
 > Same method, three targets — **finance / real-estate / short-video**. Each persona's
 > reward target is *measured from that industry's real public footage*, not hand-tuned.
