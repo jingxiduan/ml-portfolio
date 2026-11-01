@@ -68,16 +68,34 @@ frame; the right column has a face that actually changes while speaking.
 English verified by whisper transcription · frontal pose (MediaPipe + solvePnP) ·
 speech not singing · adequate resolution and luminance.
 
-**Quality pipeline** (`scripts/postprocess_video.py` → `scripts/build_demo_sbs.py`):
-luminance stretch → CLAHE shadow detail → **gamma solved against a measured target mean
-(128) so a dark clip cannot stay dark** → S-curve contrast → saturation lift → unsharp →
-lanczos upscale → 1080-line output. Measured on this round's clips:
+**Quality pipeline** (`scripts/postprocess_video.py` -> `scripts/build_demo_sbs.py`):
+luminance stretch -> CLAHE shadow detail -> gamma solved against a measured target mean ->
+**highlight rolloff (nothing above 200 blows out)** -> gentle S-curve -> mild saturation
+lift -> **skin-only smoothing ("beauty" pass, eyes/teeth/hair stay sharp)** -> unsharp ->
+lanczos upscale -> 1080-line output.
 
-| clip | luma before → after | p5–p95 range before → after |
+**v6 grading: natural, not grey, not over-exposed.** The previous pass was measured as
+over-exposed and over-saturated (p98 up to 247, HSV saturation up to 144 = 56 %), so all
+four knobs were dialled back and a highlight rolloff was added:
+
+| knob | v5 (too hot) | **v6 (now)** |
 |---|---|---|
-| finance | 97.8 → 110.2 | 209 → 209 |
-| real-estate | 83.4 → 118.2 | 134 → **214** |
-| short-video | 138.8 → 121.0 | 191 → **231** |
+| target mean luma | 128 | **118** |
+| target p98 | 243 | **236** + rolloff 0.80 above 200 |
+| contrast (S-curve) | 1.18 | **1.08** |
+| saturation | 1.35 | **1.06** |
+| skin smoothing | none | **0.45, skin pixels only** |
+
+Measured result (rendered clip, before -> after):
+
+| clip | mean luma | p98 (was blowing out) | HSV saturation |
+|---|---|---|---|
+| finance | 97.8 -> 107.8 | 247 -> **231** | 113 -> **94** |
+| real-estate | 83.0 -> 114.5 | 229 -> **220** | 144 -> **125** |
+| short-video | 140.1 -> 116.3 | 244 -> **229** | 102 -> **88** |
+
+Clipped pixels (>250): **0.0-0.1 %** everywhere. Contrast range is kept (162-215), so it
+stays off "grey".
 
 **Three artefacts that made the demos look wrong, now fixed and measured**
 
@@ -272,11 +290,11 @@ personas, so any behavioural difference can only come from the persona:
 
 **Per-industry `base vs persona`** (left = untrained base, right = that industry's OPSD persona):
 
-> **Superseded by the two-person grids below** — same renders, checked and combined.
-> The `finance` row here was **dropped from the featured set**: its portrait (p00) looks
-> off-camera (measured gaze offset -0.073 eye-widths, visible in the still itself).
+> **📌 Superseded by the two-person grids above** — those are the same renders, checked and
+> combined. The `finance` row below was **removed from the featured set**: its portrait
+> (p00) looks off-camera (measured gaze offset −0.073 eye-widths, and visible in the still).
 
-## TWO PEOPLE PER INDUSTRY - checked, combined, featured
+## 🧑‍🤝‍🧑 TWO PEOPLE PER INDUSTRY — checked, combined, featured
 
 One industry, two different people, `base | persona` side by side in one frame:
 
@@ -291,12 +309,12 @@ One industry, two different people, `base | persona` side by side in one frame:
 
 | check | how | result for the 6 selected clips |
 |---|---|---|
-| speaking, not singing | voiced-run p90 <= 0.3 s, harmonic ratio <= 0.44 (singing holds long steady voiced runs) | **all pass** |
+| speaking, not singing | voiced-run p90 ≤ 0.3 s, harmonic ratio ≤ 0.44 (singing holds long steady voiced runs) | **all pass** |
 | English | whisper-tiny transcription of the audio track | **all English** |
-| voice <-> face gender | portrait and audio come from the **same source clip** (verified in `outputs/industry_demo_v3/manifest.json`: `pXX_<clip>.png` <-> `pXX_<clip>.wav`), so the voice IS that person's voice; F0 cross-check reported | **consistent** |
-| looking at the camera | iris-vs-eye-corner gaze offset + head pose (MediaPipe) | selected <= 0.06 eye-widths, abs yaw <= 9 deg; **p00 dropped** (gaze -0.073, off-camera still) |
+| voice ↔ face gender | portrait and audio come from the **same source clip** (verified in `outputs/industry_demo_v3/manifest.json`: `pXX_<clip>.png` ↔ `pXX_<clip>.wav`), so the voice *is* that person's voice; F0 cross-check reported | **consistent** |
+| looking at the camera | iris-vs-eye-corner gaze offset + head pose (MediaPipe) | selected clips ≤ 0.06 eye-widths, \|yaw\| ≤ 9°; **p00 dropped** (gaze −0.073 + off-camera still) |
 
-Selected people per industry: finance = p06 + p03, real-estate = p01 + p04,
+Selected people per industry: finance = p06 + p03 · real-estate = p01 + p04 ·
 short-video = p08 + p05. All other clips are kept on disk, nothing deleted.
 
 | industry | comparison | mp4 |

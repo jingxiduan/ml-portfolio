@@ -1,0 +1,13 @@
+{
+ "video": "AdamKinzinger1_011.mp4",
+ "portrait": "auto",
+ "frames": 212,
+ "windows": 2,
+ "expr_dyn_std_per_window": [
+  0.0020584685262292624,
+  0.0015434311935678124
+ ],
+ "expr_dyn_std_median": 0.0018009498598985374,
+ "expr_abs_max_median": 0.06509658694267273,
+ "pose_low_deg_std": 0.9295326471328735
+}

@@ -19,9 +19,27 @@ import cv2
 import numpy as np
 
 
-def levels_and_clahe(bgr, target_p2=12.0, target_p98=243.0, clip=2.0,
-                     clahe=1.0, contrast=1.18, sat=1.35,
-                     target_mean=128.0, gamma=None):
+def skin_smooth(bgr, amount=0.45, d=5, sc=30, ss=6):
+    """Very light "beauty" pass: smooth only skin-coloured pixels.
+
+    Eyes, teeth, hair and background stay sharp, so the frame keeps looking HD
+    while skin reads smoother. amount=0 -> off.
+    """
+    if amount <= 0:
+        return bgr
+    ycrcb = cv2.cvtColor(bgr, cv2.COLOR_BGR2YCrCb)
+    cr, cb = ycrcb[:, :, 1], ycrcb[:, :, 2]
+    mask = ((cr >= 133) & (cr <= 178) & (cb >= 77) & (cb <= 132)).astype(np.float32)
+    mask = cv2.GaussianBlur(mask, (0, 0), 3.0)[:, :, None]
+    sm = cv2.bilateralFilter(bgr, d, sc, ss).astype(np.float32)
+    w = amount * mask
+    out = bgr.astype(np.float32) * (1.0 - w) + sm * w
+    return np.clip(out, 0, 255).astype(np.uint8)
+
+
+def levels_and_clahe(bgr, target_p2=12.0, target_p98=236.0, clip=2.0,
+                     clahe=0.8, contrast=1.08, sat=1.10,
+                     target_mean=114.0, gamma=None, highlight=0.80):
     """Stretch, lift the mid-tone to a measured target, then an S-curve for punch.
 
     Earlier version used CLAHE clipLimit 1.6 and no S-curve; the result measured
@@ -51,6 +69,11 @@ def levels_and_clahe(bgr, target_p2=12.0, target_p98=243.0, clip=2.0,
             gamma = float(np.clip(np.log(target_mean / 255.0) / np.log(m / 255.0),
                                   0.55, 1.8))
         L = 255.0 * np.clip(L / 255.0, 0, 1) ** gamma
+    # soft highlight rolloff: the old hard stretch to 243 blew the highlights out
+    if highlight < 1.0:
+        knee = 200.0
+        hi = np.clip(L - knee, 0, None)
+        L = np.where(L > knee, knee + hi * highlight, L)
     # S-curve around 128
     if abs(contrast - 1.0) > 1e-3:
         x = L / 255.0
@@ -76,11 +99,14 @@ def main():
     ap.add_argument("--sr", default="auto", choices=["auto", "none", "edsr", "espcn"])
     ap.add_argument("--sr-below", type=int, default=1024, help="super-resolve if width below this")
     ap.add_argument("--no-levels", action="store_true")
-    ap.add_argument("--clahe", type=float, default=1.0)
-    ap.add_argument("--contrast", type=float, default=1.18)
-    ap.add_argument("--sat", type=float, default=1.35)
-    ap.add_argument("--target-mean", type=float, default=128.0,
+    ap.add_argument("--clahe", type=float, default=0.8)
+    ap.add_argument("--contrast", type=float, default=1.08)
+    ap.add_argument("--sat", type=float, default=1.10)
+    ap.add_argument("--target-mean", type=float, default=114.0,
                     help="solve a gamma lift so the graded clip lands on this mean luma")
+    ap.add_argument("--highlight", type=float, default=0.80,
+                    help="<1 compresses highlights above 200 so nothing blows out")
+    ap.add_argument("--skin", type=float, default=0.45, help="skin-only smoothing amount")
     ap.add_argument("--crf", type=int, default=16)
     a = ap.parse_args()
 
@@ -120,7 +146,8 @@ def main():
         if not a.no_levels:
             fr, gamma = levels_and_clahe(fr, clahe=a.clahe, contrast=a.contrast,
                                          sat=a.sat, target_mean=a.target_mean,
-                                         gamma=gamma)
+                                         gamma=gamma, highlight=a.highlight)
+            fr = skin_smooth(fr, a.skin)
         if sr:
             fr = sr.upsample(fr)
         elif upscale != 1.0:

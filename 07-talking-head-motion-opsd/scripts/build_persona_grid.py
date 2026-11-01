@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from postprocess_video import levels_and_clahe
+from postprocess_video import levels_and_clahe, skin_smooth
 
 FONT = "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf"
 PANEL = 480
@@ -46,8 +46,9 @@ def grade_resize(path, side, max_frames, gamma=None):
         ok, fr = cap.read()
         if not ok:
             break
-        fr, gamma = levels_and_clahe(fr, clahe=1.0, contrast=1.18, sat=1.30,
-                                     target_mean=128.0, gamma=gamma)
+        fr, gamma = levels_and_clahe(fr, clahe=0.8, contrast=1.08, sat=1.10,
+                                     target_mean=114.0, gamma=gamma, highlight=0.80)
+        fr = skin_smooth(fr, 0.45)
         frames.append(fr)
     cap.release()
     n = min(len(frames), max_frames)
