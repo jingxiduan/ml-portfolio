@@ -3,8 +3,10 @@ __pycache__/
 *.pyc
 .DS_Store
 
-# third-party code + pretrained weights (downloaded via scripts, see README)
-third_party/
+# third-party code IS backed up now; only the >100 MB weight files are
+# excluded (GitHub hard limit) -> stored as 90 MB chunks in backups/weights_chunks/
+# third-party code IS backed up now; only the >100 MB weight files are
+# excluded (GitHub hard limit) -> stored as 90 MB chunks in backups/weights_chunks/
 
 # large/intermediate render outputs (kept: samples/, routing/, *.json reports, metrics)
 outputs/_smoke/
