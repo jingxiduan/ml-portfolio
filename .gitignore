@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# 07: heavy / regenerable (see docs/HANDOFF_2026-11-02.md)
+07-talking-head-motion-opsd/third_party/
+07-talking-head-motion-opsd/data/audio_public/
+07-talking-head-motion-opsd/outputs/tier2/

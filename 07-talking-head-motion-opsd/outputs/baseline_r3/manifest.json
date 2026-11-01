@@ -1,0 +1,47 @@
+{
+ "render": {
+  "flag_do_crop": true,
+  "flag_pasteback": true,
+  "flag_stitching": true,
+  "flag_relative_motion": true,
+  "driving_option": "pose-friendly",
+  "driving_multiplier": 1.0,
+  "source_max_dim": 1280,
+  "animation_region": "all"
+ },
+ "seed": 0,
+ "entries": [
+  {
+   "industry": "finance",
+   "tag": "finance_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "base",
+   "video": "outputs/baseline_r3/finance/finance_00_p00_-R5aAhsrS9w_3_0__base.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p00_-R5aAhsrS9w_3_0.wav"
+  },
+  {
+   "industry": "finance",
+   "tag": "finance_00_p00_-R5aAhsrS9w_3_0",
+   "variant": "finance",
+   "video": "outputs/baseline_r3/finance/finance_00_p00_-R5aAhsrS9w_3_0__finance.mp4",
+   "portrait": "data/portraits_picked/p00_-R5aAhsrS9w_3_0.png",
+   "audio": "data/audio_picked/p00_-R5aAhsrS9w_3_0.wav"
+  },
+  {
+   "industry": "shortvideo",
+   "tag": "shortvideo_00_p02_0Ba6y1Y8JjU_4",
+   "variant": "base",
+   "video": "outputs/baseline_r3/shortvideo/shortvideo_00_p02_0Ba6y1Y8JjU_4__base.mp4",
+   "portrait": "data/portraits_picked/p02_0Ba6y1Y8JjU_4.png",
+   "audio": "data/audio_picked/p02_0Ba6y1Y8JjU_4.wav"
+  },
+  {
+   "industry": "shortvideo",
+   "tag": "shortvideo_00_p02_0Ba6y1Y8JjU_4",
+   "variant": "shortvideo",
+   "video": "outputs/baseline_r3/shortvideo/shortvideo_00_p02_0Ba6y1Y8JjU_4__shortvideo.mp4",
+   "portrait": "data/portraits_picked/p02_0Ba6y1Y8JjU_4.png",
+   "audio": "data/audio_picked/p02_0Ba6y1Y8JjU_4.wav"
+  }
+ ]
+}

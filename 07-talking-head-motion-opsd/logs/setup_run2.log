@@ -1,0 +1,137 @@
+
+[07-render-setup] 19:18:22  === STAGE 0: environment probe ===
+uname -a: Linux ts-8b1d89dda162a62501a196205e1b07eb-launcher 5.4.241-1-tlinux4-0017.7 #1 SMP Thu Jan 18 11:33:00 CST 2024 x86_64 x86_64 x86_64 GNU/Linux
+Sun Nov  1 19:18:22 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.247.01             Driver Version: 535.247.01   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA H20                     On  | 00000000:03:00.0 Off |                    0 |
+| N/A   37C    P0              71W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   1  NVIDIA H20                     On  | 00000000:16:00.0 Off |                    0 |
+| N/A   34C    P0              71W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   2  NVIDIA H20                     On  | 00000000:84:00.0 Off |                    0 |
+| N/A   38C    P0             120W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   3  NVIDIA H20                     On  | 00000000:9C:00.0 Off |                    0 |
+| N/A   38C    P0             119W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+python: Python 3.9.16
+disk free: overlay          12T  3.3T  8.4T  29% /
+
+[07-render-setup] 19:18:23  === STAGE 1: venv + python deps ===
+Requirement already satisfied: pip in ./.venv/lib/python3.9/site-packages (26.0.1)
+Requirement already satisfied: wheel in ./.venv/lib/python3.9/site-packages (0.48.0)
+Requirement already satisfied: setuptools in ./.venv/lib/python3.9/site-packages (82.0.1)
+Requirement already satisfied: packaging>=24.0 in ./.venv/lib/python3.9/site-packages (from wheel) (26.3)
+
+[07-render-setup] 19:18:25  installing torch (cu121) ...
+
+[07-render-setup] 19:18:25  installing project deps ...
+[torch] 2.5.1+cu121  cuda=True
+
+[07-render-setup] 19:18:28  === STAGE 2: JoyVASA source ===
+
+[07-render-setup] 19:18:28  JoyVASA already present, skip clone
+
+[07-render-setup] 19:18:28  === STAGE 3: MediaPipe face_landmarker.task ===
+
+[07-render-setup] 19:18:28  MP landmarker already present, skip
+
+[07-render-setup] 19:18:28  === STAGE 4: pretrained weights (~2.5 GB) ===
+
+[07-render-setup] 19:18:28  JoyVASA weights already present
+
+[07-render-setup] 19:18:28  HuBERT-chinese already present
+
+[07-render-setup] 19:18:28  LivePortrait weights already present
+
+[07-render-setup] 19:18:28  InsightFace already present
+
+[07-render-setup] 19:18:28  === STAGE 5: patch JoyVASA for compatibility ===
+patched third_party/JoyVASA/src/utils/helper.py
+patched third_party/JoyVASA/src/modules/common.py
+done
+
+[07-render-setup] 19:18:28  === STAGE 6: smoke test (no render yet; load pipeline + probe + coefs) ===
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:209: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(ckpt_path, map_location=lambda storage, loc: storage))
+[19:18:31] Load appearance_feature_extractor     live_portrait_wmg_wrapper.py:55
+           from                                                                 
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/appearance_feature_extractor.pth                                
+            done.                                                               
+           Load motion_extractor from            live_portrait_wmg_wrapper.py:58
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/motion_extractor.pth done.                                      
+           Load warping_module from              live_portrait_wmg_wrapper.py:61
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/warping_module.pth done.                                        
+           Load spade_generator from             live_portrait_wmg_wrapper.py:64
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/spade_generator.pth done.                                       
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:184: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+           Load stitching_retargeting_module     live_portrait_wmg_wrapper.py:68
+           from                                                                 
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/retarge                                
+           ting_models/stitching_retargeting_mod                                
+           ule.pth done.                                                        
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:163: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_data = torch.load(ckpt_path, map_location=device)
+using hubert chinese ori
+Traceback (most recent call last):
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/transformers/utils/hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/huggingface_hub/utils/_validators.py", line 106, in _inner_fn
+    validate_repo_id(arg_value)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/huggingface_hub/utils/_validators.py", line 154, in validate_repo_id
+    raise HFValidationError(
+huggingface_hub.errors.HFValidationError: Repo id must be in the form 'repo_name' or 'namespace/repo_name': '/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/TencentGameMate:chinese-hubert-base'. Use `repo_type` argument if needed.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/src/engine.py", line 60, in __init__
+    self.pipeline = LivePortraitPipeline(inference_cfg=inf_cfg, crop_cfg=crop_cfg)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/live_portrait_wmg_pipeline.py", line 34, in __init__
+    self.live_portrait_wrapper: LivePortraitWrapper = LivePortraitWrapper(inference_cfg=inference_cfg)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/live_portrait_wmg_wrapper.py", line 81, in __init__
+    self.motion_generator, self.motion_generator_args = load_model(inference_cfg.checkpoint_MotionGenerator, model_config, self.device, 'motion_generator')
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py", line 165, in load_model
+    model = DitTalkingHead(device=device,
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/modules/dit_talking_head.py", line 93, in __init__
+    self.audio_encoder = HubertModel.from_pretrained(make_abs_path(model_path))
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/transformers/modeling_utils.py", line 3301, in from_pretrained
+    resolved_config_file = cached_file(
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/transformers/utils/hub.py", line 469, in cached_file
+    raise EnvironmentError(
+OSError: Incorrect path_or_model_id: '/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/TencentGameMate:chinese-hubert-base'. Please provide either the path to a local folder or the repo_id of a model on the Hub.

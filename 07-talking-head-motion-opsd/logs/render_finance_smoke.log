@@ -1,0 +1,83 @@
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:209: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(ckpt_path, map_location=lambda storage, loc: storage))
+[23:41:10] Load appearance_feature_extractor     live_portrait_wmg_wrapper.py:55
+           from                                                                 
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/appearance_feature_extractor.pth                                
+            done.                                                               
+           Load motion_extractor from            live_portrait_wmg_wrapper.py:58
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/motion_extractor.pth done.                                      
+           Load warping_module from              live_portrait_wmg_wrapper.py:61
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/warping_module.pth done.                                        
+           Load spade_generator from             live_portrait_wmg_wrapper.py:64
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/spade_generator.pth done.                                       
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:184: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+           Load stitching_retargeting_module     live_portrait_wmg_wrapper.py:68
+           from                                                                 
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/retarge                                
+           ting_models/stitching_retargeting_mod                                
+           ule.pth done.                                                        
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:163: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_data = torch.load(ckpt_path, map_location=device)
+using hubert chinese ori
+[23:41:11] Load motion_generator from            live_portrait_wmg_wrapper.py:82
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/JoyVASA/motion_gener                                
+           ator/motion_generator_hubert_chinese.                                
+           pt done.                                                             
+[23:41:13] FaceAnalysisDIY warmup time: 0.534s           face_analysis_diy.py:79
+[23:41:15] LandmarkRunner warmup time: 1.803s        human_landmark_runner.py:95
+/root/work/ml-portfolio/07-talking-head-motion-opsd/src/engine.py:76: UserWarning: PySoundFile failed. Trying audioread instead.
+  audio, _ = librosa.load(path, sr=16000, mono=True)
+/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/librosa/core/audio.py:184: FutureWarning: librosa.core.audio.__audioread_load
+	Deprecated as of librosa version 0.10.0.
+	It will be removed in librosa version 1.0.
+  y, sr_native = __audioread_load(path, offset, duration, dtype)
+Traceback (most recent call last):
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/librosa/core/audio.py", line 176, in load
+    y, sr_native = __soundfile_load(path, offset, duration, dtype)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/librosa/core/audio.py", line 209, in __soundfile_load
+    context = sf.SoundFile(path)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/soundfile.py", line 690, in __init__
+    self._file = self._open(file, mode_int, closefd)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/soundfile.py", line 1265, in _open
+    raise LibsndfileError(err, prefix="Error opening {0!r}: ".format(self.name))
+soundfile.LibsndfileError: Error opening '/root/work/ml-portfolio/07-talking-head-motion-opsd/data/audio_ind/finance/finance_AdamKinzinger0_002.wav': System error.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/scripts/render_industry_demo.py", line 141, in <module>
+    main()
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/scripts/render_industry_demo.py", line 108, in main
+    audio = eng.load_audio(wav, a.max_seconds)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/src/engine.py", line 76, in load_audio
+    audio, _ = librosa.load(path, sr=16000, mono=True)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/librosa/core/audio.py", line 184, in load
+    y, sr_native = __audioread_load(path, offset, duration, dtype)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/decorator/__init__.py", line 247, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/librosa/util/decorators.py", line 63, in __wrapper
+    return func(*args, **kwargs)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/librosa/core/audio.py", line 240, in __audioread_load
+    reader = audioread.audio_open(path)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/audioread/__init__.py", line 126, in audio_open
+    return BackendClass(path)
+  File "/root/work/ml-portfolio/07-talking-head-motion-opsd/.venv/lib64/python3.9/site-packages/audioread/rawread.py", line 59, in __init__
+    self._fh = open(filename, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/root/work/ml-portfolio/07-talking-head-motion-opsd/data/audio_ind/finance/finance_AdamKinzinger0_002.wav'

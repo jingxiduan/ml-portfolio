@@ -1,0 +1,6 @@
+[data] 75 speakers available
+[data] train speakers=60 eval speakers=15
+[data] train segments=2000 eval segments=100
+[data] wrote 2000 train wavs
+[data] wrote 100 eval wavs
+[ok] manifest written

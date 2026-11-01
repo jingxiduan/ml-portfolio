@@ -1,0 +1,31 @@
+[aishell] 75 speaker archives
+  [aishell] 10/75  9s
+  [aishell] 20/75  15s
+  [aishell] 30/75  22s
+  [aishell] 40/75  27s
+  [aishell] 50/75  34s
+  [aishell] 60/75  41s
+  [aishell] 70/75  47s
+[aishell] 75/75 downloaded in 51s
+[aishell] extracted 75 archives -> /root/work/ml-portfolio/07-talking-head-motion-opsd/data/audio_public/data_aishell/wav/train
+[hdtf] 40 of 6816 available clips
+  [hdtf] 10/40  4s
+  [hdtf] 20/40  6s
+  [hdtf] 30/40  8s
+  [hdtf] 40/40  10s
+[hdtf] 40/40 downloaded in 10s
+[celebv] 120 of 7346 available clips
+  [celebv] 10/120  4s
+  [celebv] 20/120  6s
+  [celebv] 30/120  8s
+  [celebv] 40/120  11s
+  [celebv] 50/120  14s
+  [celebv] 60/120  16s
+  [celebv] 70/120  19s
+  [celebv] 80/120  21s
+  [celebv] 90/120  23s
+  [celebv] 100/120  25s
+  [celebv] 110/120  28s
+  [celebv] 120/120  31s
+[celebv] 120/120 downloaded in 31s
+[ok] fetch_public_data done

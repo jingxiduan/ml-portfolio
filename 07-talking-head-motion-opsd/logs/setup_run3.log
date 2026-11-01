@@ -1,0 +1,143 @@
+
+[07-render-setup] 19:20:00  === STAGE 0: environment probe ===
+uname -a: Linux ts-8b1d89dda162a62501a196205e1b07eb-launcher 5.4.241-1-tlinux4-0017.7 #1 SMP Thu Jan 18 11:33:00 CST 2024 x86_64 x86_64 x86_64 GNU/Linux
+Sun Nov  1 19:20:00 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.247.01             Driver Version: 535.247.01   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA H20                     On  | 00000000:03:00.0 Off |                    0 |
+| N/A   37C    P0              71W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   1  NVIDIA H20                     On  | 00000000:16:00.0 Off |                    0 |
+| N/A   34C    P0              71W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   2  NVIDIA H20                     On  | 00000000:84:00.0 Off |                    0 |
+| N/A   38C    P0             120W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+|   3  NVIDIA H20                     On  | 00000000:9C:00.0 Off |                    0 |
+| N/A   38C    P0             119W / 500W |      0MiB / 97871MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+python: Python 3.9.16
+disk free: overlay          12T  3.3T  8.4T  29% /
+
+[07-render-setup] 19:20:00  === STAGE 1: venv + python deps ===
+Requirement already satisfied: pip in ./.venv/lib/python3.9/site-packages (26.0.1)
+Requirement already satisfied: wheel in ./.venv/lib/python3.9/site-packages (0.48.0)
+Requirement already satisfied: setuptools in ./.venv/lib/python3.9/site-packages (82.0.1)
+Requirement already satisfied: packaging>=24.0 in ./.venv/lib/python3.9/site-packages (from wheel) (26.3)
+
+[07-render-setup] 19:20:02  installing torch (cu121) ...
+
+[07-render-setup] 19:20:03  installing project deps ...
+[torch] 2.5.1+cu121  cuda=True
+
+[07-render-setup] 19:20:07  === STAGE 2: JoyVASA source ===
+
+[07-render-setup] 19:20:07  JoyVASA already present, skip clone
+
+[07-render-setup] 19:20:07  === STAGE 3: MediaPipe face_landmarker.task ===
+
+[07-render-setup] 19:20:07  MP landmarker already present, skip
+
+[07-render-setup] 19:20:07  === STAGE 4: pretrained weights (~2.5 GB) ===
+
+[07-render-setup] 19:20:07  JoyVASA weights already present
+
+[07-render-setup] 19:20:07  HuBERT-chinese already present
+
+[07-render-setup] 19:20:07  LivePortrait weights already present
+
+[07-render-setup] 19:20:07  InsightFace already present
+
+[07-render-setup] 19:20:07  === STAGE 5: patch JoyVASA for compatibility ===
+patched third_party/JoyVASA/src/utils/helper.py
+patched third_party/JoyVASA/src/modules/common.py
+done
+
+[07-render-setup] 19:20:07  === STAGE 6: smoke test (no render yet; load pipeline + probe + coefs) ===
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:209: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model.load_state_dict(torch.load(ckpt_path, map_location=lambda storage, loc: storage))
+[19:20:09] Load appearance_feature_extractor     live_portrait_wmg_wrapper.py:55
+           from                                                                 
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/appearance_feature_extractor.pth                                
+            done.                                                               
+[19:20:10] Load motion_extractor from            live_portrait_wmg_wrapper.py:58
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/motion_extractor.pth done.                                      
+           Load warping_module from              live_portrait_wmg_wrapper.py:61
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/warping_module.pth done.                                        
+           Load spade_generator from             live_portrait_wmg_wrapper.py:64
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/base_mo                                
+           dels/spade_generator.pth done.                                       
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:184: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(ckpt_path, map_location=lambda storage, loc: storage)
+           Load stitching_retargeting_module     live_portrait_wmg_wrapper.py:68
+           from                                                                 
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/liveportrait/retarge                                
+           ting_models/stitching_retargeting_mod                                
+           ule.pth done.                                                        
+/root/work/ml-portfolio/07-talking-head-motion-opsd/third_party/JoyVASA/src/utils/helper.py:163: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_data = torch.load(ckpt_path, map_location=device)
+using hubert chinese ori
+[19:20:11] Load motion_generator from            live_portrait_wmg_wrapper.py:82
+           /root/work/ml-portfolio/07-talking-he                                
+           ad-motion-opsd/third_party/JoyVASA/pr                                
+           etrained_weights/JoyVASA/motion_gener                                
+           ator/motion_generator_hubert_chinese.                                
+           pt done.                                                             
+[19:20:19] FaceAnalysisDIY warmup time: 6.763s           face_analysis_diy.py:79
+[19:20:55] LandmarkRunner warmup time: 36.058s       human_landmark_runner.py:95
+[*] engine loaded, device=cuda:0
+<stdin>:10: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+[*] eye_probe loaded, params=25091
+<stdin>:13: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+[*] selected_coefs loaded, 140 entries, 20 clips
+WARNING: Logging before InitGoogle() is written to STDERR
+W0000 00:00:1793532056.392482   12482 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+W0000 00:00:1793532056.402715   12486 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793532056.411979   12487 inference_feedback_manager.cc:121] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+[*] MediaPipe landmarker loaded
+[*] all pieces in place for rendering.
+
+
+[07-render-setup] 19:20:57  === ✅ 07 RENDER SETUP DONE — pipeline is ready. ===
+Next:
+    # render all 8 clips × 4 variants (~10 min on H20 CUDA)
+    python src/tier2_bon.py --load-coefs outputs/tier2/selected_coefs.pt --n-eval-clips 8
+
+    # 8 comparison GIFs
+    python src/make_tier2_gifs.py --max-side 240 --fps 12
+
+    # commit + push
+    git add outputs/tier2/bon_metrics.{json,md} outputs/tier2/tier2_compare_*.gif
+    git commit -m "07: Tier-2 BoN+thin · 8 clips rendered on H20"
+    git push

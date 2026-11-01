@@ -3,6 +3,8 @@
 **On-Policy Self-Distillation for audio-driven talking-head motion, migrated from
 [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD).**
 
+**📄 交接文档（这轮做了什么、现在到哪一步、怎么复现）：[`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
+
 Post-training a frozen audio→motion diffusion model (JoyVASA) with a differentiable
 "liveliness" reward, so generated portraits blink, nod, and shift gaze instead of
 sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.

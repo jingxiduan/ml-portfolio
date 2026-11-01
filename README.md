@@ -2,6 +2,8 @@
 
 ## Projects
 
+> 📄 07（数字人）的完整交接文档： [`07-talking-head-motion-opsd/docs/HANDOFF_2026-11-02.md`](07-talking-head-motion-opsd/docs/HANDOFF_2026-11-02.md)
+
 | Project | Focus | Dataset | Techniques |
 |---|---|---|---|
 | [`01-multitask-ctr-cvr-rec`](01-multitask-ctr-cvr-rec) | Multi-task tower recommendation / RankMixer dense feature interaction | [MovieLens-1M](https://grouplens.org/datasets/movielens/1m/) | Shared embedding + MLP-Mixer token/channel mixing, CTR/CVR dual-tower, sample-mask gradient isolation, GAUC/calibration evaluation |
