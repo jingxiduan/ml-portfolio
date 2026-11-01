@@ -50,6 +50,62 @@ HD_OPTS = dict(
 )
 
 
+def _eye_mouth_scores(rgb):
+    """(eye aspect ratio, jaw-open blendshape) via MediaPipe, or (0, 1) if no face."""
+    try:
+        import mediapipe as mp
+        from mediapipe.tasks.python import BaseOptions, vision
+        from video_metrics import MP_MODEL
+        opts = vision.FaceLandmarkerOptions(
+            base_options=BaseOptions(model_asset_path=MP_MODEL),
+            running_mode=vision.RunningMode.IMAGE, num_faces=1,
+            output_face_blendshapes=True)
+        with vision.FaceLandmarker.create_from_options(opts) as lm:
+            res = lm.detect(mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb))
+        if not res.face_landmarks:
+            return 0.0, 1.0
+        pts = np.array([[q.x, q.y] for q in res.face_landmarks[0]])
+        # EAR on the two eyes (MediaPipe indices)
+        def ear(ids):
+            p = pts[ids]
+            v = np.linalg.norm(p[1] - p[5]) + np.linalg.norm(p[2] - p[4])
+            h = np.linalg.norm(p[0] - p[3])
+            return float(v / (2.0 * h + 1e-9))
+        e = min(ear([33, 159, 158, 133, 153, 145]), ear([362, 386, 385, 263, 380, 374]))
+        jaw = 0.0
+        if res.face_blendshapes:
+            for b in res.face_blendshapes[0]:
+                if b.category_name == "jawOpen":
+                    jaw = float(b.score)
+        return e, jaw
+    except Exception as exc:
+        print(f"  [warn] eye/mouth scoring failed: {type(exc).__name__}: {exc}")
+        return 0.0, 1.0
+
+
+def stabilize_scale_translation(coef, scale_band=0.02, win=51):
+    """Kill the head-size pulsing.
+
+    Measured on the rendered clips, face width fluctuated by ~2% std (p2/p98
+    spread ~8%), which reads as the head swelling and shrinking. The `scale`
+    and `t` coefficients carry that jitter. Median-filter them over ~2 s and
+    clamp scale to +/-scale_band around its median: slow approach/withdraw
+    survives, per-frame jitter does not.
+    """
+    import scipy.ndimage as ndi
+    c = coef.clone()
+    s = c[:, 63]
+    med = torch.median(s)
+    sm = torch.as_tensor(ndi.median_filter(s.cpu().numpy(), size=win, mode="nearest"),
+                         dtype=s.dtype, device=s.device)
+    c[:, 63] = torch.clamp(sm, med * (1 - scale_band), med * (1 + scale_band))
+    t = c[:, 64:67]
+    tm = torch.as_tensor(ndi.median_filter(t.cpu().numpy(), size=(win, 1), mode="nearest"),
+                         dtype=t.dtype, device=t.device)
+    c[:, 64:67] = tm
+    return c
+
+
 def read_frames(path, max_frames, target_fps=FPS):
     cap = cv2.VideoCapture(path)
     src_fps = cap.get(cv2.CAP_PROP_FPS) or target_fps
@@ -116,6 +172,10 @@ def main():
                          "frame: same person, same voice, so no gender/identity mismatch")
     ap.add_argument("--seconds", type=float, default=12.0)
     ap.add_argument("--smooth-alpha", type=float, default=0.3)
+    ap.add_argument("--scale-band", type=float, default=0.02,
+                    help="clamp head scale to +/- this fraction of its median (kills size pulsing)")
+    ap.add_argument("--stab-win", type=int, default=51, help="median-filter window, frames")
+    ap.add_argument("--no-stabilize", action="store_true")
     ap.add_argument("--gpu", type=int, default=0)
     ap.add_argument("--tag", default="real01")
     ap.add_argument("--out", default=os.path.join(ROOT, "outputs", "real_driven"))
@@ -181,6 +241,9 @@ def main():
     print(f"[stats] expr_dyn_std median={stats['expr_dyn_std_median']:.5f}  "
           f"pose_low_deg_std={stats['pose_low_deg_std']}", flush=True)
 
+    coef = stabilize_scale_translation(coef, scale_band=a.scale_band, win=a.stab_win)
+    print(f"[real] scale stabilised: band=+/-{a.scale_band:.0%} win={a.stab_win}f", flush=True)
+
     opts = RenderOptions(**HD_OPTS)
     if not a.portrait or a.portrait == "auto":
         # the driving video's own first frame -> same identity, same voice
@@ -188,9 +251,11 @@ def main():
         os.makedirs(pdir, exist_ok=True)
         port = os.path.join(pdir, os.path.basename(a.video).replace(".mp4", ".png"))
         # Frame 0 is sometimes a fade-in / title card with no detectable face.
-        # Take the brightest frame among the early ones that DO crop, so the
-        # portrait is both valid and well lit.
-        best, best_luma = None, -1.0
+        # Among the early frames that DO crop, pick the one with eyes open and
+        # MOUTH CLOSED: if the source mouth is open, its teeth get baked into the
+        # texture and LivePortrait's warping then smears them on every wide
+        # opening (the "broken teeth" the user saw).
+        best, best_score = None, -1e9
         for idx in (0, 6, 12, 24, 40, 60, 90):
             if idx >= len(frames):
                 break
@@ -201,10 +266,13 @@ def main():
                     continue
             except Exception:
                 continue
+            ear, jaw = _eye_mouth_scores(cand)
             luma = float(cv2.cvtColor(cand, cv2.COLOR_RGB2GRAY).mean())
-            if luma > best_luma:
-                best, best_luma = cand, luma
+            score = ear * 3.0 - jaw * 6.0 + (luma / 255.0) * 0.5
+            if score > best_score:
+                best, best_score = cand, score
         img = best if best is not None else frames[0]
+        print(f"[real] portrait score={best_score:.3f}", flush=True)
         h, w = img.shape[:2]
         if max(h, w) > 1280:
             s = 1280 / max(h, w)

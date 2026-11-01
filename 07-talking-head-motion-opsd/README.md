@@ -35,8 +35,25 @@ frame; the right column has a face that actually changes while speaking.
 **How clips are chosen** (`scripts/screen_clips.py`, all measured, nothing guessed):
 English verified by whisper transcription · frontal pose (MediaPipe + solvePnP) ·
 speech not singing · adequate resolution and luminance.
-**Quality** (`scripts/postprocess_video.py`): luminance stretch + CLAHE shadow detail +
-sharpen + 1080-line upscale; real-estate went from luma 86 → 140 and range 134 → 198.
+
+**Quality pipeline** (`scripts/postprocess_video.py` → `scripts/build_demo_sbs.py`):
+luminance stretch → CLAHE shadow detail → **gamma solved against a measured target mean
+(128) so a dark clip cannot stay dark** → S-curve contrast → saturation lift → unsharp →
+lanczos upscale → 1080-line output. Measured on this round's clips:
+
+| clip | luma before → after | p5–p95 range before → after |
+|---|---|---|
+| finance | 97.8 → 110.2 | 209 → 209 |
+| real-estate | 83.4 → 118.2 | 134 → **214** |
+| short-video | 138.8 → 121.0 | 191 → **231** |
+
+**Three artefacts that made the demos look wrong, now fixed and measured**
+
+| defect | cause | fix | measured |
+|---|---|---|---|
+| head pulses bigger/smaller | `scale` (coef dim 63) drifts with the driving video | median filter + ±2 % clamp on dim 63, median filter on translation dims 64–66 (`stabilize_scale_translation`) | face-width std/mean **2.04 % → 1.15 %** (finance), 1.08 % / 1.05 % (others) |
+| teeth warp / "rotten" mouth | portrait frame chosen with the mouth already open | portrait auto-pick scores eyes-open + **mouth-closed** + bright + crop-valid (`EAR·3 − jawOpen·6 + luma·0.5`) | picked-frame score 0.93 / 1.26 / 1.32 |
+| dull grey, "horror film" | S-curve alone darkens anything below mid-grey | gamma lift to a measured target mean before the S-curve | finance 92 → 110, real-estate 134 → 214 contrast range |
 
 > ### 🆕 Latest round: three industry personas (2026-11-01)
 > Same method, three targets — **finance / real-estate / short-video**. Each persona's
