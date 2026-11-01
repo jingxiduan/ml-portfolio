@@ -1,0 +1,13 @@
+{
+ "video": "-rjR4El7qzg_4.mp4",
+ "portrait": "auto",
+ "frames": 250,
+ "windows": 2,
+ "expr_dyn_std_per_window": [
+  0.0018826327286660671,
+  0.0022375094704329967
+ ],
+ "expr_dyn_std_median": 0.002060071099549532,
+ "expr_abs_max_median": 0.06489160284399986,
+ "pose_low_deg_std": 2.6420090198516846
+}

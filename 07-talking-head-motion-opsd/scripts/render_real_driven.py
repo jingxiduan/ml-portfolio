@@ -187,7 +187,24 @@ def main():
         pdir = os.path.join(ROOT, "data", "portraits_real")
         os.makedirs(pdir, exist_ok=True)
         port = os.path.join(pdir, os.path.basename(a.video).replace(".mp4", ".png"))
-        img = frames[0]
+        # Frame 0 is sometimes a fade-in / title card with no detectable face.
+        # Take the brightest frame among the early ones that DO crop, so the
+        # portrait is both valid and well lit.
+        best, best_luma = None, -1.0
+        for idx in (0, 6, 12, 24, 40, 60, 90):
+            if idx >= len(frames):
+                break
+            cand = frames[idx]
+            try:
+                out = cropper.crop_source_image(cand, crop_cfg)
+                if out is None or out.get("img_crop_256x256") is None:
+                    continue
+            except Exception:
+                continue
+            luma = float(cv2.cvtColor(cand, cv2.COLOR_RGB2GRAY).mean())
+            if luma > best_luma:
+                best, best_luma = cand, luma
+        img = best if best is not None else frames[0]
         h, w = img.shape[:2]
         if max(h, w) > 1280:
             s = 1280 / max(h, w)
