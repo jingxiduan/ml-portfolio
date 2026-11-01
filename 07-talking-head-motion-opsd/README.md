@@ -7,6 +7,35 @@ Post-training a frozen audio→motion diffusion model (JoyVASA) with a different
 "liveliness" reward, so generated portraits blink, nod, and shift gaze instead of
 sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
+---
+
+## ⬇️ LATEST DEMOS (v5 · 2026-11-01 22:05) — start here
+
+Freshly pushed, **new files, old ones kept**. LEFT = `BASE` (audio-only, frozen model) ·
+RIGHT = `REAL DRIVEN` (same face, real human motion coefficients). English speech,
+speaking (not singing), male face ↔ male voice, female face ↔ female voice.
+
+| industry | GIF (v5) | 1080-line mp4 |
+|---|---|---|
+| **finance** — news anchor | ![finance v5](outputs/demos/finance_v5_base_vs_real.gif) | [mp4](outputs/demos/finance_v5_base_vs_real_1080.mp4) |
+| **real-estate** — property walkthrough | ![realestate v5](outputs/demos/realestate_v5_base_vs_real.gif) | [mp4](outputs/demos/realestate_v5_base_vs_real_1080.mp4) |
+| **short-video** — energetic hook | ![shortvideo v5](outputs/demos/shortvideo_v5_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v5_base_vs_real_1080.mp4) |
+
+What changed in v5 vs the GIFs above (all measured, table further down):
+
+1. **no longer grey / dark** — a gamma lift to a measured target mean (128) is applied
+   before the contrast curve; finance 97.8 → 110.2, real-estate 83.4 → 118.2 (contrast
+   range 134 → 214).
+2. **head no longer pulses bigger/smaller** — `scale` clamped to ±2 % + median-filtered;
+   face-width std/mean **2.04 % → 1.15 %** (finance).
+3. **teeth stay aligned** — the auto-picked portrait frame is now scored on
+   eyes-open *and* mouth-closed, so the mouth texture is not warped from an open mouth.
+
+> **⚠️ Still not trained.** Both columns are inference. `real` is the *target* behaviour
+> measured from real human video; OPSD training has not started.
+
+---
+
 > **Honest framing.** This is a *method* project, not production digital-human video.
 > The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
 > measurably change behaviour — not that the output rivals a studio pipeline.
