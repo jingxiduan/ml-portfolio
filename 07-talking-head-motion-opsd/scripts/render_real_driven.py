@@ -111,7 +111,9 @@ def real_coefficients(eng, frames, cropper, crop_cfg):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--video", required=True, help="real English talking-head mp4")
-    ap.add_argument("--portrait", required=True)
+    ap.add_argument("--portrait", default=None,
+                    help="omit (or pass 'auto') to use the driving video's own first "
+                         "frame: same person, same voice, so no gender/identity mismatch")
     ap.add_argument("--seconds", type=float, default=12.0)
     ap.add_argument("--smooth-alpha", type=float, default=0.3)
     ap.add_argument("--gpu", type=int, default=0)
@@ -180,7 +182,20 @@ def main():
           f"pose_low_deg_std={stats['pose_low_deg_std']}", flush=True)
 
     opts = RenderOptions(**HD_OPTS)
-    port = a.portrait if os.path.isabs(a.portrait) else os.path.join(ROOT, a.portrait)
+    if not a.portrait or a.portrait == "auto":
+        # the driving video's own first frame -> same identity, same voice
+        pdir = os.path.join(ROOT, "data", "portraits_real")
+        os.makedirs(pdir, exist_ok=True)
+        port = os.path.join(pdir, os.path.basename(a.video).replace(".mp4", ".png"))
+        img = frames[0]
+        h, w = img.shape[:2]
+        if max(h, w) > 1280:
+            s = 1280 / max(h, w)
+            img = cv2.resize(img, (int(w * s), int(h * s)))
+        cv2.imwrite(port, cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
+        print(f"[real] portrait = own frame -> {port}", flush=True)
+    else:
+        port = a.portrait if os.path.isabs(a.portrait) else os.path.join(ROOT, a.portrait)
 
     driving = eng.coef_to_driving(coef, smooth_alpha=a.smooth_alpha)
     eng.render(port, wav, driving, a.out, f"{a.tag}__real", opts)

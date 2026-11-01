@@ -11,22 +11,31 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 > The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
 > measurably change behaviour — not that the output rivals a studio pipeline.
 
-> ### 🎬 DEMOS — 最新 demo 一律放这里
+> ### 🎬 DEMOS — 最新 demo 一律放这里（新的在最上面）
 >
-> **① 真人视频系数驱动 vs 纯音频驱动**（同一张肖像、同一段英文真人语音、同一个 seed）
+> **② 真人重建 vs 纯音频驱动**（金融 / 英文真人语音 / 非合成）
 >
-> | | base（纯音频驱动，现在的模型） | **真人视频系数驱动** | 四帧拼图 |
+> 肖像 = 该真人视频自己的首帧，所以**同一个人、同一个声音**，不存在性别或身份错配；
+> 选片用了正视镜头门控（`scripts/pick_frontal_driving.py`，mean |yaw| 1.8°、|pitch| 2.4°），
+> 不会再把主播看提词器的视线摆动搬过来。
+>
+> | | base（纯音频驱动） | **真人视频系数驱动** | 源视频 vs 渲染结果（同帧对照） |
 > |---|---|---|---|
-> | finance 金融播报 | [mp4](outputs/real_driven/finance01__base.mp4) | [mp4](outputs/real_driven/finance01__real.mp4) | [png](outputs/real_driven/finance01_base_vs_real.png) |
+> | finance 金融播报 | [mp4](outputs/real_driven/finance02__base.mp4) | [mp4](outputs/real_driven/finance02__real.mp4) | [png](outputs/real_driven/finance02_source_vs_render.png) |
 >
-> 左边是现在的问题：**嘴一直大张着、四帧表情几乎不变、面具脸**。
-> 右边把真人的 73 维运动系数直接拿去驱动同一张肖像——眉毛在动、眼睛有神、表情逐帧变化。
-> 实测 `head_jitter` 204 → **104**（真人驱动平滑 2 倍），`head_yaw_std` 1.86° → **5.48°**。
+> **base 的问题在这组里看得最清楚**：固定咧嘴笑、四帧表情几乎不变、头部一直在抖
+> （`head_jitter` 212 vs 真人驱动 **84**，`head_speed` 16.6 vs **7.9** deg/s，
+> `still_ratio` 0.008 vs **0.194** —— base 从不停下来，真人有停顿）。
+> 右侧"源视频 vs 渲染"同帧对照证明系数抽取与迁移是忠实的：嘴在对应帧自然张开、
+> 眉毛有动作、眼睛正视镜头。
 >
-> 这一步的目的不是当产品（那需要每条输出配一段真人视频，是动作迁移），
-> 而是**证明目标可达 + 抽出真人的参数**：非唇表情低频动态幅度 **0.00183**、头部低频幅度 **1.70°**
-> （对照行业轮实测金融带 1.384°，量纲交叉验证通过）。
-> 脚本：`scripts/render_real_driven.py` · 判定标准：[`docs/NATURALNESS_SPEC.md`](docs/NATURALNESS_SPEC.md)
+> 这一步的作用：**证明目标可达 + 抽出真人的参数**（非唇表情低频动态 0.00182、头部低频幅度 0.96°）。
+> 它不是产品——产品路径是训练音频驱动模型去逼近这批实测统计量。
+>
+> **①（已废弃，留作教训）** [finance01](outputs/real_driven/finance01_base_vs_real.png)：
+> 男主播音频配女肖像 + 未做正视门控 → 性别错配、眼睛看提词器方向。两个都是选材错误，不是方法错误。
+>
+> 判定标准：[`docs/NATURALNESS_SPEC.md`](docs/NATURALNESS_SPEC.md)
 
 > ### 🆕 Latest round: three industry personas (2026-11-01)
 > Same method, three targets — **finance / real-estate / short-video**. Each persona's
