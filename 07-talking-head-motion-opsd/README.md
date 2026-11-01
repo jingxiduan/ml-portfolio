@@ -272,6 +272,33 @@ personas, so any behavioural difference can only come from the persona:
 
 **Per-industry `base vs persona`** (left = untrained base, right = that industry's OPSD persona):
 
+> **Superseded by the two-person grids below** — same renders, checked and combined.
+> The `finance` row here was **dropped from the featured set**: its portrait (p00) looks
+> off-camera (measured gaze offset -0.073 eye-widths, visible in the still itself).
+
+## TWO PEOPLE PER INDUSTRY - checked, combined, featured
+
+One industry, two different people, `base | persona` side by side in one frame:
+
+| industry | two-person grid (GIF) | full mp4 |
+|---|---|---|
+| **finance** | ![finance](outputs/persona_grids/finance_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/finance_two_people_base_vs_persona.mp4) |
+| **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/realestate_two_people_base_vs_persona.mp4) |
+| **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4) |
+
+**Every clip was checked, nothing guessed** (`scripts/check_persona_clips.py` +
+`scripts/add_gaze_checks.py`, full numbers in `outputs/persona_clip_checks.json`):
+
+| check | how | result for the 6 selected clips |
+|---|---|---|
+| speaking, not singing | voiced-run p90 <= 0.3 s, harmonic ratio <= 0.44 (singing holds long steady voiced runs) | **all pass** |
+| English | whisper-tiny transcription of the audio track | **all English** |
+| voice <-> face gender | portrait and audio come from the **same source clip** (verified in `outputs/industry_demo_v3/manifest.json`: `pXX_<clip>.png` <-> `pXX_<clip>.wav`), so the voice IS that person's voice; F0 cross-check reported | **consistent** |
+| looking at the camera | iris-vs-eye-corner gaze offset + head pose (MediaPipe) | selected <= 0.06 eye-widths, abs yaw <= 9 deg; **p00 dropped** (gaze -0.073, off-camera still) |
+
+Selected people per industry: finance = p06 + p03, real-estate = p01 + p04,
+short-video = p08 + p05. All other clips are kept on disk, nothing deleted.
+
 | industry | comparison | mp4 |
 |---|---|---|
 | **finance** — restrained, steady | ![finance](outputs/industry_gifs_v3/finance/finance__00_p00_-R5aAhsrS9w_3_0__base_vs_finance.gif) | [base](outputs/industry_demo_v3/finance/finance_00_p00_-R5aAhsrS9w_3_0__base.mp4) · [finance](outputs/industry_demo_v3/finance/finance_00_p00_-R5aAhsrS9w_3_0__finance.mp4) |
