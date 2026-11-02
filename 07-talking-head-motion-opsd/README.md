@@ -12,10 +12,13 @@ Second, real video is introduced as an auxiliary supervision channel, so that th
 additionally reproduce the motion statistics of real speakers through behaviour cloning.
 
 **Research question.** Whether a single post-training method yields digital humans whose
-motion statistics separate across industries, in the same direction and in approximately the
-same proportion as the real footage from which the targets were estimated.
+motion statistics separate across industries, and whether that separation is a property of
+the real footage or an artefact of the prescribed targets. The question is decomposed into
+separability and ecological validity; the answer, with significance tests, is given in
+`docs/SEPARATION_ANALYSIS.md` and summarised below.
 
 **Technical report, paper format: [`docs/TECH_REPORT.md`](docs/TECH_REPORT.md)** ·
+**Separability analysis: [`docs/SEPARATION_ANALYSIS.md`](docs/SEPARATION_ANALYSIS.md)** ·
 **Handoff and reproduction: [`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
 
 ---
@@ -329,19 +332,38 @@ and the band would have been defined by measurement failure.
 
 ![measured industry bands vs persona](outputs/figures/fig_industry_bands.png)
 
-### Evaluation on held-out speakers, 12 clips, disjoint from the training speakers
+### Evaluation on held-out speakers, 40 clips, disjoint from the training speakers
 
-| variant | amplitude | vs its target | vs base | jitter |
-|---|---|---|---|---|
-| base (untrained) | 0.890° | · | 1.00× | 0.119° |
-| **finance** | 1.162° | **0.84×** | **1.31×** | 0.120° |
-| **real-estate** | 1.134° | **0.90×** | **1.27×** | 0.112° |
-| **short-video** | 2.699° | **0.89×** | **3.03×** | 0.156° |
+| variant | amplitude | vs its target | vs base | jitter | vs its jitter target |
+|---|---|---|---|---|---|
+| base, untrained | 0.924° | · | 1.00× | 0.121° | · |
+| **finance** | 1.213° | **0.88×** | **1.31×** | 0.120° | 1.27× |
+| **real-estate** | 1.114° | **0.89×** | **1.21×** | 0.105° | 0.89× |
+| **short-video** | 2.597° | **0.85×** | **2.81×** | 0.151° | **0.43×** |
 
-**No variant overshoots**: all three settle at 0.84 to 0.90× their respective targets, and
-the 2.4 to 2.7× overshoot responsible for the uncanny-valley appearance of v2 and v3 does
-not recur. Finance and real-estate remain close, 1.16 versus 1.13 deg, which is consistent
-with their measured bands of 1.38 and 1.26 deg.
+**No variant overshoots**: all three settle at 0.85 to 0.89× their respective amplitude
+targets, and the 2.4 to 2.7× overshoot responsible for the uncanny-valley appearance of v2
+and v3 does not recur. Jitter is delivered less faithfully; short-video reaches only 0.43× of
+its jitter target, which is why jitter cannot serve as a second behavioural axis.
+
+### Is the industry difference provable and separable?
+
+This question is answered separately for the reference footage and for the trained policies,
+with effect sizes, confidence intervals and permutation nulls, in
+**[`docs/SEPARATION_ANALYSIS.md`](docs/SEPARATION_ANALYSIS.md)**. The verdict, in short:
+
+| question | answer | evidence |
+|---|---|---|
+| Are the three personas distinguishable? | **yes** | four-way leave-one-out identification accuracy **0.831** against chance 0.25, permutation p = 2e-4; prescribed ordering reproduced in **33 of 40** clips, binomial p = 1.1e-19 |
+| Does that prove the industries differ? | **no** | the difference is prescribed by the measured bands; OPSD's contribution is realising a prescribed band without overshoot |
+| Is the prescribed difference real in the footage? | **only for short-video versus the formal style** | finance versus real-estate in real footage: AUC **0.632**, p = **0.16**, not separable |
+| Is the difference a style or a scalar? | **a scalar** | adding jitter as a second feature reduces identification accuracy from 0.831 to **0.600** |
+
+The model is more self-consistent than the humans it was calibrated on, coefficient of
+variation 0.06 to 0.07 against 0.15 to 0.23, which mechanically inflates every separability
+statistic. Model-side separability therefore cannot be cited as evidence for a real industry
+difference: for finance versus real-estate the policies separate at AUC 0.816 while the
+reference footage does not separate at all.
 
 Only four scalar arguments differ across the three runs, namely `--amp-target-deg`,
 `--amp-tol-deg`, `--jitter-cap-deg` and `--blink-target-mean`. Reward weights, formula, LoRA config, lr,

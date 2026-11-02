@@ -267,6 +267,29 @@ same finance band.
 The behaviour cloning loss reaches its minimum around step 420 and then rises. That
 is an open problem, not a result, and it is the main target of the next run.
 
+### 7.4 Separability of the three personas, with significance tests
+
+Per-clip statistics on 40 held-out AISHELL-1 evaluation clips, identical audio and seed
+across variants, so the comparison is paired. Full tables, including the real-footage
+ceiling, are in `docs/SEPARATION_ANALYSIS.md`.
+
+| pair | median amplitude | AUC | Cliff's delta | Mann-Whitney p | paired t p |
+|---|---|---|---|---|---|
+| finance versus real-estate | 1.213 versus 1.114 degrees | 0.816 | +0.63 | 1.2e-06 | 7.6e-08 |
+| short-video versus finance | 2.597 versus 1.213 degrees | 1.000 | +1.00 | 1.4e-14 | 6.4e-39 |
+| short-video versus real-estate | 2.597 versus 1.114 degrees | 1.000 | +1.00 | 1.4e-14 | 2.6e-44 |
+
+Four-way leave-one-out identification accuracy on log amplitude is 0.831 against a chance
+level of 0.25, permutation p = 2e-4, and the ordering prescribed by the measured bands is
+reproduced in 33 of 40 clips, binomial p = 1.1e-19.
+
+Two results constrain the interpretation. First, in the reference footage finance and
+real-estate are not separable, AUC 0.632 and p = 0.16, so the separation observed here for
+that pair is produced by the prescribed targets and by the low within-condition variance of
+the policies, coefficient of variation 0.066 against 0.226 for the real footage. Second,
+adding jitter as a second feature lowers identification accuracy to 0.600, so the personas
+differ along one axis only.
+
 ## 8. Qualitative results, ordered by evidential weight
 
 Every demo below is rendered from the same portrait, the same audio and the same

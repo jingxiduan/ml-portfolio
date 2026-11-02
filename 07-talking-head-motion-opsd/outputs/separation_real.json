@@ -1,0 +1,234 @@
+{
+ "source": "real public footage, MediaPipe + solvePnP, per clip",
+ "bands_hz": {
+  "low": [
+   0.3,
+   3.0
+  ],
+  "high": [
+   6.0,
+   12.5
+  ]
+ },
+ "amplitude": {
+  "feature": "low_std_deg",
+  "n": {
+   "realestate": 16,
+   "finance": 25,
+   "shortvideo": 16
+  },
+  "pairs": {
+   "finance_vs_realestate": {
+    "n_a": 25,
+    "n_b": 16,
+    "median_a": 1.383826798899463,
+    "median_b": 1.2567535595611086,
+    "mean_a": 1.4056727212007747,
+    "mean_b": 1.270070218064633,
+    "ratio_median": 1.1011122971338405,
+    "mannwhitney_p": 0.1605806049379931,
+    "auc": 0.6325,
+    "cliffs_delta": 0.2649999999999999,
+    "ci95_median_diff": [
+     -0.17944421304273028,
+     0.47370820571437466
+    ],
+    "cohens_d": 0.45198209750792423,
+    "separable": false
+   },
+   "shortvideo_vs_realestate": {
+    "n_a": 16,
+    "n_b": 16,
+    "median_a": 3.038777802737111,
+    "median_b": 1.2567535595611086,
+    "mean_a": 3.0881896409392224,
+    "mean_b": 1.270070218064633,
+    "ratio_median": 2.4179583814334547,
+    "mannwhitney_p": 1.5449101737495915e-06,
+    "auc": 1.0,
+    "cliffs_delta": 1.0,
+    "ci95_median_diff": [
+     1.3268070990181473,
+     2.2605672895893747
+    ],
+    "cohens_d": 4.733307663561633,
+    "separable": true
+   },
+   "shortvideo_vs_finance": {
+    "n_a": 16,
+    "n_b": 25,
+    "median_a": 3.038777802737111,
+    "median_b": 1.383826798899463,
+    "mean_a": 3.0881896409392224,
+    "mean_b": 1.4056727212007747,
+    "ratio_median": 2.1959235109146653,
+    "mannwhitney_p": 9.721092291340968e-08,
+    "auc": 1.0,
+    "cliffs_delta": 1.0,
+    "ci95_median_diff": [
+     1.2317319602354442,
+     2.1174004005634854
+    ],
+    "cohens_d": 4.374128153858186,
+    "separable": true
+   }
+  },
+  "classification": {
+   "amp_1d": {
+    "accuracy": 0.7017543859649122,
+    "chance": 0.3333333333333333,
+    "permutation_p": 0.0001999600079984003,
+    "null_accuracy_mean": 0.33215438596491226,
+    "confusion": {
+     "finance": {
+      "finance": 16,
+      "realestate": 9,
+      "shortvideo": 0
+     },
+     "realestate": {
+      "finance": 8,
+      "realestate": 8,
+      "shortvideo": 0
+     },
+     "shortvideo": {
+      "finance": 0,
+      "realestate": 0,
+      "shortvideo": 16
+     }
+    },
+    "labels": [
+     "finance",
+     "realestate",
+     "shortvideo"
+    ]
+   },
+   "amp_jitter_2d": {
+    "accuracy": 0.6491228070175439,
+    "chance": 0.3333333333333333,
+    "permutation_p": 0.0001999600079984003,
+    "null_accuracy_mean": 0.3300947368421053,
+    "confusion": {
+     "finance": {
+      "finance": 16,
+      "realestate": 9,
+      "shortvideo": 0
+     },
+     "realestate": {
+      "finance": 6,
+      "realestate": 9,
+      "shortvideo": 1
+     },
+     "shortvideo": {
+      "finance": 0,
+      "realestate": 4,
+      "shortvideo": 12
+     }
+    },
+    "labels": [
+     "finance",
+     "realestate",
+     "shortvideo"
+    ]
+   }
+  },
+  "kruskal_H": 34.97612522686026,
+  "kruskal_p": 2.541153547573174e-08
+ },
+ "jitter": {
+  "feature": "high_std_deg",
+  "n": {
+   "realestate": 16,
+   "finance": 25,
+   "shortvideo": 16
+  },
+  "pairs": {
+   "realestate_vs_finance": {
+    "n_a": 16,
+    "n_b": 25,
+    "median_a": 0.1179308670333962,
+    "median_b": 0.09413451872163818,
+    "mean_a": 0.12439205482435006,
+    "mean_b": 0.09594449631150682,
+    "ratio_median": 1.252790885160048,
+    "mannwhitney_p": 0.08967607652227624,
+    "auc": 0.66,
+    "cliffs_delta": 0.32000000000000006,
+    "ci95_median_diff": [
+     -0.007617354271301391,
+     0.0439947907600514
+    ],
+    "cohens_d": 0.6829668238953187,
+    "separable": false
+   },
+   "shortvideo_vs_realestate": {
+    "n_a": 16,
+    "n_b": 16,
+    "median_a": 0.34899626469294376,
+    "median_b": 0.1179308670333962,
+    "mean_a": 0.37169905040625595,
+    "mean_b": 0.12439205482435006,
+    "ratio_median": 2.9593292534185593,
+    "mannwhitney_p": 7.964469616702407e-06,
+    "auc": 0.96484375,
+    "cliffs_delta": 0.9296875,
+    "ci95_median_diff": [
+     0.10220563037005362,
+     0.3608940680081519
+    ],
+    "cohens_d": 1.764829293782989,
+    "separable": true
+   },
+   "shortvideo_vs_finance": {
+    "n_a": 16,
+    "n_b": 25,
+    "median_a": 0.34899626469294376,
+    "median_b": 0.09413451872163818,
+    "mean_a": 0.37169905040625595,
+    "mean_b": 0.09594449631150682,
+    "ratio_median": 3.7074207148702607,
+    "mannwhitney_p": 9.721092291340968e-08,
+    "auc": 1.0,
+    "cliffs_delta": 1.0,
+    "ci95_median_diff": [
+     0.12669293971782575,
+     0.3801641439811061
+    ],
+    "cohens_d": 2.3457644974717358,
+    "separable": true
+   }
+  },
+  "classification": {
+   "amp_1d": {
+    "accuracy": 0.6140350877192983,
+    "chance": 0.3333333333333333,
+    "permutation_p": 0.0001999600079984003,
+    "null_accuracy_mean": 0.3350245614035088,
+    "confusion": {
+     "finance": {
+      "finance": 15,
+      "realestate": 10,
+      "shortvideo": 0
+     },
+     "realestate": {
+      "finance": 7,
+      "realestate": 8,
+      "shortvideo": 1
+     },
+     "shortvideo": {
+      "finance": 0,
+      "realestate": 4,
+      "shortvideo": 12
+     }
+    },
+    "labels": [
+     "finance",
+     "realestate",
+     "shortvideo"
+    ]
+   }
+  },
+  "kruskal_H": 33.890980036297606,
+  "kruskal_p": 4.371869521746129e-08
+ },
+ "ordering": null
+}
