@@ -45,7 +45,7 @@ Headline numbers, all measured on rendered output or held out windows:
 
 ---
 
-## 1. What this project is and is not
+## 1. Scope and non-goals
 
 It is a method project. A frozen audio to motion diffusion model, JoyVASA, is
 post-trained with a differentiable liveliness reward using the OPSD loop. Rendering
@@ -267,7 +267,7 @@ same finance band.
 The behaviour cloning loss reaches its minimum around step 420 and then rises. That
 is an open problem, not a result, and it is the main target of the next run.
 
-## 8. Demos, ordered by importance
+## 8. Qualitative results, ordered by evidential weight
 
 Every demo below is rendered from the same portrait, the same audio and the same
 seed on both sides. Only the checkpoint differs.
@@ -379,7 +379,7 @@ dithering disabled, plus stacked local contrast operators.
 5. Fix image quality separately, reduce skin smoothing, raise GIF colour count,
    consider GFPGAN or CodeFormer face restoration after warping.
 
-## 12. Reproduce
+## 12. Reproduction
 
 ```bash
 bash scripts/h20_render_setup.sh                    # environment, about 2.5 GB of weights

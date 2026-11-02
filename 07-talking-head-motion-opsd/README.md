@@ -1,65 +1,69 @@
 # 07 · Talking-Head Motion OPSD
 
-**What this is.** DiffusionOPSD, an on-policy self-distillation method built for pixel
-diffusion, migrated to **digital-human motion**. The algorithm is unchanged. What changed
-is what a sample means: a trajectory of 73 dimensional motion coefficients driving a
-frozen LivePortrait renderer, instead of an image latent.
+**Overview.** This work transfers DiffusionOPSD, an on-policy self-distillation algorithm
+originally formulated for pixel diffusion, to audio-driven digital-human motion. The
+optimisation algorithm is retained without modification; only the definition of a sample
+changes, from an image latent to a trajectory of 73 dimensional motion coefficients that
+drive a frozen LivePortrait renderer.
 
-**What is new.** Reward targets are measured from real public human footage, never hand
-tuned. Each industry gets its own measured target band. Real video is used as a second
-supervision channel, so the model can imitate how real people actually moved.
+**Contributions.** First, the reward targets are estimated from real public human footage
+rather than assigned manually, yielding one empirically measured target band per industry.
+Second, real video is introduced as an auxiliary supervision channel, so that the policy can
+additionally reproduce the motion statistics of real speakers through behaviour cloning.
 
-**The question under test.** Can one method produce digital humans that differ
-measurably by industry, in the same direction and roughly the same ratio as the real
-footage those targets came from.
+**Research question.** Whether a single post-training method yields digital humans whose
+motion statistics separate across industries, in the same direction and in approximately the
+same proportion as the real footage from which the targets were estimated.
 
-**In one line.** OPSD moves from image diffusion to digital-human motion; the motion
-targets of each industry are measured from real human video, and the question is whether
-the trained digital humans differ measurably across finance, real estate and short video.
-
-**Full technical report, paper format: [`docs/TECH_REPORT.md`](docs/TECH_REPORT.md)** ·
+**Technical report, paper format: [`docs/TECH_REPORT.md`](docs/TECH_REPORT.md)** ·
 **Handoff and reproduction: [`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
 
 ---
 
-## ⬇️ PRIMARY RESULT · trained on real video, newest
+## Primary result · policy trained on real human video
 
-### V8 · TRAINED ON REAL VIDEO, behaviour cloning plus OPSD, 600 steps, newest
+### V8 · behaviour cloning from real video combined with OPSD, 600 steps
 
-First result of learning motion from public video. **1753 four second windows** of real
-human motion coefficients were extracted from public clips. Half the optimisation steps
-imitate how a real person moved, behaviour cloning, and half run the OPSD reward loop.
-Same portrait, same audio, same seed on both sides. Only the checkpoint differs.
+First result obtained by learning motion directly from public video. **1753 four-second
+windows** of real human motion coefficients were extracted from public footage. Half of the
+optimisation steps minimise a behaviour-cloning objective against the observed coefficients,
+and the remainder execute the OPSD reward loop. Portrait, driving audio and random seed are
+held constant across the two conditions; only the checkpoint differs.
 
 ![bc_v1](outputs/demos/bc_v1_base_vs_trained.gif)
 
-Left `BASE`, the frozen model, not trained. Right `TRAINED`, 600 steps of real video
-imitation plus OPSD. [1080 line mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)
+Left: `BASE`, the frozen pretrained model without post-training. Right: `TRAINED`, after
+600 steps of imitation learning on real video combined with OPSD.
+[1080-line mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)
 
 | metric | value |
 |---|---|
-| real video training windows | **1753**, from 684 public clips, LivePortrait motion extractor |
-| behaviour cloning loss | 0.047 to 0.024, lowest, ending at 0.093 at step 600 |
-| base versus trained coefficient difference | **0.540**, zero would mean the LoRA never applied |
-| image | mean luma 108.4, p98 227, clipped **0.0 percent**, saturation 86, warmth plus 25 |
+| real-video training windows | **1753**, extracted from 684 public clips with the LivePortrait motion extractor |
+| behaviour-cloning loss | decreases from 0.047 to a minimum of 0.024, ending at 0.093 at step 600 |
+| coefficient difference, base versus trained | **0.540**; a value of zero would indicate that the LoRA was not applied |
+| image statistics | mean luminance 108.4, 98th percentile 227, clipped **0.0 percent**, saturation 86, warmth +25 |
 
-> This is the first version and only 600 steps. The behaviour cloning loss rises again
-> after step 420, so learning rate, bc fraction and data volume all still need tuning.
-> What it proves is that the route works, a model can learn motion from real human video.
+> This is a preliminary result obtained after only 600 steps. The behaviour-cloning loss
+> increases again beyond step 420, indicating that the learning rate, the proportion of
+> cloning steps and the volume of real data all require further tuning. The result
+> nevertheless establishes the feasibility of the approach: motion can be learned from real
+> human video.
 
-Post-training a frozen audio→motion diffusion model (JoyVASA) with a differentiable
-"liveliness" reward, so generated portraits blink, nod, and shift gaze instead of
-sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
+The formulation post-trains a frozen audio-to-motion diffusion model, JoyVASA, with a
+differentiable liveliness reward, so that the synthesised portrait blinks, nods and shifts
+gaze rather than remaining static. Synthesis is performed by LivePortrait at up to 1280 px
+with pasteback.
 
 ---
 
-## DEMOS · every artefact, ordered by importance
+## Qualitative results · ordered by evidential weight
 
-### V1 · TRAINED, three industry personas from the earlier 3000 step round
+### V1 · three industry personas from the 3000-step round
 
-**Two different people** per industry, side by side. Left `BASE`, the frozen pretrained
-model, not trained. Right `PERSONA`, that industry's OPSD trained model. Two faces per
-industry so generalisability and industry style are both visible.
+Two distinct subjects are presented per industry. Left: `BASE`, the frozen pretrained model
+without post-training. Right: `PERSONA`, the model post-trained with OPSD against that
+industry's target band. Presenting two identities per industry allows within-industry
+consistency and cross-subject generalisability to be assessed simultaneously.
 
 | industry | GIF (v8) | mp4 |
 |---|---|---|
@@ -67,12 +71,12 @@ industry so generalisability and industry style are both visible.
 | **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_v8.gif) | [mp4](outputs/persona_grids/realestate_two_people_v8.mp4) |
 | **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_v8.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_v8.mp4) |
 
-### V2 · REFERENCE, driven by real human coefficients, **not** a model output
+### V2 · reference condition driven by real human coefficients, **not** a model output
 
-Left `BASE`, right `REAL`. The right side copies the motion coefficients of a real
-person's video straight onto the same face. It looks the most natural by construction,
-because it is literally real human motion. It is **not** something the model learned,
-it is the target the model is trained to approach.
+Left: `BASE`. Right: `REAL`, in which the motion coefficients extracted from a real
+speaker's video are transferred onto the same portrait. This condition is natural by
+construction, since the motion is a direct recording of human behaviour. It is therefore not
+a model output but the reference target that the trained policy is optimised to approach.
 
 | industry | GIF (v8) | mp4 |
 |---|---|---|
@@ -80,70 +84,80 @@ it is the target the model is trained to approach.
 | **real-estate** | ![realestate](outputs/demos/realestate_v8_base_vs_real.gif) | [mp4](outputs/demos/realestate_v8_base_vs_real_1080.mp4) |
 | **short-video** | ![shortvideo](outputs/demos/shortvideo_v8_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v8_base_vs_real_1080.mp4) |
 
-### Which one actually looks better, the honest version
+### Interpretation of the perceptual comparison
 
-| impression | which column | why | does it count as a result |
+| perceptual impression | condition | explanation | status |
 |---|---|---|---|
-| **most natural** | `REAL` on the right of V2 | real human motion copied straight over, the equivalent of copying the answer key | **not a model output**, it is the ceiling and the target |
-| **second, but clearly more alive than base** | `PERSONA` on the right of V1 | the model genuinely learned: amplitude 0.89 deg to **1.16 deg**, reaching **0.84x** of the real human band, with no overshoot | **this is the result** |
-| **most rigid** | `BASE` on the left of V1 and V2 | pretrained model, no post-training | baseline |
+| **most natural** | `REAL`, right panel of V2 | recorded human motion transferred directly, i.e. the reference trajectory itself | **not a model output**; constitutes the upper bound and the optimisation target |
+| **intermediate, but clearly more animated than base** | `PERSONA`, right panel of V1 | learned behaviour: amplitude rises from 0.89 deg to **1.16 deg**, attaining **0.84x** of the measured human band without overshoot | **the model output of interest** |
+| **least animated** | `BASE`, left panel of V1 and V2 | pretrained model without post-training | baseline condition |
 
-**In one sentence**: `REAL` looks best, but it is not something we produced; `PERSONA` is what we produced, and its job is to move toward `REAL`.
-To see the effect look at **V8 and V1**; to see what the target looks like look at **V2**.
+Consequently, `REAL` is perceptually the most natural condition but is not generated by the
+model; `PERSONA` is the generated output, and its objective is to approach `REAL`. V8 and V1
+characterise the trained behaviour, whereas V2 defines the target.
 
-## Video inventory for review, each id maps to a keep or merge decision
+## Asset inventory
 
-| id | content | count | trained | grading | where it sits now | recommendation |
+Each artefact is listed below with its provenance, post-training status and disposition.
+
+| id | content | count | post-trained | grading | location | disposition |
 |---|---|---|---|---|---|---|
-| **V1** | 2 people per industry, base and persona in a 2x2 grid | 3 GIF + 3 mp4 | **trained**, previous round, 3000 steps | **v8** | **top of this page** | **keep**, the only genuine result |
-| **V2** | base vs real-driven, real human coefficients copied over | 3 GIF + 3 mp4 | no, inference only | **v8** | second position on this page | **keep** as the target reference, could be folded into the V1 description |
-| **V3** | one face across three industries, control experiment | 1 GIF | trained | old, no v8 | middle section THREE-INDUSTRY ROUND | keep, or move into a control experiment subsection |
-| **V4** | single person base vs persona, industry_gifs_v3 | 3 GIF | trained | old | **archive link only, not displayed** | same render batch as V1 with old grading, duplicate |
-| **V5** | base vs v3, demo_gifs_frontal | 8 GIF | trained v3 | old | **archive link only, not displayed** | v3 overshot real humans by 2.4x, superseded |
-| **V6** | base vs v4, demo_gifs_v4 | 4 GIF | trained v4 | old | **archive link only, not displayed** | historical version |
-| **V7** | source mp4 of every GIF above, industry_demo_v3 and others | 18+ mp4 | n/a | n/a | directory link only | **keep**, the masters behind the GIFs, deleting them means they can never be re-rendered |
-| **V8** | base vs the model **trained on real human video**, BC+OPSD 600 steps | 1 GIF + 1 mp4 | **trained, this round** | v8 | **newest position on this page** | **keep**, latest result, watch this one |
-| n/a | 3 figures, industry band, training curve, method diagram, plus the portrait sheet | 4 PNG | n/a | n/a | inline in this document | keep, not video |
+| **V1** | two subjects per industry, base and persona in a 2x2 grid | 3 GIF + 3 mp4 | **yes**, preceding round, 3000 steps | **v8** | **primary position** | **retain**, principal result |
+| **V2** | base versus real-driven condition, recorded coefficients transferred | 3 GIF + 3 mp4 | no, inference only | **v8** | secondary position | **retain** as the reference condition; may be merged into the description of V1 |
+| **V3** | one identity across three industries, control experiment | 1 GIF | yes | earlier, no v8 | cross-industry study section | retain, or relocate to the control study |
+| **V4** | single-subject base versus persona, industry_gifs_v3 | 3 GIF | yes | earlier | **archived, reference only** | same rendering batch as V1 with the earlier grading; duplicate |
+| **V5** | base versus v3, demo_gifs_frontal | 8 GIF | yes, v3 | earlier | **archived, reference only** | v3 overshoots the real band by 2.4x; superseded |
+| **V6** | base versus v4, demo_gifs_v4 | 4 GIF | yes, v4 | earlier | **archived, reference only** | historical release |
+| **V7** | source mp4 of every GIF above, industry_demo_v3 and others | 18+ mp4 | n/a | n/a | directory reference only | **retain**, master material for the GIFs; deletion would preclude re-rendering |
+| **V8** | base versus the model **trained on real human video**, behaviour cloning plus OPSD, 600 steps | 1 GIF + 1 mp4 | **yes, this round** | v8 | **most recent position** | **retain**, most recent result |
+| n/a | three figures, industry band, training curve, method diagram, plus the portrait sheet | 4 PNG | n/a | n/a | embedded in this document | retain, figures rather than video |
 
-**Notes**: V1 and V4 come from the **same render batch**, V4 is the old grading and single person version. V1 and V2 answer **different questions**: V1 is model output, while the right side of V2 copies real human motion and is not model output. So it is expected that V2 looks more natural.
+**Remarks.** V1 and V4 originate from the same rendering batch; V4 applies the earlier colour
+grading and a single-subject layout. V1 and V2 address different questions: V1 is a model
+output, whereas the right panel of V2 transfers recorded human motion and is therefore not a
+model output. The greater apparent naturalness of V2 is consequently expected.
 
 
 
-**How clips are chosen** (`scripts/screen_clips.py`, all measured, nothing guessed):
-English verified by whisper transcription · frontal pose (MediaPipe + solvePnP) ·
-speech not singing · adequate resolution and luminance.
+**Clip screening** (`scripts/screen_clips.py`); every criterion is measured automatically:
+language verified by whisper transcription · frontal head pose, MediaPipe with solvePnP ·
+speech rather than singing · adequate resolution and luminance.
 
-**Quality pipeline** (`scripts/postprocess_video.py` -> `scripts/build_demo_sbs.py`):
-luminance stretch -> CLAHE shadow detail -> gamma solved against a measured target mean ->
-**highlight rolloff (nothing above 200 blows out)** -> gentle S-curve -> mild saturation
-lift -> **skin-only smoothing ("beauty" pass, eyes/teeth/hair stay sharp)** -> unsharp ->
-lanczos upscale -> 1080-line output.
+**Image post-processing pipeline** (`scripts/postprocess_video.py`, then
+`scripts/build_demo_sbs.py`): luminance stretch · CLAHE shadow recovery · gamma solved
+against a measured target mean · **highlight rolloff above 200** · mild S-curve · modest
+saturation lift · **smoothing restricted to skin regions, with eyes, teeth and hair
+preserved** · unsharp masking · Lanczos resampling to a 1080-line master.
 
-**v8 (2026-11-01 23:45): softer, warmer · and training finally started.**
+**Grading v8, 2026-11-01: reduced sharpening and a warmer tone; commencement of the training
+stage.**
 
-| knob | v7 | **v8** | why |
+| parameter | v7 | **v8** | rationale |
 |---|---|---|---|
-| unsharp | amount 0.55, radius 1.4 | **amount 0.25, radius 1.8** | v7 read as crunchy; the sharpening halos were visible around eyes and teeth |
-| clarity (micro-contrast) | 0.45 | **0.30** | keeps the depth, drops the "crispy" edge |
-| tone | neutral | **warm +3 % R / -3 % B** | warmer, more flattering skin without raising saturation |
-| saturation | 1.05 | **1.05 (unchanged)** | deliberately not raised again |
+| unsharp | amount 0.55, radius 1.4 | **amount 0.25, radius 1.8** | v7 exhibited over-sharpening, with visible halos around the eyes and teeth |
+| clarity, micro-contrast | 0.45 | **0.30** | preserves tonal depth while removing the over-crisp edge |
+| tone | neutral | **warm, +3 % R and -3 % B** | warmer and more favourable skin rendition at constant saturation |
+| saturation | 1.05 | **1.05, unchanged** | deliberately held constant |
 
-Measured on `finance_v8_base_vs_real_1080.mp4`: mean 104.1, p98 235, clipped **0.0 %**,
-warmth (R-B) **+54.8**, sharpness proxy 10.0 (v7 was crunchier at the same luma).
+Measured on `finance_v8_base_vs_real_1080.mp4`: mean luminance 104.1, 98th percentile 235,
+clipped **0.0 %**, warmth, R minus B, **+54.8**, sharpness proxy 10.0; v7 was
+over-sharpened at comparable luminance.
 
-### 🏃 TRAINING · finance smoke run (600 steps) is DONE
+### Training configuration · finance smoke run, 600 steps
 
-Requested: more warmup, lower learning rate. Both applied in
-`src/opsd_train_motion_v5.py` (`--lr`, new `--warmup`, cosine decay):
+In response to a request for an extended warmup and a reduced learning rate, both were
+implemented in `src/opsd_train_motion_v5.py`, through `--lr` together with the additional
+`--warmup` argument and cosine decay:
 
-| setting | before | **now** |
+| setting | previous | **current** |
 |---|---|---|
 | lr | 3e-4 | **1e-4** |
 | warmup | none | **200 steps linear (5e-7 -> 1e-4)**, then cosine to 0.1x |
 | grad clip | 1.0 | 1.0 (unchanged) |
 
-Run: `outputs/opsd_v5_finance_smoke/lora.pt`, 600 steps on 2000 AISHELL windows,
-finance band (amp target 1.384 deg, jitter cap 0.188 deg, blink 0.12).
+Checkpoint: `outputs/opsd_v5_finance_smoke/lora.pt`, obtained after 600 steps over 2000
+AISHELL-1 windows under the finance target band, amplitude target 1.384 deg, jitter cap
+0.188 deg and blink target 0.12.
 
 | metric | step 1 | step 600 |
 |---|---|---|
@@ -151,24 +165,25 @@ finance band (amp target 1.384 deg, jitter cap 0.188 deg, blink 0.12).
 | amplitude (deg) | 0.869 | **0.963** (moving toward the 1.384 deg measured band) |
 | lr | 5e-7 | 1e-5 (end of cosine) |
 
-No collapse, no guard trip. Next: render this checkpoint against `base` on the finance
-clips so the trained effect is visible, then scale to 3000 steps and the other two
+No divergence and no guard intervention were observed. The remaining work is to render this
+checkpoint against `base` on the finance clips so that the trained behaviour becomes
+observable, and subsequently to extend the schedule to 3000 steps and to the two remaining
 industries.
 
-**v7 grading: brightness is global, LIGHT FEEL is local.**
-v6 fixed the exposure numbers but still looked flat, because raising mean luma and
-rolling off highlights does nothing for *local* contrast -- and local contrast is what
-reads as "sun through air" / translucent. v7 adds the three things that actually make
-light feel, and pulls saturation back at the same time:
+**Grading v7: global brightness versus local tonal structure.**
+v6 corrected the exposure statistics but the output remained perceptually flat, because
+increasing mean luminance and compressing highlights leaves *local* contrast unchanged, and
+local contrast is the property responsible for the impression of translucency. v7 introduces
+the operations that determine local tonal structure while simultaneously reducing saturation:
 
-| what | how it is done | why it reads as light feel and not brightness |
+| operation | implementation | why it affects local tonal structure rather than brightness |
 |---|---|---|
-| air in the shadows | black point lifted to 16 instead of crushed to 0 | shadows keep gradient; the frame breathes |
-| local contrast | CLAHE clipLimit 1.6, 8x8 tiles | the single biggest contributor to transparency |
-| clarity (micro-contrast) | `L += 0.45 * (L - blur(L, sigma 12))` | halo-free depth at a large radius, so it stays HD and does not look crunchy |
-| highlights | compressed above 200 (x0.80) | highlights keep gradient instead of turning to white paper |
-| colour | saturation **1.02-1.05** + vibrance 0.25 (low-chroma pixels lifted more) | colourful without being oversaturated |
-| skin | smoothing 0.35, skin pixels only | clarity does not exaggerate pores |
+| air in the shadows | black point raised to 16 rather than crushed to 0 | shadow regions retain gradation |
+| local contrast | CLAHE, clipLimit 1.6 over 8x8 tiles | the dominant contributor to perceived translucency |
+| clarity, micro-contrast | `L += 0.45 * (L - blur(L, sigma 12))` | halo-free depth at a large radius, preserving detail without over-sharpening |
+| highlights | compressed above 200 by a factor of 0.80 | highlight gradation is retained instead of clipping to flat white |
+| colour | saturation **1.02 to 1.05** with vibrance 0.25, raising low-chroma pixels more | increased chroma without oversaturation |
+| skin | smoothing 0.35, applied to skin pixels only | prevents local contrast from exaggerating skin pores |
 
 Measured (`clarity` = mean |frame - blur(frame)|, higher = more local structure):
 
@@ -179,45 +194,47 @@ Measured (`clarity` = mean |frame - blur(frame)|, higher = more local structure)
 | short-video | 116.7 | 245 | 0.9 | 103 | - -> **51.8** |
 | finance grid (persona) | 109.0 | 229 | 0.0 | 93 | 34.3 -> **37.7** |
 
-Every number is the *rendered file*, not a target: nothing is clipped, saturation is
-down 10-20 % from v6, and local contrast is up 40-60 %.
+All values are measured on the *rendered files* rather than on targets: no clipping occurs,
+saturation decreases by 10 to 20 percent relative to v6, and local contrast increases by
+40 to 60 percent.
 
-**Three artefacts that made the demos look wrong, now fixed and measured**
+**Three rendering artefacts: diagnosis, correction and measurement**
 
-| defect | cause | fix | measured |
+| artefact | cause | correction | measured |
 |---|---|---|---|
-| head pulses bigger/smaller | `scale` (coef dim 63) drifts with the driving video | median filter + ±2 % clamp on dim 63, median filter on translation dims 64–66 (`stabilize_scale_translation`) | face-width std/mean **2.04 % → 1.15 %** (finance), 1.08 % / 1.05 % (others) |
-| teeth warp / "rotten" mouth | portrait frame chosen with the mouth already open | portrait auto-pick scores eyes-open + **mouth-closed** + bright + crop-valid (`EAR·3 − jawOpen·6 + luma·0.5`) | picked-frame score 0.93 / 1.26 / 1.32 |
-| dull grey, "horror film" | S-curve alone darkens anything below mid-grey | gamma lift to a measured target mean before the S-curve | finance 92 → 110, real-estate 134 → 214 contrast range |
+| head size fluctuates | the `scale` coefficient, dimension 63, drifts with the driving video | median filter + ±2 % clamp on dim 63, median filter on translation dims 64–66 (`stabilize_scale_translation`) | face-width std/mean **2.04 % → 1.15 %** (finance), 1.08 % / 1.05 % (others) |
+| tooth distortion and collapsed mouth region | reference frame selected with the mouth already open | portrait auto-pick scores eyes-open + **mouth-closed** + bright + crop-valid (`EAR·3 − jawOpen·6 + luma·0.5`) | picked-frame score 0.93 / 1.26 / 1.32 |
+| flat, desaturated appearance | the S-curve alone darkens any value below mid-grey | gamma lift to a measured target mean before the S-curve | finance 92 → 110, real-estate 134 → 214 contrast range |
 
-> ### 🆕 Latest round: three industry personas (2026-11-01)
-> Same method, three targets · **finance / real-estate / short-video**. Each persona's
-> reward target is *measured from that industry's real public footage*, not hand-tuned.
-> All three land inside the human band (**0.84–0.90× target, no overshoot**), and
-> short-video is **3.0× more animated than base** while staying natural.
+> ### Latest round: three industry personas, 2026-11-01
+> A single method with three targets, **finance, real-estate and short-video**. The reward
+> target of each persona is *estimated from the real public footage of that industry* rather
+> than assigned manually. All three settle inside the measured human band
+> (**0.84 to 0.90× target, no overshoot**), and the short-video persona exhibits
+> **3.0× the head motion of base** while remaining within that band.
 > Full write-up: **[`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md)** ·
 > demos on branch `backup/industry-demo`.
 
 ---
 
-## 📌 AT A GLANCE
+## Summary of the experimental setup
 
 | | |
 |---|---|
-| **What is trained** | LoRA on JoyVASA's motion DiT (~179K params), audio → 73-d motion coefficients |
+| **Trainable parameters** | LoRA on JoyVASA's motion DiT (~179K params), audio → 73-d motion coefficients |
 | **Base model** | JoyVASA `motion_generator_hubert_chinese` (frozen) |
 | **Renderer** | LivePortrait (implicit-keypoint warping, not diffusion) · **not** trained |
 | **Method** | DiffusionOPSD: on-policy query → reward-guided bounded targets → detached finite fit → EMA refresh |
 | **Reward** | Differentiable liveliness: `amp + jitter + couple + blink + gaze + ood` |
 | **Training data** | AISHELL-1 (Apache 2.0), 2000 segments / 60 speakers, disjoint 15-speaker eval |
-| **Best result** | v3 beats v2: **jitter −19 %**, **blink −27 %** (motion space, n=20) |
+| **Principal result** | v3 outperforms v2, with **jitter reduced by 19 %** and **blink rate by 27 %**, in motion space with n = 20 |
 | **Known failure** | Absolute jitter is still 2.05× base; the pre-registered ≤1.3× gate **failed** |
 | **Hardware** | 2× H20 (98 GB) this round; originally M3 Pro 36 GB |
-| **🆕 Latest** | **3 industry personas**, target bands measured from real footage; 0.84–0.90× target, **no overshoot**; 44 HD demo videos + same-face cross-industry control |
+| **Most recent extension** | **three industry personas** with target bands estimated from real footage; 0.84 to 0.90× target with **no overshoot**; 44 high-definition demonstration videos plus a same-face cross-industry control |
 
 ---
 
-## 🧠 METHOD · OPSD migrated to motion space
+## Method · on-policy self-distillation in motion space
 
 DiffusionOPSD builds supervision at *intermediate* denoising states instead of waiting
 for the final sample. We keep the algorithm identical and change only what "sample" means:
@@ -267,9 +284,9 @@ ema_update_behaviour_policy()
 
 ---
 
-## 🎯 WHAT "BASE" MEANS · and why real video is NOT the baseline
+## Baseline definition and the role of real footage
 
-This is the single most important thing to read before the numbers.
+This distinction is a prerequisite for interpreting the results reported below.
 
 **`base` = the same pretrained model with no OPSD post-training.** Following
 DiffusionOPSD, the comparison is always *same model, with vs without the
@@ -285,18 +302,18 @@ Real footage is used here for two things only: (1) extracting still portraits, a
 (2) reading off what natural motion statistics look like, which is how the jitter
 cap was calibrated (base p90 = 0.263°). It is never scored against the model.
 
-## 🏢 THREE-INDUSTRY ROUND · finance / real-estate / short-video
+## Cross-industry study · finance, real-estate, short-video
 
 > Full write-up: **[`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md)**.
 > This is the current round; the generic presets further down are the earlier,
 > hand-tuned version that this round replaces with **measured** targets.
 
-### The reward model of each industry is measured, not guessed
+### Per-industry reward targets estimated from real footage
 
-v4's lesson: the amplitude term must be *peaked*, centred on a **measured** human
-band. This round extends that per industry. Each industry's band is measured on real
-public footage with the *same filter the reward uses*, so the numbers plug straight
-into `--amp-target-deg`:
+A result carried over from v4 is that the amplitude term must be *peaked* and centred on an
+empirically **measured** human band. This study applies that principle per industry. Each
+band is estimated from real public footage using the *same band-pass filter as the reward
+itself*, so the resulting values are used directly as `--amp-target-deg`:
 
 | industry | video proxy (public, real speech) | amplitude (0.3–3 Hz) | jitter (6–12.5 Hz) | blink /min | n |
 |---|---|---|---|---|---|
@@ -304,14 +321,15 @@ into `--amp-target-deg`:
 | real-estate | CelebV-HQ mid-amplitude clips | **1.257°** | **0.118°** | 20.3 | 16 |
 | short-video | CelebV-HQ high-amplitude clips | **3.039°** | **0.349°** | 22.6 | 16 |
 
-Short-video head motion is **2.2× finance** · the industry difference is real, and it
-is measured, not asserted. A quality gate (frontal-ness, amplitude ≤ 8°, jitter ≤ 1°,
-blink ≤ 60/min) removes solvePnP noise; without it CelebV-HQ reported 37° "head
-motion" and would have defined the band by measurement failure.
+Short-video head motion is **2.2× that of finance**; the industry difference is measured
+rather than assumed. A quality gate, comprising near-frontal pose, amplitude of at most
+8 deg, jitter of at most 1 deg and a blink rate of at most 60 per minute, removes solvePnP
+estimation noise; without it, CelebV-HQ yielded values as large as 37 deg of head motion,
+and the band would have been defined by measurement failure.
 
 ![measured industry bands vs persona](outputs/figures/fig_industry_bands.png)
 
-### Results on held-out speakers (12 clips, zero speaker overlap with training)
+### Evaluation on held-out speakers, 12 clips, disjoint from the training speakers
 
 | variant | amplitude | vs its target | vs base | jitter |
 |---|---|---|---|---|
@@ -320,97 +338,106 @@ motion" and would have defined the band by measurement failure.
 | **real-estate** | 1.134° | **0.90×** | **1.27×** | 0.112° |
 | **short-video** | 2.699° | **0.89×** | **3.03×** | 0.156° |
 
-**No overshoot anywhere** · all three sit at 0.84–0.90× their target. The 2.4–2.7×
-uncanny-valley overshoot of v2/v3 does not recur. Finance and real-estate are close
-(1.16 vs 1.13) and that is the honest answer: their *measured* bands are close too
-(1.38 vs 1.26).
+**No variant overshoots**: all three settle at 0.84 to 0.90× their respective targets, and
+the 2.4 to 2.7× overshoot responsible for the uncanny-valley appearance of v2 and v3 does
+not recur. Finance and real-estate remain close, 1.16 versus 1.13 deg, which is consistent
+with their measured bands of 1.38 and 1.26 deg.
 
-Only four numbers differ between the three runs · `--amp-target-deg`, `--amp-tol-deg`,
-`--jitter-cap-deg`, `--blink-target-mean`. Reward weights, formula, LoRA config, lr,
+Only four scalar arguments differ across the three runs, namely `--amp-target-deg`,
+`--amp-tol-deg`, `--jitter-cap-deg` and `--blink-target-mean`. Reward weights, formula, LoRA config, lr,
 rounds and seed are byte-identical to v4, so the difference is attributable to the
 target band alone.
 
 ![training curves](outputs/figures/fig_industry_training.png)
 
-### ⚠️ Blink bug found and fixed (measured, not assumed)
+### Eye-openness regression: diagnosis and correction
 
-The first industry render came out with **half-closed eyes** · visible in the very first
-GIF, and the base model looked better than the trained personas. Two causes, both measured:
+The first cross-industry rendering exhibited **partially closed eyes**, already visible in
+the initial figure, and the untrained base model appeared more natural than the trained
+personas. Two causes were identified, both by measurement:
 
-1. **The blink target was too high.** v4 shipped with `blink_target = 0.15`; I had raised
-   all three industries to 0.18–0.21 by naively reading "measured blinks/min ÷ 100".
-   The blink term rewards the *peak* of the blink signal, so a higher target parks the
-   expression coefficients near the closed state.
-2. **Some source portraits have small eyes to begin with** · if the still's EAR is low,
-   no amount of training yields an open-eyed video.
+1. **Excessive blink target.** v4 was configured with `blink_target = 0.15`; the three
+   industries had been raised to 0.18 to 0.21 through a naive conversion of the measured
+   blinks per minute divided by 100. Since the blink term rewards the *peak* of the blink
+   signal, a higher target drives the expression coefficients towards the closed state.
+2. **Low eye openness in the source portraits.** Where the reference frame exhibits a low eye
+   aspect ratio, no amount of training yields an open-eyed rendering.
 
-Fix: `blink_target = 0.12`, `blink_overshoot_penalty` 4 → 8, and portraits now gated on
-**measured eye-openness** (`EAR ≥ 0.30`) plus ≥800 px, frontal, smiling.
+Correction: `blink_target = 0.12`, `blink_overshoot_penalty` increased from 4 to 8, and
+portraits are additionally gated on **measured eye openness**, `EAR ≥ 0.30`, together with a
+minimum dimension of 800 px, frontal pose and a smiling expression.
 
-Eye aspect ratio, median over frames, from the rendered videos
+Eye aspect ratio, median across frames, measured on the rendered videos
 (`scripts/measure_eye_openness.py`):
 
 | | EAR | vs base |
 |---|---|---|
 | base (untrained) | **0.343** | · |
-| round-1 persona (blink 0.18) | **0.102** | eyes shut to ~30 % |
-| **round-2 persona (blink 0.12)** | **0.348** | **1.01× base · eyes open** |
+| initial persona, blink 0.18 | **0.102** | eye openness reduced to approximately 30 % |
+| **revised persona, blink 0.12** | **0.348** | **1.01× base**, eyes open |
 
-Close-eyed frame fraction dropped to **0.05–0.17**. The personas keep their industry
-motion while looking as open-eyed as the untrained model.
+The fraction of frames with closed eyes decreases to **0.05 to 0.17**. The personas retain
+their industry-specific motion while matching the untrained model in eye openness.
 
-### Demos · cross-industry, HD, natural (mp4 + English speech)
+### Qualitative comparison across industries, high definition, real English speech
 
-Portraits are first frames of real public footage, gated on measured eye-openness,
-≥800 px, frontal and smiling. **Driving audio is each clip's real human speech -
-English** (CelebV-HQ / HDTF source footage); no TTS anywhere. Rendered at
-`source_max_dim=1280` with pasteback.
+Portraits are the first frames of real public footage, gated on measured eye openness, a
+minimum dimension of 800 px, frontal pose and a smiling expression. **The driving audio is
+the real human speech of each source clip, in English**, taken from CelebV-HQ and HDTF
+footage; no synthetic speech is used. Rendering employs `source_max_dim=1280` with
+pasteback.
 
-**【V3】 Same-face cross-industry control** · identical portrait, identical audio, three
-personas, so any behavioural difference can only come from the persona:
+**Same-face cross-industry control, V3.** Portrait and driving audio are identical across
+conditions and only the persona checkpoint varies, so any behavioural difference is
+attributable to the persona alone:
 
 ![same face, three industries](outputs/industry_gifs_v3/control/same_face_p00_-R5aAhsrS9w_3_0__base_vs_three.gif)
 
 `base | finance | real-estate | short-video`
 
-**Archive: single person `base vs persona`**, no longer shown on this page
+**Archived: single-subject base versus persona comparison**
 
-> **This single person set has been replaced by the two person grid above**, same render batch, older grading.
-> finance p00 was **dropped**: her portrait is not looking into the camera, gaze offset minus 0.073 eye widths, visible in the source image.
+> **This single-subject set has been superseded by the two-subject grid presented above**; both
+> originate from the same rendering batch, this one with the earlier grading.
+> Subject p00 of the finance condition was **excluded**: the portrait does not fixate the
+> camera, with a gaze offset of minus 0.073 eye widths, which is already visible in the
+> source frame.
 
-### Check 1 in detail, the numbers behind it
+### Screening criteria and their measurements
 
-**Every clip was checked, nothing guessed** (`scripts/check_persona_clips.py` +
-`scripts/add_gaze_checks.py`, full numbers in `outputs/persona_clip_checks.json`):
+**All candidate clips were screened by automated measurement**
+(`scripts/check_persona_clips.py` and `scripts/add_gaze_checks.py`; complete values are
+recorded in `outputs/persona_clip_checks.json`):
 
 | check | how | result for the 6 selected clips |
 |---|---|---|
 | speaking, not singing | voiced-run p90 ≤ 0.3 s, harmonic ratio ≤ 0.44 (singing holds long steady voiced runs) | **all pass** |
 | English | whisper-tiny transcription of the audio track | **all English** |
-| voice ↔ face gender | portrait and audio come from the **same source clip** (verified in `outputs/industry_demo_v3/manifest.json`: `pXX_<clip>.png` ↔ `pXX_<clip>.wav`), so the voice *is* that person's voice; F0 cross-check reported | **consistent** |
-| looking at the camera | iris-vs-eye-corner gaze offset + head pose (MediaPipe) | selected clips ≤ 0.06 eye-widths, \|yaw\| ≤ 9°; **p00 dropped** (gaze −0.073 + off-camera still) |
+| voice and face correspondence | portrait and audio are taken from the **same source clip**, verified in `outputs/industry_demo_v3/manifest.json` as `pXX_<clip>.png` matched to `pXX_<clip>.wav`, so the voice is that of the depicted subject; a fundamental-frequency cross-check is also reported | **consistent** |
+| camera fixation | gaze offset between iris and eye corner, combined with head pose by MediaPipe | selected clips within 0.06 eye widths and absolute yaw at most 9°; **p00 excluded**, gaze offset minus 0.073 in an off-camera reference frame |
 
-Selected people per industry: finance = p06 + p03 · real-estate = p01 + p04 ·
-short-video = p08 + p05. All other clips are kept on disk, nothing deleted.
+Selected subjects per industry: finance, p06 and p03; real-estate, p01 and p04;
+short-video, p08 and p05. All remaining clips are retained on disk.
 
-> These single person pairs are an **older version**, same render batch, older grading, replaced by the two person grid above:
+> These single-subject pairs constitute an **earlier release** from the same rendering batch
+> with the previous grading, superseded by the two-subject grid above:
 > [`outputs/industry_gifs_v3/`](outputs/industry_gifs_v3/) · [`outputs/industry_demo_v3/`](outputs/industry_demo_v3/)
 
 More pairs per industry: `outputs/industry_demo_v3/{finance,realestate,shortvideo}/`
 (6 mp4 each) and `outputs/industry_gifs_v3/`.
 
-Where each behaviour comes from:
+Provenance of the observed behaviours:
 
 | behaviour | source |
 |---|---|
 | blink | reward blink term, target = that industry's measured blink rate |
 | nod / head motion | amplitude term (peaked Gaussian at the measured band) |
 | listening (micro-motion while silent) | `couple` term ties speech envelope to head speed; amplitude keeps a floor |
-| smile | **not in the reward** · comes from the source portrait, which is ranked by mouth-corner lift. We deliberately did not add a smile term this round, to keep the change attributable |
+| smile | **absent from the reward**; inherited from the source portrait, which is ranked by mouth-corner elevation. A smile term was deliberately omitted in this round in order to preserve attributability |
 
 ![method](outputs/figures/fig_method_motion.png)
 
-### Reproduce
+### Reproduction of the cross-industry study
 
 ```bash
 python scripts/fetch_public_data.py --aishell-speakers 75 --hdtf 40 --celebv 300
@@ -423,18 +450,19 @@ python scripts/render_industry_demo.py --gpu 0
 python scripts/make_industry_figures.py
 ```
 
-All four training runs were launched through `tools/train_guard.py` · **zero trips**.
+All four training runs were launched under `tools/train_guard.py`; no guard intervention was recorded.
 
 ---
 
-## 👤 PERSONA PRESETS (finance / real-estate / entertainment) · *earlier version*
+## Persona presets · earlier, manually tuned version
 
-> **Superseded.** These weights were hand-tuned and driven by the v3 trainer
-> (monotone `tanh` amplitude), which overshoots to 2.4–2.7× real. The round above
-> replaces them with targets measured from real footage. Kept for attribution history.
+> **Status: superseded.** These weights were tuned manually and used with the v3 trainer,
+> whose monotone `tanh` amplitude term overshoots to 2.4 to 2.7× the real band. The study
+> above replaces them with targets estimated from real footage. They are retained to preserve
+> attribution history.
 
-The reward is the control surface. Three personas are trained from the **same**
-reward function, changing **only** the weights and the OPSD step size `c_adv`:
+The reward constitutes the control surface. Three personas are trained from a **single**
+reward function, differing **only** in the term weights and in the OPSD step size `c_adv`:
 
 | knob | finance | real estate | entertainment hook |
 |---|---|---|---|
@@ -445,46 +473,46 @@ reward function, changing **only** the weights and the OPSD step size `c_adv`:
 | `blink` target | 0.10 | 0.13 | 0.18 |
 | `c_adv` (OPSD target radius) | **1.5** | 2.2 | **3.5** |
 | `jitter_cap_deg` | 0.15 | 0.20 | 0.35 |
-| intent | rigorous, sincere, believable | gentle, trustworthy | exaggerated, energetic |
+| intended style | formal, restrained, credible | warm, credible | animated, attention-seeking |
 
-**Why this addresses the uncanny valley.** The uncanny look is not caused by
-jitter · OPSD's motion is actually ~10× *smoother* than base once amplitude is
-divided out. It is caused by **amplitude overshoot**: `amp` uses `tanh(std_low/3)`,
-which OPSD drives to saturation, giving ~20× base amplitude. Lowering the `amp`
-weight (and `c_adv`) is therefore the correct lever for a restrained persona,
-which is why finance gets 0.35 and entertainment gets 1.4.
+**Relation to the uncanny-valley effect.** The uncanny appearance is not attributable to
+jitter: once amplitude is normalised out, OPSD motion is approximately 10× *smoother* than
+that of base. It arises from **amplitude overshoot**, since `amp` employs `tanh(std_low/3)`,
+which OPSD drives to saturation and thereby produces approximately 20× the base amplitude.
+Reducing the `amp` weight, together with `c_adv`, is therefore the appropriate control for a
+restrained persona, which is why finance is assigned 0.35 and entertainment 1.4.
 
 ```bash
 ROUNDS=3000 GPU=0 bash scripts/train_styles.sh
 # -> outputs/opsd_style_finance|realestate|hook/lora.pt
 ```
 
-## 🏆 THE FIX: reward v4, amplitude peaked at the measured human band
+## Reward calibration · v4 amplitude peaked at the measured human band
 
-**This is the main result of the round.** Every number below is measured in the
-reward's own units against the real professional-speech band
+**This constitutes the principal result of the round.** All values below are measured in the
+reward's own units against the band estimated from real professional speech
 (`scripts/eval_naturalness.py`, `outputs/naturalness_eval.json`):
 
 | variant | low-band amplitude | vs real | high-band jitter | vs real |
 |---|---|---|---|---|
 | **real professional speech** | **1.878°** | 1.00× | **0.107°** | 1.00× |
-| base (untrained) | 1.042° | 0.55× · too stiff | 0.137° | 1.28× |
-| v2 | 5.125° | **2.73× · overshoot** | 0.215° | 2.01× |
-| v3 | 4.524° | **2.41× · overshoot** | 0.188° | 1.76× |
+| base, untrained | 1.042° | 0.55×, insufficiently animated | 0.137° | 1.28× |
+| v2 | 5.125° | **2.73×, overshoot** | 0.215° | 2.01× |
+| v3 | 4.524° | **2.41×, overshoot** | 0.188° | 1.76× |
 | **v4 (calibrated)** | **1.651°** | **0.88×** | **0.124°** | **1.16×** |
 
-v2 and v3 overshoot real speech by 2.4–2.7× · that overshoot *is* the uncanny
-valley. v4 lands within 12 % of the human band on amplitude and within 16 % on
-jitter, and it also scores a **higher** reward (R = 1.776 vs v3's 1.512):
-the reward went up *because* the motion became more human, not by inflating it.
+v2 and v3 overshoot real speech by 2.4 to 2.7×, and that overshoot *is* the uncanny valley.
+v4 falls within 12 % of the human band in amplitude and within 16 % in jitter, while
+attaining a **higher** reward, R = 1.776 against 1.512 for v3: the reward increases *because*
+the motion becomes more human, not through inflation of its magnitude.
 
 The only change is the amplitude term:
 
 ```python
-# v3 -- MONOTONE: reward keeps rising with size, so OPSD amplifies without bound
+# v3, MONOTONE: the reward increases with magnitude without bound, so OPSD amplifies indefinitely
 amp = tanh(std_low / 3.0)
 
-# v4 -- PEAKED at the measured human band; under- and over-shoot both penalised
+# v4, PEAKED at the measured human band; both under- and overshoot are penalised
 amp = exp(-0.5 * ((std_low - 1.878) / 1.0) ** 2)
 ```
 
@@ -500,10 +528,10 @@ python scripts/calibrate_reward_targets.py   # measure the band from real video
 CUDA_VISIBLE_DEVICES=1 python src/opsd_train_motion_v4.py \
     --out outputs/opsd_v4 --data-dir data/audio_public/train \
     --rounds 3000 --amp-target-deg 1.878 --amp-tol-deg 1.0
-python scripts/eval_naturalness.py           # score every variant vs the band
+python scripts/eval_naturalness.py           # evaluate each variant against the band
 ```
 
-## 📊 MAIN RESULTS
+## Results
 
 ### Motion-space evaluation (n = 20 clips)
 
@@ -519,7 +547,7 @@ high-/low-frequency pose power; `blink` is blinks per minute (human range 10–2
 | v2 + BoN | 32.48 | 46.9 | 28 273 |
 | **v3 + BoN** | **26.38** | **33.7** | 23 061 |
 
-**v3 vs v2 (same data, same budget): jitter −19 %, blink −27 %.**
+**v3 versus v2 under identical data and optimisation budget: jitter reduced by 19 % and blink rate by 27 %.**
 
 ### Training reward, 50-step window means
 
@@ -531,15 +559,17 @@ high-/low-frequency pose power; `blink` is blinks per minute (human range 10–2
 | v2 | **2000 AISHELL segs** | 3000 | +0.337 → +1.543 | −0.282 → −0.467 |
 | **v3** | **2000 AISHELL segs** | 3000 | +0.330 → **+1.512** | −0.290 → **−0.458** |
 
-### ⚠️ The gate that was NOT met
+### Pre-registered criterion not satisfied
 
-Pre-registered criterion (task book §4): `jitter_hp ≤ 1.3 × base` = 14.12 × 1.3 = **18.36**.
-v3 reaches **28.97 = 2.05 × base**. **FAIL**, reported as a failure.
+Pre-registered criterion, task book section 4: `jitter_hp ≤ 1.3 × base`, that is
+14.12 × 1.3 = **18.36**. v3 attains **28.97 = 2.05 × base**. The criterion is therefore
+**not satisfied**, and the outcome is reported as a negative result.
 
-### 🔍 Why the absolute jitter number is misleading
+### Amplitude normalisation of the jitter statistic
 
-OPSD increases motion amplitude ~20×. `jitter_hp_power` is an *absolute* high-frequency
-power, so it scales with amplitude. Normalising by amplitude removes the confound:
+OPSD increases motion amplitude by approximately 20×. Since `jitter_hp_power` is an
+*absolute* high-frequency power, it scales with amplitude; normalising by amplitude removes
+this confound:
 
 | Variant | jitter / amp |
 |---|---|
@@ -548,43 +578,44 @@ power, so it scales with amplitude. Normalising by amplitude removes the confoun
 | v2 naive | 0.00124 |
 | v3 + BoN | 0.00114 |
 
-Relative to its own amplitude, OPSD motion is **~10× smoother than base**. The real
-remaining problem is amplitude overshoot (20× base), which is what makes absolute
-jitter look bad. This is the next lever, not the jitter term itself.
+Relative to its own amplitude, OPSD motion is approximately **10× smoother than base**. The
+dominant remaining deficiency is amplitude overshoot, approximately 20× base, which accounts
+for the unfavourable absolute jitter values; amplitude, rather than the jitter term itself, is
+therefore the appropriate next control.
 
 ---
 
-## 🐛 LORA LOADING BUG (why an earlier gallery showed no change)
+## Implementation note · LoRA mode dispatch during inference
 
 `DualLoRALinear.forward` branches on a mode string:
 
-| mode | weights used |
+| mode | parameters used |
 |---|---|
-| `"trainable"` | `A_t / B_t` · the trained weights |
-| `"behavior"` | `A_b / B_b` · the EMA copy (`B_b` initialised to zeros) |
-| anything else | `base(x)` only · **no LoRA contribution** |
+| `"trainable"` | `A_t / B_t`, the trained parameters |
+| `"behavior"` | `A_b / B_b`, the EMA copy, with `B_b` initialised to zero |
+| any other value | `base(x)` only, **no LoRA contribution** |
 
-Inference must therefore load `A_t/B_t` **and** call `set_mode("trainable")`.
-An earlier version of `scripts/render_hd_compare.py` loaded `A_t/B_t` but then
-called `set_mode("behavior")`, so the sampled trajectory used `A_b/B_b ≈ 0`.
+Inference must therefore load `A_t/B_t` **and** invoke `set_mode("trainable")`. An earlier
+revision of `scripts/render_hd_compare.py` loaded `A_t/B_t` but subsequently invoked
+`set_mode("behavior")`, so the sampled trajectory was generated with `A_b/B_b ≈ 0`.
 
 Measured on one clip (mean |Δ| of motion coefficients vs base):
 
 | mode used | diff vs base |
 |---|---|
-| `"behavior"` (buggy) | **0.000000** · v3 rendered identical to base |
-| `"trainable"` (fixed) | **0.795556** |
+| `"behavior"`, incorrect | **0.000000**; v3 rendered identically to base |
+| `"trainable"`, corrected | **0.795556** |
 
-After the fix, base vs v3 differs by **20.5 / 255** mean per-frame pixel difference
-over 91 frames at 1024×1024. Every figure in this README is from the fixed code.
+After the correction, base and v3 differ by **20.5 / 255** mean per-frame pixel difference
+over 91 frames at 1024×1024. All results reported here were produced by the corrected code.
 `B_t` norm in the trained checkpoint is 6.65, confirming the weights are non-zero.
 
 ---
 
-## 🔬 THE BUG THIS ROUND FIXED
+## Diagnostic · inactive jitter constraint
 
-v2 added a "hard jitter cap" at 1.0° that never fired. Measured over 140 entries
-(20 clips × 7 variants), `outputs/diag/jitter_diag.json`:
+v2 introduced a hard jitter cap at 1.0° that was never activated. Measured over 140 entries,
+20 clips by 7 variants, in `outputs/diag/jitter_diag.json`:
 
 | Variant | std_high mean | p90 | max | frac > 1.0° (v2 cap) | frac > 0.2° (v3 cap) |
 |---|---|---|---|---|---|
@@ -593,19 +624,22 @@ v2 added a "hard jitter cap" at 1.0° that never fired. Measured over 140 entrie
 | v3 naive | 0.255 | 0.384 | 0.443 | **0.000** | 0.700 |
 | v2 + BoN | 0.242 | 0.346 | 0.502 | **0.000** | 0.750 |
 
-`frac > 1.0°` is **exactly 0.000 for every variant** · the cap's gradient was identically
-zero. Same dead-zone failure as V1's `ReLU+clamp` in project 08. v3 sets the cap to the
-base p90 (0.2°), active on 28–75 % of samples (`cap_active_frac` mean 0.266).
+`frac > 1.0°` is **exactly 0.000 for every variant**, so the gradient of the cap was
+identically zero. This reproduces the dead-zone failure previously observed with the
+`ReLU+clamp` formulation of V1 in project 08. v3 sets the cap to the base 90th percentile of
+0.2°, which is active on 28 to 75 % of samples, with a mean `cap_active_frac` of 0.266.
 
-**Only `jitter_cap_deg` changed** (1.0 → 0.2). `amp / couple / blink / gaze / ood`
-weights and formulas are byte-identical to v2, so the difference is attributable.
+**Only `jitter_cap_deg` was modified**, from 1.0 to 0.2. The weights and formulations of
+`amp / couple / blink / gaze / ood` are identical to those of v2, so the observed difference
+is attributable to that single change.
 
 ---
 
-## 📦 DATA
+## Data
 
-Previous round used 25 macOS `say` TTS clips · synthetic, single-speaker style, and
-**not a public dataset**. Replaced this round:
+The preceding round employed 25 clips synthesised with the macOS `say` text-to-speech
+engine; these were synthetic, stylistically uniform and **not drawn from a public dataset**.
+They were replaced in this round as follows:
 
 | Field | Value |
 |---|---|
@@ -617,13 +651,14 @@ Previous round used 25 macOS `say` TTS clips · synthetic, single-speaker style,
 | Windows | 14 260 four-second windows (was 107 → **133×**) |
 | Construction | adjacent same-speaker utterances concatenated, 0.3 s silence, never cross-speaker |
 
-Details: `data/DATA_SOURCES.md`, `data/audio_manifest_large.json`,
-`scripts/build_audio_segments.py`. The 20 legacy TTS clips stay as `legacy eval`.
-Audio is **not** committed to `main` (backed up on a `backup/*` branch).
+Further details are recorded in `data/DATA_SOURCES.md`, `data/audio_manifest_large.json`
+and `scripts/build_audio_segments.py`. The 20 legacy text-to-speech clips are retained as a
+`legacy eval` set. Audio is **not** committed to `main`; it is preserved on a `backup/*`
+branch.
 
 ---
 
-## ⚙️ REPRODUCTION
+## Reproduction
 
 ```bash
 # 1. environment (downloads JoyVASA + LivePortrait + HuBERT-chinese, ~2.5 GB)
@@ -650,35 +685,39 @@ python src/tier2_bon.py --motion-only \
 python scripts/render_hd_compare.py --n-clips 4 --variants base v2 v3
 ```
 
-All training runs must be launched through the guard
-(`python ../tools/train_guard.py --selftest` must print `selftest OK` first).
+All training runs must be launched under the guard; `python ../tools/train_guard.py
+--selftest` must first print `selftest OK`.
 
 ---
 
-## 🎬 QUALITATIVE GALLERY
+## Qualitative gallery
 
-Real faces, real speech. Source portraits come from **CelebA-HQ** (studio-quality
-stills) and **CelebV-HQ** (first frames of real talking-head videos, whose audio
-tracks drive the animation · no TTS). Rendered with `source_max_dim=1280` +
-`flag_pasteback=True`: the animated face is composited back into the full-resolution
-portrait. **Verified output: 1024×1024, H.264 High, 25 fps, audio muxed in**
-(previously 256/512 on-face only).
+Portraits and speech are taken from real footage. Source portraits are drawn from
+**CelebA-HQ**, studio-quality stills, and **CelebV-HQ**, the first frames of real
+talking-head videos whose audio tracks drive the animation, with no synthetic speech.
+Rendering employs `source_max_dim=1280` and `flag_pasteback=True`, so that the animated face
+is composited into the full-resolution portrait. **Verified output: 1024×1024, H.264 High
+profile, 25 fps, with the audio track muxed**; earlier releases produced 256 or 512 pixel
+face crops only.
 
-**Portrait pool.** CelebA-HQ + CelebV-HQ candidates are filtered to **near-frontal
-poses** (`|yaw| ≤ 15°`, `|pitch| ≤ 15°`, MediaPipe + solvePnP): **42 of 72 kept**.
-Profiles were removed because a talking-head demo on a side-view face hides
-exactly the behaviour being measured.
+**Portrait pool.** Candidates from CelebA-HQ and CelebV-HQ are filtered to **near-frontal
+poses**, absolute yaw at most 15° and absolute pitch at most 15°, by MediaPipe with
+solvePnP: **42 of 72 retained**. Profile views were excluded because a non-frontal face
+occludes precisely the behaviour under measurement.
 
 ![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
-> **Archive**, side by side GIFs of the older v3 and v4, old grading, links only, no longer displayed on this page:
-> [`outputs/demo_gifs_frontal/`](outputs/demo_gifs_frontal/), base vs v3
-> and [`outputs/demo_gifs_v4/`](outputs/demo_gifs_v4/), base vs v4 with the calibrated reward.
-> v4 is the restrained version: v2 and v3 pushed head motion to 2.4x to 2.7x of real humans, which is where the uncanny valley came from, v4 holds it at 0.88x.
+> **Archived**: side-by-side GIFs of the earlier v3 and v4 releases with the previous grading;
+> referenced here only and no longer displayed on this page:
+> [`outputs/demo_gifs_frontal/`](outputs/demo_gifs_frontal/), base versus v3, and
+> [`outputs/demo_gifs_v4/`](outputs/demo_gifs_v4/), base versus v4 with the calibrated reward.
+> v4 is the restrained variant: v2 and v3 amplify head motion to 2.4x to 2.7x of the real
+> band, which is the origin of the uncanny-valley appearance, whereas v4 holds it at 0.88x.
 
-Verified that the LoRA is actually applied: mean per-frame pixel difference between
-base and v3 is **20.5 / 255** over 91 frames (1024×1024). See the "LoRA loading bug"
-note below · an earlier version of this gallery rendered v3 identically to base.
+Application of the LoRA is verified quantitatively: the mean per-frame pixel difference
+between base and v3 is **20.5 / 255** over 91 frames at 1024×1024. See the implementation
+note on LoRA mode dispatch; an earlier revision of this gallery rendered v3 identically to
+base.
 
 Full set: `outputs/hd_frontal/` (16 videos), `outputs/demo_gifs_frontal/` (8 GIFs),
 `outputs/hd_compare_public/`, `outputs/hd_compare/`. `manifest.json` in each directory
@@ -692,19 +731,19 @@ python scripts/make_demo_gifs.py --video-dir outputs/hd_frontal
 # ~8 s per 8 s clip on one H20
 ```
 
-What to look for, and what is still weak:
+Observed behaviour and remaining deficiencies:
 
 | Behaviour | Status |
 |---|---|
-| Blink rate | v3+BoN 33.7/min · better than v2's 46.9, still above the human 10–20 range |
-| Head nod / motion | Amplitude rises 20× vs base; lively, but overshoots |
-| Gaze shift | `gaze` reward 0.51 → 0.98 during training |
-| Mouth / lip sync | `jaw_audio_corr` is **not** used as evidence: base itself is negative (−0.14) |
-| Skin / texture | Inherited from LivePortrait's warping of the source portrait; not trained here |
+| Blink rate | v3 with best-of-n selection reaches 33.7 per minute, an improvement over 46.9 for v2, but still above the human range of 10 to 20 |
+| Head motion | amplitude increases approximately 20× relative to base; animated, but overshooting |
+| Gaze shift | the `gaze` term rises from 0.51 to 0.98 over the course of training |
+| Lip synchronisation | `jaw_audio_corr` is **not** used as evidence, since base itself yields a negative value of minus 0.14 |
+| Skin and texture | inherited from the warping of the source portrait by LivePortrait; not optimised in this work |
 
 ---
 
-## 📁 REPOSITORY LAYOUT
+## Repository layout
 
 ```
 07-talking-head-motion-opsd/
@@ -740,21 +779,22 @@ What to look for, and what is still weak:
 
 ---
 
-## 🚧 LIMITATIONS
+## Limitations
 
-- **3 portraits only** (`host_f`, `host_f2`, `host_m`, all 1024×1024). No identity
-  diversity claim is made.
+- **Three portraits only** (`host_f`, `host_f2`, `host_m`, each 1024×1024). No claim of
+  identity diversity is made.
 - **No SyncNet / LSE-C this round.** `jaw_audio_corr` is deliberately not used as a
   lip-sync proxy because base is already negative. Lip-sync remains unmeasured.
-- **Amplitude overshoot** (20× base) is the dominant remaining artefact.
-- Motion-space metrics are reported; video-space MediaPipe metrics for the AISHELL
-  eval set were not run this round (GPU time went to the 08 long runs).
+- **Amplitude overshoot**, approximately 20× base, remains the dominant artefact.
+- Motion-space metrics are reported; video-space MediaPipe metrics on the AISHELL-1
+  evaluation set were not computed in this round, since the available GPU time was allocated
+  to the extended runs of project 08.
 
 ---
 
-## 🙏 ACKNOWLEDGEMENTS
+## Acknowledgements
 
-Built on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD) (the method
-migrated here), [JoyVASA](https://github.com/jdh-algo/JoyVASA) (motion generator),
-[LivePortrait](https://github.com/KwaiVGI/LivePortrait) (renderer), and
-[AISHELL-1](https://www.openslr.org/33/) (training speech).
+This work builds upon [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), whose
+method is transferred here, [JoyVASA](https://github.com/jdh-algo/JoyVASA), the motion
+generator, [LivePortrait](https://github.com/KwaiVGI/LivePortrait), the renderer, and
+[AISHELL-1](https://www.openslr.org/33/), the training speech corpus.
