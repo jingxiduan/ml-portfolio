@@ -24,7 +24,8 @@ from engine import TalkingHeadEngine
 from eye_probe import EyeProbe
 from motion_reward import LIP_DIMS
 from motion_reward_v5 import LivelinessRewardV5
-from opsd_train_motion import add_lora, build_windows, guided_x0, rollout_to, set_mode
+from opsd_train_motion import (add_lora, build_windows, guided_x0, rollout_to,
+                              set_mode, audio_env_frames)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -65,6 +66,15 @@ def main():
     ap.add_argument("--data-dir", default=os.path.join(ROOT, "data", "audio", "train"),
                     help="directory of training wavs (default: legacy 25 TTS clips)")
     ap.add_argument("--out", default=os.path.join(ROOT, "outputs", "opsd_v5"))
+    ap.add_argument("--bc-dir", default=None,
+                    help="supervised dataset built from REAL VIDEO: *.wav + *.coef.pt "
+                         "(see scripts/build_video_motion_dataset.py)")
+    ap.add_argument("--bc-weight", type=float, default=1.0)
+    ap.add_argument("--bc-frac", type=float, default=0.5,
+                    help="fraction of steps that imitate real human motion instead of OPSD")
+    ap.add_argument("--bc-max", type=int, default=0, help="cap number of real-video windows")
+    ap.add_argument("--bc-mask-scale", type=int, default=1,
+                    help="ignore dims 63-66 (scale + translation): identity specific")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     torch.manual_seed(a.seed)
@@ -120,13 +130,76 @@ def main():
     feats, envs = build_windows(eng, train_paths)
     print(f"[data] {len(train_paths)} train clips -> {len(feats)} 4-sec windows")
 
+    bc = []
+    if a.bc_dir and os.path.isdir(a.bc_dir):
+        wavs = sorted(glob.glob(os.path.join(a.bc_dir, "*.wav")))
+        if a.bc_max:
+            wavs = wavs[:a.bc_max]
+        n_samp = int(round(eng.audio_unit * mg.n_motions))
+        for w in wavs:
+            cp = w[:-4] + ".coef.pt"
+            if not os.path.exists(cp):
+                continue
+            try:
+                coef = torch.load(cp).float()
+                if coef.shape[0] < mg.n_motions:
+                    continue
+                coef = torch.nan_to_num(coef, nan=0.0, posinf=20.0, neginf=-20.0).clamp(-20, 20)
+                audio = eng.load_audio(w)
+                padded = F.pad(audio, (1280, 640))
+                seg = padded[:n_samp]
+                if len(seg) < n_samp:
+                    seg = F.pad(seg, (0, n_samp - len(seg)))
+                af = mg.extract_audio_feature(seg.unsqueeze(0).to(dev))
+                env = audio_env_frames(audio, mg.n_motions)
+                bc.append((af[0].cpu(), env.cpu(), coef[:mg.n_motions].cpu()))
+            except Exception as e:
+                print("  [bc-skip]", os.path.basename(w), type(e).__name__)
+        print(f"[bc] {len(bc)} real-video windows from {a.bc_dir}")
+
     lip_mask = torch.ones(mg.motion_feat_dim, device=dev)
     lip_mask[LIP_DIMS] = 0.0
     gen = torch.Generator().manual_seed(a.seed)
     log = open(os.path.join(a.out, "metrics.jsonl"), "w")
     t_start = time.time()
 
+    bc_dims = torch.ones(mg.motion_feat_dim, device=dev)
+    if a.bc_mask_scale:
+        bc_dims[63:67] = 0.0                       # scale + translation: identity specific
+    std_exp = torch.as_tensor(eng.tpl["std_exp"], dtype=torch.float32)
+    degen = (std_exp < 1e-4).nonzero().flatten()   # 17 of the 63 expression dims carry no signal
+    bc_dims[degen] = 0.0
+    bc_dims = bc_dims / bc_dims.sum().clamp(min=1e-6)
+    if int(bc_dims.numel()) and degen.numel():
+        print(f"[bc] masked {int(degen.numel())} degenerate expression dims + dims 63-66")
+
     for step in range(1, a.rounds + 1):
+        if bc and random.random() < a.bc_frac:
+            # ---- behaviour cloning: imitate how a REAL human actually moved ----
+            sel = [bc[i] for i in torch.randint(len(bc), (a.batch_size,), generator=gen).tolist()]
+            af = torch.stack([x[0] for x in sel]).to(dev)
+            tgt = torch.stack([x[2] for x in sel]).to(dev)
+            set_mode("behavior")
+            z = rollout_to(mg, af, a.t1, a.cfg_scale, gen)
+            set_mode("trainable")
+            pred = guided_x0(mg, z.detach(), a.t1, af, a.cfg_scale)
+            err = (pred - tgt).pow(2) * bc_dims
+            loss = a.bc_weight * err.mean()
+            opt.zero_grad()
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(train_params, 1.0)
+            opt.step()
+            sched.step()
+            log.write(json.dumps({"step": step, "kind": "bc", "loss": loss.item(),
+                                  "bc_rmse": float(err.mean().sqrt()),
+                                  "lr": sched.get_last_lr()[0],
+                                  "elapsed_s": round(time.time() - t_start, 1)}) + "\n")
+            log.flush()
+            if step % 20 == 0 or step == 1:
+                print(f"  [bc] step {step}: loss={loss.item():.4f} "
+                      f"rmse={float(err.mean().sqrt()):.4f}", flush=True)
+            continue
+
         idx = torch.randint(len(feats), (a.batch_size,), generator=gen)
         af, env = feats[idx].to(dev), envs[idx].to(dev)
 

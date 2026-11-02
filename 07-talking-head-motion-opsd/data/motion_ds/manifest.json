@@ -1,0 +1,39 @@
+[
+ {
+  "video": "data/videos_public/celebv/--QCZKgJt6o_0.mp4",
+  "name": "--QCZKgJt6o_0",
+  "kept": false,
+  "luma": 78.24449349988254,
+  "voiced_run_p90": 0.2320000000000001,
+  "harmonic_ratio": 0.5767753121407106,
+  "text": "the",
+  "drop": "too_short"
+ },
+ {
+  "video": "data/videos_public/celebv/-1eKufUP5XQ_3.mp4",
+  "name": "-1eKufUP5XQ_3",
+  "kept": false,
+  "luma": 76.12210147349441,
+  "voiced_run_p90": 0.4880000000000001,
+  "harmonic_ratio": 0.06968654213907718,
+  "text": "Don't be. I'm glad I'm here.",
+  "drop": "too_short"
+ },
+ {
+  "video": "data/videos_public/celebv/-2KG4lLGEl0_2.mp4",
+  "name": "-2KG4lLGEl0_2",
+  "kept": false,
+  "luma": 42.84580660340583,
+  "drop": "luma"
+ },
+ {
+  "video": "data/videos_public/celebv/-2KG4lLGEl0_3.mp4",
+  "name": "-2KG4lLGEl0_3",
+  "kept": true,
+  "luma": 45.776462979853825,
+  "voiced_run_p90": 0.30800000000000016,
+  "harmonic_ratio": 0.21121579657885345,
+  "text": "on that chili. Don't give me wrong. Nostalgia is great and we love nostalgia.",
+  "windows": 1
+ }
+]

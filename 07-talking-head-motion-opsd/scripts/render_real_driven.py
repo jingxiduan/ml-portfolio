@@ -135,6 +135,7 @@ def real_coefficients(eng, frames, cropper, crop_cfg):
     from motion_reward import POSE_DIMS  # noqa: F401
     tpl = eng.tpl
     std_exp = torch.as_tensor(tpl["std_exp"], dtype=torch.float32).reshape(1, 63)
+    std_exp = std_exp.clamp(min=1e-4)   # 17 dims are degenerate: no divide-by-zero
     mean_exp = torch.as_tensor(tpl["mean_exp"], dtype=torch.float32).reshape(1, 63)
     p_lo = torch.tensor([float(tpl[f"min_{k}"][0]) for k in ("pitch", "yaw", "roll")])
     p_hi = torch.tensor([float(tpl[f"max_{k}"][0]) for k in ("pitch", "yaw", "roll")])
