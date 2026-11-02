@@ -3,7 +3,10 @@
 **On-Policy Self-Distillation for audio-driven talking-head motion, migrated from
 [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD).**
 
-**📄 交接文档（这轮做了什么、现在到哪一步、怎么复现）：[`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
+**📄 Full technical report, paper format, start here: [`docs/TECH_REPORT.md`](docs/TECH_REPORT.md)**
+Method, measured industry bands, training data, experiments, and all demos V1 to V8 in one place.
+
+**📄 交接文档，这轮做了什么、现在到哪一步、怎么复现：[`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
 
 Post-training a frozen audio→motion diffusion model (JoyVASA) with a differentiable
 "liveliness" reward, so generated portraits blink, nod, and shift gaze instead of
@@ -20,9 +23,9 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 | **V1** | 每行业 2 人 × (base / persona) 的 2×2 格 | 3 GIF + 3 mp4 | ✅ **训过**（上一轮 3000 步） | **v8** | **首页主位** | **保留**（唯一真正的成果） |
 | **V2** | base vs real-driven（真人系数搬运） | 3 GIF + 3 mp4 | ❌ 纯推理 | **v8** | 首页次位 | **保留**（当"目标"参照）；也可并入 V1 的说明里 |
 | **V3** | 同一张脸 × 三个行业的控制实验 | 1 GIF | ✅ 训过 | 旧版（未 v8） | 中部"THREE-INDUSTRY ROUND" | 保留 / 或移到"控制实验"小节 |
-| **V4** | 单人 base vs persona（industry_gifs_v3） | 3 GIF | ✅ 训过 | 旧版 | **已折叠成链接** | **可删**——与 V1 同一批渲染的旧版 |
-| **V5** | base vs v3（demo_gifs_frontal） | 8 GIF | ✅ 训过(v3) | 旧版 | **已折叠成链接** | **可删**——v3 已被 v4/v5 取代，且幅度过冲 2.4× |
-| **V6** | base vs v4（demo_gifs_v4） | 4 GIF | ✅ 训过(v4) | 旧版 | **已折叠成链接** | **可删**（留着只是历史） |
+| **V4** | 单人 base vs persona，industry_gifs_v3 | 3 GIF | ✅ 训过 | 旧版 | **仅存档链接，不显示** | 与 V1 同一批渲染的旧版，重复 |
+| **V5** | base vs v3，demo_gifs_frontal | 8 GIF | ✅ 训过 v3 | 旧版 | **仅存档链接，不显示** | v3 幅度过冲真人 2.4×，已被取代 |
+| **V6** | base vs v4，demo_gifs_v4 | 4 GIF | ✅ 训过 v4 | 旧版 | **仅存档链接，不显示** | 历史版本 |
 | **V7** | 上面所有 GIF 的源 mp4（industry_demo_v3 等） | 18+ mp4 | — | — | 仅目录链接 | **保留**（GIF 的母版，删了就渲染不回来） |
 | **V8** | base vs **真人视频训出来的模型**（BC+OPSD 600 步） | 1 GIF + 1 mp4 | ✅ 训过（本轮） | v8 | **首页最新位** | **保留**（最新成果，看它） |
 | — | 3 张图（行业动作带 / 训练曲线 / 方法图）+ 人像表 | 4 PNG | — | — | 文中 | 保留（不是视频） |
