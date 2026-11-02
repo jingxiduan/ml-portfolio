@@ -82,14 +82,18 @@ def main():
     ap.add_argument("--base", required=True)
     ap.add_argument("--real", required=True)
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "outputs", "demos"))
+    ap.add_argument("--label-base", default="BASE")
+    ap.add_argument("--label-real", default="REAL-VIDEO DRIVEN")
+    ap.add_argument("--sub-base", default="audio-only · v8")
+    ap.add_argument("--sub-real", default="human coefficients · v8")
     a = ap.parse_args()
     os.makedirs(a.out_dir, exist_ok=True)
 
     with tempfile.TemporaryDirectory() as td:
         lb = label_video(a.base, os.path.join(td, "base.mp4"),
-                         "BASE", "audio-only · v8")
+                         a.label_base, a.sub_base)
         lr = label_video(a.real, os.path.join(td, "real.mp4"),
-                         "REAL-VIDEO DRIVEN", "human coefficients · v8")
+                         a.label_real, a.sub_real)
         mp4 = os.path.join(a.out_dir, f"{a.industry}_base_vs_real_1080.mp4")
         subprocess.run([FFMPEG, "-y", "-loglevel", "error",
                         "-i", lb, "-i", lr, "-i", a.base,
