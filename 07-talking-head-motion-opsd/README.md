@@ -13,10 +13,27 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 ## ⬇️ DEMOS — 首页只看这两组
 
+## 🔢 视频清单（供审查：编号 → 你决定删/并）
+
+| 编号 | 内容 | 数量 | 是否训练 | 调色 | 现在在哪 | 我的建议 |
+|---|---|---|---|---|---|---|
+| **V1** | 每行业 2 人 × (base / persona) 的 2×2 格 | 3 GIF + 3 mp4 | ✅ **训过**（上一轮 3000 步） | **v8** | **首页主位** | **保留**（唯一真正的成果） |
+| **V2** | base vs real-driven（真人系数搬运） | 3 GIF + 3 mp4 | ❌ 纯推理 | **v8** | 首页次位 | **保留**（当"目标"参照）；也可并入 V1 的说明里 |
+| **V3** | 同一张脸 × 三个行业的控制实验 | 1 GIF | ✅ 训过 | 旧版（未 v8） | 中部"THREE-INDUSTRY ROUND" | 保留 / 或移到"控制实验"小节 |
+| **V4** | 单人 base vs persona（industry_gifs_v3） | 3 GIF | ✅ 训过 | 旧版 | **已折叠成链接** | **可删**——与 V1 同一批渲染的旧版 |
+| **V5** | base vs v3（demo_gifs_frontal） | 8 GIF | ✅ 训过(v3) | 旧版 | **已折叠成链接** | **可删**——v3 已被 v4/v5 取代，且幅度过冲 2.4× |
+| **V6** | base vs v4（demo_gifs_v4） | 4 GIF | ✅ 训过(v4) | 旧版 | **已折叠成链接** | **可删**（留着只是历史） |
+| **V7** | 上面所有 GIF 的源 mp4（industry_demo_v3 等） | 18+ mp4 | — | — | 仅目录链接 | **保留**（GIF 的母版，删了就渲染不回来） |
+| — | 3 张图（行业动作带 / 训练曲线 / 方法图）+ 人像表 | 4 PNG | — | — | 文中 | 保留（不是视频） |
+
+**说明**：V1 和 V4 是**同一批渲染**（V4 是旧调色、单人版）；V1 和 V2 是**不同口径**——
+V1 是模型训出来的，V2 的右边是抄真人动作，不是模型输出。所以"看起来 V2 更自然"是正常的。
+
+
 > 之前首页有 3 组长得差不多的视频，看不出谁更好。现在只留**两组**，并且写清楚各自是什么：
 > **① 是我们训出来的（成果）**，**② 是真人参照（目标，不是模型输出）**。
 
-### ① TRAINED — OPSD 训过的 persona（← 这才是成果）
+### 【V1】 TRAINED — OPSD 训过的 persona（← 这才是成果）
 
 每个行业 **2 个不同的人**，左右并排：左 `BASE`（冻结的预训练模型，没训过），
 右 `PERSONA`（该行业 OPSD 训过的模型）。两个人 + 行业风格差异，一眼都能看到。
@@ -27,7 +44,7 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 | **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_v8.gif) | [mp4](outputs/persona_grids/realestate_two_people_v8.mp4) |
 | **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_v8.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_v8.mp4) |
 
-### ② REFERENCE — 真人动作驱动（**不是**模型输出）
+### 【V2】 REFERENCE — 真人动作驱动（**不是**模型输出）
 
 左 `BASE`，右 `REAL`：右边是把**真人视频里的动作系数**直接搬到同一张脸上。
 它当然最自然 —— 因为那就是真人自己的动作。但它**不是模型学会的**，是训练要逼近的目标。
@@ -306,7 +323,7 @@ Portraits are first frames of real public footage, gated on measured eye-opennes
 English** (CelebV-HQ / HDTF source footage); no TTS anywhere. Rendered at
 `source_max_dim=1280` with pasteback.
 
-**Same-face cross-industry control** — identical portrait, identical audio, three
+**【V3】 Same-face cross-industry control** — identical portrait, identical audio, three
 personas, so any behavioural difference can only come from the persona:
 
 ![same face, three industries](outputs/industry_gifs_v3/control/same_face_p00_-R5aAhsrS9w_3_0__base_vs_three.gif)
