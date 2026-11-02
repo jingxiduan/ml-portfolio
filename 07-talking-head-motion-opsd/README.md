@@ -11,61 +11,43 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 ---
 
-## ⬇️ LATEST DEMOS (v8 · 2026-11-01 23:45) — start here
-*(v8 filenames, so GitHub's image proxy cannot serve you a cached v7)*
+## ⬇️ DEMOS — 首页只看这两组
 
-Freshly pushed, **new files, old ones kept**. LEFT = `BASE` (audio-only, frozen model) ·
-RIGHT = `REAL DRIVEN` (same face, real human motion coefficients). English speech,
-speaking (not singing), male face ↔ male voice, female face ↔ female voice.
+> 之前首页有 3 组长得差不多的视频，看不出谁更好。现在只留**两组**，并且写清楚各自是什么：
+> **① 是我们训出来的（成果）**，**② 是真人参照（目标，不是模型输出）**。
 
-| industry | GIF (v5) | 1080-line mp4 |
+### ① TRAINED — OPSD 训过的 persona（← 这才是成果）
+
+每个行业 **2 个不同的人**，左右并排：左 `BASE`（冻结的预训练模型，没训过），
+右 `PERSONA`（该行业 OPSD 训过的模型）。两个人 + 行业风格差异，一眼都能看到。
+
+| industry | GIF (v8) | mp4 |
 |---|---|---|
-| **finance** — news anchor | ![finance v5](outputs/demos/finance_v8_base_vs_real.gif) | [mp4](outputs/demos/finance_v8_base_vs_real_1080.mp4) |
-| **real-estate** — property walkthrough | ![realestate v5](outputs/demos/realestate_v8_base_vs_real.gif) | [mp4](outputs/demos/realestate_v8_base_vs_real_1080.mp4) |
-| **short-video** — energetic hook | ![shortvideo v5](outputs/demos/shortvideo_v8_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v8_base_vs_real_1080.mp4) |
+| **finance** | ![finance](outputs/persona_grids/finance_two_people_v8.gif) | [mp4](outputs/persona_grids/finance_two_people_v8.mp4) |
+| **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_v8.gif) | [mp4](outputs/persona_grids/realestate_two_people_v8.mp4) |
+| **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_v8.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_v8.mp4) |
 
-What changed in v5 vs the GIFs above (all measured, table further down):
+### ② REFERENCE — 真人动作驱动（**不是**模型输出）
 
-1. **light feel, not just brightness** — a gamma lift to a measured target mean (128) is applied
-   before the contrast curve; finance 97.8 → 110.2, real-estate 83.4 → 118.2 (contrast
-   range 134 → 214).
-2. **head no longer pulses bigger/smaller** — `scale` clamped to ±2 % + median-filtered;
-   face-width std/mean **2.04 % → 1.15 %** (finance).
-3. **teeth stay aligned** — the auto-picked portrait frame is now scored on
-   eyes-open *and* mouth-closed, so the mouth texture is not warped from an open mouth.
+左 `BASE`，右 `REAL`：右边是把**真人视频里的动作系数**直接搬到同一张脸上。
+它当然最自然 —— 因为那就是真人自己的动作。但它**不是模型学会的**，是训练要逼近的目标。
 
-> **⚠️ Still not trained.** Both columns are inference. `real` is the *target* behaviour
-> measured from real human video; OPSD training has not started.
-
----
-
-> **Honest framing.** This is a *method* project, not production digital-human video.
-> The claim is that OPSD can be transferred from pixel diffusion to motion diffusion and
-> measurably change behaviour — not that the output rivals a studio pipeline.
-
-> ### 🎬 DEMOS — base vs real-driven, three industries
-
-> **Two clips side by side in one animation.** LEFT = `base` (audio-only, the model as it is
-> today). RIGHT = the same face driven by a **real human's** motion coefficients.
-> Everything else — portrait, audio, seed — is identical.
-
-| industry | animation (GIF) | full-res video |
+| industry | GIF (v8) | mp4 |
 |---|---|---|
-| **finance** — news anchor | ![finance](outputs/demos/finance_base_vs_real.gif?v=4) | [mp4 2160×1152](outputs/demos/finance_base_vs_real_1080.mp4) |
-| **real-estate** — property walkthrough | ![realestate](outputs/demos/realestate_base_vs_real.gif?v=4) | [mp4 2160×1152](outputs/demos/realestate_base_vs_real_1080.mp4) |
-| **short-video** — energetic hook | ![shortvideo](outputs/demos/shortvideo_base_vs_real.gif?v=4) | [mp4 2160×1152](outputs/demos/shortvideo_base_vs_real_1080.mp4) |
+| **finance** | ![finance](outputs/demos/finance_v8_base_vs_real.gif) | [mp4](outputs/demos/finance_v8_base_vs_real_1080.mp4) |
+| **real-estate** | ![realestate](outputs/demos/realestate_v8_base_vs_real.gif) | [mp4](outputs/demos/realestate_v8_base_vs_real_1080.mp4) |
+| **short-video** | ![shortvideo](outputs/demos/shortvideo_v8_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v8_base_vs_real_1080.mp4) |
 
-*(If a GIF still looks like the old one, hard-refresh — GitHub proxies and caches README
-images; the `?v=4` suffix is there to break that cache.)*
+### 到底哪个"更好"？（诚实版）
 
-**What to look at:** the left column keeps the same exaggerated grin / wide-open eyes on every
-frame; the right column has a face that actually changes while speaking.
+| 观感 | 是哪一列 | 为什么 | 算不算成果 |
+|---|---|---|---|
+| **最自然** | ② 右边的 `REAL` | 直接复制真人动作，等于"抄答案" | ❌ **不是模型输出**，是天花板 / 目标 |
+| **次之，但明显比 base 活** | ① 右边的 `PERSONA` | 模型真的学会了：幅度 0.89° → **1.16°**，达到真人动作带的 **0.84×**，且不过冲 | ✅ **这才是成果** |
+| **最僵** | ①② 左边的 `BASE` | 预训练模型，没做 post-train | 基线 |
 
-> #### ⚠️ Neither side is trained
-> `base` is the **frozen pretrained model** run on audio (inference).
-> `real` is **motion transfer** from a real human video (also inference).
-> **No OPSD training has happened yet.** The right side is the *target*, the left side is the
-> *current state* — closing that gap is what training has to do.
+**一句话**：`REAL` 看着最好，但它不是我们做的；`PERSONA` 才是我做出来的，它的任务就是往 `REAL` 靠。
+看效果请看 **①**，看"目标长什么样"请看 **②**。
 
 **How clips are chosen** (`scripts/screen_clips.py`, all measured, nothing guessed):
 English verified by whisper transcription · frontal pose (MediaPipe + solvePnP) ·
@@ -331,21 +313,12 @@ personas, so any behavioural difference can only come from the persona:
 
 `base | finance | real-estate | short-video`
 
-**Per-industry `base vs persona`** (left = untrained base, right = that industry's OPSD persona):
+**旧版：单人 `base vs persona`**（存档，不再作为首页展示）
 
-> **📌 Superseded by the two-person grids above** — those are the same renders, checked and
-> combined. The `finance` row below was **removed from the featured set**: its portrait
-> (p00) looks off-camera (measured gaze offset −0.073 eye-widths, and visible in the still).
+> **📌 该单人组已被顶部的两人格取代**（同一批渲染，但未经 v8 调色）。
+> finance 的 p00 **被剔除**：她的人像眼睛没看镜头（视线偏移 −0.073 眼宽，原图就能看出来）。
 
-## 🧑‍🤝‍🧑 TWO PEOPLE PER INDUSTRY — checked, combined, featured
-
-One industry, two different people, `base | persona` side by side in one frame:
-
-| industry | two-person grid (GIF) | full mp4 |
-|---|---|---|
-| **finance** | ![finance](outputs/persona_grids/finance_two_people_v8.gif) | [mp4](outputs/persona_grids/finance_two_people_v8.mp4) |
-| **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_v8.gif) | [mp4](outputs/persona_grids/realestate_two_people_v8.mp4) |
-| **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_v8.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_v8.mp4) |
+### ① 的检查细节（点开看数字）
 
 **Every clip was checked, nothing guessed** (`scripts/check_persona_clips.py` +
 `scripts/add_gaze_checks.py`, full numbers in `outputs/persona_clip_checks.json`):
@@ -360,11 +333,8 @@ One industry, two different people, `base | persona` side by side in one frame:
 Selected people per industry: finance = p06 + p03 · real-estate = p01 + p04 ·
 short-video = p08 + p05. All other clips are kept on disk, nothing deleted.
 
-| industry | comparison | mp4 |
-|---|---|---|
-| **finance** — restrained, steady | ![finance](outputs/industry_gifs_v3/finance/finance__00_p00_-R5aAhsrS9w_3_0__base_vs_finance.gif) | [base](outputs/industry_demo_v3/finance/finance_00_p00_-R5aAhsrS9w_3_0__base.mp4) · [finance](outputs/industry_demo_v3/finance/finance_00_p00_-R5aAhsrS9w_3_0__finance.mp4) |
-| **real-estate** — warm, conversational | ![realestate](outputs/industry_gifs_v3/realestate/realestate__00_p01_0wLgQQGob1U_13__base_vs_realestate.gif) | [base](outputs/industry_demo_v3/realestate/realestate_00_p01_0wLgQQGob1U_13__base.mp4) · [realestate](outputs/industry_demo_v3/realestate/realestate_00_p01_0wLgQQGob1U_13__realestate.mp4) |
-| **short-video** — energetic, 3.0× base motion | ![shortvideo](outputs/industry_gifs_v3/shortvideo/shortvideo__00_p02_0Ba6y1Y8JjU_4__base_vs_shortvideo.gif) | [base](outputs/industry_demo_v3/shortvideo/shortvideo_00_p02_0Ba6y1Y8JjU_4__base.mp4) · [shortvideo](outputs/industry_demo_v3/shortvideo/shortvideo_00_p02_0Ba6y1Y8JjU_4__shortvideo.mp4) |
+> 这组单人对比是**旧版**（同一批渲染，未经 v8 调色），已被上面的两人格取代：
+> [`outputs/industry_gifs_v3/`](outputs/industry_gifs_v3/) · [`outputs/industry_demo_v3/`](outputs/industry_demo_v3/)
 
 More pairs per industry: `outputs/industry_demo_v3/{finance,realestate,shortvideo}/`
 (6 mp4 each) and `outputs/industry_gifs_v3/`.
@@ -641,23 +611,10 @@ exactly the behaviour being measured.
 
 ![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
-**base (left) vs v3 (right)**, driven by real speech from CelebV-HQ, frontal portraits:
-
-| | |
-|---|---|
-| ![base vs v3](outputs/demo_gifs_frontal/c00__celebahq_004__base_vs_v3.gif) | ![base vs v3](outputs/demo_gifs_frontal/c01__celebahq_004__base_vs_v3.gif) |
-| ![base vs v3](outputs/demo_gifs_frontal/c00__celebahq_007__base_vs_v3.gif) | ![base vs v3](outputs/demo_gifs_frontal/c01__celebahq_007__base_vs_v3.gif) |
-
-**base (left) vs v4 (right)** — the calibrated reward, on HDTF news-anchor
-portraits driven by real news speech:
-
-| | |
-|---|---|
-| ![base vs v4](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_001__base_vs_v4.gif) | ![base vs v4](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_001__base_vs_v4.gif) |
-| ![base vs v4](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_003__base_vs_v4.gif) | ![base vs v4](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_003__base_vs_v4.gif) |
-
-v4 is the restrained one: v2/v3 amplify head motion to 2.4–2.7× real, which reads
-as uncanny; v4 holds it at 0.88× real.
+> **存档（旧版 v3 / v4 的并排 GIF，未做 v8 调色）** —— 首页不再展示，只看链接：
+> [`outputs/demo_gifs_frontal/`](outputs/demo_gifs_frontal/)（base vs v3）
+> · [`outputs/demo_gifs_v4/`](outputs/demo_gifs_v4/)（base vs v4，校准后的 reward）。
+> v4 是克制版：v2/v3 把头部动作放大到真人的 2.4–2.7×（恐怖谷来源），v4 压在 0.88×。
 
 Verified that the LoRA is actually applied: mean per-frame pixel difference between
 base and v3 is **20.5 / 255** over 91 frames (1024×1024). See the "LoRA loading bug"
