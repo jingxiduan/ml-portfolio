@@ -2,7 +2,7 @@
 
 ## Projects
 
-> 📄 07（数字人）的完整交接文档： [`07-talking-head-motion-opsd/docs/HANDOFF_2026-11-02.md`](07-talking-head-motion-opsd/docs/HANDOFF_2026-11-02.md)
+> Full handoff document for project 07, digital human motion: [`07-talking-head-motion-opsd/docs/HANDOFF_2026-11-02.md`](07-talking-head-motion-opsd/docs/HANDOFF_2026-11-02.md)
 
 | Project | Focus | Dataset | Techniques |
 |---|---|---|---|

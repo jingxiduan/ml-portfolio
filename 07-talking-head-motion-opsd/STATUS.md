@@ -1,26 +1,30 @@
-# 07 — Talking-Head Motion OPSD · 项目状态
+# 07 · Talking-Head Motion OPSD · Project status
 
-> 最后更新：2026-11-01（跨行业轮）
+> Last updated 2026-11-01, cross-industry round
 >
-> **最新一轮：三行业数字人（金融 / 房地产 / 短视频），见
-> [`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md)。**
-> 三个行业的 reward 目标带全部来自真实公开视频实测（非手调），persona 落点
-> 0.84–0.90× 目标、无一过冲；demo 与同脸跨行业对照已渲染。
-> 下一轮任务书（jitter 单点优化 + 放大数据）见 [`docs/NEXT_H20_TASKS.md`](docs/NEXT_H20_TASKS.md)，
-> 其中 T1–T3 已于 10-30 完成（v3 / v4），v4 即本轮三行业的共同起点。
+> **Latest round: three industry digital humans, finance / real-estate / short-video, see
+> [`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md).**
+> Every industry reward target band comes from measurement on real public video, not hand
+> tuning; the personas land at 0.84 to 0.90x of target with no overshoot; the demos and the
+> same-face cross-industry comparison are rendered.
+> The next task list, jitter single point tuning plus more data, is in
+> [`docs/NEXT_H20_TASKS.md`](docs/NEXT_H20_TASKS.md); T1 to T3 were finished on 10-30 as
+> v3 and v4, and v4 is the common starting point of this three-industry round.
 
-## 已完成
+## Done
 
-### 1. OPSD LoRA 训练（motion-space）
-- **V1**: 600步，reward 从 0.35 → 1.16（win rate 100% vs base）
-- **V2**: 600步，reward 改为 gaussian blink target + jitter hard cap（阈值 1.0°；从训练日志反推 jitter 实际约 0.2°，cap 很可能从未触发，待诊断）
+### 1. OPSD LoRA training, motion space
+- **V1**: 600 steps, reward 0.35 to 1.16, win rate 100 percent against base
+- **V2**: 600 steps, reward switched to a gaussian blink target plus a hard jitter cap, threshold
+  1.0 deg; reading the training logs back, actual jitter is about 0.2 deg, so the cap was most
+  likely never triggered, needs diagnosis
 - LoRA checkpoints: `outputs/opsd/lora.pt`, `outputs/opsd_v2/lora.pt`
-- 训练 metrics: `outputs/opsd/metrics.jsonl`, `outputs/opsd_v2/metrics.jsonl`（各 600 步）
+- Training metrics: `outputs/opsd/metrics.jsonl`, `outputs/opsd_v2/metrics.jsonl`, 600 steps each
 
-### 2. Tier-2: 视频空间 Eval（H20 GPU，n=20 clips × 6 variants = 120 videos）
-- 6 个配置对比：base / opsd_v1_naive / opsd_v1_BoN / opsd_v1_BoN+thin / opsd_v2_naive / opsd_v2_BoN
-- MediaPipe 视频空间 metrics（blink_rate, head_jitter, gaze_std, etc.）
-- 关键结果：
+### 2. Tier-2 · video space eval, H20 GPU, n=20 clips x 6 variants = 120 videos
+- 6 configurations: base / opsd_v1_naive / opsd_v1_BoN / opsd_v1_BoN+thin / opsd_v2_naive / opsd_v2_BoN
+- MediaPipe video space metrics, blink_rate, head_jitter, gaze_std and others
+- Key results:
 
 | metric | base | opsd v1 (naive) | + BoN | + BoN + thin | opsd v2 (naive) | opsd v2 + BoN | human target |
 |---|---|---|---|---|---|---|---|
@@ -29,48 +33,50 @@
 | head_pitch_std | 1.27 | 3.68 | 3.67 | 3.66 | **3.35** | 3.35 | 1-4 |
 | speech_head_corr | 0.13 | **0.27** | 0.27 | 0.27 | 0.25 | 0.26 | 0.2-0.4 |
 
-- 20 组 3-way GIF 对比: `outputs/tier2/tier2_compare_00..19.gif`
-- 训练曲线图: `fig_tier2_blink.png`, `fig_tier2_summary.png`, `fig_v1_vs_v2_curve.png`
+- 20 three-way comparison GIFs: `outputs/tier2/tier2_compare_00..19.gif`
+- Training curve figures: `fig_tier2_blink.png`, `fig_tier2_summary.png`, `fig_v1_vs_v2_curve.png`
 
-### 3. Engine Routing Prototype
-- 6 个 engine profile: `outputs/profiles/engine_profiles.json`
-- Contextual bandit routing: `outputs/routing/routing_results.json` + `routing_curve.png`
+### 3. Engine routing prototype
+- 6 engine profiles: `outputs/profiles/engine_profiles.json`
+- Contextual bandit routing: `outputs/routing/routing_results.json` plus `routing_curve.png`
 
-### 4. 文档
-- 完整 README.md（271行）
+### 4. Documents
+- Full `README.md`, 271 lines
 - `docs/H20_RENDER_PLAYBOOK.md`
 - `docs/TIER2_NOTE.md`
 
-## 产出文件清单
+## Output inventory
 
 ```
 outputs/
-├── opsd/lora.pt + metrics.jsonl          # V1 LoRA + 600步 metrics
-├── opsd_v2/lora.pt + metrics.jsonl       # V2 LoRA + 600步 metrics
-├── tier2/                                # 120个 mp4 + 20个 GIF + metrics + figures (751MB)
-├── eval/eval_results.json                # motion-space eval
+├── opsd/lora.pt + metrics.jsonl          # V1 LoRA + 600 step metrics
+├── opsd_v2/lora.pt + metrics.jsonl       # V2 LoRA + 600 step metrics
+├── tier2/                                # 120 mp4 + 20 GIF + metrics + figures, 751 MB
+├── eval/eval_results.json                # motion space eval
 ├── profiles/engine_profiles.json         # engine profiling
 ├── routing/routing_results.json + .png   # routing experiment
-├── samples/                              # early samples (11MB)
-└── eye_probe/                            # eye debugging (352K)
+├── samples/                              # early samples, 11 MB
+└── eye_probe/                            # eye debugging, 352 KB
 ```
 
-## 尚未完成 / 下次要做
+## Not done yet, next up
 
-### 优先级高
-1. **降低 blink_rate**：当前 v2+BoN=25.62，人类 target 10-20。方案：
-   - 加强 blink_thinning 后处理（缩小最小间距从 2.5s → 3.5s）
-   - 或在 V3 reward 中降低 blink 权重、提高 jitter penalty
-2. **降低 head_jitter**：当前 ~260，人类 ~120。OPSD 让头动了但太抖。方案：
-   - 提高 jitter penalty 的权重（当前 -0.5 → -1.5）
-   - 或加 temporal smoothing 后处理
-3. **jaw_audio_corr 是负数**：唇动和音频不同步。需要重新审视 lip-sync loss
+### High priority
+1. **Lower blink_rate**: v2+BoN is 25.62 against a human target of 10 to 20. Options:
+   - strengthen blink thinning post-processing, raise the minimum spacing from 2.5 s to 3.5 s
+   - or lower the blink weight and raise the jitter penalty in the V3 reward
+2. **Lower head_jitter**: currently about 260 against a human 120. OPSD moves the head but shakes
+   it. Options:
+   - raise the jitter penalty weight, currently -0.5, to -1.5
+   - or add temporal smoothing post-processing
+3. **jaw_audio_corr is negative**: lip motion is out of sync with audio. The lip-sync loss needs
+   to be revisited
 
-### 优先级中
-4. **增加 eval clips 数量**：当前 n=20，需要 50+ 才统计显著
-5. **Human evaluation**：当前全是自动 metrics，需要 A/B 人工打分
-6. **FVD / LPIPS 指标**：标准视频生成 metrics 未计算
+### Medium priority
+4. **More eval clips**: n=20 now, 50 or more is needed for statistical significance
+5. **Human evaluation**: everything is automatic metrics today, A/B human scoring is missing
+6. **FVD and LPIPS metrics**: standard video generation metrics are not computed
 
-### 优先级低
-7. **Routing bandit 在线化**：当前是离线 simulation，可以接真实用户偏好
-8. **不同 portrait / audio pair**：当前只用了限定几个人脸+音频
+### Low priority
+7. **Make routing online**: it is an offline simulation now, it could take real user preference
+8. **More portrait and audio pairs**: only a limited set of faces and audio is used

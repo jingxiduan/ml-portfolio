@@ -1,79 +1,94 @@
-# 07 · 下一轮 H20 任务书（jitter 单点优化 + 放大数据 + 独立评测）
+# 07 · Next H20 task list: single-point jitter tuning, more data, held-out evaluation
 
-> 写给下一个 H20 session 的 CodeBuddy。先读 `/AGENTS.md` 和 `/PROJECT_STATUS.md`，再读本文件。
-> 本文件只定义"做什么、怎么判定成败、什么时候停"。不要在没过 gate 的情况下往下走。
+> Written for the CodeBuddy of the next H20 session. Read `/AGENTS.md` and `/PROJECT_STATUS.md`
+> first, then this file.
+> This file only defines what to do, how success and failure are judged, and when to stop. Do
+> not move on while a gate is unpassed.
 
 ---
 
-## 0 · 背景（只保留与任务有关的事实）
+## 0 · Background, only the facts relevant to the task
 
-n=20 视频空间结果（`outputs/tier2/bon_metrics.md`）：
+n=20 video space results, `outputs/tier2/bon_metrics.md`:
 
-| 指标 | base | OPSD v1 | v1+BoN+thin | v2+BoN | 人类范围 |
+| metric | base | OPSD v1 | v1+BoN+thin | v2+BoN | human range |
 |---|---|---|---|---|---|
-| blink/min | 0 | 50.5 | 24.8 | 25.6 | 10-20 |
-| head_jitter | 120 | 262 | 265 | 257 | ~120 |
-| jaw_audio_corr | -0.14 | -0.09 | -0.09 | -0.10 | 0.3-0.5 |
+| blink per min | 0 | 50.5 | 24.8 | 25.6 | 10 to 20 |
+| head_jitter | 120 | 262 | 265 | 257 | about 120 |
+| jaw_audio_corr | -0.14 | -0.09 | -0.09 | -0.10 | 0.3 to 0.5 |
 
-- blink：BoN/thin 能压到约 25，还没进人类范围，但方向对。
-- **head_jitter：OPSD 后翻倍，所有手段都没动它。这是本轮要解决的唯一一个点。**
-- jaw_audio_corr：base 本身就是负的，6 个 variant 不可区分，**不能再当作 lip-sync 证据**。
-- 训练数据只有 25 条 macOS TTS 音频（`data/audio/train`），eval 20 条。
+- Blink: BoN plus thinning pushes it to about 25, still outside the human range but the
+  direction is right.
+- **head_jitter: it doubles after OPSD and nothing moved it. This is the single point this
+  round has to solve.**
+- jaw_audio_corr: base itself is negative and the 6 variants are indistinguishable, so it can
+  **no longer be used as lip-sync evidence**.
+- Training data is only 25 macOS TTS audio clips, `data/audio/train`, with 20 for eval.
 
-### 对 jitter 为什么没降的假设（待 T1 验证，不是结论）
+### Hypothesis for why jitter did not drop, to be verified by T1, not a conclusion
 
-`outputs/opsd/metrics.jsonl` 与 `outputs/opsd_v2/metrics.jsonl` 里的 `jitter` 项，训练过程中是**变差**的：
+The `jitter` term in `outputs/opsd/metrics.jsonl` and `outputs/opsd_v2/metrics.jsonl`
+**gets worse** during training:
 
 | run | step 1 | step 300 | step 600 |
 |---|---|---|---|
 | v1 | -0.312 | -0.389 | -0.458 |
-| v2（带 hard cap） | -0.312 | -0.394 | -0.445 |
+| v2, with hard cap | -0.312 | -0.394 | -0.445 |
 
-按 `motion_reward_v2.py` 里 `jitter_bounded = -(std_high 加权均值)/0.5` 反推，
-std_high 从约 0.16° 涨到约 0.22°。而 hard cap 的阈值 `jitter_cap_deg = 1.0°`，
-**实际值远低于阈值，hard cap 从头到尾没被触发**（relu 恒为 0，没有梯度）。
-v2 的 jitter 改动因此等于没改，v1 与 v2 曲线几乎重合也符合这一点。
+Inverting `jitter_bounded = -(weighted mean of std_high)/0.5` from `motion_reward_v2.py` gives
+std_high rising from about 0.16 deg to about 0.22 deg. The hard cap threshold is
+`jitter_cap_deg = 1.0 deg`, and **the actual value is far below the threshold, so the hard cap
+was never triggered**, the relu is always zero and there is no gradient. The v2 jitter change
+therefore did nothing, which matches the v1 and v2 curves lying almost on top of each other.
 
-这与 08 里 V1 `ReLU+clamp` 梯度死区是同一类问题：惩罚项写了，但落在它不起作用的区间。
+This is the same class of problem as the V1 `ReLU+clamp` gradient dead zone in 08: the penalty
+is written but lands in a region where it does nothing.
 
-第二个可能：奖励里的 jitter 是 pose 三个维度 6-12.5Hz 频带的 std（度），
-而视频空间的 `head_jitter`（MediaPipe）量的是另一个量，两者未必同向。
+Second possibility: jitter in the reward is the std of the 6 to 12.5 Hz band of the three pose
+dimensions, in degrees, while video space `head_jitter`, MediaPipe, measures something else,
+and the two need not move together.
 
 ---
 
-## 0b · 硬性约束（先读这里，优先级高于后面所有章节）
+## 0b · Hard constraints, read this first, it outranks every later section
 
-### A. 07 特有的崩法
+### A. The failure mode specific to 07
 
-收紧 jitter 惩罚后，策略可以靠"头不动"拿到满分。这是比 NaN 更现实的风险：
-amp（头部运动幅度）项会与之对抗，但如果 jitter 阈值设得太低，头会被压死。
-现有日志里 `amp` 的 50 步窗口均值最低是 0.307（之后一路升到 0.85），守护脚本用 0.15 作为冻结线。
+After tightening the jitter penalty, the policy can score perfectly by simply not moving the
+head. This is a more realistic risk than NaN: the amplitude term fights back, but if the jitter
+threshold is set too low the head gets crushed. In existing logs the lowest 50 step window mean
+of `amp` is 0.307, rising to 0.85 afterwards, and the guard script uses 0.15 as the freeze line.
 
-### B. 禁止事项
+### B. Prohibitions
 
-1. **不修改已有文件**：`src/motion_reward.py`、`src/motion_reward_v2.py`、`src/opsd_train_motion*.py`、
-   `outputs/opsd*`、`outputs/tier2/*`、`data/audio/eval/*`。只新增文件（`motion_reward_v3.py` 等）。
-2. **只改 jitter 的 cap 阈值**。`amp / couple / blink / gaze / ood` 的权重和公式与 v2 完全一致，否则无法归因。
-3. **评测集与训练集的说话人不能重叠**；放大数据时先按说话人切分，再抽样。
-4. 不改成功标准、不改守护脚本阈值。
-5. gate 没过不进入下一阶段。
-6. 不 `git push --force`，不 `git reset --hard`，不删除已有 `outputs/`。
-7. 推送与备份规则见 §0c，**每个训练、渲染、数据准备任务结束就立刻备份**，不要攒到最后。
+1. **Do not modify existing files**: `src/motion_reward.py`, `src/motion_reward_v2.py`,
+   `src/opsd_train_motion*.py`, `outputs/opsd*`, `outputs/tier2/*`, `data/audio/eval/*`. Only add
+   new files, `motion_reward_v3.py` and similar.
+2. **Only change the jitter cap threshold.** Weights and formulas for
+   `amp / couple / blink / gaze / ood` must stay identical to v2, otherwise nothing is
+   attributable.
+3. **Eval and training speakers must not overlap**; split by speaker before sampling when
+   scaling up data.
+4. Do not change the success criteria, do not change the guard script thresholds.
+5. Do not move to the next stage while a gate is unpassed.
+6. No `git push --force`, no `git reset --hard`, do not delete existing `outputs/`.
+7. Push and backup rules are in section 0c. **Back up immediately when each training, rendering
+   or data prep task ends**, do not batch it to the end.
 
-### C. 参数硬上限
+### C. Parameter caps
 
-| 项 | 上限 / 固定值 |
+| item | cap or fixed value |
 |---|---|
-| `jitter_cap_deg` | 取 T1 测得的 base p90，并**限制在 [0.1, 0.5] 度**之内；低于 0.1 会把头压死 |
-| `jitter_cap_penalty` | ≤ 5.0（与 v2 相同） |
-| `lr` | 3e-4 不变 |
-| `rounds` | 25 条数据 600；放大数据 ≤ 3000 |
-| LoRA | r=8 / alpha=8，batch 8，seed 0 |
-| 重试次数 | 最多 1 次，把 `jitter_cap_deg` 放宽 1.5 倍；仍触发就停 |
+| `jitter_cap_deg` | the base p90 measured by T1, **restricted to the range 0.1 to 0.5 deg**; below 0.1 crushes the head |
+| `jitter_cap_penalty` | at most 5.0, same as v2 |
+| `lr` | 3e-4, unchanged |
+| `rounds` | 600 for the 25 clip set; at most 3000 for the enlarged set |
+| LoRA | r=8, alpha=8, batch 8, seed 0 |
+| retries | at most 1, loosening `jitter_cap_deg` by 1.5x; stop if it trips again |
 
-### D. 训练必须通过守护脚本启动
+### D. Training must be launched through the guard script
 
-先自检：`python ../tools/train_guard.py --selftest`，必须输出 `selftest OK`。
+Self test first: `python ../tools/train_guard.py --selftest`, it must print `selftest OK`.
 
 ```bash
 OUT=outputs/opsd_v3
@@ -83,190 +98,233 @@ TRAIN_PID=$!
 nohup python ../tools/train_guard.py --kind motion --log $OUT/metrics.jsonl --pid $TRAIN_PID > $OUT/guard.log 2>&1 &
 ```
 
-这些阈值已在 v1、v2 两份 600 步日志上回放过，**没有误报**；对 NaN、loss 爆炸、头部冻结等合成场景能正确触发。
+These thresholds were replayed over the v1 and v2 600 step logs with **no false positives**, and
+they trip correctly on synthetic NaN, loss explosion and head freeze scenarios.
 
-| 规则 | 触发条件（50 步窗口均值） | 依据 |
+| rule | trigger, 50 step window mean | basis |
 |---|---|---|
-| `nonfinite` | 任一指标出现 NaN / inf | |
-| `loss_blowup` | `loss` > 前 50 步均值的 3 倍 | 实测范围 0.0089 到 0.0118，很稳定 |
-| `ood_blowup` | `ood` < -0.05 | 实测最差 -0.0046 |
-| `reward_collapse` | `reward` 比此前最好的窗口低 0.3 以上 | v1 / v2 都是单调上升 |
-| `jitter_blowup` | `jitter` 项比前 50 步低 0.5 以上 | v1 / v2 只下降了约 0.15 |
-| `head_frozen` | `amp` < 0.15 | 实测最低 0.307 |
-| `stalled` | 1200 秒没有新日志 | |
+| `nonfinite` | any metric becomes NaN or inf | |
+| `loss_blowup` | `loss` above 3x the mean of the previous 50 steps | measured range 0.0089 to 0.0118, very stable |
+| `ood_blowup` | `ood` below -0.05 | worst measured -0.0046 |
+| `reward_collapse` | `reward` more than 0.3 below the best window so far | v1 and v2 both rise monotonically |
+| `jitter_blowup` | `jitter` term more than 0.5 below the previous 50 steps | v1 and v2 only fell about 0.15 |
+| `head_frozen` | `amp` below 0.15 | lowest measured 0.307 |
+| `stalled` | no new log for 1200 seconds | |
 
-### E. 触发后怎么处理
+### E. What to do when it trips
 
-1. 不要手动继续，也不要原样重启。
-2. 保留 `outputs/<run>/` 与 `GUARD_STOP.json`，**立刻**按 §0c 备份，再做后续处理。
-3. 允许 1 次重试，按 §C 放宽 cap；再次触发就停。
-4. 在 `docs/RESULTS_NEXT.md` 里写明：哪条规则触发、触发步数、日志数值。
+1. Do not continue manually, do not restart as is.
+2. Keep `outputs/<run>/` and `GUARD_STOP.json`, **immediately** back up per section 0c, then
+   handle the rest.
+3. One retry is allowed, loosening the cap per section C; stop if it trips again.
+4. Record in `docs/RESULTS_NEXT.md`: which rule tripped, the step number, the log values.
 
-### F. 没生效也是失败
+### F. No effect is also a failure
 
-v3 的目的是让 jitter 下降。训练到第 300 步时，如果 `jitter` 项相对前 50 步**没有改善**
-（窗口均值没有上升），说明改动没有生效，**停下，不要跑完 600 轮**，写诊断并汇报。
+The point of v3 is to make jitter drop. At step 300, if the `jitter` term shows **no
+improvement** relative to the first 50 steps, meaning the window mean has not risen, the change
+did not take effect. **Stop, do not run all 600 rounds**, write the diagnosis and report.
 
-### G. Gate 记录
+### G. Gate log
 
-每个 gate 在 `docs/GATE_LOG.md` 追加一行：时间 | gate | 关键数值 | PASS 或 FAIL。
+Append one line per gate to `docs/GATE_LOG.md`: time, gate, key values, PASS or FAIL.
 
 ---
 
-## 0c · 推送、备份与数据来源
+## 0c · Pushing, backup and data sources
 
-### 推送与备份：到期会回收，没推出去的就没了
+### Pushing and backup: the machine is reclaimed at a deadline, anything unpushed is lost
 
-**规则：每个任务一结束就立刻备份，再开始下一步。** "结束"包括：正常跑完、被守护脚本停掉、手动停掉。
-用 `tools/backup_push.sh`（已在临时仓库里测过，小文件上 main，大文件与媒体打包到独立分支，还原可用）：
+**Rule: back up immediately when each task ends, before starting the next one.** Ending
+includes finishing normally, being stopped by the guard, and being stopped manually. Use
+`tools/backup_push.sh`, already tested on a scratch repo: small files go to main, large files
+and media are packed onto a separate branch and can be restored.
 
-| 内容 | 命令 | 去向 |
+| content | command | destination |
 |---|---|---|
-| 日志 jsonl、metrics、诊断 json、曲线图、GIF、LoRA（小）、清单 | `tools/backup_push.sh small "<msg>" outputs/<run> data/audio_manifest_large.json ...` | `main` |
-| 渲染 mp4、抽取出来的音频子集、任何 > 90MB 的文件 | `tools/backup_push.sh big r2-07 outputs/tier2_r2 data/audio_public` | 独立分支 `backup/r2-07` |
-| 看现在有多少东西没推出去 | `tools/backup_push.sh status` | |
+| jsonl logs, metrics, diagnostic json, curve figures, GIFs, small LoRA, manifests | `tools/backup_push.sh small "<msg>" outputs/<run> data/audio_manifest_large.json ...` | `main` |
+| rendered mp4, extracted audio subsets, anything above 90 MB | `tools/backup_push.sh big r2-07 outputs/tier2_r2 data/audio_public` | separate branch `backup/r2-07` |
+| see how much is still unpushed | `tools/backup_push.sh status` | |
 
-- 到期时间 = 窗口开始时间 + 窗口时长（用户给了就用用户的，没给按 14h）。到期前 90 分钟不再启动新任务，做一次全量备份。
-- T0 先用一个很小的目录跑一次 `big`，测出上传速度，据此估算全量备份要多久。
-- `backup/*` 分支总量不超过 1.5GB（与 08 共用）。超了先压缩视频（480p，crf 28），仍超就只保留评测集与最终产出，并在结果文档里写明舍弃了什么。
-- 推送使用这台机器上已配置好的方式（SSH），不要把任何凭据写进文件或命令。不要 `--force`。
+- Deadline = window start plus window length, use the user's value if given, otherwise 14 h. Do
+  not start new tasks in the last 90 minutes, do one full backup instead.
+- At T0, run `big` once on a very small directory to measure upload speed, then estimate how
+  long a full backup takes.
+- Total size of `backup/*` branches must stay under 1.5 GB, shared with 08. If it goes over,
+  compress video first, 480p crf 28; if still over, keep only the eval set and the final output
+  and state in the results document what was dropped.
+- Push using the method already configured on this machine, SSH. Never write credentials into a
+  file or a command. Never use `--force`.
 
-### 数据来源：必须是公开数据集
+### Data sources: must be public datasets
 
-当前 25 条训练音频与 20 条评测音频都是 macOS `say` 合成的，不是真实人声，说话风格单一。本轮换成公开中文语音集：
+The current 25 training and 20 eval clips are all synthesized by macOS `say`, not real human
+voices, and the speaking style is uniform. This round switches to a public Mandarin speech set:
 
-- **首选 AISHELL-1**（OpenSLR #33，Apache 2.0，约 178 小时、400 位说话人，自带 train / dev / test 说话人划分）。
-  **不要下全量**，只下需要的部分：训练取 train 里约 60 位说话人，评测取 test 里约 15 位说话人，够拼出所需条数即可。
-  先 `df -h` 再下载。
-- **备选 AISHELL-3**（OpenSLR #93，多说话人，Apache 2.0）或其他有明确许可证的公开中文语音集。
-- 必须产出 `data/DATA_SOURCES.md`：名称、URL、许可证、下载日期、取了哪些说话人、拼接方法、条数、时长。
-  说话人 id 列表与拼接脚本进 `main`；音频子集走 `big` 备份，**音频不进 `main`**。
-- T0 先验证联网：`curl -sI https://www.openslr.org | head -1`。**不通就汇报用户，不要退回 TTS 并称其为公开数据。**
-- 数据准备在 CPU 上做，与 T1、T2 并行，不占 GPU。
+- **Preferred AISHELL-1**, OpenSLR #33, Apache 2.0, about 178 hours and 400 speakers, with its
+  own train, dev and test speaker split. **Do not download everything**, only what is needed:
+  about 60 speakers from train and about 15 from test, enough to assemble the required clip
+  count. Run `df -h` before downloading.
+- **Fallback AISHELL-3**, OpenSLR #93, multi-speaker, Apache 2.0, or another public Mandarin
+  corpus with a clear licence.
+- Must produce `data/DATA_SOURCES.md`: name, URL, licence, download date, which speakers were
+  taken, concatenation method, clip count, duration. The speaker id list and the concatenation
+  script go to `main`; the audio subset goes through `big` backup, **audio does not go to `main`**.
+- At T0 verify network access: `curl -sI https://www.openslr.org | head -1`. **If it is blocked,
+  report to the user, do not fall back to TTS and call it public data.**
+- Data prep runs on CPU, in parallel with T1 and T2, and does not occupy the GPU.
 
 ---
 
-## 1 · 任务总览与 gate
+## 1 · Task overview and gates
 
-| 阶段 | 内容 | 预计时间 | 通过条件（否则停下写结论） |
+| stage | content | estimated time | pass condition, otherwise stop and write the conclusion |
 |---|---|---|---|
-| T0 | 环境 | 20 min | `h20_render_setup.sh` smoke 通过 |
-| T1 | 诊断 jitter | 40 min | 得到明确结论：cap 是否失效 / 奖励指标与视频指标是否相关 |
-| T2 | reward v3（只改 jitter）在 25 条上重训 | 20 min | motion-space jitter 不高于 base 的 1.3 倍 |
-| T3 | 放大数据到 ~2000 条，v2 / v3 各训一次 | 约 2 h | 同数据量下 v3 的 jitter 优于 v2 |
-| T4 | 独立评测：渲染 + SyncNet + 盲评表 | 约 2 h | 见 §6 |
-| T5 | 写结果、push | 30 min | |
+| T0 | environment | 20 min | `h20_render_setup.sh` smoke passes |
+| T1 | diagnose jitter | 40 min | a clear conclusion: is the cap ineffective, are reward and video metrics correlated |
+| T2 | reward v3, jitter only, retrain on the 25 clips | 20 min | motion space jitter no higher than 1.3x base |
+| T3 | scale data to about 2000 clips, train v2 and v3 once each | about 2 h | at equal data size v3 jitter beats v2 |
+| T4 | held-out evaluation: render plus SyncNet plus blind sheet | about 2 h | see section 6 |
+| T5 | write results, push | 30 min | |
 
-**T2 没过 gate 就不要做 T3。** 没过就把诊断和失败原因写进结果文档，这本身是有效产出。
+**If T2 does not pass its gate, do not do T3.** Write the diagnosis and the reason for failure
+into the results document, that is itself a valid deliverable.
 
 ---
 
-## 2 · T0 · 环境
+## 2 · T0 · Environment
 
 ```bash
 git clone git@github.com:jingxiduan/ml-portfolio.git && cd ml-portfolio/07-talking-head-motion-opsd
 bash scripts/h20_render_setup.sh
 source .venv/bin/activate
-nvidia-smi   # 记录两张卡当前占用
+nvidia-smi   # record current usage of both cards
 ```
 
-同机还会跑 08 的长训练（见 `08-video-opsd-i2v/docs/NEXT_H20_TASKS.md`）。
-07 的 motion 训练模型很小，可以和 08 共用一张卡；用 `CUDA_VISIBLE_DEVICES` 指定，先看 `nvidia-smi` 的剩余显存再定。
-渲染（LivePortrait）放到 T4 再做。
+A long training for 08 also runs on this machine, see
+`08-video-opsd-i2v/docs/NEXT_H20_TASKS.md`. The 07 motion model is small and can share a card
+with 08; select with `CUDA_VISIBLE_DEVICES` after checking free memory in `nvidia-smi`.
+Rendering with LivePortrait waits until T4.
 
 ---
 
-## 3 · T1 · 诊断（新增 `src/diag_jitter.py`）
+## 3 · T1 · Diagnosis, new file `src/diag_jitter.py`
 
-输入：`outputs/opsd/lora.pt`、`outputs/opsd_v2/lora.pt`、base，在 `data/audio/eval` 的 20 条上各生成 motion coefs
-（直接复用 `outputs/tier2/selected_coefs.pt` 里已有的 20 clip × variant，不必重采样）。
+Input: `outputs/opsd/lora.pt`, `outputs/opsd_v2/lora.pt` and base, generating motion
+coefficients on the 20 clips of `data/audio/eval` each, reusing the existing 20 clip by variant
+set in `outputs/tier2/selected_coefs.pt` instead of resampling.
 
-要回答三个问题，结果写到 `outputs/diag/jitter_diag.json` 和 `docs/RESULTS_NEXT.md`：
+Answer three questions, write results to `outputs/diag/jitter_diag.json` and
+`docs/RESULTS_NEXT.md`:
 
-1. **cap 是否失效**：对 base / v1 / v2 各自算 reward 里的 `std_high`（pose 三轴 6-12.5Hz），
-   报 mean、p90、max。若 p90 远小于 1.0°，则假设成立。
-2. **各奖励项的梯度占比**：对一批 coef 反传，分别记录 `amp / jitter / couple / blink / gaze / ood`
-   对 coef 的梯度 L2 范数。判断 jitter 项相对 amp、blink 是否被淹没。
-3. **奖励指标与视频指标是否同向**：在 20 clip × 6 variant 共 120 个点上，
-   算奖励侧 `std_high` 与 `outputs/tier2/bon_metrics.json` 里视频侧 `head_jitter` 的 Spearman 相关。
-   同时在 `src/video_metrics.py` 里确认 `head_jitter` 的定义和单位，写进结果文档。
+1. **Is the cap ineffective**: compute `std_high` from the reward, pose three axes at 6 to
+   12.5 Hz, for base, v1 and v2, reporting mean, p90 and max. If p90 is far below 1.0 deg the
+   hypothesis holds.
+2. **Gradient share of each reward term**: backprop through a batch of coefficients and record
+   the L2 norm of the gradient on the coefficients from
+   `amp / jitter / couple / blink / gaze / ood`. Judge whether jitter is drowned out by amp and
+   blink.
+3. **Do reward and video metrics move together**: over the 120 points of 20 clips by 6 variants,
+   compute the Spearman correlation between reward side `std_high` and video side `head_jitter`
+   from `outputs/tier2/bon_metrics.json`. Also confirm the definition and unit of `head_jitter`
+   in `src/video_metrics.py` and write it into the results document.
 
-判定：
-- 问题 1 成立 → T2 用"按 base 分布标定的阈值"。
-- 问题 3 相关性低（|rho| < 0.5）→ T2 的 jitter 项要改成视频侧同口径的量（例如姿态的二阶差分），并在文档里说明为什么。
-- 两个都不成立 → 停下，把现象写清楚，不要硬往下做。
-
----
-
-## 4 · T2 · reward v3（只改 jitter 一处）
-
-新增 `src/motion_reward_v3.py`、`src/opsd_train_motion_v3.py`，写法照 v2（薄封装，复用
-`opsd_train_motion.py` 的 `add_lora / build_windows / guided_x0 / rollout_to / set_mode`）。
-
-**只改 jitter 项，其余 amp / couple / blink / gaze / ood 和 v2 保持完全一致**，这样差异可归因。
-
-- 把 `jitter_cap_deg` 从 1.0° 改成 T1 得到的 base 分布 p90 附近（预计约 0.2°，以 T1 实测为准）。
-- 保证 cap 在训练初期就有梯度（记录 cap 触发比例，写进 metrics）。
-- 其余超参与 v2 相同：600 rounds、lora-r 8、lr 3e-4、seed 0。
-
-产出：`outputs/opsd_v3/lora.pt`、`outputs/opsd_v3/metrics.jsonl`（额外记录 `cap_active_frac`）。
-
-Gate：用 `src/tier2_bon.py --motion-only` 在 eval 20 clip 上评测，
-motion-space `jitter_hp` 不高于 base 的 1.3 倍（base 约 13.6，v1/v2 约 24-27），
-且 blink 不比 v2 更差。没过就回到 T1 重新看，不进 T3。
+Decision:
+- Question 1 holds, then T2 uses a threshold calibrated on the base distribution.
+- Question 3 correlation is low, absolute rho below 0.5, then the T2 jitter term must be changed
+  to a quantity with the same definition as the video side, for example the second difference of
+  pose, and the document must explain why.
+- Neither holds, then stop, write the observation clearly, do not force the pipeline forward.
 
 ---
 
-## 5 · T3 · 放大数据（只在 T2 过 gate 后；数据准备本身可以提前在 CPU 上做）
+## 4 · T2 · reward v3, jitter is the only change
 
-原因：现在训练只有 25 条 macOS TTS 合成音频，结论很难外推。OPSD 训练只需要音频，motion 空间训练很便宜，放大成本低。
-数据来源规则见 §0c，**必须是公开数据集，不得用 TTS 冒充**。
+Add `src/motion_reward_v3.py` and `src/opsd_train_motion_v3.py`, written like v2, a thin wrapper
+reusing `add_lora / build_windows / guided_x0 / rollout_to / set_mode` from
+`opsd_train_motion.py`.
 
-- 目标：训练约 2000 段、评测 100 段，每段 8 到 15 秒，16kHz 单声道。
-- AISHELL-1 平均每句约 5 秒，而训练窗口是 4 秒、步长 1 秒。做法：同一说话人的相邻句子按序号拼接到 8 秒以上，
-  拼接处留 0.3 秒静音，不跨说话人拼。
-- 说话人划分用数据集自带的 train / test 说话人表，**评测说话人完全不在训练里**。
-- 数据清单写到 `data/audio_manifest_large.json`（说话人、原始文件名、拼接顺序、时长）和 `data/DATA_SOURCES.md`。
-- 旧的 20 条 TTS 评测集保留为 `legacy eval`，新旧两套都评。
+**Change only the jitter term, keep `amp / couple / blink / gaze / ood` exactly as in v2**, so
+the difference is attributable.
 
-对照实验（保证"提升来自改动，而不是来自数据量"）：
+- Change `jitter_cap_deg` from 1.0 deg to near the base distribution p90 found by T1, expected
+  around 0.2 deg, use the T1 measurement.
+- Make sure the cap has gradient early in training, record the cap activation ratio in metrics.
+- Other hyperparameters identical to v2: 600 rounds, lora r 8, lr 3e-4, seed 0.
 
-| 组 | 奖励 | 训练数据 | rounds |
+Output: `outputs/opsd_v3/lora.pt`, `outputs/opsd_v3/metrics.jsonl`, additionally recording
+`cap_active_frac`.
+
+Gate: evaluate with `src/tier2_bon.py --motion-only` on the 20 eval clips; motion space
+`jitter_hp` must not exceed 1.3x base, base about 13.6 and v1 and v2 about 24 to 27, and blink
+must not be worse than v2. If it fails, go back to T1, do not enter T3.
+
+---
+
+## 5 · T3 · Scale up data, only after T2 passes its gate, data prep itself can run earlier on CPU
+
+Reason: training currently uses only 25 macOS TTS clips, so conclusions generalize poorly. OPSD
+training needs audio only and motion space training is cheap, so scaling up is low cost. Data
+source rules are in section 0c, **it must be a public dataset, TTS must not be passed off as
+one**.
+
+- Target: about 2000 training segments and 100 eval segments, 8 to 15 seconds each, 16 kHz mono.
+- AISHELL-1 averages about 5 seconds per sentence while the training window is 4 seconds with a
+  1 second stride. Method: concatenate adjacent sentences of the same speaker in index order
+  past 8 seconds, leave 0.3 seconds of silence at the join, never concatenate across speakers.
+- Speaker split uses the dataset's own train and test speaker lists, **no eval speaker appears
+  in training at all**.
+- Write the manifest to `data/audio_manifest_large.json`, speaker, original filename,
+  concatenation order, duration, and to `data/DATA_SOURCES.md`.
+- Keep the old 20 clip TTS set as a `legacy eval`, and evaluate on both old and new.
+
+Controlled experiment, to prove the gain comes from the change and not from data volume:
+
+| group | reward | training data | rounds |
 |---|---|---|---|
-| A | v2 | 公开数据约 2000 段 | 3000 |
-| B | v3 | 公开数据约 2000 段 | 3000 |
+| A | v2 | public data, about 2000 segments | 3000 |
+| B | v3 | public data, about 2000 segments | 3000 |
 
-已有的 25 条数据上 v2 / v3 结果作为小规模参照。三组都固定 seed 0，B 若有余量再加 seed 1、2。
-上限 3000 rounds 不变，**不要因为数据多了就加大**。
-
----
-
-## 6 · T4 · 独立评测（不能再用奖励自己的项当结论）
-
-当前 blink、jitter 既是训练奖励又是评测指标，这是循环论证。本轮必须补上独立的量。
-
-1. **SyncNet LSE-C / LSE-D**：对渲染视频算口型-音频同步。需要 SyncNet 预训练权重，先确认能下载；
-   下载不到则在文档里写明未做，不要用 `jaw_audio_corr` 顶替。
-2. **盲评表**：从评测集中取 30 条，`base / v2 / v3(+BoN)` 随机配对并随机左右，
-   生成 `outputs/human_eval/sheet.csv`（只有编号与评分列）和 `key.csv`（对应关系，单独保存）。
-   暂时不需要有人打完，只需要生成好，后面由人来评。
-3. **视频侧 MediaPipe 指标**（沿用 `video_metrics.py`）：blink_rate、head_jitter、gaze_std 等。
-4. 渲染规模：评测集（公开数据 100 段里取 50 段）× 4 个 variant（base / v2 / v3 / v3+BoN）= 200 个视频，约 1.2 h。
-   mp4 不进 `main`，渲完立刻走 `backup/*` 分支（§0c），`main` 只放 GIF、json、md。
-   人像仍是现有的 3 张（`data/portraits`），在文档里写明这一限制。
-
-### 成功标准（先写下来，结果出来后不改）
-
-- 视频侧 head_jitter：v3 ≤ base 的 1.4 倍（base 约 120，即 ≤ 约 170），v2 目前约 260。
-- blink：v3+BoN 不比 v2+BoN（25.6）更差。
-- SyncNet：v3 不比 v2 差于噪声水平（报数值和标准差）。
-- 达不到：如实写"jitter 单点优化未奏效，原因是……"，附 T1 的诊断。
+The existing v2 and v3 results on 25 clips serve as the small scale reference. All three groups
+fix seed 0; add seed 1 and 2 for B if there is budget. The 3000 round cap stays, **do not raise
+it just because there is more data**.
 
 ---
 
-## 7 · 时间预算与停止线
+## 6 · T4 · Held-out evaluation, stop using the reward's own terms as the conclusion
 
-| 阶段 | 时间 |
+Right now blink and jitter are both training rewards and evaluation metrics, which is circular.
+This round must add independent quantities.
+
+1. **SyncNet LSE-C and LSE-D**: compute lip and audio sync on the rendered video. Needs SyncNet
+   pretrained weights, confirm they are downloadable first; if not, state in the document that it
+   was not done, and do not substitute `jaw_audio_corr`.
+2. **Blind rating sheet**: take 30 clips from the eval set, randomly pair
+   `base / v2 / v3(+BoN)` and randomize left and right, generating
+   `outputs/human_eval/sheet.csv`, ids and rating columns only, and `key.csv`, the mapping, saved
+   separately. Nobody has to rate it yet, it only needs to be generated.
+3. **Video side MediaPipe metrics**, reusing `video_metrics.py`: blink_rate, head_jitter,
+   gaze_std and others.
+4. Render scale: eval set, 50 of the 100 public segments, times 4 variants,
+   base, v2, v3, v3+BoN, 200 videos, about 1.2 h. mp4 does not go to `main`; push it to a
+   `backup/*` branch immediately after rendering, section 0c, and keep only GIF, json and md in
+   `main`. Portraits are still the existing 3 in `data/portraits`, state this limitation in the
+   document.
+
+### Success criteria, written down first, not changed after results arrive
+
+- Video side head_jitter: v3 at most 1.4x base, base about 120, so at most about 170; v2 is
+  currently about 260.
+- Blink: v3+BoN not worse than v2+BoN, 25.6.
+- SyncNet: v3 not worse than v2 beyond the noise level, report value and standard deviation.
+- If not met: write honestly that single-point jitter tuning did not work, with the reason, and
+  attach the T1 diagnosis.
+
+---
+
+## 7 · Time budget and stop line
+
+| stage | time |
 |---|---|
 | T0 | 0.3 h |
 | T1 | 0.7 h |
@@ -274,18 +332,23 @@ motion-space `jitter_hp` 不高于 base 的 1.3 倍（base 约 13.6，v1/v2 约 
 | T3 | 2.0 h |
 | T4 | 2.0 h |
 | T5 | 0.5 h |
-| 合计 | 约 6 h |
+| total | about 6 h |
 
-和 08 共用 GPU 时，07 排在 08 长训练的空档里。超过窗口剩余时间的 80% 时，
-砍 T3 的第二、第三个 seed，不砍 T1 与 T4。**到期前 90 分钟不再启动新任务，转入全量备份。**
+When sharing the GPU with 08, 07 runs in the gaps of the 08 long training. Past 80 percent of
+the remaining window, cut the second and third seed of T3, do not cut T1 or T4. **Do not start
+new tasks in the last 90 minutes, switch to a full backup.**
 
 ---
 
-## 8 · 提交规则
+## 8 · Commit rules
 
-- **训完就推，不要等到阶段末。** 方式与分支见 §0c，每个任务结束后第一件事就是 `tools/backup_push.sh`，并在 `docs/GATE_LOG.md` 里记下提交 hash。
-- 推送使用这台机器上已配置的方式（SSH），不要把凭据写进任何文件或命令。
-- push 到 `main` 前按 `/AGENTS.md` 的 house rules 做禁用词检查。
-- 结果统一写 `docs/RESULTS_NEXT.md`，数字照实写，包括失败的。
-  README 与 `TIER2_NOTE.md` 里的措辞要和结果一致（例如 jitter 没降就不能写成"已缓解"）。
-- 完成后更新 `STATUS.md` 与 `/PROJECT_STATUS.md` 的 07 一节。
+- **Push as soon as training finishes, do not wait for the end of a stage.** Method and branches
+  are in section 0c; the first thing after each task ends is `tools/backup_push.sh`, and record
+  the commit hash in `docs/GATE_LOG.md`.
+- Push using the method already configured on this machine, SSH. Never write credentials into
+  any file or command.
+- Before pushing to `main`, run the forbidden-word check per the house rules in `/AGENTS.md`.
+- Write all results to `docs/RESULTS_NEXT.md`, with the numbers as they are, including failures.
+  Wording in the README and `TIER2_NOTE.md` must match the results, for example if jitter did not
+  drop it must not say it was mitigated.
+- When done, update the 07 section of `STATUS.md` and `/PROJECT_STATUS.md`.

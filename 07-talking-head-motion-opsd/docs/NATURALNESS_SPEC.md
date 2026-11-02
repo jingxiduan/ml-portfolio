@@ -1,147 +1,161 @@
-# 07 · "自然生动的数字人视频"判定标准（NATURALNESS SPEC）
+# 07 · Acceptance criteria for a natural, lively talking-head video, NATURALNESS SPEC
 
-> 建立时间：2026-11-01
-> **本文件的地位：高于一切训练任务书。** 参数没定好就训练，等于在错误的方向上加码。
-> 所有后续训练的目标值都必须从这里取；训练完成后也用这里的表验收。
+> Created 2026-11-01
+> **Status of this document: above every training task list.** Training before the parameters
+> are settled is just adding compute in the wrong direction. Every later training target must be
+> taken from here, and the finished run is accepted against the table here.
 
 ---
 
-## 0 · 为什么需要这个文件
+## 0 · Why this document exists
 
-已交付的三行业轮，数字上"三个 persona 都落在实测运动带内（0.84–0.90× 目标）"，
-但并排看**跟 base 没区别**，而且更假。实测证据：
+The delivered three-industry round is numerically fine, all three personas land inside the
+measured motion band at 0.84 to 0.90x of target, but side by side it looks **no different from
+base** and even faker. Measured evidence:
 
-| | finance persona vs base | shortvideo persona vs base |
+| | finance persona vs base | short-video persona vs base |
 |---|---|---|
-| 头部速度 | **1.13×** | 1.89× |
-| 头部抖动 | **1.29×（更抖了）** | 1.70×（更抖了） |
-| 表情（眉/颊/下颌） | **三帧零变化** | **三帧零变化** |
+| head speed | **1.13x** | 1.89x |
+| head jitter | **1.29x, shakier** | 1.70x, shakier |
+| expression, brow, cheek, jaw | **zero change across three frames** | **zero change across three frames** |
 
-问题不在训练轮数，在于**"好"从来没有被定义过**。之前只定义了"头部幅度落在某个带内"，
-而"头部幅度"恰好是唯一一个**跟自然度关系最弱**的量。
+The problem is not the number of training rounds. The problem is that **good was never
+defined**. Until now only head amplitude inside some band was defined, and head amplitude happens
+to be the single quantity **weakly related to naturalness**.
 
 ---
 
-## 1 · 三条硬原则
+## 1 · Three hard principles
 
-1. **每条标准必须量得出来**：有工具、有单位、有真人数。不写"看起来自然"这种话。
-2. **真人目标值必须实测，不许手调**。来源只能是公开真实视频，且**量纲必须与 reward 内部一致**
-   （v4 §7.7 的教训：量纲对不上还硬直译，把眼睛训成半闭）。
-3. **验收项必须有一部分不在 reward 里**。现在 blink / jitter 既是训练目标又是评测指标，
-   这是循环论证。下表用「在 reward 中？」一列标出，独立项才是可信证据。
+1. **Every criterion must be measurable**: a tool, a unit, a real human number. Phrases like
+   looks natural are not allowed.
+2. **Real human targets must be measured, never hand tuned.** The only permitted source is
+   public real video, and **the units must match the ones inside the reward**, the lesson of v4
+   section 7.7 where mismatched units were translated anyway and trained the eyes half shut.
+3. **Some acceptance items must sit outside the reward.** Right now blink and jitter are both
+   training targets and evaluation metrics, which is circular. The column **in reward?** below
+   marks this, and only the independent items are trustworthy evidence.
 
-**两个测量空间**（必须交叉标定）：
+**Two measurement spaces**, which must be cross-calibrated:
 
-| 空间 | 内容 | 用途 |
+| space | content | used for |
 |---|---|---|
-| 系数空间 | LivePortrait 73 维（表情 0–62、scale 63、t 64–66、pose 67–69） | reward 内部计算、训练目标 |
-| 视频空间 | MediaPipe blendshape / solvePnP pose / EAR | **人眼看到的东西**，验收用 |
+| coefficient space | LivePortrait 73 dims, expression 0 to 62, scale 63, translation 64 to 66, pose 67 to 69 | reward internals and training targets |
+| video space | MediaPipe blendshapes, solvePnP pose, EAR | **what the human eye actually sees**, used for acceptance |
 
 ---
 
-## 2 · 判定表
+## 2 · Evaluation table
 
-标记：`✅已实测` = 数值来自磁盘上已有 artifact；`⏳待测` = 必须由 C1 实测，**未测之前不许填数、不许开训**。
+Marks: `measured` means the number comes from an artifact already on disk; `to measure` means
+C1 must measure it, and **no number may be filled in and no training may start before it is
+measured**.
 
-### A · 表情动态（反"面具脸"）—— 当前完全缺失，最高优先级
+### A · Expression dynamics, against the mask face, currently completely missing, highest priority
 
-| # | 指标 | 量法 | 真人目标 | base | v4 persona | 在 reward 中？ |
+| # | metric | how it is measured | real human target | base | v4 persona | in reward? |
 |---|---|---|---|---|---|---|
-| A1 | **非唇表情低频动态幅度** | 系数空间：非唇 exp 维（排除 `LIP_DIMS`）0.3–3 Hz std | ⏳ 待 C1 | ≈ 常量 | ≈ 常量 | 否（v5 新增） |
-| A2 | 眨眼率 | 视频空间 EAR 谷事件 | **15 次/min（带 10–20）** ✅ | 0–5.5 ✅ | 35–77 ✅（超标） | **是** ⚠️ |
-| A3 | 眨眼时长 | 同上 | 100–400 ms ⏳ | — | — | 否 |
-| A4 | 眨眼间隔 burstiness (IBI 的 CV) | 同上 | ⏳ 待 C1 | — | — | 否 |
-| A5 | 眉动事件率 | MediaPipe `browDown/InnerUp` blendshape 过阈次数 | ⏳ 待 C1 | — | — | 否 |
-| A6 | 注视结构（fixation 停留 + 扫视率） | 视频空间 gaze 速度 | ⏳ 待 C1 | — | — | **是** ⚠️ |
-| A7 | 眼睛开合度 EAR | MediaPipe | **≥ 0.30** ✅ | 0.343 ✅ | 0.348 ✅ | 否 |
-| A8 | 表情-语音耦合 | `Pearson(env, |d expr_low/dt|)` | ⏳ 待 C1 | — | — | 否 |
+| A1 | **non-lip low band expression amplitude** | coefficient space, non-lip expression dims excluding `LIP_DIMS`, 0.3 to 3 Hz std | to measure | about constant | about constant | no, added in v5 |
+| A2 | blink rate | video space EAR valley events | **15 per min, band 10 to 20**, measured | 0 to 5.5, measured | 35 to 77, measured, too high | **yes** |
+| A3 | blink duration | same | 100 to 400 ms, to measure | n/a | n/a | no |
+| A4 | blink interval burstiness, CV of IBI | same | to measure | n/a | n/a | no |
+| A5 | brow movement event rate | MediaPipe `browDown/InnerUp` blendshape threshold crossings | to measure | n/a | n/a | no |
+| A6 | gaze structure, fixation dwell plus saccade rate | video space gaze speed | to measure | n/a | n/a | **yes** |
+| A7 | eye openness EAR | MediaPipe | **at or above 0.30**, measured | 0.343, measured | 0.348, measured | no |
+| A8 | expression-speech coupling | Pearson of envelope and absolute d expr_low over dt | to measure | n/a | n/a | no |
 
-### B · 时序结构（反"匀速抖"）
+### B · Temporal structure, against constant-speed shaking
 
-| # | 指标 | 量法 | 真人目标 | base | v4 persona | 在 reward 中？ |
+| # | metric | how it is measured | real human target | base | v4 persona | in reward? |
 |---|---|---|---|---|---|---|
-| B1 | 语音 onset 相位锁定命中率 | onset 后 80–250 ms 内出现运动速度峰的比例 | ⏳ 待 C1 | — | — | 否 |
-| B2 | 静音段幅度比 | 静音段 low_std ÷ 语音段 low_std | ⏳ 待 C1 | — | — | 否 |
-| B3 | still_ratio（近静止帧占比） | `video_metrics.py` | ⏳ 待 C1 | 0.041 ✅ | 0.018 ✅ | 否 |
-| B4 | 呼吸底噪（0.2–0.3 Hz 功率占比） | 系数空间 pose | ⏳ 待 C1 | — | — | 否 |
+| B1 | speech onset phase lock hit rate | share of onsets with a speed peak within 80 to 250 ms after onset | to measure | n/a | n/a | no |
+| B2 | silence segment amplitude ratio | silence low_std divided by speech low_std | to measure | n/a | n/a | no |
+| B3 | still_ratio, share of near static frames | `video_metrics.py` | to measure | 0.041, measured | 0.018, measured | no |
+| B4 | breathing floor, power share at 0.2 to 0.3 Hz | coefficient space pose | to measure | n/a | n/a | no |
 
-### C · 头部运动质量（唯一已有实测的一类）
+### C · Head motion quality, the only class already measured
 
-| # | 指标 | 量法 | 真人目标 | base | v4 persona | 在 reward 中？ |
+| # | metric | how it is measured | real human target | base | v4 persona | in reward? |
 |---|---|---|---|---|---|---|
-| C1 | 低频幅度（0.3–3 Hz std） | 度 | 专业口播 **1.878°** ✅；finance 1.384°、realestate 1.257°、shortvideo 3.039° ✅ | 0.88–1.04°（0.47–0.55×）✅ | 0.84–0.90× 目标 ✅ | **是** ⚠️ |
-| C2 | 高频抖动（6–12.5 Hz std） | 度 | 专业口播 **0.107°** ✅；0.094 / 0.118 / 0.349 ✅ | 0.119 ✅ | 0.112–0.156 ✅ | **是** ⚠️ |
-| C3 | **平滑度 = 抖动 ÷ 幅度** | 无量纲 | ⏳ 待 C1（由上面两行算出） | — | — | 否 |
-| C4 | speech_head_corr | `Pearson(响度, 头部速度)` | 人类 **0.2–0.4** ✅ | 0.13–0.16 ✅ | finance ≈ 0、shortvideo 0.51 ✅ | **是** ⚠️ |
+| C1 | low band amplitude, 0.3 to 3 Hz std | degrees | professional broadcast **1.878 deg**, measured; finance 1.384, realestate 1.257, shortvideo 3.039, measured | 0.88 to 1.04 deg, 0.47 to 0.55x, measured | 0.84 to 0.90x of target, measured | **yes** |
+| C2 | high band jitter, 6 to 12.5 Hz std | degrees | professional broadcast **0.107 deg**, measured; 0.094, 0.118, 0.349, measured | 0.119, measured | 0.112 to 0.156, measured | **yes** |
+| C3 | **smoothness = jitter divided by amplitude** | dimensionless | to measure, derived from the two rows above | n/a | n/a | no |
+| C4 | speech_head_corr | Pearson of loudness and head speed | human **0.2 to 0.4**, measured | 0.13 to 0.16, measured | finance about 0, shortvideo 0.51, measured | **yes** |
 
-### D · 脸身一致与画质（渲染侧，不训练）
+### D · Face-body consistency and image quality, render side, not trained
 
-| # | 指标 | 量法 | 目标 |
+| # | metric | how it is measured | target |
 |---|---|---|---|
-| D1 | 肩/躯干随头部运动 | 肩线位移与 head roll 的相关 | ⏳ 待定；定性要求：看不出头身脱节 |
-| D2 | 分辨率 / 无接缝 | 目测 + pasteback 边缘检查 | 1280 px、无可见接缝 |
-| D3 | 时域稳定（不闪、不扭） | 帧间光流残差 | ⏳ 待定 |
+| D1 | shoulders and torso following head motion | correlation of shoulder line displacement and head roll | to be decided; qualitative requirement: no visible head-body disconnect |
+| D2 | resolution and no seams | visual check plus pasteback edge inspection | 1280 px, no visible seam |
+| D3 | temporal stability, no flicker or warp | inter-frame optical flow residual | to be decided |
 
-### E · 最终验收：人眼 A/B（唯一不可绕过的标准）
+### E · Final acceptance: human A/B, the only criterion that cannot be bypassed
 
-| # | 指标 | 方法 | 门槛 |
+| # | metric | method | threshold |
 |---|---|---|---|
-| E1 | 盲评胜率 | 评测集取 ≥30 条，base vs trained 随机配对 + 随机左右，问"哪个更像真人"；只给编号，key 单独存 | trained 胜率**显著 > 50%**（二项检验） |
-| E2 | "明显改善"判定 | 同一批人再问"差异有多大"（无感 / 轻微 / 明显） | "明显"占比 ≥ 50% |
+| E1 | blind win rate | at least 30 clips, base vs trained randomly paired and randomly left or right, ask which one looks more like a real person; only ids are shown, the key is stored separately | trained win rate **significantly above 50 percent**, binomial test |
+| E2 | clear improvement judgement | same people then asked how large the difference is, none, slight, obvious | share answering obvious at or above 50 percent |
 
-> E1/E2 是本轮真正的成功标准。前面 A–D 全是代理指标——**代理指标达标但人眼看不出来，就是失败**。
+> E1 and E2 are the real success criteria of this round. Everything in A to D is a proxy, and
+> **hitting every proxy while the human eye sees no difference is a failure**.
 
 ---
 
-## 3 · 一票否决项（出现任意一条，无论其他指标多好都判 FAIL）
+## 3 · Veto conditions, any one of these means FAIL no matter how good the rest is
 
-| 条件 | 理由 |
+| condition | reason |
 |---|---|
-| 非唇表情动态幅度 **< 真人 median 的 50%** | **面具脸**。这是本轮要解决的第一问题 |
-| 眨眼率 **< 8 或 > 25 次/min** | 不眨眼 = 僵；眨太多 = 神经质（当前 35–77） |
-| 头部幅度 **> 真人 1.5×** | 恐怖谷（v2/v3 的 2.4–2.7× 就是这么来的） |
-| 抖动 ÷ 幅度 **> 真人 1.5×** | 抖动感 |
-| EAR **< 0.30** | 眼睛半闭（行业轮第一版就是这个 bug） |
-| base 与 trained 在 E1 上**无法区分** | 训了等于没训 |
+| non-lip expression amplitude **below 50 percent of the real human median** | **mask face**, the first problem this round has to solve |
+| blink rate **below 8 or above 25 per minute** | no blinking is rigid, too much is nervous, current value is 35 to 77 |
+| head amplitude **above 1.5x the real human** | uncanny valley, that is exactly how v2 and v3 reached 2.4 to 2.7x |
+| jitter divided by amplitude **above 1.5x the real human** | reads as shaking |
+| EAR **below 0.30** | half closed eyes, the bug of the first industry round version |
+| base and trained **indistinguishable** on E1 | training was pointless |
 
 ---
 
-## 4 · 执行顺序（顺序不能换）
+## 4 · Execution order, the order must not change
 
 ```
-① 测真人（C1）  →  把 A/B/C 表里所有 ⏳ 填成实测数
-② 测 base       →  用同一张表找出 base 具体失败在哪几项
-③ 定训练目标    →  只针对 base 的失败项设 peaked 目标（不高不低，peaked 是防过冲的关键）
-④ 训练          →  一次只加一组项，其余逐字不动
-⑤ 渲对照        →  同一张脸、同一段语音、同一个 seed，base vs trained
-⑥ 用本表验收    →  先看一票否决项，再看 A–D，最后做人眼 A/B（E1/E2）
-⑦ 只有 ⑥ 全过，才允许扩大 demo 数量
+1. measure real humans, C1   ->  fill every "to measure" cell in tables A, B, C
+2. measure base              ->  use the same table to find exactly which items base fails
+3. set training targets      ->  peaked targets only for the items base fails, peaked is what stops overshoot
+4. train                     ->  add one group of items at a time, leave everything else untouched
+5. render the comparison     ->  same face, same voice, same seed, base vs trained
+6. accept against this table ->  veto conditions first, then A to D, then human A/B, E1 and E2
+7. only if 6 fully passes may the number of demos grow
 ```
 
-**在 ① 完成之前不开训。** 表情维度现在一个真人数都没有，任何 expr 目标都是猜的。
+**No training starts before step 1 finishes.** There is not a single real human number for the
+expression dimensions yet, so any expression target would be a guess.
 
 ---
 
-## 5 · 已确认的 base 缺陷（② 的部分结果，供定位）
+## 5 · Confirmed base defects, partial result of step 2, for orientation
 
-| 项 | base 实测 | 真人 | 判定 |
+| item | base measured | real human | verdict |
 |---|---|---|---|
-| 头部幅度 | 0.88–1.04° | 1.878° | **0.47–0.55× → 太僵** |
-| 眨眼 | 0–5.5 次/min | 15 | **太少 → 僵** |
-| 非唇表情动态 | ≈ 常量 | ⏳ | **面具脸** |
-| speech_head_corr | 0.13–0.16（finance ≈ 0） | 0.2–0.4 | 偏弱 |
+| head amplitude | 0.88 to 1.04 deg | 1.878 deg | **0.47 to 0.55x, too rigid** |
+| blink | 0 to 5.5 per minute | 15 | **too few, rigid** |
+| non-lip expression dynamics | about constant | to measure | **mask face** |
+| speech_head_corr | 0.13 to 0.16, finance about 0 | 0.2 to 0.4 | weak |
 
-**关键判断：base 显得"还算自然"，是因为它动得少，把"面具脸"藏起来了。**
-所以提升**不能靠加头部幅度**——那只会把面具脸暴露得更明显（v2/v3 恐怖谷的机制，
-v4 靠压幅度绕开它，但绕开 ≠ 解决）。
-真正的修复顺序是：**A（表情）→ B（时序）→ C（幅度）**。
+**Key judgement: base looks reasonably natural because it moves so little, which hides the mask
+face.** So the fix **cannot be more head amplitude**, that only exposes the mask face more
+clearly, which is the v2 and v3 uncanny valley mechanism that v4 sidestepped by compressing
+amplitude, and sidestepping is not solving.
+The real order of repair is: **A, expression, then B, temporal, then C, amplitude**.
 
 ---
 
-## 6 · 诚实说明（本标准的局限）
+## 6 · Honest limitations of this specification
 
-1. A/B 两组大部分指标仍是 ⏳：表情动态、时序结构在这个项目里**从来没有被测量过**。
-   在测出来之前，本标准只有 C 组和 A2/A7 是硬数字。
-2. 行业标签是代理划分（公开数据没有行业标注），这一点和 `INDUSTRY_ROUND.md` §7.1 一致。
-3. 口型同步（SyncNet）**从未测量**，`jaw_audio_corr` 不能作为替代证据。
-4. 人眼 A/B（E1/E2）尚未有人打分；在本轮之前，所有"更自然"的说法都只是代理指标。
+1. Most metrics in groups A and B are still to measure: expression dynamics and temporal
+   structure have **never been measured** in this project. Until they are, only group C plus
+   A2 and A7 are hard numbers in this specification.
+2. Industry labels are a proxy split, public data has no industry annotation, consistent with
+   section 7.1 of `INDUSTRY_ROUND.md`.
+3. Lip sync via SyncNet has **never been measured**, and `jaw_audio_corr` cannot substitute for it.
+4. Human A/B, E1 and E2, has no scores yet. Before this round, every claim of more natural was
+   only a proxy metric.

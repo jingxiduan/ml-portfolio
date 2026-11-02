@@ -13,36 +13,39 @@ supervision channel, so the model can imitate how real people actually moved.
 measurably by industry, in the same direction and roughly the same ratio as the real
 footage those targets came from.
 
-**中文一句话**：把 OPSD 从"图像扩散"搬到"数字人动作"，用真人视频量出各行业的动作目标，
-看训出来的数字人能不能在金融 / 房地产 / 短视频上有明显区分度。
+**In one line.** OPSD moves from image diffusion to digital-human motion; the motion
+targets of each industry are measured from real human video, and the question is whether
+the trained digital humans differ measurably across finance, real estate and short video.
 
 **Full technical report, paper format: [`docs/TECH_REPORT.md`](docs/TECH_REPORT.md)** ·
-**交接与复现：[`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
+**Handoff and reproduction: [`docs/HANDOFF_2026-11-02.md`](docs/HANDOFF_2026-11-02.md)**
 
 ---
 
 ## ⬇️ PRIMARY RESULT · trained on real video, newest
 
-### 🆕 【V8】 TRAINED ON REAL VIDEO（BC + OPSD，最新，600 步）- 先看这个
+### V8 · TRAINED ON REAL VIDEO, behaviour cloning plus OPSD, 600 steps, newest
 
-**这是"爬公开视频学动作"的第一版成果**：从公开真人视频抽出 **1753 个 4 秒窗**的真实动作系数，
-一半训练步直接**模仿真人怎么动**（behaviour cloning），另一半走原来的 OPSD reward。
-同一张人像、同一段音频、同一个 seed，只有 LoRA 不同。
+First result of learning motion from public video. **1753 four second windows** of real
+human motion coefficients were extracted from public clips. Half the optimisation steps
+imitate how a real person moved, behaviour cloning, and half run the OPSD reward loop.
+Same portrait, same audio, same seed on both sides. Only the checkpoint differs.
 
 ![bc_v1](outputs/demos/bc_v1_base_vs_trained.gif)
 
-左 `BASE`（冻结模型，没训过）· 右 `TRAINED`（600 步，真人视频模仿 + OPSD）·
-[1080 线 mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)
+Left `BASE`, the frozen model, not trained. Right `TRAINED`, 600 steps of real video
+imitation plus OPSD. [1080 line mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)
 
-| 数字 | 值 |
+| metric | value |
 |---|---|
-| 真人视频训练窗 | **1753** 个（684 条公开片段，LivePortrait 动作抽取器） |
-| BC loss | 0.047 → 0.024（最低）→ 0.093（600 步） |
-| base vs trained 系数差异 | **0.540**（0 表示 LoRA 没生效，非 0 即确已应用） |
-| 画面 | 亮度 108.4、p98 227、**过曝 0.0%**、饱和度 86、暖度 +25 |
+| real video training windows | **1753**, from 684 public clips, LivePortrait motion extractor |
+| behaviour cloning loss | 0.047 to 0.024, lowest, ending at 0.093 at step 600 |
+| base versus trained coefficient difference | **0.540**, zero would mean the LoRA never applied |
+| image | mean luma 108.4, p98 227, clipped **0.0 percent**, saturation 86, warmth plus 25 |
 
-> ⚠️ 这是**第一版、只训了 600 步**，BC loss 在 400 步后回升 → 还需要调（lr / bc-frac / 数据量）。
-> 它能证明的是**这条路走得通**：模型可以从真人视频里学动作。
+> This is the first version and only 600 steps. The behaviour cloning loss rises again
+> after step 420, so learning rate, bc fraction and data volume all still need tuning.
+> What it proves is that the route works, a model can learn motion from real human video.
 
 Post-training a frozen audio→motion diffusion model (JoyVASA) with a differentiable
 "liveliness" reward, so generated portraits blink, nod, and shift gaze instead of
@@ -50,12 +53,13 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 
 ---
 
-## ⬇️ DEMOS · 全部成品，按重要性排列
+## DEMOS · every artefact, ordered by importance
 
-### 【V1】 TRAINED · 三个行业的 persona，上一轮 3000 步
+### V1 · TRAINED, three industry personas from the earlier 3000 step round
 
-每个行业 **2 个不同的人**，左右并排：左 `BASE`（冻结的预训练模型，没训过），
-右 `PERSONA`（该行业 OPSD 训过的模型）。两个人 + 行业风格差异，一眼都能看到。
+**Two different people** per industry, side by side. Left `BASE`, the frozen pretrained
+model, not trained. Right `PERSONA`, that industry's OPSD trained model. Two faces per
+industry so generalisability and industry style are both visible.
 
 | industry | GIF (v8) | mp4 |
 |---|---|---|
@@ -63,10 +67,12 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 | **real-estate** | ![realestate](outputs/persona_grids/realestate_two_people_v8.gif) | [mp4](outputs/persona_grids/realestate_two_people_v8.mp4) |
 | **short-video** | ![shortvideo](outputs/persona_grids/shortvideo_two_people_v8.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_v8.mp4) |
 
-### 【V2】 REFERENCE · 真人动作驱动，**不是**模型输出
+### V2 · REFERENCE, driven by real human coefficients, **not** a model output
 
-左 `BASE`，右 `REAL`：右边是把**真人视频里的动作系数**直接搬到同一张脸上。
-它当然最自然 -- 因为那就是真人自己的动作。但它**不是模型学会的**，是训练要逼近的目标。
+Left `BASE`, right `REAL`. The right side copies the motion coefficients of a real
+person's video straight onto the same face. It looks the most natural by construction,
+because it is literally real human motion. It is **not** something the model learned,
+it is the target the model is trained to approach.
 
 | industry | GIF (v8) | mp4 |
 |---|---|---|
@@ -74,33 +80,32 @@ sitting frozen. Rendering is LivePortrait at up to 1280 px with pasteback.
 | **real-estate** | ![realestate](outputs/demos/realestate_v8_base_vs_real.gif) | [mp4](outputs/demos/realestate_v8_base_vs_real_1080.mp4) |
 | **short-video** | ![shortvideo](outputs/demos/shortvideo_v8_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v8_base_vs_real_1080.mp4) |
 
-### 到底哪个更好 · 诚实版
+### Which one actually looks better, the honest version
 
-| 观感 | 是哪一列 | 为什么 | 算不算成果 |
+| impression | which column | why | does it count as a result |
 |---|---|---|---|
-| **最自然** | V2 右边的 `REAL` | 直接复制真人动作，等于"抄答案" | ❌ **不是模型输出**，是天花板 / 目标 |
-| **次之，但明显比 base 活** | V1 右边的 `PERSONA` | 模型真的学会了：幅度 0.89° → **1.16°**，达到真人动作带的 **0.84×**，且不过冲 | ✅ **这才是成果** |
-| **最僵** | V1 和 V2 左边的 `BASE` | 预训练模型，没做 post-train | 基线 |
+| **most natural** | `REAL` on the right of V2 | real human motion copied straight over, the equivalent of copying the answer key | **not a model output**, it is the ceiling and the target |
+| **second, but clearly more alive than base** | `PERSONA` on the right of V1 | the model genuinely learned: amplitude 0.89 deg to **1.16 deg**, reaching **0.84x** of the real human band, with no overshoot | **this is the result** |
+| **most rigid** | `BASE` on the left of V1 and V2 | pretrained model, no post-training | baseline |
 
-**一句话**：`REAL` 看着最好，但它不是我们做的；`PERSONA` 才是我做出来的，它的任务就是往 `REAL` 靠。
-看效果请看 **V8 和 V1**，看目标长什么样请看 **V2**。
+**In one sentence**: `REAL` looks best, but it is not something we produced; `PERSONA` is what we produced, and its job is to move toward `REAL`.
+To see the effect look at **V8 and V1**; to see what the target looks like look at **V2**.
 
-## 🔢 视频清单（供审查：编号 → 你决定删/并）
+## Video inventory for review, each id maps to a keep or merge decision
 
-| 编号 | 内容 | 数量 | 是否训练 | 调色 | 现在在哪 | 我的建议 |
+| id | content | count | trained | grading | where it sits now | recommendation |
 |---|---|---|---|---|---|---|
-| **V1** | 每行业 2 人 × (base / persona) 的 2×2 格 | 3 GIF + 3 mp4 | ✅ **训过**（上一轮 3000 步） | **v8** | **首页主位** | **保留**（唯一真正的成果） |
-| **V2** | base vs real-driven（真人系数搬运） | 3 GIF + 3 mp4 | ❌ 纯推理 | **v8** | 首页次位 | **保留**（当"目标"参照）；也可并入 V1 的说明里 |
-| **V3** | 同一张脸 × 三个行业的控制实验 | 1 GIF | ✅ 训过 | 旧版（未 v8） | 中部"THREE-INDUSTRY ROUND" | 保留 / 或移到"控制实验"小节 |
-| **V4** | 单人 base vs persona，industry_gifs_v3 | 3 GIF | ✅ 训过 | 旧版 | **仅存档链接，不显示** | 与 V1 同一批渲染的旧版，重复 |
-| **V5** | base vs v3，demo_gifs_frontal | 8 GIF | ✅ 训过 v3 | 旧版 | **仅存档链接，不显示** | v3 幅度过冲真人 2.4×，已被取代 |
-| **V6** | base vs v4，demo_gifs_v4 | 4 GIF | ✅ 训过 v4 | 旧版 | **仅存档链接，不显示** | 历史版本 |
-| **V7** | 上面所有 GIF 的源 mp4（industry_demo_v3 等） | 18+ mp4 | · | · | 仅目录链接 | **保留**（GIF 的母版，删了就渲染不回来） |
-| **V8** | base vs **真人视频训出来的模型**（BC+OPSD 600 步） | 1 GIF + 1 mp4 | ✅ 训过（本轮） | v8 | **首页最新位** | **保留**（最新成果，看它） |
-| · | 3 张图（行业动作带 / 训练曲线 / 方法图）+ 人像表 | 4 PNG | · | · | 文中 | 保留（不是视频） |
+| **V1** | 2 people per industry, base and persona in a 2x2 grid | 3 GIF + 3 mp4 | **trained**, previous round, 3000 steps | **v8** | **top of this page** | **keep**, the only genuine result |
+| **V2** | base vs real-driven, real human coefficients copied over | 3 GIF + 3 mp4 | no, inference only | **v8** | second position on this page | **keep** as the target reference, could be folded into the V1 description |
+| **V3** | one face across three industries, control experiment | 1 GIF | trained | old, no v8 | middle section THREE-INDUSTRY ROUND | keep, or move into a control experiment subsection |
+| **V4** | single person base vs persona, industry_gifs_v3 | 3 GIF | trained | old | **archive link only, not displayed** | same render batch as V1 with old grading, duplicate |
+| **V5** | base vs v3, demo_gifs_frontal | 8 GIF | trained v3 | old | **archive link only, not displayed** | v3 overshot real humans by 2.4x, superseded |
+| **V6** | base vs v4, demo_gifs_v4 | 4 GIF | trained v4 | old | **archive link only, not displayed** | historical version |
+| **V7** | source mp4 of every GIF above, industry_demo_v3 and others | 18+ mp4 | n/a | n/a | directory link only | **keep**, the masters behind the GIFs, deleting them means they can never be re-rendered |
+| **V8** | base vs the model **trained on real human video**, BC+OPSD 600 steps | 1 GIF + 1 mp4 | **trained, this round** | v8 | **newest position on this page** | **keep**, latest result, watch this one |
+| n/a | 3 figures, industry band, training curve, method diagram, plus the portrait sheet | 4 PNG | n/a | n/a | inline in this document | keep, not video |
 
-**说明**：V1 和 V4 是**同一批渲染**（V4 是旧调色、单人版）；V1 和 V2 是**不同口径**--
-V1 是模型训出来的，V2 的右边是抄真人动作，不是模型输出。所以"看起来 V2 更自然"是正常的。
+**Notes**: V1 and V4 come from the **same render batch**, V4 is the old grading and single person version. V1 and V2 answer **different questions**: V1 is model output, while the right side of V2 copies real human motion and is not model output. So it is expected that V2 looks more natural.
 
 
 
@@ -118,7 +123,7 @@ lanczos upscale -> 1080-line output.
 
 | knob | v7 | **v8** | why |
 |---|---|---|---|
-| unsharp (锐化) | amount 0.55, radius 1.4 | **amount 0.25, radius 1.8** | v7 read as crunchy; the sharpening halos were visible around eyes and teeth |
+| unsharp | amount 0.55, radius 1.4 | **amount 0.25, radius 1.8** | v7 read as crunchy; the sharpening halos were visible around eyes and teeth |
 | clarity (micro-contrast) | 0.45 | **0.30** | keeps the depth, drops the "crispy" edge |
 | tone | neutral | **warm +3 % R / -3 % B** | warmer, more flattering skin without raising saturation |
 | saturation | 1.05 | **1.05 (unchanged)** | deliberately not raised again |
@@ -150,13 +155,13 @@ No collapse, no guard trip. Next: render this checkpoint against `base` on the f
 clips so the trained effect is visible, then scale to 3000 steps and the other two
 industries.
 
-**v7 grading: brightness is global, LIGHT FEEL ("光感") is local.**
+**v7 grading: brightness is global, LIGHT FEEL is local.**
 v6 fixed the exposure numbers but still looked flat, because raising mean luma and
 rolling off highlights does nothing for *local* contrast -- and local contrast is what
 reads as "sun through air" / translucent. v7 adds the three things that actually make
 light feel, and pulls saturation back at the same time:
 
-| what | how it is done | why it is "光感" not "亮度" |
+| what | how it is done | why it reads as light feel and not brightness |
 |---|---|---|
 | air in the shadows | black point lifted to 16 instead of crushed to 0 | shadows keep gradient; the frame breathes |
 | local contrast | CLAHE clipLimit 1.6, 8x8 tiles | the single biggest contributor to transparency |
@@ -368,12 +373,12 @@ personas, so any behavioural difference can only come from the persona:
 
 `base | finance | real-estate | short-video`
 
-**旧版：单人 `base vs persona`**（存档，不再作为首页展示）
+**Archive: single person `base vs persona`**, no longer shown on this page
 
-> **📌 该单人组已被顶部的两人格取代**（同一批渲染，但未经 v8 调色）。
-> finance 的 p00 **被剔除**：她的人像眼睛没看镜头（视线偏移 −0.073 眼宽，原图就能看出来）。
+> **This single person set has been replaced by the two person grid above**, same render batch, older grading.
+> finance p00 was **dropped**: her portrait is not looking into the camera, gaze offset minus 0.073 eye widths, visible in the source image.
 
-### ① 的检查细节（点开看数字）
+### Check 1 in detail, the numbers behind it
 
 **Every clip was checked, nothing guessed** (`scripts/check_persona_clips.py` +
 `scripts/add_gaze_checks.py`, full numbers in `outputs/persona_clip_checks.json`):
@@ -388,7 +393,7 @@ personas, so any behavioural difference can only come from the persona:
 Selected people per industry: finance = p06 + p03 · real-estate = p01 + p04 ·
 short-video = p08 + p05. All other clips are kept on disk, nothing deleted.
 
-> 这组单人对比是**旧版**（同一批渲染，未经 v8 调色），已被上面的两人格取代：
+> These single person pairs are an **older version**, same render batch, older grading, replaced by the two person grid above:
 > [`outputs/industry_gifs_v3/`](outputs/industry_gifs_v3/) · [`outputs/industry_demo_v3/`](outputs/industry_demo_v3/)
 
 More pairs per industry: `outputs/industry_demo_v3/{finance,realestate,shortvideo}/`
@@ -666,10 +671,10 @@ exactly the behaviour being measured.
 
 ![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
-> **存档（旧版 v3 / v4 的并排 GIF，未做 v8 调色）** -- 首页不再展示，只看链接：
-> [`outputs/demo_gifs_frontal/`](outputs/demo_gifs_frontal/)（base vs v3）
-> · [`outputs/demo_gifs_v4/`](outputs/demo_gifs_v4/)（base vs v4，校准后的 reward）。
-> v4 是克制版：v2/v3 把头部动作放大到真人的 2.4–2.7×（恐怖谷来源），v4 压在 0.88×。
+> **Archive**, side by side GIFs of the older v3 and v4, old grading, links only, no longer displayed on this page:
+> [`outputs/demo_gifs_frontal/`](outputs/demo_gifs_frontal/), base vs v3
+> and [`outputs/demo_gifs_v4/`](outputs/demo_gifs_v4/), base vs v4 with the calibrated reward.
+> v4 is the restrained version: v2 and v3 pushed head motion to 2.4x to 2.7x of real humans, which is where the uncanny valley came from, v4 holds it at 0.88x.
 
 Verified that the LoRA is actually applied: mean per-frame pixel difference between
 base and v3 is **20.5 / 255** over 91 frames (1024×1024). See the "LoRA loading bug"
