@@ -1,0 +1,58 @@
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+2026-11-03 19:16:53,845 INFO mainlogger: LatentVisualDiffusion: Running in v-prediction mode
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+2026-11-03 19:17:00,808 INFO root: Loaded ViT-H-14 model config.
+2026-11-03 19:17:07,520 INFO root: Loading pretrained ViT-H-14 weights (laion2b_s32b_b79k).
+2026-11-03 19:17:09,958 INFO root: Loaded ViT-H-14 model config.
+2026-11-03 19:17:15,935 INFO root: Loading pretrained ViT-H-14 weights (laion2b_s32b_b79k).
+[DynamiCrafter] loaded, missing=0, unexpected=0
+[lora] enumerated 136 temporal-attn target modules (e.g. init_attn.0.transformer_blocks.0.attn1.to_k)
+[OPSDPolicies] cond-stage ok on cuda: text=FrozenOpenCLIPEmbedder, image=FrozenOpenCLIPImageEmbedderV2, proj=Resampler
+[OPSDPolicies] v_theta: trainable=3.33M / total=1442.18M (0.23%)
+2026-11-03 19:17:28,172 INFO root: Loading pretrained ViT-B-32 from OpenAI.
+2026-11-03 19:18:59,520 INFO src.opsd_trainer_i2v: [step     5/100] loss=+0.0067  R=-0.3360  σq=460.000  lr=1.00e-05  (89.4s)  [R_subject_consistency=0.993  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.149]
+[step     5/100] loss=+0.0067  R=-0.3360  σq=460.000  lr=1.00e-05  (89.4s)  [R_subject_consistency=0.993  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.149]
+2026-11-03 19:20:44,536 INFO src.opsd_trainer_i2v: [step    10/100] loss=+0.0070  R=-0.3739  σq=480.000  lr=2.00e-05  (194.5s)  [R_subject_consistency=0.988  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.166]
+[step    10/100] loss=+0.0070  R=-0.3739  σq=480.000  lr=2.00e-05  (194.5s)  [R_subject_consistency=0.988  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.166]
+2026-11-03 19:21:42,532 INFO src.opsd_trainer_i2v: [step    15/100] loss=+0.0102  R=+1.4355  σq=740.000  lr=3.00e-05  (252.5s)  [R_subject_consistency=0.985  R_motion_smoothness=0.368  R_dynamic_degree=0.582  R_naturalness_penalty=-0.093]
+[step    15/100] loss=+0.0102  R=+1.4355  σq=740.000  lr=3.00e-05  (252.5s)  [R_subject_consistency=0.985  R_motion_smoothness=0.368  R_dynamic_degree=0.582  R_naturalness_penalty=-0.093]
+2026-11-03 19:22:57,682 INFO src.opsd_trainer_i2v: [step    20/100] loss=+0.0044  R=-0.2109  σq=320.000  lr=4.00e-05  (327.6s)  [R_subject_consistency=0.985  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.083]
+[step    20/100] loss=+0.0044  R=-0.2109  σq=320.000  lr=4.00e-05  (327.6s)  [R_subject_consistency=0.985  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.083]
+2026-11-03 19:24:08,849 INFO src.opsd_trainer_i2v: [step    25/100] loss=+0.0087  R=+0.1289  σq=600.000  lr=5.00e-05  (398.8s)  [R_subject_consistency=0.980  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-0.912]
+[step    25/100] loss=+0.0087  R=+0.1289  σq=600.000  lr=5.00e-05  (398.8s)  [R_subject_consistency=0.980  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-0.912]
+2026-11-03 19:24:58,278 INFO src.opsd_trainer_i2v: [step    30/100] loss=+0.0067  R=-0.1010  σq=460.000  lr=6.00e-05  (448.2s)  [R_subject_consistency=0.991  R_motion_smoothness=0.368  R_dynamic_degree=0.974  R_naturalness_penalty=-1.020]
+[step    30/100] loss=+0.0067  R=-0.1010  σq=460.000  lr=6.00e-05  (448.2s)  [R_subject_consistency=0.991  R_motion_smoothness=0.368  R_dynamic_degree=0.974  R_naturalness_penalty=-1.020]
+2026-11-03 19:25:53,233 INFO src.opsd_trainer_i2v: [step    35/100] loss=+0.0076  R=-0.4330  σq=520.000  lr=7.00e-05  (503.2s)  [R_subject_consistency=0.987  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.195]
+[step    35/100] loss=+0.0076  R=-0.4330  σq=520.000  lr=7.00e-05  (503.2s)  [R_subject_consistency=0.987  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.195]
+2026-11-03 19:26:53,177 INFO src.opsd_trainer_i2v: [step    40/100] loss=+0.0025  R=-0.3279  σq=200.000  lr=8.00e-05  (563.1s)  [R_subject_consistency=0.993  R_motion_smoothness=0.368  R_dynamic_degree=0.815  R_naturalness_penalty=-1.071]
+[step    40/100] loss=+0.0025  R=-0.3279  σq=200.000  lr=8.00e-05  (563.1s)  [R_subject_consistency=0.993  R_motion_smoothness=0.368  R_dynamic_degree=0.815  R_naturalness_penalty=-1.071]
+2026-11-03 19:27:54,566 INFO src.opsd_trainer_i2v: [step    45/100] loss=+0.0079  R=-0.1213  σq=540.000  lr=9.00e-05  (624.5s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=0.950  R_naturalness_penalty=-1.019]
+[step    45/100] loss=+0.0079  R=-0.1213  σq=540.000  lr=9.00e-05  (624.5s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=0.950  R_naturalness_penalty=-1.019]
+2026-11-03 19:29:09,447 INFO src.opsd_trainer_i2v: [step    50/100] loss=+0.0041  R=-0.3660  σq=300.000  lr=1.00e-04  (699.4s)  [R_subject_consistency=0.990  R_motion_smoothness=0.368  R_dynamic_degree=0.912  R_naturalness_penalty=-1.128]
+[step    50/100] loss=+0.0041  R=-0.3660  σq=300.000  lr=1.00e-04  (699.4s)  [R_subject_consistency=0.990  R_motion_smoothness=0.368  R_dynamic_degree=0.912  R_naturalness_penalty=-1.128]
+2026-11-03 19:29:09,505 INFO src.opsd_trainer_i2v: [ckpt] saved LoRA to outputs/probe_v3_stable/lora_step00050
+2026-11-03 19:29:56,487 INFO src.opsd_trainer_i2v: [step    55/100] loss=+0.0078  R=+0.9408  σq=540.000  lr=9.76e-05  (746.4s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-0.508]
+[step    55/100] loss=+0.0078  R=+0.9408  σq=540.000  lr=9.76e-05  (746.4s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-0.508]
+2026-11-03 19:30:44,279 INFO src.opsd_trainer_i2v: [step    60/100] loss=+0.0079  R=+0.2664  σq=540.000  lr=9.05e-05  (794.2s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=0.777  R_naturalness_penalty=-0.756]
+[step    60/100] loss=+0.0079  R=+0.2664  σq=540.000  lr=9.05e-05  (794.2s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=0.777  R_naturalness_penalty=-0.756]
+2026-11-03 19:31:39,755 INFO src.opsd_trainer_i2v: [step    65/100] loss=+0.0028  R=-0.3755  σq=220.000  lr=7.94e-05  (849.7s)  [R_subject_consistency=0.995  R_motion_smoothness=0.368  R_dynamic_degree=0.883  R_naturalness_penalty=-1.123]
+[step    65/100] loss=+0.0028  R=-0.3755  σq=220.000  lr=7.94e-05  (849.7s)  [R_subject_consistency=0.995  R_motion_smoothness=0.368  R_dynamic_degree=0.883  R_naturalness_penalty=-1.123]
+2026-11-03 19:32:40,825 INFO src.opsd_trainer_i2v: [step    70/100] loss=+0.0028  R=-0.3441  σq=220.000  lr=6.55e-05  (910.7s)  [R_subject_consistency=0.994  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.153]
+[step    70/100] loss=+0.0028  R=-0.3441  σq=220.000  lr=6.55e-05  (910.7s)  [R_subject_consistency=0.994  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.153]
+2026-11-03 19:33:23,188 INFO src.opsd_trainer_i2v: [step    75/100] loss=+0.0070  R=-0.3128  σq=480.000  lr=5.00e-05  (953.1s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.135]
+[step    75/100] loss=+0.0070  R=-0.3128  σq=480.000  lr=5.00e-05  (953.1s)  [R_subject_consistency=0.986  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.135]
+2026-11-03 19:34:22,047 INFO src.opsd_trainer_i2v: [step    80/100] loss=+0.0048  R=-0.0591  σq=340.000  lr=3.45e-05  (1012.0s)  [R_subject_consistency=0.994  R_motion_smoothness=0.368  R_dynamic_degree=0.952  R_naturalness_penalty=-0.992]
+[step    80/100] loss=+0.0048  R=-0.0591  σq=340.000  lr=3.45e-05  (1012.0s)  [R_subject_consistency=0.994  R_motion_smoothness=0.368  R_dynamic_degree=0.952  R_naturalness_penalty=-0.992]
+2026-11-03 19:35:15,342 INFO src.opsd_trainer_i2v: [step    85/100] loss=+0.0041  R=-0.5696  σq=300.000  lr=2.06e-05  (1065.3s)  [R_subject_consistency=0.991  R_motion_smoothness=0.368  R_dynamic_degree=0.864  R_naturalness_penalty=-1.211]
+[step    85/100] loss=+0.0041  R=-0.5696  σq=300.000  lr=2.06e-05  (1065.3s)  [R_subject_consistency=0.991  R_motion_smoothness=0.368  R_dynamic_degree=0.864  R_naturalness_penalty=-1.211]
+2026-11-03 19:35:59,968 INFO src.opsd_trainer_i2v: [step    90/100] loss=+0.0098  R=+1.2002  σq=720.000  lr=9.55e-06  (1109.9s)  [R_subject_consistency=0.959  R_motion_smoothness=0.368  R_dynamic_degree=0.209  R_naturalness_penalty=-0.051]
+[step    90/100] loss=+0.0098  R=+1.2002  σq=720.000  lr=9.55e-06  (1109.9s)  [R_subject_consistency=0.959  R_motion_smoothness=0.368  R_dynamic_degree=0.209  R_naturalness_penalty=-0.051]
+2026-11-03 19:36:43,040 INFO src.opsd_trainer_i2v: [step    95/100] loss=+0.0106  R=+0.3365  σq=780.000  lr=2.45e-06  (1153.0s)  [R_subject_consistency=0.969  R_motion_smoothness=0.368  R_dynamic_degree=0.180  R_naturalness_penalty=-0.475]
+[step    95/100] loss=+0.0106  R=+0.3365  σq=780.000  lr=2.45e-06  (1153.0s)  [R_subject_consistency=0.969  R_motion_smoothness=0.368  R_dynamic_degree=0.180  R_naturalness_penalty=-0.475]
+2026-11-03 19:37:49,072 INFO src.opsd_trainer_i2v: [step 100] EMA hard-copy (3.33M LoRA params)
+2026-11-03 19:37:49,072 INFO src.opsd_trainer_i2v: [step   100/100] loss=+0.0054  R=-0.2950  σq=380.000  lr=0.00e+00  (1219.0s)  [R_subject_consistency=0.994  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.129]
+[step   100/100] loss=+0.0054  R=-0.2950  σq=380.000  lr=0.00e+00  (1219.0s)  [R_subject_consistency=0.994  R_motion_smoothness=0.368  R_dynamic_degree=1.000  R_naturalness_penalty=-1.129]
+2026-11-03 19:37:49,113 INFO src.opsd_trainer_i2v: [ckpt] saved LoRA to outputs/probe_v3_stable/lora_step00100
+2026-11-03 19:37:49,113 INFO src.opsd_trainer_i2v: Training done. Total time 1219.0s

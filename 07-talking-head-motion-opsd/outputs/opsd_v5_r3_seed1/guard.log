@@ -1,0 +1,2 @@
+[GUARD] kind=motion log=outputs/opsd_v5_r3_seed1/metrics.jsonl pid=101664 window=50
+[GUARD] pid 101664 exited after 600 steps, no trip
