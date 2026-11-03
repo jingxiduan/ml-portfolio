@@ -26,7 +26,7 @@ def bootstrap_ci(values: np.ndarray, seed: int, draws: int = 10000) -> list[floa
     return [float(np.quantile(means, 0.025)), float(np.quantile(means, 0.975))]
 
 
-def prepare_face_video(source: Path, destination: Path) -> None:
+def prepare_face_video(source: Path, destination: Path, seconds: float) -> None:
     ffmpeg = shutil.which("ffmpeg")
     if ffmpeg is None:
         raise SystemExit("ffmpeg is required")
@@ -38,6 +38,8 @@ def prepare_face_video(source: Path, destination: Path) -> None:
             "error",
             "-i",
             str(source),
+            "-t",
+            str(seconds),
             "-vf",
             "crop='min(iw,ih)*0.72':'min(iw,ih)*0.72':(iw-ow)/2:(ih-oh)/2,scale=224:224,fps=25",
             "-ar",
@@ -66,6 +68,7 @@ def main() -> None:
     parser.add_argument("--model", type=Path, default=ROOT / "weights" / "syncnet" / "syncnet_v2.model")
     parser.add_argument("--out", type=Path, default=ROOT / "outputs" / "syncnet_eval_r3.json")
     parser.add_argument("--batch-size", type=int, default=20)
+    parser.add_argument("--seconds", type=float, default=4.0)
     parser.add_argument("--vshift", type=int, default=15)
     parser.add_argument("--margin", type=float, default=0.5)
     args = parser.parse_args()
@@ -86,7 +89,7 @@ def main() -> None:
         for index, entry in enumerate(entries):
             source = ROOT / entry["video"]
             prepared = temp_path / f"prepared-{index:03d}.avi"
-            prepare_face_video(source, prepared)
+            prepare_face_video(source, prepared, args.seconds)
             opt = SimpleNamespace(
                 tmp_dir=str(temp_path / "work"),
                 reference=f"clip-{index:03d}",

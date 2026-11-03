@@ -94,9 +94,11 @@ if [[ ! -d third_party/syncnet_python ]]; then
 fi
 mkdir -p weights/syncnet
 if [[ ! -s weights/syncnet/syncnet_v2.model ]] || [[ $(stat -c%s weights/syncnet/syncnet_v2.model) -lt 50000000 ]]; then
-    curl -fL --retry 10 -C - \
-        https://www.robots.ox.ac.uk/~vgg/software/lipsync/data/syncnet_v2.model \
-        -o weights/syncnet/syncnet_v2.model 2>&1 | tee -a "$LOG"
+    curl -fL --retry 3 \
+        https://huggingface.co/nawta/syncnet/resolve/main/syncnet_v2.model \
+        -o weights/syncnet/syncnet_v2.model.tmp 2>&1 | tee -a "$LOG"
+    echo "961e8696f888fce4f3f3a6c3d5b3267cf5b343100b238e79b2659bff2c605442  weights/syncnet/syncnet_v2.model.tmp" | sha256sum -c -
+    mv weights/syncnet/syncnet_v2.model.tmp weights/syncnet/syncnet_v2.model
 fi
 
 # ------------------------------------------------------------- 3. MediaPipe landmarker

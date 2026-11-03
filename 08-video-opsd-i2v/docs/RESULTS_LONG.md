@@ -125,7 +125,7 @@ V3 configured `grad_clip: 1.0`, roughly four orders of magnitude above its initi
 
 The trainer now records both `raw_param_grad_norm` and the post-clip effective `param_grad_norm`. Existing fit, displacement, identity, reward, and naturalness guards stay fixed. An additional diagnostic guard stops if the 50-step mean raw norm exceeds 0.1. The run uses `configs/long_v4_gradclip.yaml`; step 600 is the first promotion checkpoint because it lies beyond the V3 failure point, but the same run continues to step 2,000 if all guards pass.
 
-This is a stabilization hypothesis only. Completion still cannot establish quality without the registered held-out and human gates.
+This is a stabilization hypothesis only. Completion still cannot establish quality without the registered held-out and human gates. If step 2,000 completes, `scripts/eval_candidate.py` renders base and V4 on the same 40 held-out prompts, first frames, and generation seed; a metric can be described as improved only when the paired-bootstrap 95% interval for candidate-minus-base lies entirely above zero.
 
 ## V3 pre-registered gates
 
