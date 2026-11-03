@@ -31,7 +31,7 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 ### What remains unresolved
 
 - The pre-registered absolute-jitter gate failed: **28.97** versus the allowed **18.36**.
-- Lip synchronization has not been validated with SyncNet/LSE-C or an equivalent independent metric.
+- SyncNet non-inferiority is validated on 40 paired renders per seed, but low absolute confidence and 7.7–8.8-frame mean offsets mean lip synchronization itself is not solved.
 - Expression-dynamics V5 passes its calibrated multi-seed coefficient gate, but the optimized expression statistic is not an independent perceptual metric.
 - Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by blind human preference testing.
 
@@ -132,7 +132,7 @@ ema_update_behaviour_policy()
 
 All three paired bootstrap intervals for target-error improvement exclude zero. Because expression RMS is also the optimized statistic, this establishes coefficient control rather than independent perceptual quality. See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md).
 
-![R3 matched render](outputs/expression_demo_r3/expression_r3_fourway.gif)
+![R3 strict four-second matched render](outputs/expression_render_set_r3/clip000_fourway.gif)
 
 ----------------------------------------
 
@@ -250,8 +250,8 @@ We list and preserve all generated qualitative demos from the project's historic
 |---|---|
 | **Visual Realism** | **Not solved.** Skin, color, and teeth textures are determined by the frozen LivePortrait warp. |
 | **Pre-registered Jitter Gate** | **Failed.** Pre-registered gate of `jitter_hp ≤ 1.3x base` (18.36) was not satisfied; OPSD naive attained **28.97 (2.05x base)**. |
-| **Lip Synchronisation** | **Unmeasured.** `jaw_audio_corr` remains negative even for untrained base model; no SyncNet / LSE-C scores computed. |
-| **Expression V5** | **Coefficient gate passed.** Three calibrated 600-step seeds and n=40 held-out coefficient evaluation are complete; independent perceptual and lip-sync gates remain open. |
+| **Lip Synchronisation** | **Relative gate passed, absolute quality unresolved.** Three seeds pass the frozen paired SyncNet non-inferiority margin, but all variants have low confidence and large offsets. |
+| **Expression V5** | **Coefficient and lip-preservation gates passed.** Three calibrated seeds and n=40 paired evaluations are complete; independent perceptual preference remains open. |
 | **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. |
 
 See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the completion protocol and exact claim boundary.

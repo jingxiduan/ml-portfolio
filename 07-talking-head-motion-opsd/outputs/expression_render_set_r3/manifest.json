@@ -1,0 +1,1289 @@
+{
+  "portrait": "data/portraits/host_f.png",
+  "n_clips": 40,
+  "seconds": 4.0,
+  "generation_seed": 0,
+  "matched_inputs": true,
+  "entries": [
+    {
+      "clip_index": 0,
+      "source_audio": "data/audio_public/eval/seg_00000.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip000.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip000__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 0,
+      "source_audio": "data/audio_public/eval/seg_00000.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip000.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip000__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 0,
+      "source_audio": "data/audio_public/eval/seg_00000.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip000.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip000__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 0,
+      "source_audio": "data/audio_public/eval/seg_00000.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip000.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip000__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 1,
+      "source_audio": "data/audio_public/eval/seg_00001.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip001.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip001__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 1,
+      "source_audio": "data/audio_public/eval/seg_00001.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip001.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip001__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 1,
+      "source_audio": "data/audio_public/eval/seg_00001.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip001.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip001__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 1,
+      "source_audio": "data/audio_public/eval/seg_00001.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip001.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip001__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 2,
+      "source_audio": "data/audio_public/eval/seg_00002.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip002.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip002__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 2,
+      "source_audio": "data/audio_public/eval/seg_00002.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip002.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip002__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 2,
+      "source_audio": "data/audio_public/eval/seg_00002.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip002.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip002__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 2,
+      "source_audio": "data/audio_public/eval/seg_00002.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip002.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip002__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 3,
+      "source_audio": "data/audio_public/eval/seg_00003.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip003.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip003__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 3,
+      "source_audio": "data/audio_public/eval/seg_00003.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip003.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip003__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 3,
+      "source_audio": "data/audio_public/eval/seg_00003.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip003.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip003__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 3,
+      "source_audio": "data/audio_public/eval/seg_00003.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip003.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip003__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 4,
+      "source_audio": "data/audio_public/eval/seg_00004.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip004.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip004__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 4,
+      "source_audio": "data/audio_public/eval/seg_00004.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip004.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip004__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 4,
+      "source_audio": "data/audio_public/eval/seg_00004.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip004.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip004__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 4,
+      "source_audio": "data/audio_public/eval/seg_00004.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip004.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip004__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 5,
+      "source_audio": "data/audio_public/eval/seg_00005.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip005.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip005__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 5,
+      "source_audio": "data/audio_public/eval/seg_00005.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip005.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip005__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 5,
+      "source_audio": "data/audio_public/eval/seg_00005.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip005.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip005__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 5,
+      "source_audio": "data/audio_public/eval/seg_00005.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip005.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip005__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 6,
+      "source_audio": "data/audio_public/eval/seg_00006.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip006.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip006__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 6,
+      "source_audio": "data/audio_public/eval/seg_00006.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip006.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip006__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 6,
+      "source_audio": "data/audio_public/eval/seg_00006.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip006.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip006__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 6,
+      "source_audio": "data/audio_public/eval/seg_00006.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip006.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip006__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 7,
+      "source_audio": "data/audio_public/eval/seg_00007.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip007.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip007__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 7,
+      "source_audio": "data/audio_public/eval/seg_00007.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip007.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip007__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 7,
+      "source_audio": "data/audio_public/eval/seg_00007.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip007.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip007__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 7,
+      "source_audio": "data/audio_public/eval/seg_00007.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip007.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip007__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 8,
+      "source_audio": "data/audio_public/eval/seg_00008.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip008.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip008__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 8,
+      "source_audio": "data/audio_public/eval/seg_00008.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip008.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip008__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 8,
+      "source_audio": "data/audio_public/eval/seg_00008.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip008.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip008__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 8,
+      "source_audio": "data/audio_public/eval/seg_00008.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip008.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip008__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 9,
+      "source_audio": "data/audio_public/eval/seg_00009.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip009.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip009__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 9,
+      "source_audio": "data/audio_public/eval/seg_00009.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip009.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip009__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 9,
+      "source_audio": "data/audio_public/eval/seg_00009.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip009.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip009__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 9,
+      "source_audio": "data/audio_public/eval/seg_00009.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip009.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip009__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 10,
+      "source_audio": "data/audio_public/eval/seg_00010.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip010.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip010__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 10,
+      "source_audio": "data/audio_public/eval/seg_00010.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip010.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip010__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 10,
+      "source_audio": "data/audio_public/eval/seg_00010.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip010.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip010__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 10,
+      "source_audio": "data/audio_public/eval/seg_00010.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip010.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip010__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 11,
+      "source_audio": "data/audio_public/eval/seg_00011.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip011.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip011__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 11,
+      "source_audio": "data/audio_public/eval/seg_00011.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip011.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip011__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 11,
+      "source_audio": "data/audio_public/eval/seg_00011.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip011.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip011__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 11,
+      "source_audio": "data/audio_public/eval/seg_00011.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip011.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip011__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 12,
+      "source_audio": "data/audio_public/eval/seg_00012.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip012.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip012__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 12,
+      "source_audio": "data/audio_public/eval/seg_00012.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip012.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip012__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 12,
+      "source_audio": "data/audio_public/eval/seg_00012.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip012.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip012__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 12,
+      "source_audio": "data/audio_public/eval/seg_00012.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip012.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip012__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 13,
+      "source_audio": "data/audio_public/eval/seg_00013.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip013.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip013__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 13,
+      "source_audio": "data/audio_public/eval/seg_00013.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip013.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip013__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 13,
+      "source_audio": "data/audio_public/eval/seg_00013.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip013.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip013__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 13,
+      "source_audio": "data/audio_public/eval/seg_00013.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip013.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip013__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 14,
+      "source_audio": "data/audio_public/eval/seg_00014.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip014.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip014__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 14,
+      "source_audio": "data/audio_public/eval/seg_00014.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip014.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip014__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 14,
+      "source_audio": "data/audio_public/eval/seg_00014.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip014.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip014__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 14,
+      "source_audio": "data/audio_public/eval/seg_00014.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip014.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip014__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 15,
+      "source_audio": "data/audio_public/eval/seg_00015.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip015.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip015__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 15,
+      "source_audio": "data/audio_public/eval/seg_00015.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip015.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip015__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 15,
+      "source_audio": "data/audio_public/eval/seg_00015.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip015.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip015__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 15,
+      "source_audio": "data/audio_public/eval/seg_00015.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip015.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip015__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 16,
+      "source_audio": "data/audio_public/eval/seg_00016.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip016.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip016__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 16,
+      "source_audio": "data/audio_public/eval/seg_00016.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip016.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip016__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 16,
+      "source_audio": "data/audio_public/eval/seg_00016.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip016.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip016__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 16,
+      "source_audio": "data/audio_public/eval/seg_00016.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip016.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip016__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 17,
+      "source_audio": "data/audio_public/eval/seg_00017.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip017.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip017__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 17,
+      "source_audio": "data/audio_public/eval/seg_00017.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip017.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip017__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 17,
+      "source_audio": "data/audio_public/eval/seg_00017.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip017.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip017__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 17,
+      "source_audio": "data/audio_public/eval/seg_00017.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip017.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip017__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 18,
+      "source_audio": "data/audio_public/eval/seg_00018.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip018.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip018__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 18,
+      "source_audio": "data/audio_public/eval/seg_00018.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip018.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip018__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 18,
+      "source_audio": "data/audio_public/eval/seg_00018.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip018.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip018__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 18,
+      "source_audio": "data/audio_public/eval/seg_00018.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip018.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip018__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 19,
+      "source_audio": "data/audio_public/eval/seg_00019.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip019.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip019__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 19,
+      "source_audio": "data/audio_public/eval/seg_00019.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip019.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip019__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 19,
+      "source_audio": "data/audio_public/eval/seg_00019.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip019.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip019__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 19,
+      "source_audio": "data/audio_public/eval/seg_00019.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip019.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip019__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 20,
+      "source_audio": "data/audio_public/eval/seg_00020.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip020.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip020__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 20,
+      "source_audio": "data/audio_public/eval/seg_00020.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip020.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip020__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 20,
+      "source_audio": "data/audio_public/eval/seg_00020.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip020.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip020__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 20,
+      "source_audio": "data/audio_public/eval/seg_00020.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip020.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip020__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 21,
+      "source_audio": "data/audio_public/eval/seg_00021.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip021.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip021__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 21,
+      "source_audio": "data/audio_public/eval/seg_00021.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip021.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip021__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 21,
+      "source_audio": "data/audio_public/eval/seg_00021.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip021.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip021__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 21,
+      "source_audio": "data/audio_public/eval/seg_00021.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip021.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip021__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 22,
+      "source_audio": "data/audio_public/eval/seg_00022.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip022.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip022__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 22,
+      "source_audio": "data/audio_public/eval/seg_00022.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip022.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip022__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 22,
+      "source_audio": "data/audio_public/eval/seg_00022.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip022.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip022__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 22,
+      "source_audio": "data/audio_public/eval/seg_00022.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip022.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip022__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 23,
+      "source_audio": "data/audio_public/eval/seg_00023.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip023.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip023__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 23,
+      "source_audio": "data/audio_public/eval/seg_00023.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip023.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip023__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 23,
+      "source_audio": "data/audio_public/eval/seg_00023.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip023.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip023__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 23,
+      "source_audio": "data/audio_public/eval/seg_00023.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip023.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip023__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 24,
+      "source_audio": "data/audio_public/eval/seg_00024.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip024.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip024__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 24,
+      "source_audio": "data/audio_public/eval/seg_00024.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip024.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip024__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 24,
+      "source_audio": "data/audio_public/eval/seg_00024.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip024.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip024__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 24,
+      "source_audio": "data/audio_public/eval/seg_00024.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip024.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip024__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 25,
+      "source_audio": "data/audio_public/eval/seg_00025.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip025.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip025__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 25,
+      "source_audio": "data/audio_public/eval/seg_00025.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip025.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip025__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 25,
+      "source_audio": "data/audio_public/eval/seg_00025.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip025.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip025__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 25,
+      "source_audio": "data/audio_public/eval/seg_00025.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip025.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip025__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 26,
+      "source_audio": "data/audio_public/eval/seg_00026.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip026.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip026__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 26,
+      "source_audio": "data/audio_public/eval/seg_00026.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip026.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip026__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 26,
+      "source_audio": "data/audio_public/eval/seg_00026.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip026.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip026__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 26,
+      "source_audio": "data/audio_public/eval/seg_00026.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip026.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip026__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 27,
+      "source_audio": "data/audio_public/eval/seg_00027.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip027.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip027__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 27,
+      "source_audio": "data/audio_public/eval/seg_00027.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip027.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip027__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 27,
+      "source_audio": "data/audio_public/eval/seg_00027.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip027.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip027__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 27,
+      "source_audio": "data/audio_public/eval/seg_00027.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip027.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip027__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 28,
+      "source_audio": "data/audio_public/eval/seg_00028.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip028.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip028__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 28,
+      "source_audio": "data/audio_public/eval/seg_00028.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip028.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip028__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 28,
+      "source_audio": "data/audio_public/eval/seg_00028.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip028.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip028__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 28,
+      "source_audio": "data/audio_public/eval/seg_00028.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip028.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip028__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 29,
+      "source_audio": "data/audio_public/eval/seg_00029.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip029.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip029__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 29,
+      "source_audio": "data/audio_public/eval/seg_00029.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip029.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip029__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 29,
+      "source_audio": "data/audio_public/eval/seg_00029.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip029.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip029__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 29,
+      "source_audio": "data/audio_public/eval/seg_00029.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip029.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip029__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 30,
+      "source_audio": "data/audio_public/eval/seg_00030.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip030.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip030__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 30,
+      "source_audio": "data/audio_public/eval/seg_00030.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip030.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip030__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 30,
+      "source_audio": "data/audio_public/eval/seg_00030.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip030.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip030__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 30,
+      "source_audio": "data/audio_public/eval/seg_00030.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip030.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip030__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 31,
+      "source_audio": "data/audio_public/eval/seg_00031.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip031.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip031__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 31,
+      "source_audio": "data/audio_public/eval/seg_00031.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip031.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip031__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 31,
+      "source_audio": "data/audio_public/eval/seg_00031.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip031.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip031__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 31,
+      "source_audio": "data/audio_public/eval/seg_00031.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip031.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip031__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 32,
+      "source_audio": "data/audio_public/eval/seg_00032.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip032.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip032__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 32,
+      "source_audio": "data/audio_public/eval/seg_00032.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip032.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip032__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 32,
+      "source_audio": "data/audio_public/eval/seg_00032.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip032.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip032__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 32,
+      "source_audio": "data/audio_public/eval/seg_00032.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip032.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip032__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 33,
+      "source_audio": "data/audio_public/eval/seg_00033.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip033.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip033__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 33,
+      "source_audio": "data/audio_public/eval/seg_00033.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip033.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip033__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 33,
+      "source_audio": "data/audio_public/eval/seg_00033.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip033.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip033__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 33,
+      "source_audio": "data/audio_public/eval/seg_00033.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip033.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip033__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 34,
+      "source_audio": "data/audio_public/eval/seg_00034.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip034.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip034__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 34,
+      "source_audio": "data/audio_public/eval/seg_00034.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip034.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip034__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 34,
+      "source_audio": "data/audio_public/eval/seg_00034.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip034.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip034__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 34,
+      "source_audio": "data/audio_public/eval/seg_00034.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip034.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip034__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 35,
+      "source_audio": "data/audio_public/eval/seg_00035.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip035.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip035__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 35,
+      "source_audio": "data/audio_public/eval/seg_00035.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip035.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip035__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 35,
+      "source_audio": "data/audio_public/eval/seg_00035.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip035.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip035__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 35,
+      "source_audio": "data/audio_public/eval/seg_00035.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip035.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip035__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 36,
+      "source_audio": "data/audio_public/eval/seg_00036.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip036.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip036__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 36,
+      "source_audio": "data/audio_public/eval/seg_00036.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip036.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip036__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 36,
+      "source_audio": "data/audio_public/eval/seg_00036.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip036.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip036__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 36,
+      "source_audio": "data/audio_public/eval/seg_00036.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip036.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip036__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 37,
+      "source_audio": "data/audio_public/eval/seg_00037.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip037.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip037__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 37,
+      "source_audio": "data/audio_public/eval/seg_00037.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip037.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip037__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 37,
+      "source_audio": "data/audio_public/eval/seg_00037.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip037.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip037__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 37,
+      "source_audio": "data/audio_public/eval/seg_00037.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip037.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip037__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 38,
+      "source_audio": "data/audio_public/eval/seg_00038.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip038.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip038__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 38,
+      "source_audio": "data/audio_public/eval/seg_00038.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip038.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip038__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 38,
+      "source_audio": "data/audio_public/eval/seg_00038.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip038.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip038__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 38,
+      "source_audio": "data/audio_public/eval/seg_00038.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip038.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip038__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    },
+    {
+      "clip_index": 39,
+      "source_audio": "data/audio_public/eval/seg_00039.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip039.wav",
+      "variant": "base",
+      "video": "outputs/expression_render_set_r3/clip039__base.mp4",
+      "adapter": null
+    },
+    {
+      "clip_index": 39,
+      "source_audio": "data/audio_public/eval/seg_00039.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip039.wav",
+      "variant": "seed0",
+      "video": "outputs/expression_render_set_r3/clip039__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "clip_index": 39,
+      "source_audio": "data/audio_public/eval/seg_00039.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip039.wav",
+      "variant": "seed1",
+      "video": "outputs/expression_render_set_r3/clip039__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "clip_index": 39,
+      "source_audio": "data/audio_public/eval/seg_00039.wav",
+      "matched_audio": "outputs/expression_render_set_r3/audio/clip039.wav",
+      "variant": "seed2",
+      "video": "outputs/expression_render_set_r3/clip039__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    }
+  ]
+}

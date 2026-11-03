@@ -39,12 +39,12 @@ The strongest positive result is the held-out amplitude shift: three policies re
 - Calibrated seeds 0/1/2 completed 600 steps each without a guard trip.
 - Held-out n=40 paired coefficient evaluation passed target-error and pose high-frequency gates.
 - Same-portrait/audio/seed four-way diagnostic rendering is complete.
-- The original mux-length defect was identified; a strict four-second, 40-clip-per-variant confirmatory render is active.
+- The original mux-length defect was fixed; 160 strict four-second confirmatory renders are complete.
+- Paired n=40 SyncNet LSE-C/LSE-D evaluation passes the frozen non-inferiority margin for all three seeds.
 
 ### Not completed
 
 - Independent perceptual evaluation of the confirmatory renders.
-- Paired SyncNet LSE-C/LSE-D evaluation is implemented but awaits the full render set and model download.
 - Blind human preference test.
 
 The exact protocol and claim boundary are in [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md).

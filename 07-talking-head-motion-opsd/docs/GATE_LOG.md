@@ -12,4 +12,5 @@
 | 2026-11-03 | R3 same-unit calibration | 40 sampled CelebV/HDTF clips, 77 windows; median target 0.3929, IQR tolerance 0.2071 | PASS for narrow confirmatory run; not a population estimate |
 | 2026-11-03 | R3 calibrated seeds | seeds 0/1/2 completed 600 steps each, frozen target/tolerance, no guard trip | PASS optimization gate |
 | 2026-11-03 | R3 held-out coefficients | n=40 paired clips; target-error improvement CIs exclude zero; pose high-frequency RMS 0.75–0.77× base | PASS coefficient and pose-HF gates |
-| 2026-11-03 | R3 matched rendering | same portrait, held-out audio, generation seed; base + three adapters | COMPLETE diagnostic; independent perception pending |
+| 2026-11-03 | R3 matched rendering | 40 held-out clips × base/seed0/seed1/seed2; strict four-second streams | COMPLETE; visible GIF and 160 MP4s |
+| 2026-11-03 | R3 SyncNet non-inferiority | all ΔLSE-C lower CIs ≥ -0.070 and all ΔLSE-D upper CIs ≤ +0.231 under frozen ±0.5 margins | PASS relative preservation; absolute quality unresolved |

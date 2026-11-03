@@ -17,9 +17,9 @@ The intervention is `LivelinessRewardV5`: one peaked Gaussian term over the 0.3�
 | P0 · calibration | Target and tolerance computed from extracted real-video coefficients in the same normalized units | Passed: 77 windows from 40 sampled clips |
 | P1 · optimization signal | `expr_active_frac > 0.05` and finite reward gradients during a 600-step run | Passed on seeds 0/1/2; no guard trip |
 | P2 · coefficient behavior | Held-out expression dynamics move toward the calibrated band without pose high-frequency RMS exceeding `1.3×` base | Passed on seeds 0/1/2, n=40 paired clips |
-| P3 · rendered behavior | Matched portrait/audio/seed evaluation shows improvement on independent metrics | Matched four-way render complete; independent perceptual metric pending |
-| P4 · lip preservation | On 40 paired renders, 95% CI lower bound for ΔLSE-C ≥ -0.5 and upper bound for ΔLSE-D ≤ +0.5 versus base | Rendering/evaluator active |
-| P5 · robustness | At least three training seeds satisfy P2–P4 with uncertainty intervals | Pending P3/P4 |
+| P3 · rendered behavior | Matched portrait/audio/seed evaluation shows improvement on independent metrics | 160 strict four-second renders complete; independent perceptual metric pending |
+| P4 · lip preservation | On 40 paired renders, 95% CI lower bound for ΔLSE-C ≥ -0.5 and upper bound for ΔLSE-D ≤ +0.5 versus base | Passed for seeds 0/1/2 |
+| P5 · robustness | At least three training seeds satisfy P2–P4 with uncertainty intervals | Pending P3 only |
 
 A training reward increase alone cannot pass P2 or P3.
 
@@ -56,7 +56,7 @@ Configuration recorded by the run:
 - The target `1.0` was provisional, not yet regenerated from the checked-in coefficient dataset.
 - The final LoRA was recovered from `origin/backup/2026-11-02-full` and its serialized arguments match the 600-step log; rendered held-out evaluation is still pending.
 - Reward components are not independent perceptual metrics.
-- There is no multi-seed evidence, independent lip-sync metric, or blind preference result.
+- This provisional probe alone contained no multi-seed evidence, independent lip-sync metric, or blind preference result; the confirmatory R3 sections below add the first two.
 
 The probe is therefore reported as an optimization check, not as a quality improvement.
 
@@ -108,7 +108,22 @@ All seeds pass the registered coefficient target-error and pose high-frequency g
 
 The four clips use the same portrait, held-out audio, and generation seed. The original diagnostic mux retained the source audio's full 11.83-second duration after four seconds of generated motion; it is therefore excluded from SyncNet and perceptual statistics. The confirmatory renderer now trims both streams to four seconds and generates 40 paired clips per variant in `outputs/expression_render_set_r3`.
 
-Before viewing SyncNet results, P4 freezes a ±0.5 non-inferiority margin: the paired-bootstrap 95% CI lower bound for ΔLSE-C must be at least -0.5, and the upper bound for ΔLSE-D must be at most +0.5 for every seed. The evaluator and exact center-crop protocol are in `scripts/eval_syncnet_r3.py`.
+Before viewing SyncNet results, P4 froze a ±0.5 non-inferiority margin: the paired-bootstrap 95% CI lower bound for ΔLSE-C must be at least -0.5, and the upper bound for ΔLSE-D must be at most +0.5 for every seed. The evaluator and exact center-crop protocol are in `scripts/eval_syncnet_r3.py`.
+
+## Independent lip-sync result
+
+Artifact: `outputs/syncnet_eval_r3.json`. The original `joonson/syncnet_python@907c0b5` model and byte-verified `syncnet_v2.model` evaluate 40 paired, strict four-second renders per variant.
+
+| Variant | LSE-C ↑ | ΔLSE-C vs base, 95% CI | LSE-D ↓ | ΔLSE-D vs base, 95% CI | P4 |
+|---|---:|---:|---:|---:|---|
+| Base | 0.5766 | reference | 13.0967 | reference | Reference |
+| Seed 0 | 0.5478 | -0.0288 [-0.0694, 0.0113] | 13.2486 | +0.1519 [0.1000, 0.2025] | Pass non-inferiority |
+| Seed 1 | 0.5460 | -0.0307 [-0.0696, 0.0085] | 13.2734 | +0.1768 [0.1235, 0.2309] | Pass non-inferiority |
+| Seed 2 | 0.5476 | -0.0290 [-0.0665, 0.0079] | 13.2618 | +0.1651 [0.1166, 0.2142] | Pass non-inferiority |
+
+All three seeds remain inside the frozen ±0.5 margin, so the intervention passes the registered **lip-preservation non-inferiority** gate. This is not evidence of good absolute lip sync: confidence is low and mean absolute offsets are 7.7–8.8 frames for all variants. The correct claim is “no material regression relative to the same frozen base/rendering pipeline,” not “lip sync solved.”
+
+![strict four-second base and calibrated seeds](../outputs/expression_render_set_r3/clip000_fourway.gif)
 
 ## Calibration and completion protocol
 
@@ -122,7 +137,7 @@ Before viewing SyncNet results, P4 freezes a ±0.5 non-inferiority margin: the p
 ## Current blockers
 
 - The 77-window R3 calibration is a deterministic convenience subset rather than a random or demographically balanced sample; broader recalibration is required for a population claim.
-- SyncNet/LSE-C is not installed or integrated.
+- SyncNet is integrated for relative non-inferiority, but low absolute confidence and large offsets mean lip synchronization itself is not solved.
 - The available public real-video coefficient set is small and should not be described as evidence for universal industry-specific behavior.
 
 ## Reporting decision

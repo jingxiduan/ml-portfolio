@@ -26,7 +26,8 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 - Frozen tolerance: 0.2071.
 - Calibrated seeds 0/1/2 completed 600 steps without a guard trip.
 - On n=40 paired held-out clips, mean target error fell from 0.1202 to 0.0229–0.0238; pose high-frequency RMS was 0.75–0.77× base.
-- Matched rendering is complete; independent perceptual, lip-sync, and blind-preference evaluation remain pending.
+- 160 strict four-second renders and n=40 paired SyncNet evaluation are complete; all seeds pass relative non-inferiority, while absolute lip-sync quality remains poor/unresolved.
+- Independent perceptual and blind-preference evaluation remain pending.
 
 Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motion-opsd/docs/RESULTS_R3.md).
 
