@@ -122,10 +122,22 @@ def read_frames(path, max_frames, target_fps=FPS):
     return frames
 
 
+def ffmpeg_executable():
+    """Use system ffmpeg when present, otherwise imageio-ffmpeg's bundled binary."""
+    import shutil
+
+    executable = shutil.which("ffmpeg")
+    if executable:
+        return executable
+    import imageio_ffmpeg
+
+    return imageio_ffmpeg.get_ffmpeg_exe()
+
+
 def extract_audio(video, wav):
     if os.path.exists(wav) and os.path.getsize(wav) > 0:
         return wav
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", video,
+    subprocess.run([ffmpeg_executable(), "-y", "-loglevel", "error", "-i", video,
                     "-ac", "1", "-ar", "16000", "-vn", wav], check=True)
     return wav
 

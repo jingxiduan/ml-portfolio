@@ -29,7 +29,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(ROOT, "scripts")))
 
 import cv2  # noqa: E402
 from render_real_driven import (  # noqa: E402
-    FPS, read_frames, extract_audio, real_coefficients, stabilize_scale_translation)
+    FPS, extract_audio, ffmpeg_executable, read_frames, real_coefficients,
+    stabilize_scale_translation)
 
 
 def luma_ok(path, lo=45.0, hi=215.0):
@@ -126,7 +127,7 @@ def main():
                 if au["voiced_run_p90"] > a.max_run90 or au["harmonic_ratio"] > a.max_harm:
                     row["drop"] = "singing"; rows.append(row); continue
             if asr is not None:
-                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-t", "8", "-i", wav,
+                subprocess.run([ffmpeg_executable(), "-y", "-loglevel", "error", "-t", "8", "-i", wav,
                                 "-ac", "1", "-ar", "16000", "/tmp/_ds8.wav"], check=True)
                 row["text"] = asr("/tmp/_ds8.wav")["text"].strip()
             frames = read_frames(v, int(a.seconds * FPS))
@@ -158,7 +159,7 @@ def main():
             row["kept"] = True
             kept += 1
         except Exception as e:
-            row["drop"] = f"err:{type(e).__name__}"
+            row["drop"] = f"err:{type(e).__name__}:{e}"
         rows.append(row)
         print(f"[{vi}/{len(vids)}] {name[:34]:34s} kept={row['kept']} "
               f"{row.get('drop','')} win={row.get('windows',0)}", flush=True)

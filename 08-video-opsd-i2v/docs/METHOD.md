@@ -1,17 +1,13 @@
 # OPSD-I2V: Method
 
-> **⚠ 2026-10-28 status note.** The method below describes the planned
-> Tier 1 / Tier 2 structure. Live diagnostics (`docs/figures/reward_hacking_*`)
-> show the OPSD-tuned first frames exhibit heavy HPSv3 reward hacking
-> (saturation ×1.95, Sobel edges ×1.86, overexposed pixels ×1.65 vs base
-> SD3.5-M), which propagates through DynamiCrafter and **inflates
-> `dynamic_degree` without improving perceived motion**. We retain the method
-> text below as the experimental protocol; the **interpretation** of the
-> resulting numbers is now explicitly a *carryover diagnostic* rather than
-> a *carryover-improvement claim*. See the top-level `README.md` for the
-> revised framing.
+> **2026-11-03 status.** Tier 1 is a diagnostic showing that image-reward
+> optimization can propagate saturation, overexposure, and edge artifacts into
+> I2V. Tier 2 implements temporal-LoRA reward post-training but has not improved
+> held-out quality: the 500-step metrics are tied with base, and the V2 long run
+> stopped at step 306 on its fixed loss-growth guard. The active question is now
+> long-run stability, documented in `docs/RESULTS_LONG.md`.
 
-Two tiers, each self-contained. Tier 1 is the main contribution; Tier 2 is a bonus extension.
+The two tiers are connected failure analyses, not separate improvement claims.
 
 ---
 
@@ -140,26 +136,27 @@ for step in range(num_steps):
         ema.update(v_old, v_theta)
 ```
 
-## 2.4 Tier-2 claims (if time permits)
+## 2.4 Long-run failure and stabilized fit
 
-- OPSD-I2V beats InstructVideo (ReFL) and DPO-Video on ≥7/9 VBench-I2V dims at matched compute.
-- The *gap* between OPSD and ReFL is **larger** in video than in image, because intermediate-step
-  supervision pays off more when the sequence has more temporal degrees of freedom.
-- GPU-hour saving relative to InstructVideo: ~30–40% (consistent with OPSD T2I v2's 30.5% figure
-  on image-only training).
+The historical contrastive quadratic fit is not lower-bounded as a function of the model prediction. The 2,000-step V2 attempt exhibited this failure: its rolling positive-target error grew by 10.95× and the guard stopped the run at step 306.
+
+V3 keeps the same finite reward target but replaces indefinite negative-target repulsion with an explicit behavior anchor:
+
+$$
+\mathcal L_{\mathrm{V3}}
+=\lVert\hat y_0-y_0^+\rVert_2^2
++\lambda_a\lVert\hat y_0-y_0\rVert_2^2.
+$$
+
+The negative target remains logged as a diagnostic. V3 also uses a smooth `tanh` map before pixel-naturalness computation, preventing the hard input clamp from zeroing derivatives outside the nominal display range.
+
+These are hypotheses under test, not validated improvements. The fixed preflight, long-run gates, and current results are in [`RESULTS_LONG.md`](RESULTS_LONG.md).
 
 ---
 
-# What is actually new
+# Contribution boundary
 
-1. **Tier 1's transfer finding** is new: nobody has quantified reward-aligned-T2I → I2V carryover
-   per VBench dim.
-2. **Tier 1's selective-carryover pattern** (static dims gain, motion dims may lose) is a new
-   empirical regularity.
-3. **Tier 1's method** (training-free swap of the keyframe generator) is new as a
-   diagnostic/benchmark tool for T2I alignment methods — anyone proposing a new T2I post-training
-   recipe can now ask "does it carry to video?" with 50 lines of code.
-4. **Tier 2's video-vs-image intermediate-supervision gap** is a mechanistic claim about
-   when/why OPSD helps.
-
-Everything else — OPSD itself, DynamiCrafter, VBench — is credited and reused, not re-invented.
+1. DiffusionOPSD, DynamiCrafter, CLIP, and RAFT are reused and credited.
+2. This repository contributes an I2V conditioning adaptation, temporal-only LoRA path, differentiable video-reward integration, and auditable failure diagnosis.
+3. The stabilized V3 objective is motivated by the observed long-run failure but is not considered successful until it completes the registered run and held-out evaluation.
+4. No claim is made that the current method beats the frozen base, InstructVideo, DPO-Video, or a video foundation model.

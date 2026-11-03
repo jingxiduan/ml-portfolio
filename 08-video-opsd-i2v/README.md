@@ -1,10 +1,25 @@
-# 08 -- OPSD-I2V: Reward-Guided Video Generation with Naturalness Constraints
+# Image-to-Video Reward Post-Training
 
-> **TL;DR** OPSD (Online Policy-gradient Score Distillation) LoRA fine-tunes DynamiCrafter I2V
-> with multi-objective reward (subject consistency + dynamic degree + motion smoothness)
-> plus a **differentiable naturalness penalty** to prevent reward hacking.
-> Key finding: `ReLU+clamp` kills 100% of gradients; switching to `sigmoid` restores
-> gradient flow and improves naturalness from -1.47 to -0.79.
+**Temporal-LoRA adaptation of DynamiCrafter, with explicit reward-hacking and long-run stability analysis**
+
+[Method](docs/METHOD.md) · [Long-run results](docs/RESULTS_LONG.md) · [Gate log](docs/GATE_LOG.md) · [Project status](STATUS.md)
+
+## Research question
+
+> **Can reward-guided temporal-LoRA post-training improve held-out I2V motion while preserving identity and naturalness, without becoming numerically unstable in a long run?**
+
+The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioning and video latents. Its contribution is the I2V implementation, temporal-module targeting, differentiable video rewards, failure diagnosis, and stabilized-fit experiment. It does not claim a new foundation model or that the current adapters improve held-out video quality.
+
+### Current answer
+
+- The end-to-end reward gradient and temporal-LoRA update path works.
+- Full-strength adapters exposed saturation, overexposure, edge artifacts, and other reward-hacking behavior.
+- Replacing the original hard-clamped naturalness formulation with smooth penalties restored an active **training** gradient.
+- The 500-step held-out metrics are effectively tied with base; no quality gain is established.
+- A 2,000-step NoNat control completed, but the naturalness-constrained V2 run hit the fixed loss-growth guard at step 306.
+- V3 introduces bounded anchored fitting and a smooth extreme-pixel mapping; its preflight and long run must pass before any stability or quality claim is updated.
+
+The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
 
 ---
 
@@ -108,15 +123,15 @@ alpha=6 is the I2V equivalent of scale~0.2; alpha=32 is full strength.
 
 ![Reward Comparison](outputs/figures_comparison/comparison_rewards.png)
 
-- **V2 (sigmoid, green)**: naturalness gradient always present -- model learns to reduce over-saturation/overexposure
-- **V1 (ReLU+clamp, blue dashed)**: naturalness gradient 100% dead -- model ignores quality constraint
-- **NoNat (red dash-dot)**: no naturalness -- pure reward hacking baseline
+- **V2 (sigmoid, green):** the naturalness reward path remains active; this is an optimization diagnostic, not perceptual evidence.
+- **V1 (ReLU+clamp, blue dashed):** the naturalness gradient is zero after saturation, so the intended constraint cannot influence the update.
+- **NoNat (red dash-dot):** removes the naturalness term and serves as the reward-hacking control.
 
 ### Naturalness Penalty Evolution
 
 ![Naturalness Evolution](outputs/figures_comparison/naturalness_evolution.png)
 
-V2 naturalness penalty improves from -1.47 to -0.79 over 500 steps, confirming the gradient signal works.
+The V2 **training reward component** moves from -1.47 to -0.79 over 500 steps. This confirms an active optimization signal only; the held-out naturalness metric does not improve.
 
 ### Key Finding: Gradient Flow Is Everything
 
@@ -171,8 +186,7 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 | V2 (nat_sigmoid) | 0.7291 | 0.9513 | 0.5069 |
 | NoNat (ablation) | 0.7296 | 0.9512 | 0.5079 |
 
-> At 500 steps, LoRA weight changes are minimal (L2 norm ~ 27). Eval metric differences are within noise.
-> The value of this experiment is in the **training dynamics** -- see curves above. 2000+ steps needed for visible eval improvement.
+> At 500 steps, the held-out metric differences are within noise. A longer run is not automatically better: the V2 2,000-step attempt crossed the registered loss-growth guard at step 306, while the NoNat control completed but does not solve reward hacking. See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md).
 
 ---
 
@@ -265,13 +279,15 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 | Area | Current Status |
 |------|---------------|
-| Training steps | 500 -- insufficient for significant eval change (need 2000+) |
-| Eval sample size | n=10 held-out prompts (need 50+) |
-| Tier-1 scene diversity | 6 scenes for T2I scale sweep; 10 new scenes for I2V alpha sweep |
-| No FVD/FID | Standard video generation metrics not computed |
-| No human evaluation | All automated metrics (pixel-space + CLIP) |
+| Long-run stability | V2 stopped at step 306 after `loss_plus` exceeded the fixed 10× growth guard; V3 remains unvalidated. |
+| Held-out improvement | The 500-step results are tied with base; the completed NoNat long run is not evidence of natural quality. |
+| Eval sample size | The published table uses n=10 held-out prompts; confirmatory evaluation requires at least 40 and confidence intervals. |
+| Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
+| Standard metrics | FVD/FID and broader video-quality suites have not been computed. |
+| Human evaluation | No matched-seed blind preference study has been completed. |
+| Scale-sweep language | The `0.2` setting is a diagnostic trade-off on six scenes, not a universal optimum. |
 
-> See [STATUS.md](STATUS.md) for the complete TODO list and next steps.
+See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the exact long-run evidence and pre-registered V3 gates.
 
 ---
 
@@ -282,11 +298,19 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 python scripts/generate_prompts_200.py
 CUDA_VISIBLE_DEVICES=0 python scripts/generate_first_frames.py cuda:0
 
-# Train V2 (sigmoid naturalness, ~86min on H20)
+# Historical 500-step V2 and NoNat runs
 python -m src.train_entry --method opsd_i2v --config configs/tier2_v2.yaml
-
-# Train ablation (no naturalness)
 python -m src.train_entry --method opsd_i2v --config configs/tier2_ablation_no_nat.yaml
+
+# Stabilized V3 must pass a guarded 100-step preflight before long training
+mkdir -p outputs/probe_v3_stable
+python -m src.train_entry --method opsd_i2v --config configs/probe_v3_stable.yaml \
+  > outputs/probe_v3_stable/train.log 2>&1 &
+TRAIN_PID=$!
+python ../tools/train_guard.py --kind i2v \
+  --log outputs/probe_v3_stable/train_metrics.jsonl \
+  --pid "$TRAIN_PID" --poll 5 --stall-sec 1200
+wait "$TRAIN_PID"
 
 # Plot training curves
 python scripts/plot_training_curves.py outputs/opsd_tier2_v2/train_metrics.jsonl outputs/opsd_tier2_v2/figures "v2"

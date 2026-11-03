@@ -1,13 +1,13 @@
 """OPSD-I2V trainer — the 4-step on-policy self-distillation loop adapted to I2V.
 
-See docs/METHOD.md for the derivation. This file is the paper's main contribution; keep it
-readable and keep comments honest.
+See docs/METHOD.md for the derivation. The optimizer is adapted from DiffusionOPSD;
+this file implements the I2V conditioning, temporal-LoRA, reward-gradient and stability path.
 
 Algorithm (per training step):
     1. On-policy query:   sample (x0_src, prompt) and roll v_old forward to intermediate σ_q
     2. Clean anchor:      y0 = z_q - σ_q · v_old(z_q, (c, x0_src), σ_q)         [detached]
     3. Bounded targets:   y0± = y0 ± c_adv · σ_q · normalize(∂R/∂y0)             [detached]
-    4. Finite-step fit:   minimize ||y0_hat(θ) - y0+||² - ||y0_hat(θ) - y0-||²
+    4. Finite-step fit:   legacy contrastive fit, or bounded positive fit + behavior anchor
     5. EMA refresh:       every N steps, EMA LoRA(v_theta) → LoRA(v_old)
 """
 from __future__ import annotations
@@ -122,6 +122,8 @@ class OPSDTrainConfig:
     weight_decay: float = 1e-4
     grad_clip: float = 1.0
     warmup_steps: int = 20
+    fit_objective: str = "contrastive"  # 'contrastive' (legacy) or 'anchored'
+    anchor_weight: float = 0.0          # used only by the bounded anchored objective
 
     # ---- OPSD core ----
     c_adv: float = 5.0               # trust-region radius (from OPSD paper)
@@ -142,6 +144,36 @@ class OPSDTrainConfig:
     seed: int = 0
     wandb_project: Optional[str] = "opsd-i2v"
     wandb_run_name: Optional[str] = None
+
+
+def compute_fit_loss(
+    y0_hat: torch.Tensor,
+    y0_plus: torch.Tensor,
+    y0_minus: torch.Tensor,
+    anchor: torch.Tensor,
+    objective: str,
+    anchor_weight: float,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Return a bounded finite-step loss and its diagnostics.
+
+    ``contrastive`` preserves the historical OPSD implementation. Its subtraction
+    of two quadratic distances is not lower-bounded and can drift during long
+    runs. ``anchored`` fits only the finite positive target and adds a behavior-
+    anchor penalty; this keeps the reward step bounded without optimizing an
+    indefinitely repulsive negative term.
+    """
+    loss_plus = F.mse_loss(y0_hat, y0_plus)
+    loss_minus = F.mse_loss(y0_hat, y0_minus)
+    loss_anchor = F.mse_loss(y0_hat, anchor)
+    if objective == "contrastive":
+        loss = loss_plus - loss_minus
+    elif objective == "anchored":
+        if anchor_weight < 0:
+            raise ValueError("anchor_weight must be non-negative")
+        loss = loss_plus + anchor_weight * loss_anchor
+    else:
+        raise ValueError(f"unknown fit_objective: {objective}")
+    return loss, loss_plus, loss_minus, loss_anchor
 
 
 # =============================================================================
@@ -174,6 +206,10 @@ class OPSDI2VTrainer:
         self.reward_fn = reward_fn
         self.scheduler = scheduler
         self.dataset = dataset
+        if cfg.fit_objective not in {"contrastive", "anchored"}:
+            raise ValueError("fit_objective must be 'contrastive' or 'anchored'")
+        if cfg.fit_objective == "anchored" and cfg.anchor_weight <= 0:
+            raise ValueError("anchored objective requires anchor_weight > 0")
 
         torch.manual_seed(cfg.seed)
         Path(cfg.out_dir).mkdir(parents=True, exist_ok=True)
@@ -342,13 +378,18 @@ class OPSDI2VTrainer:
 
         # ---------- Step 4: detached finite-step fit on v_theta ----------
         last_loss = 0.0
-        last_loss_plus = last_loss_minus = 0.0
+        last_loss_plus = last_loss_minus = last_loss_anchor = 0.0
         for _ in range(self.cfg.inner_fit_steps):
             v_theta_pred = _call_unet(self.p.v_theta, z_q, sigma_q, cond)
             y0_hat = alpha_t * z_q - sigma_t * v_theta_pred.float()     # v-prediction reconstruction
-            loss_plus = F.mse_loss(y0_hat, y0_plus)
-            loss_minus = F.mse_loss(y0_hat, y0_minus)
-            loss = loss_plus - loss_minus                                # OPSD contrastive form
+            loss, loss_plus, loss_minus, loss_anchor = compute_fit_loss(
+                y0_hat=y0_hat,
+                y0_plus=y0_plus,
+                y0_minus=y0_minus,
+                anchor=y0.detach(),
+                objective=self.cfg.fit_objective,
+                anchor_weight=self.cfg.anchor_weight,
+            )
 
             self.optimizer.zero_grad(set_to_none=True)
             loss.backward()
@@ -360,6 +401,7 @@ class OPSDI2VTrainer:
             last_loss = float(loss.detach().cpu())
             last_loss_plus = float(loss_plus.detach().cpu())
             last_loss_minus = float(loss_minus.detach().cpu())
+            last_loss_anchor = float(loss_anchor.detach().cpu())
 
         # --- diagnostic metrics (logging only, does not affect training) ---
         # shift_ratio: ||c_adv * sigma_t * g|| / ||y0||
@@ -378,6 +420,7 @@ class OPSDI2VTrainer:
             "loss": last_loss,
             "loss_plus": last_loss_plus,
             "loss_minus": last_loss_minus,
+            "loss_anchor": last_loss_anchor,
             "reward": float(reward_val.mean().cpu()),
             "sigma_q": float(sigma_q.detach().cpu().item()),
             "grad_norm": float(g.flatten(1).norm(dim=1).mean().cpu()),

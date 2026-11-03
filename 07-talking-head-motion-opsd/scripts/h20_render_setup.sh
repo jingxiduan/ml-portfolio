@@ -69,7 +69,7 @@ fi
 
 step "installing project deps ..."
 pip install --quiet \
-    "numpy<2" opencv-python librosa pyyaml tyro rich \
+    "numpy<2" opencv-python-headless librosa pyyaml tyro rich \
     imageio imageio-ffmpeg scikit-image onnx "transformers<4.46" pykalman \
     matplotlib scipy tqdm huggingface_hub mediapipe soundfile diffusers \
     "$ORT_PKG" 2>&1 | tee -a "$LOG"
@@ -156,8 +156,21 @@ dst = "$WROOT/liveportrait"
 if os.path.isdir(src):
     os.makedirs(dst, exist_ok=True)
     for name in os.listdir(src):
-        shutil.move(os.path.join(src, name), os.path.join(dst, name))
+        source = os.path.join(src, name)
+        target = os.path.join(dst, name)
+        if os.path.isdir(source) and os.path.isdir(target):
+            shutil.copytree(source, target, dirs_exist_ok=True)
+        else:
+            shutil.move(source, target)
     shutil.rmtree("$WROOT/liveportrait_raw", ignore_errors=True)
+# Some hub revisions contain one repeated directory level. Flatten it.
+for group in ("base_models", "retargeting_models"):
+    nested = os.path.join(dst, group, group)
+    parent = os.path.join(dst, group)
+    if os.path.isdir(nested):
+        for name in os.listdir(nested):
+            shutil.move(os.path.join(nested, name), os.path.join(parent, name))
+        os.rmdir(nested)
 print("[*] LivePortrait human weights downloaded")
 PY
 else

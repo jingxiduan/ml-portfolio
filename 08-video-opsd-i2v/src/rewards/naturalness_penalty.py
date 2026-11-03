@@ -3,12 +3,12 @@
 Mirrors the logic of ``src/eval/naturalness_score.py`` but uses pure PyTorch
 ops so gradients can flow through the OPSD training loop.
 
-    pen_sat   = relu(mean_saturation - 0.40)
-    pen_over  = fraction(max_channel >= 0.95)
-    pen_edge  = relu((sobel_p95 - 70) / 80)
-    naturalness = clamp(1 - (pen_sat + pen_over + pen_edge), 0, 1)
+    pen_sat   = sigmoid(10 * (mean_saturation - threshold))
+    pen_over  = mean(sigmoid(50 * (max_channel - 0.95)))
+    pen_edge  = sigmoid((sobel_p95 - threshold) / scale)
+    naturalness = 1 - pen_sat - pen_over - pen_edge
 
-All ops are pure RGB arithmetic + 3×3 Sobel conv → fully differentiable,
+All ops are pure RGB arithmetic + 3×3 Sobel conv and remain differentiable,
 no learned subnetwork, no external weights.
 
 See docs/tier2/METHOD.md §2.
@@ -53,7 +53,12 @@ def _sobel_p95(grey: torch.Tensor) -> torch.Tensor:
 class NaturalnessPenalty(BaseReward):
     """Differentiable naturalness penalty for anti-reward-hacking training.
 
-    Returns a [0, 1] score where 1.0 = perfectly natural.
+    Returns an unclamped score in [-2, 1], where larger is more natural.
+
+    ``input_mapping='hard_clamp'`` reproduces the historical V2 runs.
+    ``input_mapping='tanh'`` keeps a non-zero derivative for decoded values
+    outside [-1, 1], where clipping would otherwise hide extreme artifacts from
+    the reward gradient.
     """
 
     requires_grad = True
@@ -63,13 +68,17 @@ class NaturalnessPenalty(BaseReward):
         sat_threshold: float = 0.40,
         sobel_threshold: float = 70.0,
         sobel_scale: float = 80.0,
+        input_mapping: str = "hard_clamp",
         device: str | torch.device = "cpu",
         **kwargs,
     ) -> None:
         super().__init__()
+        if input_mapping not in {"hard_clamp", "tanh"}:
+            raise ValueError("input_mapping must be 'hard_clamp' or 'tanh'")
         self.sat_threshold = sat_threshold
         self.sobel_threshold = sobel_threshold
         self.sobel_scale = sobel_scale
+        self.input_mapping = input_mapping
 
     def forward(self, video: torch.Tensor, prompts: List[str]) -> torch.Tensor:
         """Score naturalness of video clips.
@@ -85,8 +94,12 @@ class NaturalnessPenalty(BaseReward):
             scale doesn't matter — only the gradient *direction* is used
             (it gets L2-normalized anyway).
         """
-        # Map from [-1, 1] to [0, 1]
-        v = (video.clamp(-1, 1) + 1.0) * 0.5  # [B, T, 3, H, W] in [0, 1]
+        # Map decoded pixels to [0, 1]. Historical V2 used a hard clamp, which
+        # has zero derivative exactly where decoded values exceed display range.
+        if self.input_mapping == "tanh":
+            v = (torch.tanh(video) + 1.0) * 0.5
+        else:
+            v = (video.clamp(-1, 1) + 1.0) * 0.5
 
         # --- pen_sat: mean saturation penalty ---
         # Use smooth penalty instead of hard ReLU threshold

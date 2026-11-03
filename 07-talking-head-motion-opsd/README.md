@@ -1,60 +1,77 @@
 <div align="center">
 
-# ✨ TALKING-HEAD MOTION OPSD: ON-POLICY SELF-DISTILLATION FOR DIGITAL-HUMAN MOTION ✨
+# Talking-Head Motion Post-Training
 
-*Reward-guided post-training of an audio-to-motion diffusion model through explicit, continually refreshed intermediate targets*
+**Reward-guided adaptation of an audio-to-motion diffusion model, with measured human targets and explicit failure gates**
 
 **Jingxi Duan**
 
-[Technical report](docs/TECH_REPORT.md) · [Separability analysis](docs/SEPARATION_ANALYSIS.md) · [Industry round](docs/INDUSTRY_ROUND.md) · [Handoff](docs/HANDOFF_2026-11-02.md)
-
----
-
-### 👥 Candidate Portrait Pool (CelebA-HQ & CelebV-HQ)
-![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
-*Portrait candidates filtered to near-frontal poses (absolute yaw/pitch ≤ 15°) with high eyes-open aspect ratio (EAR ≥ 0.30) and mouth-closed smiles, used for our evaluations and qualitative galleries.*
-
----
+[Technical report](docs/TECH_REPORT.md) · [Separability analysis](docs/SEPARATION_ANALYSIS.md) · [Current results](docs/RESULTS_R3.md) · [Gate log](docs/GATE_LOG.md)
 
 </div>
 
-> **Note:** This is a personal research implementation. It transfers the post-training algorithm of
-> [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD) (originally formulated for pixel diffusion)
-> to the domain of audio-driven digital-human motion. It is not affiliated with the original authors.
+---
 
-🔥 **TL;DR.** We keep the DiffusionOPSD optimization algorithm identical and redefine a "sample" as a 4-second trajectory of 73-dimensional motion coefficients (which drive a frozen LivePortrait renderer). By estimating reward targets from real public human footage instead of hand-assigning them, we establish one empirical target band per industry (finance, real-estate, short-video). The trained policy settles at **0.84 to 0.90x** of the target band with **no overshoot**, successfully bypassing the uncanny valley.
+## Research question
+
+A frozen audio-to-motion model can synchronize the mouth while leaving the rest of the face under-active or producing implausible head motion. This project asks:
+
+> **Can reward-guided post-training move selected motion statistics toward bands measured from real speakers without damaging stability, lip motion, or visual naturalness?**
+
+The unit of optimization is a four-second trajectory of 73 normalized motion coefficients produced by JoyVASA and rendered by frozen LivePortrait. DiffusionOPSD supplies the optimization mechanism; this project contributes the motion-space formulation, measured targets, reward diagnostics, real-video behavior-cloning path, controlled evaluation, and failure analysis. It does **not** claim a new base-model architecture or foundation-model pretraining.
+
+### What is established
+
+- Peaked amplitude targets removed the earlier **2.4–2.7×** monotone-reward overshoot.
+- Three trained policies reached **0.85–0.89×** their corresponding measured amplitude targets on held-out audio.
+- Four classes (base plus three policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude.
+- The real reference data do **not** support a general claim that finance and real-estate speakers have distinct motion styles.
+
+### What remains unresolved
+
+- The pre-registered absolute-jitter gate failed: **28.97** versus the allowed **18.36**.
+- Lip synchronization has not been validated with SyncNet/LSE-C or an equivalent independent metric.
+- Expression-dynamics V5 has only a 600-step optimization probe; it has not completed calibrated multi-seed training and held-out rendered evaluation.
+- Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by blind human preference testing.
+
+> This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
+
+![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
+
+*Evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*
+
+## Contributions and boundaries
+
+- **Domain transfer, not optimizer invention:** the OPSD query/target/EMA structure is retained; the implementation moves it to audio-conditioned motion trajectories.
+- **Measured reward targets:** amplitude, jitter, and blink targets are estimated from public human footage instead of selected only by visual preference.
+- **Bounded motion reward:** a peaked Gaussian target replaces monotone amplitude maximization.
+- **Real-video supervision:** 1,753 aligned windows support an auxiliary behavior-cloning path.
+- **Auditable negative results:** failed jitter, ecological-separability, and lip-sync gates remain part of the main result rather than being omitted.
 
 ----------------------------------------
 
-## 📌 ABSTRACT
+## Method
 
-Audio-driven digital humans often look static or uncanny because their head motion, blinking, and gaze do not match real human speakers. We transfer **DiffusionOPSD**, an on-policy self-distillation algorithm, to post-train a frozen audio-to-motion diffusion model (JoyVASA). First, reward targets are estimated from real public human footage rather than assigned manually, yielding one empirically measured target band per industry. Second, real video is introduced as an auxiliary supervision channel, so that the policy can additionally reproduce the motion statistics of real speakers through behaviour cloning. We study whether a single post-training method yields digital humans whose motion statistics separate across industries, and analyze the separability and ecological validity of the resulting behaviors.
+At query state \(s=(c,z_q,\sigma_q)\), the frozen behavior policy defines a clean anchor:
 
-## 🌟 HIGHLIGHTS
+$$
+y_0 = z_q - \sigma_q v_{\mathrm{old}}(z_q,c,\sigma_q).
+$$
 
-- **Algorithm Transfer, Zero Modification:** The OPSD algorithm (on-policy query, bounded positive/negative targets, detached contrastive loss, and EMA refresh) is transferred directly to motion coefficient space.
-- **Measured Empirical Targets:** Target bands for amplitude, jitter, and blink are computed directly from public datasets (HDTF, CelebV-HQ), avoiding arbitrary manual tuning.
-- **Peaked Gaussian Reward:** By replacing the monotone `tanh` amplitude reward with a Gaussian peaked at the measured human band, we completely eliminate the 2.4x to 2.7x overshoot responsible for the uncanny look.
-- **Learning from Real Video:** We utilize 1,753 four-second windows of real human motion coefficients to feed a behavior-cloning loss combined with OPSD.
-- **Honest Academic Analysis:** Rigorous statistical evaluation (AUC, permutation nulls) shows that while the three trained personas are highly separable (accuracy 0.831 vs chance 0.25), the industry style difference in real video is primarily a scalar (amplitude).
+A normalized reward gradient defines bounded positive and negative query states:
 
-----------------------------------------
+$$
+d = \frac{\nabla_{z_q} R(y_0)}{\lVert\nabla_{z_q} R(y_0)\rVert_2 + \varepsilon},
+\qquad z_q^{\pm}=z_q\pm c_{\mathrm{adv}}d.
+$$
 
-## 🧠 METHOD
+The behavior policy maps these perturbed states to detached targets, and the trainable LoRA policy fits the positive target while enforcing a margin from the negative target:
 
-At query \(s=(c, z_q, \sigma_q)\) the frozen behaviour policy defines a clean anchor:
-
-$$y_0 = z_q - \sigma_q\, v_{\mathrm{old}}(z_q, c, \sigma_q)$$
-
-A normalised reward gradient gives bounded positive and negative targets:
-
-$$y_0^{\pm} = y_0 \pm c_{\mathrm{adv}}\,\sigma_t\,rac{
-abla_y R(y_0)}{\|
-abla_y R(y_0)\|_2}$$
-
-And the trainable policy fits the **detached** targets with a contrastive objective:
-
-$$\mathcal{L}_{\mathrm{OPSD}} = \| \hat y_	heta - ar y_0^{+} \|^2 - \| \hat y_	heta - ar y_0^{-} \|^2$$
+$$
+\mathcal{L}_{\mathrm{OPSD}}
+= \lVert\hat y_\theta-\operatorname{sg}(y_0^+)\rVert_2^2
++\lambda_-\max\!\left(0,m-\lVert\hat y_\theta-\operatorname{sg}(y_0^-)\rVert_2^2\right).
+$$
 
 ### Minimal Pseudocode (Motion Space)
 
@@ -206,8 +223,8 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V8 · Imitation Learning (Behavior Cloning + OPSD - 600 Steps)**
-*Description:* Trained directly on real human video. Minimizes a behavior-cloning loss against 1,753 real-human motion windows combined with OPSD. *Note: Uses Warm/Sharp tone.*
+### **V8 · Behavior-Cloning + OPSD Prototype (600 Steps)**
+*Description:* Alternates OPSD updates with supervised fitting to 1,753 extracted real-video motion windows. This gallery is qualitative evidence only: no blind preference test or independent lip-sync gain has been established. *Rendering note: this historical sample uses the earlier warm/sharp tone.*
 
 ![bc_v1](outputs/demos/bc_v1_base_vs_trained.gif)
 <div align="center">Left: <code>BASE</code>. Right: <code>TRAINED</code>. Same portrait, audio and seed. [1080-line mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)</div>
@@ -221,10 +238,14 @@ We list and preserve all generated qualitative demos from the project's historic
 | **Visual Realism** | **Not solved.** Skin, color, and teeth textures are determined by the frozen LivePortrait warp. |
 | **Pre-registered Jitter Gate** | **Failed.** Pre-registered gate of `jitter_hp ≤ 1.3x base` (18.36) was not satisfied; OPSD naive attained **28.97 (2.05x base)**. |
 | **Lip Synchronisation** | **Unmeasured.** `jaw_audio_corr` remains negative even for untrained base model; no SyncNet / LSE-C scores computed. |
+| **Expression V5** | **Optimization probe only.** The 600-step run and final adapter exist, but calibrated multi-seed training and rendered held-out evaluation remain incomplete. |
+| **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. |
+
+See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the completion protocol and exact claim boundary.
 
 ----------------------------------------
 
-## ⚙️ REPRODUCTION
+## Reproduction
 
 ```bash
 # 1. environment (downloads JoyVASA + LivePortrait + HuBERT-chinese, ~2.5 GB)
@@ -234,14 +255,18 @@ bash scripts/h20_render_setup.sh
 python scripts/fetch_public_data.py --aishell-speakers 75 --hdtf 40 --celebv 300
 python scripts/build_audio_segments.py --n-train 2000 --n-eval 100
 
-# 3. measure target bands from real video
+# 3. measure pose/industry targets and non-lip expression targets
 python scripts/calibrate_industry_bands.py
+python scripts/calibrate_behaviour_bands.py
 
-# 4. run OPSD training (always under train_guard)
+# 4. run training only after freezing a config and gate record
 python ../tools/train_guard.py --selftest
 ROUNDS=3000 bash scripts/train_industries.sh
 
-# 5. evaluation & demo rendering
+# V5 expression runs use the target/tolerance written above and unique output dirs;
+# the exact command and outcome must be appended to docs/RESULTS_R3.md.
+
+# 5. held-out evaluation and matched demo rendering
 python scripts/eval_industries.py --n-clips 12
 python scripts/render_industry_demo.py --gpu 0
 ```

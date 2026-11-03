@@ -1,0 +1,252 @@
+{
+  "definition": "mean per-dimension RMS of 0.3-3 Hz non-lip normalized expression coefficients",
+  "units": "JoyVASA normalized coefficient units",
+  "window_frames": 100,
+  "fps": 25,
+  "files_seen": 77,
+  "files_used": 77,
+  "windows": 77,
+  "pooled": {
+    "p10": 0.23414216935634613,
+    "p25": 0.31750601530075073,
+    "median": 0.3928757607936859,
+    "p75": 0.5246003866195679,
+    "p90": 0.6503352522850037
+  },
+  "recommended_target": 0.3928757607936859,
+  "recommended_tolerance": 0.20709437131881714,
+  "per_file": {
+    "-2KG4lLGEl0_3__w000.coef.pt": [
+      0.4179248511791229
+    ],
+    "-2KGPYEFnsU_11__w000.coef.pt": [
+      0.5128196477890015
+    ],
+    "-2KGPYEFnsU_11__w001.coef.pt": [
+      0.29135212302207947
+    ],
+    "-2KGPYEFnsU_3__w000.coef.pt": [
+      0.20399264991283417
+    ],
+    "-2KGPYEFnsU_3__w001.coef.pt": [
+      0.19132575392723083
+    ],
+    "-2KGPYEFnsU_3__w002.coef.pt": [
+      0.19007812440395355
+    ],
+    "-2KGPYEFnsU_5__w000.coef.pt": [
+      0.2620387673377991
+    ],
+    "-2KGPYEFnsU_5__w001.coef.pt": [
+      0.3218666911125183
+    ],
+    "-2KGPYEFnsU_7__w000.coef.pt": [
+      0.20070825517177582
+    ],
+    "-2KGPYEFnsU_7__w001.coef.pt": [
+      0.24797062575817108
+    ],
+    "-2KGPYEFnsU_7__w002.coef.pt": [
+      0.38240736722946167
+    ],
+    "-2KGPYEFnsU_9__w000.coef.pt": [
+      0.27645203471183777
+    ],
+    "-3KCgSpt3hU_0__w000.coef.pt": [
+      0.351328581571579
+    ],
+    "-3KCgSpt3hU_0__w001.coef.pt": [
+      0.266783744096756
+    ],
+    "-3KCgSpt3hU_1__w000.coef.pt": [
+      0.2163233458995819
+    ],
+    "-3KCgSpt3hU_1__w001.coef.pt": [
+      0.2010267823934555
+    ],
+    "-3KCgSpt3hU_3__w000.coef.pt": [
+      0.24021697044372559
+    ],
+    "AdamKinzinger0_001__w000.coef.pt": [
+      0.335946261882782
+    ],
+    "AdamKinzinger0_001__w001.coef.pt": [
+      0.38008150458335876
+    ],
+    "AdamKinzinger0_001__w002.coef.pt": [
+      0.3817882239818573
+    ],
+    "AdamKinzinger0_002__w000.coef.pt": [
+      0.39253243803977966
+    ],
+    "AdamKinzinger0_002__w001.coef.pt": [
+      0.6503245830535889
+    ],
+    "AdamKinzinger0_002__w002.coef.pt": [
+      0.9460166692733765
+    ],
+    "AdamKinzinger0_003__w000.coef.pt": [
+      0.5375823974609375
+    ],
+    "AdamKinzinger0_003__w001.coef.pt": [
+      0.3968512713909149
+    ],
+    "AdamKinzinger0_003__w002.coef.pt": [
+      0.23796263337135315
+    ],
+    "AdamKinzinger0_004__w000.coef.pt": [
+      0.5036418437957764
+    ],
+    "AdamKinzinger0_004__w001.coef.pt": [
+      0.6503512263298035
+    ],
+    "AdamKinzinger0_004__w002.coef.pt": [
+      0.5472028255462646
+    ],
+    "AdamKinzinger0_005__w000.coef.pt": [
+      0.45760947465896606
+    ],
+    "AdamKinzinger0_005__w001.coef.pt": [
+      0.659423291683197
+    ],
+    "AdamKinzinger0_005__w002.coef.pt": [
+      0.4987045228481293
+    ],
+    "AdamKinzinger0_006__w000.coef.pt": [
+      0.5967981815338135
+    ],
+    "AdamKinzinger0_006__w001.coef.pt": [
+      0.5246003866195679
+    ],
+    "AdamKinzinger0_006__w002.coef.pt": [
+      0.49299097061157227
+    ],
+    "AdamKinzinger0_007__w000.coef.pt": [
+      0.5109484791755676
+    ],
+    "AdamKinzinger0_007__w001.coef.pt": [
+      0.3298551142215729
+    ],
+    "AdamKinzinger0_007__w002.coef.pt": [
+      0.7122798562049866
+    ],
+    "AdamKinzinger0_008__w000.coef.pt": [
+      0.5902344584465027
+    ],
+    "AdamKinzinger0_008__w001.coef.pt": [
+      0.3709905743598938
+    ],
+    "AdamKinzinger0_008__w002.coef.pt": [
+      0.33082324266433716
+    ],
+    "AdamKinzinger0_009__w000.coef.pt": [
+      0.4058193564414978
+    ],
+    "AdamKinzinger0_009__w001.coef.pt": [
+      0.6672396063804626
+    ],
+    "AdamKinzinger0_009__w002.coef.pt": [
+      0.5547409653663635
+    ],
+    "AdamKinzinger0_010__w000.coef.pt": [
+      0.6472296714782715
+    ],
+    "AdamKinzinger0_010__w001.coef.pt": [
+      0.43417489528656006
+    ],
+    "AdamKinzinger0_010__w002.coef.pt": [
+      0.3233936131000519
+    ],
+    "AdamKinzinger0_011__w000.coef.pt": [
+      0.3487793207168579
+    ],
+    "AdamKinzinger0_011__w001.coef.pt": [
+      0.228411465883255
+    ],
+    "AdamKinzinger0_011__w002.coef.pt": [
+      0.46808111667633057
+    ],
+    "AdamKinzinger0_012__w000.coef.pt": [
+      0.3219279944896698
+    ],
+    "AdamKinzinger0_012__w001.coef.pt": [
+      0.22624471783638
+    ],
+    "AdamKinzinger0_012__w002.coef.pt": [
+      0.2532362639904022
+    ],
+    "AdamKinzinger0_013__w000.coef.pt": [
+      0.4216417968273163
+    ],
+    "AdamKinzinger0_013__w001.coef.pt": [
+      0.5086504220962524
+    ],
+    "AdamKinzinger0_013__w002.coef.pt": [
+      0.6747817397117615
+    ],
+    "AdamKinzinger0_014__w000.coef.pt": [
+      0.5866798162460327
+    ],
+    "AdamKinzinger0_014__w001.coef.pt": [
+      0.5080333948135376
+    ],
+    "AdamKinzinger0_014__w002.coef.pt": [
+      0.31750601530075073
+    ],
+    "AdamKinzinger0_015__w000.coef.pt": [
+      0.2599433362483978
+    ],
+    "AdamKinzinger0_015__w001.coef.pt": [
+      0.4309534728527069
+    ],
+    "AdamKinzinger0_015__w002.coef.pt": [
+      0.3558771014213562
+    ],
+    "AdamKinzinger0_016__w000.coef.pt": [
+      0.3928757607936859
+    ],
+    "AdamKinzinger0_016__w001.coef.pt": [
+      0.5867301821708679
+    ],
+    "AdamKinzinger0_016__w002.coef.pt": [
+      0.6741112470626831
+    ],
+    "AdamKinzinger0_017__w000.coef.pt": [
+      0.8069883584976196
+    ],
+    "AdamKinzinger0_017__w001.coef.pt": [
+      0.5852941870689392
+    ],
+    "AdamKinzinger0_017__w002.coef.pt": [
+      0.5971009731292725
+    ],
+    "AdamKinzinger0_018__w000.coef.pt": [
+      0.4262233376502991
+    ],
+    "AdamKinzinger0_018__w001.coef.pt": [
+      0.41856613755226135
+    ],
+    "AdamKinzinger0_018__w002.coef.pt": [
+      0.4320657551288605
+    ],
+    "AdamKinzinger1_001__w000.coef.pt": [
+      0.2555399239063263
+    ],
+    "AdamKinzinger1_001__w001.coef.pt": [
+      0.32785385847091675
+    ],
+    "AdamKinzinger1_001__w002.coef.pt": [
+      0.23873786628246307
+    ],
+    "AdamKinzinger1_002__w000.coef.pt": [
+      0.3758789598941803
+    ],
+    "AdamKinzinger1_002__w001.coef.pt": [
+      0.37761786580085754
+    ],
+    "AdamKinzinger1_002__w002.coef.pt": [
+      0.3883727192878723
+    ]
+  },
+  "skipped": {}
+}
