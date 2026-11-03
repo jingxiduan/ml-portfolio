@@ -1,0 +1,5 @@
+{
+  "rule": "parameter_grad_blowup",
+  "message": "param_grad_norm window-mean 0.00246 > 20.0x baseline 0.00007 at step 522",
+  "time": "2026-11-03 21:11:20"
+}

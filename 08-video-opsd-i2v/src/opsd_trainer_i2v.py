@@ -393,8 +393,12 @@ class OPSDI2VTrainer:
 
             self.optimizer.zero_grad(set_to_none=True)
             loss.backward()
-            _param_grad_norm = torch.nn.utils.clip_grad_norm_(
+            _raw_param_grad_norm = torch.nn.utils.clip_grad_norm_(
                 [p for p in self.p.v_theta.parameters() if p.requires_grad], self.cfg.grad_clip
+            )
+            _effective_param_grad_norm = torch.minimum(
+                _raw_param_grad_norm,
+                _raw_param_grad_norm.new_tensor(self.cfg.grad_clip),
             )
             self.optimizer.step()
 
@@ -424,7 +428,8 @@ class OPSDI2VTrainer:
             "reward": float(reward_val.mean().cpu()),
             "sigma_q": float(sigma_q.detach().cpu().item()),
             "grad_norm": float(g.flatten(1).norm(dim=1).mean().cpu()),
-            "param_grad_norm": float(_param_grad_norm.cpu()),
+            "raw_param_grad_norm": float(_raw_param_grad_norm.cpu()),
+            "param_grad_norm": float(_effective_param_grad_norm.cpu()),
             "shift_ratio": _shift_ratio,
             "lora_B_norm": _lora_b_norm,
         }

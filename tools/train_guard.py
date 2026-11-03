@@ -42,6 +42,7 @@ RULES = {
     "i2v": [
         ("loss_blowup", "loss_plus", "ratio_above", 10.0, 2 * W),
         ("parameter_grad_blowup", "param_grad_norm", "ratio_above", 20.0, 2 * W),
+        ("raw_parameter_grad_blowup", "raw_param_grad_norm", "abs_above", 0.1, 2 * W),
         ("target_shift_blowup", "shift_ratio", "abs_above", 0.25, W),
         ("subject_drift", "R_subject_consistency", "abs_below", 0.95, W),
         ("reward_collapse", "reward", "drop_from_base", 1.0, 2 * W),
@@ -201,6 +202,7 @@ def selftest():
         ("reward collapse i2v", "i2v", good_i2v[:100] + mk(100, lambda i: dict(loss_plus=3.8e-4, reward=-2.5, R_subject_consistency=0.984, R_naturalness_penalty=-1.2)), True),
         ("target shift i2v", "i2v", good_i2v[:50] + mk(50, lambda i: dict(loss_plus=3.8e-4, reward=-0.3, shift_ratio=0.30, R_subject_consistency=0.984, R_naturalness_penalty=-1.2)), True),
         ("parameter grad i2v", "i2v", mk(50, lambda i: dict(loss_plus=3.8e-4, reward=-0.3, param_grad_norm=1e-4, R_subject_consistency=0.984, R_naturalness_penalty=-1.2)) + mk(50, lambda i: dict(loss_plus=3.8e-4, reward=-0.3, param_grad_norm=3e-3, R_subject_consistency=0.984, R_naturalness_penalty=-1.2)), True),
+        ("raw parameter grad i2v", "i2v", mk(50, lambda i: dict(loss_plus=3.8e-4, reward=-0.3, raw_param_grad_norm=1e-4, R_subject_consistency=0.984, R_naturalness_penalty=-1.2)) + mk(50, lambda i: dict(loss_plus=3.8e-4, reward=-0.3, raw_param_grad_norm=0.2, R_subject_consistency=0.984, R_naturalness_penalty=-1.2)), True),
         ("loss blowup motion", "motion", good_motion[:200] + mk(60, lambda i: dict(loss=0.08, reward=1.0, ood=-0.001, jitter=-0.4, amp=0.8)), True),
         ("head frozen motion", "motion", good_motion[:200] + mk(60, lambda i: dict(loss=0.0101, reward=1.0, ood=-0.001, jitter=-0.1, amp=0.05)), True),
         ("ood blowup motion", "motion", good_motion[:200] + mk(60, lambda i: dict(loss=0.0101, reward=1.0, ood=-0.3, jitter=-0.4, amp=0.8)), True),

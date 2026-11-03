@@ -36,7 +36,8 @@ Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motio
 - Naturalness-constrained V2 stopped at step 306 after a 10.95× rolling `loss_plus` increase.
 - V3 replaces the unbounded contrastive quadratic with bounded anchored fitting and removes extreme-pixel hard-clamp dead zones.
 - Unit tests and the 100-step production preflight pass; `loss_plus` remained at 0.00660→0.00681 with no guard trip.
-- The 2,000-step V3 run remains incomplete and cannot produce a quality claim without held-out n≥40 evaluation and blind preference.
+- The V3 long run failed the fixed parameter-gradient gate at step 522; V4 changes only effective gradient clipping from 1.0 to 1e-3 and is pre-registered.
+- Even a completed V4 run cannot produce a quality claim without held-out n≥40 evaluation and blind preference.
 
 Record: [`08-video-opsd-i2v/docs/RESULTS_LONG.md`](08-video-opsd-i2v/docs/RESULTS_LONG.md).
 

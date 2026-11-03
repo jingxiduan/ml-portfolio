@@ -1,0 +1,4 @@
+[GUARD] kind=i2v log=outputs/opsd_long_v3_stable/train_metrics.jsonl pid=142416 window=50
+[GUARD] TRIPPED rule=parameter_grad_blowup: param_grad_norm window-mean 0.00246 > 20.0x baseline 0.00007 at step 522
+[GUARD] wrote /root/ml-portfolio/08-video-opsd-i2v/outputs/opsd_long_v3_stable/GUARD_STOP.json
+[GUARD] sent SIGTERM to pid 142416

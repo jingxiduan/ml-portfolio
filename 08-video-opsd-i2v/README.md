@@ -17,7 +17,7 @@ The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioni
 - Replacing the original hard-clamped naturalness formulation with smooth penalties restored an active **training** gradient.
 - The 500-step held-out metrics are effectively tied with base; no quality gain is established.
 - A 2,000-step NoNat control completed, but the naturalness-constrained V2 run hit the fixed loss-growth guard at step 306.
-- V3 introduces bounded anchored fitting and a smooth extreme-pixel mapping. Its 100-step production preflight passed without a guard trip; the 2,000-step run and quality gates remain incomplete.
+- V3 introduced bounded anchored fitting and smooth pixel mapping, but its 2,000-step attempt hit the parameter-gradient guard at step 522. V4 changes only effective gradient clipping (`1.0` → `1e-3`) and is the active stabilization test.
 
 The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
 
@@ -279,7 +279,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 | Area | Current Status |
 |------|---------------|
-| Long-run stability | V2 stopped at step 306 after `loss_plus` exceeded the fixed 10× growth guard; V3 remains unvalidated. |
+| Long-run stability | V2 stopped at step 306 on fit loss; V3 stopped at step 522 on >20× parameter-gradient growth; V4 gradient control is active. |
 | Held-out improvement | The 500-step results are tied with base; the completed NoNat long run is not evidence of natural quality. |
 | Eval sample size | The published table uses n=10 held-out prompts; confirmatory evaluation requires at least 40 and confidence intervals. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
@@ -287,7 +287,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | Human evaluation | No matched-seed blind preference study has been completed. |
 | Scale-sweep language | The `0.2` setting is a diagnostic trade-off on six scenes, not a universal optimum. |
 
-See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the exact long-run evidence and pre-registered V3 gates.
+See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures and pre-registered V4 intervention.
 
 ---
 

@@ -4,7 +4,7 @@
 
 **Validated milestone:** reward-path and failure diagnosis
 
-**Active milestone:** V3 long-run stabilization
+**Active milestone:** V4 gradient-controlled long-run stabilization
 
 ## Current conclusion
 
@@ -22,7 +22,8 @@ Current artifacts do **not** establish better held-out I2V quality than the froz
 | Does 500-step V2 beat base on held-out prompts? | Appeal 0.7291 vs 0.7295; naturalness 0.9513 vs 0.9515 | No |
 | Can the unconstrained control run for 2,000 steps? | `opsd_long_no_nat` final metrics/checkpoint | Yes |
 | Can naturalness-constrained V2 run for 2,000 steps? | Guard stop at step 306, 10.95× `loss_plus` growth | No |
-| Is V3 stable and better? | 100-step production preflight passed; 2,000-step run and held-out quality remain incomplete | Unresolved beyond preflight |
+| Is V3 stable and better? | 100-step preflight passed, but the long run stopped at step 522 on a >20× parameter-gradient gate | No |
+| Does V4 gradient clipping stabilize the same objective? | Single-variable `grad_clip=1e-3` run registered; step 600 first promotion point | Active |
 | Do humans prefer the result? | No blind matched-seed evaluation | Unresolved |
 
 ## Long-run artifacts
@@ -49,12 +50,13 @@ V3 keeps V2's data, LoRA, learning rate, target radius, EMA schedule, and reward
 1. Replaces attraction-minus-repulsion with a bounded positive-target fit plus a behavior-anchor penalty.
 2. Replaces hard clipping in the naturalness pixel mapping with a smooth `tanh` mapping so extreme decoded pixels retain gradients.
 
-The 100-step production-resolution preflight completed without a guard trip: first/final 20-step mean `loss_plus` was 0.00660/0.00681, maximum shift ratio was 0.1378, and checkpoints 50/100 were written. This permits but does not validate the 2,000-step run.
+The 100-step production-resolution preflight completed without a guard trip, but its cosine schedule reached zero learning rate at step 100. The corresponding long run remained near `1e-4`, developed progressively larger fit loss and gradients, and was stopped at step 522. V4 keeps all V3 conditions fixed except effective parameter-gradient clipping at `1e-3`; raw and post-clip norms are logged separately.
 
 Files:
 
 - `configs/probe_v3_stable.yaml`
 - `configs/long_v3_stable.yaml`
+- `configs/long_v4_gradclip.yaml`
 - `tests/test_stability_objective.py`
 - `docs/RESULTS_LONG.md`
 

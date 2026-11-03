@@ -102,6 +102,31 @@ The production-resolution preflight completed 100 steps in 1,219 seconds without
 
 Checkpoints at steps 50 and 100 are present. This passes the preflight stability gate and permits the pre-registered 2,000-step run; it is not a quality result.
 
+## V3 2,000-step attempt: failed at step 522
+
+Artifact: `outputs/opsd_long_v3_stable/GUARD_STOP.json`.
+
+The long run did not reproduce the apparent 100-step safety because the probe's cosine schedule had already decayed its learning rate to zero at step 100, while the 2,000-step run still used approximately `1e-4`. The guard stopped V3 at step 522 when the rolling pre-clip parameter-gradient norm reached `0.00246`, more than 20× its `0.00007` initial baseline.
+
+| Window | `loss_plus` mean | Pre-clip parameter-gradient mean | LoRA-B norm mean |
+|---|---:|---:|---:|
+| 1–50 | 0.00666 | 6.52e-5 | 0.0731 |
+| 201–300 | 0.01082 | 3.20e-4 | 1.3384 |
+| 401–450 | 0.01330 | 8.14e-4 | 1.8551 |
+| 501–522 | 0.02131 | 5.09e-3 | 2.1266 |
+
+Subject consistency and target displacement had not collapsed, but the progressively increasing fit loss and gradient spikes are genuine optimization drift rather than a guard false positive. V3 therefore fails the registered long-run stability gate.
+
+## V4 pre-registration: effective gradient control
+
+V3 configured `grad_clip: 1.0`, roughly four orders of magnitude above its initial parameter-gradient norm; even its largest observed single-step spike, about 0.09, was not clipped. V4 changes exactly one optimization hyperparameter:
+
+- `grad_clip`: `1.0` → `1e-3`.
+
+The trainer now records both `raw_param_grad_norm` and the post-clip effective `param_grad_norm`. Existing fit, displacement, identity, reward, and naturalness guards stay fixed. An additional diagnostic guard stops if the 50-step mean raw norm exceeds 0.1. The run uses `configs/long_v4_gradclip.yaml`; step 600 is the first promotion checkpoint because it lies beyond the V3 failure point, but the same run continues to step 2,000 if all guards pass.
+
+This is a stabilization hypothesis only. Completion still cannot establish quality without the registered held-out and human gates.
+
 ## V3 pre-registered gates
 
 | Gate | Threshold | Action on failure |
