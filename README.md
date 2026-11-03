@@ -23,6 +23,44 @@ The projects progress through two connected tracks:
 
 Every reported number is backed by an artifact in the corresponding project. Negative results and rejected gates are kept alongside successful runs.
 
+## Core method and visible evidence
+
+For an on-policy intermediate state \(z_q\), the frozen behavior model defines a clean anchor and the normalized reward gradient defines a bounded positive target:
+
+\[
+y_0=z_q-\sigma_qv_{\mathrm{old}}(z_q,c,\sigma_q),\qquad
+y_0^+=y_0+c_{\mathrm{adv}}\sigma_q\frac{\nabla_{y_0}R(y_0,c)}{\lVert\nabla_{y_0}R(y_0,c)\rVert_2+\epsilon}.
+\]
+
+The stabilized video fit removes the original unbounded negative-target repulsion:
+
+\[
+\mathcal L_{\mathrm{stable}}=\lVert\hat y_0-y_0^+\rVert_2^2+\lambda_a\lVert\hat y_0-y_0\rVert_2^2.
+\]
+
+Full derivation and implementation boundaries: [`08 · METHOD.md`](08-video-opsd-i2v/docs/METHOD.md).
+
+### 07 · New licensed hold-out faces — Base vs R3
+
+<table>
+<tr>
+<td width="50%"><img src="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif" alt="New licensed female face: Base versus R3 seed 0"></td>
+<td width="50%"><img src="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif" alt="New licensed male face: Base versus R3 seed 0"></td>
+</tr>
+<tr>
+<td><a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/expression_r3__base.mp4">Base MP4</a> · <a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/expression_r3__seed0.mp4">R3 MP4</a></td>
+<td><a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/expression_r3__base.mp4">Base MP4</a> · <a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/expression_r3__seed0.mp4">R3 MP4</a></td>
+</tr>
+</table>
+
+These portraits are newly extracted from two 4K Pexels License videos and were not used for training or calibration. Both columns use matched portrait, held-out audio, generation seed, and frozen renderer; only the motion adapter changes. Judge expression/head-motion behavior here—not color or skin detail, which are controlled by the same frozen LivePortrait renderer. [Sources and checksums](07-talking-head-motion-opsd/data/portraits_new_licensed/SOURCES.json).
+
+<!-- V4_RESULT_START -->
+### 08 · Held-out I2V result
+
+V4 is still training under the fixed guard. On completion this block is replaced with the final training curve, paired n≥40 confidence intervals, and fixed-index Base/V4 MP4/GIF demos generated from a new COCO-validation image set that was not used for training.
+<!-- V4_RESULT_END -->
+
 ## Projects 01–08
 
 | # | Project | Problem and contribution | Verified result | Status |

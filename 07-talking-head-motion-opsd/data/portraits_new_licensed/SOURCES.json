@@ -1,0 +1,29 @@
+{
+  "purpose": "Previously unseen held-out portraits for visible Base/R3 demos; neither source video nor portrait frame was used for training or calibration.",
+  "license": "Pexels License",
+  "license_url": "https://www.pexels.com/license/",
+  "items": [
+    {
+      "portrait": "pexels_5336771_new_female.png",
+      "video_id": 5336771,
+      "title": "Woman Turning Around and Looking at Camera",
+      "author": "Andy Barbour",
+      "source_url": "https://www.pexels.com/video/woman-turning-around-and-looking-at-camera-5336771/",
+      "download_url": "https://www.pexels.com/download/video/5336771/",
+      "source_dimensions": "3840x2160",
+      "source_duration_seconds": 12,
+      "frame_timestamp_seconds": 4
+    },
+    {
+      "portrait": "pexels_8379249_new_male.png",
+      "video_id": 8379249,
+      "title": "A Happy Man Outdoors on a Sunny Day",
+      "author": "Kampus Production",
+      "source_url": "https://www.pexels.com/video/a-happy-man-outdoors-on-a-sunny-day-8379249/",
+      "download_url": "https://www.pexels.com/download/video/8379249/",
+      "source_dimensions": "3840x2160",
+      "source_duration_seconds": 7,
+      "frame_timestamp_seconds": 3
+    }
+  ]
+}

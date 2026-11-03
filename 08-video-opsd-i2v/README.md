@@ -19,6 +19,12 @@ The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioni
 - A 2,000-step NoNat control completed, but the naturalness-constrained V2 run hit the fixed loss-growth guard at step 306.
 - V3 introduced bounded anchored fitting and smooth pixel mapping, but its 2,000-step attempt hit the parameter-gradient guard at step 522. V4 changes only effective gradient clipping (`1.0` → `1e-3`) and is the active stabilization test.
 
+<!-- V4_RESULT_START -->
+## V4 visible result
+
+V4 is still running. On completion this block is automatically replaced with the final stability curve, n≥40 paired held-out confidence intervals, and six fixed-index Base/V4 GIF demos on new COCO-validation inputs.
+<!-- V4_RESULT_END -->
+
 The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
 
 ---

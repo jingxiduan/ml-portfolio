@@ -71,6 +71,8 @@ pip install --quiet \
     einops==0.8.0 \
     pyyaml \
     scipy \
+    matplotlib==3.9.4 \
+    pyarrow==17.0.0 \
     tqdm \
     pytorch-lightning==2.3.3 \
     huggingface_hub==0.24.5 \

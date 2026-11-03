@@ -125,7 +125,22 @@ V3 configured `grad_clip: 1.0`, roughly four orders of magnitude above its initi
 
 The trainer now records both `raw_param_grad_norm` and the post-clip effective `param_grad_norm`. Existing fit, displacement, identity, reward, and naturalness guards stay fixed. An additional diagnostic guard stops if the 50-step mean raw norm exceeds 0.1. The run uses `configs/long_v4_gradclip.yaml`; step 600 is the first promotion checkpoint because it lies beyond the V3 failure point, but the same run continues to step 2,000 if all guards pass.
 
-This is a stabilization hypothesis only. Completion still cannot establish quality without the registered held-out and human gates. If step 2,000 completes, `scripts/eval_candidate.py` renders base and V4 on the same 40 held-out prompts, first frames, and generation seed; a metric can be described as improved only when the paired-bootstrap 95% interval for candidate-minus-base lies entirely above zero.
+This is a stabilization hypothesis only. Completion still cannot establish quality without the registered held-out and human gates.
+
+The first V4 process reached step 1038 without an algorithmic guard trip, then a concurrently launched development renderer exhausted GPU memory and RAFT raised CUDA OOM. That process is invalid as a completion attempt; the exact configuration is restarted from step 0 in `outputs/opsd_long_v4_gradclip_rerun`, with no concurrent GPU work permitted.
+
+A step-1000 full-strength development smoke produced severe green/overexposed output despite the training guard remaining healthy. This confirms that numerical stability is not perceptual quality and that unit-scale LoRA is not a viable release candidate.
+
+![V4 step-1000 development scale sweep](figures/v4/scale_sweep_step1000.gif)
+
+The displayed input is development-only. Before viewing the disjoint confirmatory split, the completion route was frozen as follows:
+
+1. compare checkpoints 500/1000/1500/2000 at scales 0.01/0.02/0.05 on six development pairs;
+2. require Δnaturalness ≥ -0.02 and Δappeal ≥ -0.02;
+3. maximize `Δappeal + 0.5·Δnaturalness + 0.5·Δdynamic`, with deterministic tie breaks;
+4. evaluate the single selected candidate on a disjoint 40-pair COCO-validation split.
+
+`scripts/select_v4_candidate.py` implements development selection and `scripts/eval_candidate.py` performs the confirmatory render. A metric can be described as improved only when the paired-bootstrap 95% interval for candidate-minus-base lies entirely above zero.
 
 ## V3 pre-registered gates
 
@@ -165,3 +180,9 @@ The command, exit state, guard record, metric summary, and checkpoint inventory 
 ## Claim boundary
 
 At present the project establishes a working I2V reward-gradient path, diagnoses dead gradients and reward hacking, and records a genuine long-run instability. It does **not** yet establish superior I2V generation quality.
+
+<!-- V4_RESULT_START -->
+## V4 final result
+
+V4 training and the frozen dev/confirmatory evaluation route are active. This block is replaced by `scripts/publish_v4_result.py` after the run terminates.
+<!-- V4_RESULT_END -->

@@ -28,6 +28,8 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--out", type=Path, default=ROOT / "outputs" / "expression_demo_r3")
     args = parser.parse_args()
+    args.portrait = args.portrait.resolve()
+    args.out = args.out.resolve()
 
     if args.audio is None:
         candidates = sorted((ROOT / "data" / "audio_public" / "eval").glob("*.wav"))

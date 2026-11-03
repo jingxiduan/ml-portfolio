@@ -37,6 +37,17 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 
 > This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
 
+## New licensed hold-out face demos
+
+| New face A | New face B |
+|---|---|
+| ![Pexels face A Base versus R3](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) | ![Pexels face B Base versus R3](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif) |
+| [Base MP4](outputs/new_face_demo_r3/female/expression_r3__base.mp4) · [R3 MP4](outputs/new_face_demo_r3/female/expression_r3__seed0.mp4) | [Base MP4](outputs/new_face_demo_r3/male/expression_r3__base.mp4) · [R3 MP4](outputs/new_face_demo_r3/male/expression_r3__seed0.mp4) |
+
+Both 1024×1024 inputs were extracted from previously unused 4K Pexels License videos. They were not part of training, behavior calibration, or model selection. Base and R3 use identical portrait, held-out audio, generation seed, and frozen LivePortrait renderer. The test isolates motion changes; it does not claim improved skin texture, lighting, or color. [Source URLs, authors, timestamps, license and checksums](data/portraits_new_licensed/SOURCES.json).
+
+### Historical evaluation portraits
+
 ![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
 *Evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*

@@ -1,0 +1,76 @@
+{
+  "metadata_dataset": "phiyodr/coco2017",
+  "image_dataset": "lance-format/coco-captions-2017-lance",
+  "split": "validation",
+  "role": "development",
+  "selection": "dataset order after modification-compatible license filter 4/5/7/8",
+  "used_for_training": false,
+  "items": [
+    {
+      "index": 0,
+      "image_id": 331352,
+      "file": "data/first_frames_dev_coco6/seed_00/000.png",
+      "caption": "A small closed toilet in a cramped space",
+      "coco_url": "http://images.cocodataset.org/val2017/000000331352.jpg",
+      "flickr_url": "http://farm1.staticflickr.com/53/136223761_7764eb56fa_z.jpg",
+      "license_id": 4,
+      "license": "CC BY 2.0",
+      "sha256": "b5230cd0ac79716a64af1314d5704c916dfcfc6996a4291468f8caac8aefa667"
+    },
+    {
+      "index": 1,
+      "image_id": 182417,
+      "file": "data/first_frames_dev_coco6/seed_00/001.png",
+      "caption": "A beautiful dessert waiting to be shared by two people",
+      "coco_url": "http://images.cocodataset.org/val2017/000000182417.jpg",
+      "flickr_url": "http://farm3.staticflickr.com/2151/2100467664_2703dd9ff2_z.jpg",
+      "license_id": 4,
+      "license": "CC BY 2.0",
+      "sha256": "1e366a7245bec38e7b95a5cadcc2cb67c5c101d88d071d0b74f955df63f2f427"
+    },
+    {
+      "index": 2,
+      "image_id": 46378,
+      "file": "data/first_frames_dev_coco6/seed_00/002.png",
+      "caption": "A cat eating a bird it has caught",
+      "coco_url": "http://images.cocodataset.org/val2017/000000046378.jpg",
+      "flickr_url": "http://farm3.staticflickr.com/2163/1809310489_e2707eed0b_z.jpg",
+      "license_id": 5,
+      "license": "CC BY-SA 2.0",
+      "sha256": "9c31c0695313a627d0fb00f9cbe680ac219d55f46af58abe3ce21bd50852b391"
+    },
+    {
+      "index": 3,
+      "image_id": 314251,
+      "file": "data/first_frames_dev_coco6/seed_00/003.png",
+      "caption": "A parade of motorcycles is going through a group of tall trees",
+      "coco_url": "http://images.cocodataset.org/val2017/000000314251.jpg",
+      "flickr_url": "http://farm8.staticflickr.com/7175/6623822161_9144c8b9c8_z.jpg",
+      "license_id": 4,
+      "license": "CC BY 2.0",
+      "sha256": "311cdaf844a09782010ace9139c12406ae2b7d5488992d1171d53b182a824813"
+    },
+    {
+      "index": 4,
+      "image_id": 12667,
+      "file": "data/first_frames_dev_coco6/seed_00/004.png",
+      "caption": "The telephone has a banana where the receiver should be",
+      "coco_url": "http://images.cocodataset.org/val2017/000000012667.jpg",
+      "flickr_url": "http://farm1.staticflickr.com/197/499050773_995cd1e9bb_z.jpg",
+      "license_id": 4,
+      "license": "CC BY 2.0",
+      "sha256": "c0a5dacd0245bdfd3995f57a4e8584c6a4b27c952959bb54c69ab3017a6ee1ff"
+    },
+    {
+      "index": 5,
+      "image_id": 11511,
+      "file": "data/first_frames_dev_coco6/seed_00/005.png",
+      "caption": "A sculpture of two women stting on a bench with their purses on the ground while people standing in a line behind them. ",
+      "coco_url": "http://images.cocodataset.org/val2017/000000011511.jpg",
+      "flickr_url": "http://farm8.staticflickr.com/7124/7556029168_519acfdf09_z.jpg",
+      "license_id": 5,
+      "license": "CC BY-SA 2.0",
+      "sha256": "dd9e6e6a9fd5587f2c66bb0cd1aa70c4101774dc49cb095e24e61e9e8175bd18"
+    }
+  ]
+}

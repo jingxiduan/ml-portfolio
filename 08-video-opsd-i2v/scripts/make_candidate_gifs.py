@@ -15,11 +15,16 @@ def main() -> None:
     parser.add_argument("--base-dir", type=Path, default=ROOT / "outputs/eval_candidate/videos_base/seed_00")
     parser.add_argument("--candidate-dir", type=Path, required=True)
     parser.add_argument("--candidate-label", default="Candidate")
+    parser.add_argument("--prompts", type=Path, default=ROOT / "data" / "prompts" / "coco_eval_40.json")
     parser.add_argument("--out-dir", type=Path, default=ROOT / "docs/figures/eval_candidate")
     parser.add_argument("--indices", type=int, nargs="+", default=[0, 1, 2, 3, 4, 5])
     args = parser.parse_args()
+    args.base_dir = args.base_dir.resolve()
+    args.candidate_dir = args.candidate_dir.resolve()
+    args.prompts = args.prompts.resolve()
+    args.out_dir = args.out_dir.resolve()
 
-    prompts = json.loads((ROOT / "data" / "prompts" / "tier2_eval_40.json").read_text())
+    prompts = json.loads(args.prompts.read_text())
     args.out_dir.mkdir(parents=True, exist_ok=True)
     manifest = []
     for index in args.indices:
