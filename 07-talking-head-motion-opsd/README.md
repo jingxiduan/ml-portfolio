@@ -118,7 +118,8 @@ Early post-trained models exhibited half-closed eyes. We diagnosed this as being
 
 ### 2. Temporal Scale and Translation Stabilization
 Raw motion coefficients suffered from head size drift during driving. We resolved this via `stabilize_scale_translation` (applying a median filter and a ±2% clamp on scale dimension 63, and median filtering on translation dimensions 64–66):
-*   **Face-width std/mean:** **2.04% $ightarrow$ 1.15%** (Finance).
+*   **Face-width std/mean:** **2.04% $
+ightarrow$ 1.15%** (Finance).
 
 ----------------------------------------
 
@@ -158,32 +159,50 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V4 · Three Industry Personas (Single-Subject - Soft Tone)**
-*Description:* Restored single-subject experimental branch. It features an earlier color grading with soft, low-saturation tones mimicking realistic skin coloring naturally. *Note: Exhibits slight gray background/hair flickering.*
+### **V4 · Three Industry Personas (Single-Subject, Soft Tone)**
+*Description:* Six single-subject comparisons from the earlier soft, low-saturation grading. These are displayed directly rather than hidden behind directory links. Slight grey/background flicker remains in this historical release.
 
-| Industry | Qualitative Comparison (BASE vs. PERSONA - Soft Tone) | Original Directory |
-|---|---|---|
-| **Finance** | ![finance_soft](outputs/industry_gifs_v3/finance_base_vs_persona.gif) | `outputs/industry_gifs_v3/` |
-| **Real Estate** | ![realestate_soft](outputs/industry_gifs_v3/realestate_base_vs_persona.gif) | `outputs/industry_gifs_v3/` |
-| **Short Video** | ![shortvideo_soft](outputs/industry_gifs_v3/shortvideo_base_vs_persona.gif) | `outputs/industry_gifs_v3/` |
+| Finance | Finance |
+|---|---|
+| ![finance p00](outputs/industry_gifs_v3/finance/finance__00_p00_-R5aAhsrS9w_3_0__base_vs_finance.gif) | ![finance p03](outputs/industry_gifs_v3/finance/finance__01_p03_0tx4o3yXM64_12__base_vs_finance.gif) |
+| Real estate | Real estate |
+| ![real estate p01](outputs/industry_gifs_v3/realestate/realestate__00_p01_0wLgQQGob1U_13__base_vs_realestate.gif) | ![real estate p04](outputs/industry_gifs_v3/realestate/realestate__01_p04_0TvKsVxgbF4_2__base_vs_realestate.gif) |
+| Short video | Short video |
+| ![short video p02](outputs/industry_gifs_v3/shortvideo/shortvideo__00_p02_0Ba6y1Y8JjU_4__base_vs_shortvideo.gif) | ![short video p05](outputs/industry_gifs_v3/shortvideo/shortvideo__01_p05_0wLgQQGob1U_0__base_vs_shortvideo.gif) |
 
 ---
 
 ### **V5 · Frontal Portrait Demos (Base vs. V3)**
-*Description:* Archival qual-demos consisting of 8 frontal portrait setups driven by early V3 weights (overshoots head motion by 2.4x).
-*   *Location:* `outputs/demo_gifs_frontal/`
+*Description:* All eight frontal-portrait comparisons driven by the early V3 weights. V3 overshoots the measured human motion band and is retained as an ablation/history result.
+
+| Clip 00 | Clip 01 |
+|---|---|
+| ![c00 celebA-HQ 004](outputs/demo_gifs_frontal/c00__celebahq_004__base_vs_v3.gif) | ![c01 celebA-HQ 004](outputs/demo_gifs_frontal/c01__celebahq_004__base_vs_v3.gif) |
+| ![c00 celebA-HQ 005](outputs/demo_gifs_frontal/c00__celebahq_005__base_vs_v3.gif) | ![c01 celebA-HQ 005](outputs/demo_gifs_frontal/c01__celebahq_005__base_vs_v3.gif) |
+| ![c00 celebA-HQ 007](outputs/demo_gifs_frontal/c00__celebahq_007__base_vs_v3.gif) | ![c01 celebA-HQ 007](outputs/demo_gifs_frontal/c01__celebahq_007__base_vs_v3.gif) |
+| ![c00 celebA-HQ 009](outputs/demo_gifs_frontal/c00__celebahq_009__base_vs_v3.gif) | ![c01 celebA-HQ 009](outputs/demo_gifs_frontal/c01__celebahq_009__base_vs_v3.gif) |
 
 ---
 
 ### **V6 · Historical Release Demos (Base vs. V4)**
-*Description:* Archival qual-demos consisting of 4 setups driven by early V4 weights under legacy grading pipelines.
-*   *Location:* `outputs/demo_gifs_v4/`
+*Description:* All six V4 comparisons under the legacy grading pipeline. These demonstrate the calibrated, restrained-motion checkpoint before the later industry layout and colour grades.
+
+| Clip 00 | Clip 01 |
+|---|---|
+| ![c00 HDTF 001](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_001__base_vs_v4.gif) | ![c01 HDTF 001](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_001__base_vs_v4.gif) |
+| ![c00 HDTF 002](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_002__base_vs_v4.gif) | ![c01 HDTF 002](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_002__base_vs_v4.gif) |
+| ![c00 HDTF 003](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_003__base_vs_v4.gif) | ![c00 HDTF 004](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_004__base_vs_v4.gif) |
 
 ---
 
-### **V7 · Master Source High-Definition Videos**
-*Description:* Master synchronized `.mp4` video files from which all GIFs in this gallery are generated.
-*   *Location:* `outputs/hd_frontal/`, `outputs/hd_compare_public/`, and `outputs/hd_compare/`
+### **V7 · High-Definition Master Videos**
+*Description:* GitHub README pages do not reliably render repository MP4 files inline. Therefore each master is represented by its visible GIF preview below, with the synchronized high-definition MP4 available beside it.
+
+| Industry master | Visible preview | Synchronized master |
+|---|---|---|
+| **Finance** | ![finance master preview](outputs/persona_grids/finance_two_people_base_vs_persona.gif) | [Play/download MP4](outputs/persona_grids/finance_two_people_base_vs_persona.mp4) |
+| **Real estate** | ![real-estate master preview](outputs/persona_grids/realestate_two_people_base_vs_persona.gif) | [Play/download MP4](outputs/persona_grids/realestate_two_people_base_vs_persona.mp4) |
+| **Short video** | ![short-video master preview](outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif) | [Play/download MP4](outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4) |
 
 ---
 
