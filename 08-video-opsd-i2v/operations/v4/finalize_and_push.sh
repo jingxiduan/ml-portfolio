@@ -18,7 +18,12 @@ echo "[finalize] waiting for train pid=$TRAIN_PID"
 while kill -0 "$TRAIN_PID" 2>/dev/null; do
     sleep 60
 done
-sleep 5
+if [[ -f "$RUN/guard.pid" ]]; then
+    GUARD_PID="$(cat "$RUN/guard.pid")"
+    while kill -0 "$GUARD_PID" 2>/dev/null; do
+        sleep 5
+    done
+fi
 
 source .venv/bin/activate
 export PYTHONPATH="$PROJECT"
