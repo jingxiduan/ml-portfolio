@@ -1,0 +1,2 @@
+[GUARD] kind=i2v log=outputs/probe_v3_stable/train_metrics.jsonl pid=104311 window=50
+[GUARD] pid 104311 exited after 100 steps, no trip

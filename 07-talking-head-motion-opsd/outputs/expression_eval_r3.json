@@ -1,0 +1,1058 @@
+{
+  "target": 0.3928757608,
+  "base_jitter_limit": 1.3,
+  "n_clips": 40,
+  "same_audio_and_generation_seed": true,
+  "summaries": {
+    "base": {
+      "n": 40,
+      "expression_rms_mean": 0.2727061528712511,
+      "expression_rms_median": 0.2706330567598343,
+      "target_abs_error_mean": 0.12016960792874887,
+      "pose_high_deg_mean": 0.24055503867566586,
+      "jitter_ratio_vs_base": 1.0,
+      "delta_target_error_vs_base_mean": 0.0,
+      "delta_target_error_vs_base_ci95": [
+        0.0,
+        0.0
+      ],
+      "delta_jitter_vs_base_mean": 0.0,
+      "delta_jitter_vs_base_ci95": [
+        0.0,
+        0.0
+      ],
+      "target_error_gate": true,
+      "jitter_gate": true
+    },
+    "seed0": {
+      "n": 40,
+      "expression_rms_mean": 0.3872211717069149,
+      "expression_rms_median": 0.3835480511188507,
+      "target_abs_error_mean": 0.022854284198039164,
+      "pose_high_deg_mean": 0.1801115583628416,
+      "jitter_ratio_vs_base": 0.7487332601903274,
+      "delta_target_error_vs_base_mean": -0.0973153237307097,
+      "delta_target_error_vs_base_ci95": [
+        -0.1065058293604071,
+        -0.08690253025333602
+      ],
+      "delta_jitter_vs_base_mean": -0.060443480312824246,
+      "delta_jitter_vs_base_ci95": [
+        -0.08692040169611573,
+        -0.038128766538575304
+      ],
+      "target_error_gate": true,
+      "jitter_gate": true
+    },
+    "seed1": {
+      "n": 40,
+      "expression_rms_mean": 0.3849471002817154,
+      "expression_rms_median": 0.3774202913045883,
+      "target_abs_error_mean": 0.023778781296085506,
+      "pose_high_deg_mean": 0.18219984211027623,
+      "jitter_ratio_vs_base": 0.7574143660151371,
+      "delta_target_error_vs_base_mean": -0.09639082663266337,
+      "delta_target_error_vs_base_ci95": [
+        -0.10552546619785698,
+        -0.0856482367087787
+      ],
+      "delta_jitter_vs_base_mean": -0.058355196565389636,
+      "delta_jitter_vs_base_ci95": [
+        -0.08297531936317683,
+        -0.0360448463074863
+      ],
+      "target_error_gate": true,
+      "jitter_gate": true
+    },
+    "seed2": {
+      "n": 40,
+      "expression_rms_mean": 0.38598698526620867,
+      "expression_rms_median": 0.37922045588493347,
+      "target_abs_error_mean": 0.023400847615074306,
+      "pose_high_deg_mean": 0.18480724580585955,
+      "jitter_ratio_vs_base": 0.7682534808802338,
+      "delta_target_error_vs_base_mean": -0.09676876031367457,
+      "delta_target_error_vs_base_ci95": [
+        -0.10677670441112497,
+        -0.0856463799872278
+      ],
+      "delta_jitter_vs_base_mean": -0.05574779286980629,
+      "delta_jitter_vs_base_ci95": [
+        -0.08211352600716054,
+        -0.03308619394898415
+      ],
+      "target_error_gate": true,
+      "jitter_gate": true
+    }
+  },
+  "rows": {
+    "base": [
+      {
+        "clip": "seg_00000.wav",
+        "expression_rms": 0.2551197111606598,
+        "pose_low_deg": 0.8741995692253113,
+        "pose_high_deg": 0.23749856650829315
+      },
+      {
+        "clip": "seg_00001.wav",
+        "expression_rms": 0.25974446535110474,
+        "pose_low_deg": 0.824882984161377,
+        "pose_high_deg": 0.24509333074092865
+      },
+      {
+        "clip": "seg_00002.wav",
+        "expression_rms": 0.29947730898857117,
+        "pose_low_deg": 1.1198219060897827,
+        "pose_high_deg": 0.2864239513874054
+      },
+      {
+        "clip": "seg_00003.wav",
+        "expression_rms": 0.2708978056907654,
+        "pose_low_deg": 0.9530326128005981,
+        "pose_high_deg": 0.2722851634025574
+      },
+      {
+        "clip": "seg_00004.wav",
+        "expression_rms": 0.2703683078289032,
+        "pose_low_deg": 0.9861196875572205,
+        "pose_high_deg": 0.21179862320423126
+      },
+      {
+        "clip": "seg_00005.wav",
+        "expression_rms": 0.24380341172218323,
+        "pose_low_deg": 1.0283070802688599,
+        "pose_high_deg": 0.15472248196601868
+      },
+      {
+        "clip": "seg_00006.wav",
+        "expression_rms": 0.26289981603622437,
+        "pose_low_deg": 1.074084997177124,
+        "pose_high_deg": 0.29758521914482117
+      },
+      {
+        "clip": "seg_00007.wav",
+        "expression_rms": 0.29331982135772705,
+        "pose_low_deg": 1.1303071975708008,
+        "pose_high_deg": 0.2775944471359253
+      },
+      {
+        "clip": "seg_00008.wav",
+        "expression_rms": 0.24132250249385834,
+        "pose_low_deg": 0.7377512454986572,
+        "pose_high_deg": 0.1409195512533188
+      },
+      {
+        "clip": "seg_00009.wav",
+        "expression_rms": 0.23907318711280823,
+        "pose_low_deg": 0.9308188557624817,
+        "pose_high_deg": 0.18778473138809204
+      },
+      {
+        "clip": "seg_00010.wav",
+        "expression_rms": 0.2303735911846161,
+        "pose_low_deg": 1.0043703317642212,
+        "pose_high_deg": 0.18752917647361755
+      },
+      {
+        "clip": "seg_00011.wav",
+        "expression_rms": 0.26766374707221985,
+        "pose_low_deg": 1.2244230508804321,
+        "pose_high_deg": 0.3471030592918396
+      },
+      {
+        "clip": "seg_00012.wav",
+        "expression_rms": 0.2715252935886383,
+        "pose_low_deg": 1.1668126583099365,
+        "pose_high_deg": 0.1988014429807663
+      },
+      {
+        "clip": "seg_00013.wav",
+        "expression_rms": 0.2507791817188263,
+        "pose_low_deg": 1.1096922159194946,
+        "pose_high_deg": 0.19446821510791779
+      },
+      {
+        "clip": "seg_00014.wav",
+        "expression_rms": 0.2529081106185913,
+        "pose_low_deg": 0.9530262351036072,
+        "pose_high_deg": 0.15417616069316864
+      },
+      {
+        "clip": "seg_00015.wav",
+        "expression_rms": 0.2422213852405548,
+        "pose_low_deg": 1.0162842273712158,
+        "pose_high_deg": 0.2654143273830414
+      },
+      {
+        "clip": "seg_00016.wav",
+        "expression_rms": 0.28081128001213074,
+        "pose_low_deg": 1.4481723308563232,
+        "pose_high_deg": 0.366470605134964
+      },
+      {
+        "clip": "seg_00017.wav",
+        "expression_rms": 0.29011014103889465,
+        "pose_low_deg": 1.0082660913467407,
+        "pose_high_deg": 0.2647415101528168
+      },
+      {
+        "clip": "seg_00018.wav",
+        "expression_rms": 0.2735816538333893,
+        "pose_low_deg": 0.9105566143989563,
+        "pose_high_deg": 0.1336239129304886
+      },
+      {
+        "clip": "seg_00019.wav",
+        "expression_rms": 0.25354206562042236,
+        "pose_low_deg": 0.9000274538993835,
+        "pose_high_deg": 0.1964481920003891
+      },
+      {
+        "clip": "seg_00020.wav",
+        "expression_rms": 0.27821236848831177,
+        "pose_low_deg": 1.1687058210372925,
+        "pose_high_deg": 0.14742852747440338
+      },
+      {
+        "clip": "seg_00021.wav",
+        "expression_rms": 0.36213937401771545,
+        "pose_low_deg": 1.3188143968582153,
+        "pose_high_deg": 0.29592397809028625
+      },
+      {
+        "clip": "seg_00022.wav",
+        "expression_rms": 0.27488189935684204,
+        "pose_low_deg": 0.8068247437477112,
+        "pose_high_deg": 0.19647809863090515
+      },
+      {
+        "clip": "seg_00023.wav",
+        "expression_rms": 0.27701690793037415,
+        "pose_low_deg": 0.9256837368011475,
+        "pose_high_deg": 0.2615877687931061
+      },
+      {
+        "clip": "seg_00024.wav",
+        "expression_rms": 0.291599839925766,
+        "pose_low_deg": 1.1585227251052856,
+        "pose_high_deg": 0.2427990436553955
+      },
+      {
+        "clip": "seg_00025.wav",
+        "expression_rms": 0.27485835552215576,
+        "pose_low_deg": 0.9423329830169678,
+        "pose_high_deg": 0.21300649642944336
+      },
+      {
+        "clip": "seg_00026.wav",
+        "expression_rms": 0.283297061920166,
+        "pose_low_deg": 0.9054160714149475,
+        "pose_high_deg": 0.18624842166900635
+      },
+      {
+        "clip": "seg_00027.wav",
+        "expression_rms": 0.3719995319843292,
+        "pose_low_deg": 1.233845591545105,
+        "pose_high_deg": 0.3664715588092804
+      },
+      {
+        "clip": "seg_00028.wav",
+        "expression_rms": 0.25267699360847473,
+        "pose_low_deg": 0.8084783554077148,
+        "pose_high_deg": 0.16285550594329834
+      },
+      {
+        "clip": "seg_00029.wav",
+        "expression_rms": 0.23887112736701965,
+        "pose_low_deg": 0.9454119205474854,
+        "pose_high_deg": 0.20323500037193298
+      },
+      {
+        "clip": "seg_00030.wav",
+        "expression_rms": 0.28268754482269287,
+        "pose_low_deg": 1.0132750272750854,
+        "pose_high_deg": 0.19170862436294556
+      },
+      {
+        "clip": "seg_00031.wav",
+        "expression_rms": 0.3528949022293091,
+        "pose_low_deg": 1.3041635751724243,
+        "pose_high_deg": 0.5710076093673706
+      },
+      {
+        "clip": "seg_00032.wav",
+        "expression_rms": 0.25384822487831116,
+        "pose_low_deg": 0.9654551148414612,
+        "pose_high_deg": 0.17340661585330963
+      },
+      {
+        "clip": "seg_00033.wav",
+        "expression_rms": 0.28414392471313477,
+        "pose_low_deg": 1.1388434171676636,
+        "pose_high_deg": 0.3006879389286041
+      },
+      {
+        "clip": "seg_00034.wav",
+        "expression_rms": 0.30957362055778503,
+        "pose_low_deg": 1.2195781469345093,
+        "pose_high_deg": 0.2713044285774231
+      },
+      {
+        "clip": "seg_00035.wav",
+        "expression_rms": 0.22925050556659698,
+        "pose_low_deg": 0.824379026889801,
+        "pose_high_deg": 0.14814679324626923
+      },
+      {
+        "clip": "seg_00036.wav",
+        "expression_rms": 0.294172078371048,
+        "pose_low_deg": 1.275879144668579,
+        "pose_high_deg": 0.2781439423561096
+      },
+      {
+        "clip": "seg_00037.wav",
+        "expression_rms": 0.26680782437324524,
+        "pose_low_deg": 1.1533259153366089,
+        "pose_high_deg": 0.3044280707836151
+      },
+      {
+        "clip": "seg_00038.wav",
+        "expression_rms": 0.21125970780849457,
+        "pose_low_deg": 0.9853060245513916,
+        "pose_high_deg": 0.19150309264659882
+      },
+      {
+        "clip": "seg_00039.wav",
+        "expression_rms": 0.2685115337371826,
+        "pose_low_deg": 1.1445355415344238,
+        "pose_high_deg": 0.2953473627567291
+      }
+    ],
+    "seed0": [
+      {
+        "clip": "seg_00000.wav",
+        "expression_rms": 0.40894821286201477,
+        "pose_low_deg": 1.2444539070129395,
+        "pose_high_deg": 0.17697100341320038
+      },
+      {
+        "clip": "seg_00001.wav",
+        "expression_rms": 0.36730775237083435,
+        "pose_low_deg": 1.1899687051773071,
+        "pose_high_deg": 0.1708761751651764
+      },
+      {
+        "clip": "seg_00002.wav",
+        "expression_rms": 0.37117359042167664,
+        "pose_low_deg": 1.3304287195205688,
+        "pose_high_deg": 0.1913820058107376
+      },
+      {
+        "clip": "seg_00003.wav",
+        "expression_rms": 0.36814749240875244,
+        "pose_low_deg": 1.1064684391021729,
+        "pose_high_deg": 0.17872107028961182
+      },
+      {
+        "clip": "seg_00004.wav",
+        "expression_rms": 0.413879930973053,
+        "pose_low_deg": 1.0427452325820923,
+        "pose_high_deg": 0.18291006982326508
+      },
+      {
+        "clip": "seg_00005.wav",
+        "expression_rms": 0.3583604693412781,
+        "pose_low_deg": 1.1819679737091064,
+        "pose_high_deg": 0.14636439085006714
+      },
+      {
+        "clip": "seg_00006.wav",
+        "expression_rms": 0.41035622358322144,
+        "pose_low_deg": 1.368435263633728,
+        "pose_high_deg": 0.1520647555589676
+      },
+      {
+        "clip": "seg_00007.wav",
+        "expression_rms": 0.43286025524139404,
+        "pose_low_deg": 1.5414725542068481,
+        "pose_high_deg": 0.2271050661802292
+      },
+      {
+        "clip": "seg_00008.wav",
+        "expression_rms": 0.3772236406803131,
+        "pose_low_deg": 1.2643427848815918,
+        "pose_high_deg": 0.19030442833900452
+      },
+      {
+        "clip": "seg_00009.wav",
+        "expression_rms": 0.3670182526111603,
+        "pose_low_deg": 1.2334349155426025,
+        "pose_high_deg": 0.1477501392364502
+      },
+      {
+        "clip": "seg_00010.wav",
+        "expression_rms": 0.36066439747810364,
+        "pose_low_deg": 1.3186500072479248,
+        "pose_high_deg": 0.17993706464767456
+      },
+      {
+        "clip": "seg_00011.wav",
+        "expression_rms": 0.38281041383743286,
+        "pose_low_deg": 1.4649347066879272,
+        "pose_high_deg": 0.23657235503196716
+      },
+      {
+        "clip": "seg_00012.wav",
+        "expression_rms": 0.3640804588794708,
+        "pose_low_deg": 1.1924569606781006,
+        "pose_high_deg": 0.13744570314884186
+      },
+      {
+        "clip": "seg_00013.wav",
+        "expression_rms": 0.3585631847381592,
+        "pose_low_deg": 1.265300989151001,
+        "pose_high_deg": 0.16776922345161438
+      },
+      {
+        "clip": "seg_00014.wav",
+        "expression_rms": 0.36773017048835754,
+        "pose_low_deg": 1.0959538221359253,
+        "pose_high_deg": 0.1581113636493683
+      },
+      {
+        "clip": "seg_00015.wav",
+        "expression_rms": 0.3759806752204895,
+        "pose_low_deg": 1.2372748851776123,
+        "pose_high_deg": 0.2281620055437088
+      },
+      {
+        "clip": "seg_00016.wav",
+        "expression_rms": 0.4170316159725189,
+        "pose_low_deg": 1.5144453048706055,
+        "pose_high_deg": 0.18671739101409912
+      },
+      {
+        "clip": "seg_00017.wav",
+        "expression_rms": 0.4007553160190582,
+        "pose_low_deg": 1.4134575128555298,
+        "pose_high_deg": 0.1832266002893448
+      },
+      {
+        "clip": "seg_00018.wav",
+        "expression_rms": 0.3708086311817169,
+        "pose_low_deg": 1.2866146564483643,
+        "pose_high_deg": 0.14693450927734375
+      },
+      {
+        "clip": "seg_00019.wav",
+        "expression_rms": 0.3952876329421997,
+        "pose_low_deg": 1.4954700469970703,
+        "pose_high_deg": 0.2032497227191925
+      },
+      {
+        "clip": "seg_00020.wav",
+        "expression_rms": 0.4209364056587219,
+        "pose_low_deg": 1.4335047006607056,
+        "pose_high_deg": 0.17996197938919067
+      },
+      {
+        "clip": "seg_00021.wav",
+        "expression_rms": 0.395864874124527,
+        "pose_low_deg": 1.289116382598877,
+        "pose_high_deg": 0.20305253565311432
+      },
+      {
+        "clip": "seg_00022.wav",
+        "expression_rms": 0.41082432866096497,
+        "pose_low_deg": 1.3261131048202515,
+        "pose_high_deg": 0.1482650488615036
+      },
+      {
+        "clip": "seg_00023.wav",
+        "expression_rms": 0.4300888776779175,
+        "pose_low_deg": 1.2727668285369873,
+        "pose_high_deg": 0.1780800223350525
+      },
+      {
+        "clip": "seg_00024.wav",
+        "expression_rms": 0.3978422284126282,
+        "pose_low_deg": 1.3324044942855835,
+        "pose_high_deg": 0.14996562898159027
+      },
+      {
+        "clip": "seg_00025.wav",
+        "expression_rms": 0.4002901315689087,
+        "pose_low_deg": 1.415181040763855,
+        "pose_high_deg": 0.1542731076478958
+      },
+      {
+        "clip": "seg_00026.wav",
+        "expression_rms": 0.3896404802799225,
+        "pose_low_deg": 1.3777146339416504,
+        "pose_high_deg": 0.14013150334358215
+      },
+      {
+        "clip": "seg_00027.wav",
+        "expression_rms": 0.4323612153530121,
+        "pose_low_deg": 1.289654016494751,
+        "pose_high_deg": 0.28902381658554077
+      },
+      {
+        "clip": "seg_00028.wav",
+        "expression_rms": 0.362811416387558,
+        "pose_low_deg": 1.1329174041748047,
+        "pose_high_deg": 0.146393284201622
+      },
+      {
+        "clip": "seg_00029.wav",
+        "expression_rms": 0.36730676889419556,
+        "pose_low_deg": 1.0526467561721802,
+        "pose_high_deg": 0.2277444452047348
+      },
+      {
+        "clip": "seg_00030.wav",
+        "expression_rms": 0.42318451404571533,
+        "pose_low_deg": 1.2428054809570312,
+        "pose_high_deg": 0.17250481247901917
+      },
+      {
+        "clip": "seg_00031.wav",
+        "expression_rms": 0.4174859821796417,
+        "pose_low_deg": 1.143725872039795,
+        "pose_high_deg": 0.16012266278266907
+      },
+      {
+        "clip": "seg_00032.wav",
+        "expression_rms": 0.34967678785324097,
+        "pose_low_deg": 1.1124273538589478,
+        "pose_high_deg": 0.15551486611366272
+      },
+      {
+        "clip": "seg_00033.wav",
+        "expression_rms": 0.38428568840026855,
+        "pose_low_deg": 1.3757588863372803,
+        "pose_high_deg": 0.152841255068779
+      },
+      {
+        "clip": "seg_00034.wav",
+        "expression_rms": 0.38851338624954224,
+        "pose_low_deg": 0.9952890872955322,
+        "pose_high_deg": 0.1808624565601349
+      },
+      {
+        "clip": "seg_00035.wav",
+        "expression_rms": 0.414884090423584,
+        "pose_low_deg": 1.5089704990386963,
+        "pose_high_deg": 0.22789998352527618
+      },
+      {
+        "clip": "seg_00036.wav",
+        "expression_rms": 0.3793596625328064,
+        "pose_low_deg": 1.450992226600647,
+        "pose_high_deg": 0.1281106323003769
+      },
+      {
+        "clip": "seg_00037.wav",
+        "expression_rms": 0.3757825493812561,
+        "pose_low_deg": 1.254597783088684,
+        "pose_high_deg": 0.22278247773647308
+      },
+      {
+        "clip": "seg_00038.wav",
+        "expression_rms": 0.31227049231529236,
+        "pose_low_deg": 1.2201753854751587,
+        "pose_high_deg": 0.17701154947280884
+      },
+      {
+        "clip": "seg_00039.wav",
+        "expression_rms": 0.36644867062568665,
+        "pose_low_deg": 1.1533504724502563,
+        "pose_high_deg": 0.2173452228307724
+      }
+    ],
+    "seed1": [
+      {
+        "clip": "seg_00000.wav",
+        "expression_rms": 0.41970571875572205,
+        "pose_low_deg": 1.291733980178833,
+        "pose_high_deg": 0.16633740067481995
+      },
+      {
+        "clip": "seg_00001.wav",
+        "expression_rms": 0.3702701926231384,
+        "pose_low_deg": 1.196701169013977,
+        "pose_high_deg": 0.16481082141399384
+      },
+      {
+        "clip": "seg_00002.wav",
+        "expression_rms": 0.35759854316711426,
+        "pose_low_deg": 1.3415693044662476,
+        "pose_high_deg": 0.16622045636177063
+      },
+      {
+        "clip": "seg_00003.wav",
+        "expression_rms": 0.36961236596107483,
+        "pose_low_deg": 1.1375374794006348,
+        "pose_high_deg": 0.1857055276632309
+      },
+      {
+        "clip": "seg_00004.wav",
+        "expression_rms": 0.40661266446113586,
+        "pose_low_deg": 1.04940927028656,
+        "pose_high_deg": 0.1794489026069641
+      },
+      {
+        "clip": "seg_00005.wav",
+        "expression_rms": 0.3648023307323456,
+        "pose_low_deg": 1.180055022239685,
+        "pose_high_deg": 0.1496281921863556
+      },
+      {
+        "clip": "seg_00006.wav",
+        "expression_rms": 0.40075963735580444,
+        "pose_low_deg": 1.382066011428833,
+        "pose_high_deg": 0.17644314467906952
+      },
+      {
+        "clip": "seg_00007.wav",
+        "expression_rms": 0.42779844999313354,
+        "pose_low_deg": 1.5326135158538818,
+        "pose_high_deg": 0.17109453678131104
+      },
+      {
+        "clip": "seg_00008.wav",
+        "expression_rms": 0.3745986223220825,
+        "pose_low_deg": 1.3093734979629517,
+        "pose_high_deg": 0.19614344835281372
+      },
+      {
+        "clip": "seg_00009.wav",
+        "expression_rms": 0.37363401055336,
+        "pose_low_deg": 1.204932451248169,
+        "pose_high_deg": 0.16181586682796478
+      },
+      {
+        "clip": "seg_00010.wav",
+        "expression_rms": 0.3473759889602661,
+        "pose_low_deg": 1.328883171081543,
+        "pose_high_deg": 0.17181113362312317
+      },
+      {
+        "clip": "seg_00011.wav",
+        "expression_rms": 0.37791961431503296,
+        "pose_low_deg": 1.4512670040130615,
+        "pose_high_deg": 0.23551234602928162
+      },
+      {
+        "clip": "seg_00012.wav",
+        "expression_rms": 0.35784950852394104,
+        "pose_low_deg": 1.1931480169296265,
+        "pose_high_deg": 0.14787954092025757
+      },
+      {
+        "clip": "seg_00013.wav",
+        "expression_rms": 0.3640063405036926,
+        "pose_low_deg": 1.3187440633773804,
+        "pose_high_deg": 0.1813795119524002
+      },
+      {
+        "clip": "seg_00014.wav",
+        "expression_rms": 0.3575696349143982,
+        "pose_low_deg": 1.1258080005645752,
+        "pose_high_deg": 0.15405897796154022
+      },
+      {
+        "clip": "seg_00015.wav",
+        "expression_rms": 0.3606424629688263,
+        "pose_low_deg": 1.205326795578003,
+        "pose_high_deg": 0.2242496758699417
+      },
+      {
+        "clip": "seg_00016.wav",
+        "expression_rms": 0.39726129174232483,
+        "pose_low_deg": 1.5006390810012817,
+        "pose_high_deg": 0.19238172471523285
+      },
+      {
+        "clip": "seg_00017.wav",
+        "expression_rms": 0.394725501537323,
+        "pose_low_deg": 1.363730788230896,
+        "pose_high_deg": 0.19216813147068024
+      },
+      {
+        "clip": "seg_00018.wav",
+        "expression_rms": 0.36577504873275757,
+        "pose_low_deg": 1.2887458801269531,
+        "pose_high_deg": 0.14728710055351257
+      },
+      {
+        "clip": "seg_00019.wav",
+        "expression_rms": 0.40356412529945374,
+        "pose_low_deg": 1.525495171546936,
+        "pose_high_deg": 0.1952628493309021
+      },
+      {
+        "clip": "seg_00020.wav",
+        "expression_rms": 0.4155992269515991,
+        "pose_low_deg": 1.4469001293182373,
+        "pose_high_deg": 0.17562097311019897
+      },
+      {
+        "clip": "seg_00021.wav",
+        "expression_rms": 0.39420315623283386,
+        "pose_low_deg": 1.3288638591766357,
+        "pose_high_deg": 0.20314858853816986
+      },
+      {
+        "clip": "seg_00022.wav",
+        "expression_rms": 0.4341903328895569,
+        "pose_low_deg": 1.5646907091140747,
+        "pose_high_deg": 0.15978311002254486
+      },
+      {
+        "clip": "seg_00023.wav",
+        "expression_rms": 0.42100125551223755,
+        "pose_low_deg": 1.2961232662200928,
+        "pose_high_deg": 0.21073000133037567
+      },
+      {
+        "clip": "seg_00024.wav",
+        "expression_rms": 0.4023106098175049,
+        "pose_low_deg": 1.414489984512329,
+        "pose_high_deg": 0.1742756962776184
+      },
+      {
+        "clip": "seg_00025.wav",
+        "expression_rms": 0.3915782868862152,
+        "pose_low_deg": 1.4197794198989868,
+        "pose_high_deg": 0.1417342573404312
+      },
+      {
+        "clip": "seg_00026.wav",
+        "expression_rms": 0.3691844642162323,
+        "pose_low_deg": 1.4651395082473755,
+        "pose_high_deg": 0.15844596922397614
+      },
+      {
+        "clip": "seg_00027.wav",
+        "expression_rms": 0.4318816363811493,
+        "pose_low_deg": 1.3403172492980957,
+        "pose_high_deg": 0.27256062626838684
+      },
+      {
+        "clip": "seg_00028.wav",
+        "expression_rms": 0.36952337622642517,
+        "pose_low_deg": 1.1599328517913818,
+        "pose_high_deg": 0.13900314271450043
+      },
+      {
+        "clip": "seg_00029.wav",
+        "expression_rms": 0.3704884350299835,
+        "pose_low_deg": 1.1188538074493408,
+        "pose_high_deg": 0.2219054400920868
+      },
+      {
+        "clip": "seg_00030.wav",
+        "expression_rms": 0.42027774453163147,
+        "pose_low_deg": 1.3106125593185425,
+        "pose_high_deg": 0.1917087286710739
+      },
+      {
+        "clip": "seg_00031.wav",
+        "expression_rms": 0.4186912477016449,
+        "pose_low_deg": 1.2627832889556885,
+        "pose_high_deg": 0.182339146733284
+      },
+      {
+        "clip": "seg_00032.wav",
+        "expression_rms": 0.3649766743183136,
+        "pose_low_deg": 1.165693759918213,
+        "pose_high_deg": 0.15882734954357147
+      },
+      {
+        "clip": "seg_00033.wav",
+        "expression_rms": 0.38203781843185425,
+        "pose_low_deg": 1.477371335029602,
+        "pose_high_deg": 0.1544329673051834
+      },
+      {
+        "clip": "seg_00034.wav",
+        "expression_rms": 0.392419695854187,
+        "pose_low_deg": 1.0751283168792725,
+        "pose_high_deg": 0.17545124888420105
+      },
+      {
+        "clip": "seg_00035.wav",
+        "expression_rms": 0.41443198919296265,
+        "pose_low_deg": 1.5734082460403442,
+        "pose_high_deg": 0.23155756294727325
+      },
+      {
+        "clip": "seg_00036.wav",
+        "expression_rms": 0.37254783511161804,
+        "pose_low_deg": 1.4548327922821045,
+        "pose_high_deg": 0.12220756709575653
+      },
+      {
+        "clip": "seg_00037.wav",
+        "expression_rms": 0.3707750141620636,
+        "pose_low_deg": 1.2840793132781982,
+        "pose_high_deg": 0.22721655666828156
+      },
+      {
+        "clip": "seg_00038.wav",
+        "expression_rms": 0.2927621901035309,
+        "pose_low_deg": 1.1670500040054321,
+        "pose_high_deg": 0.18582573533058167
+      },
+      {
+        "clip": "seg_00039.wav",
+        "expression_rms": 0.3769209682941437,
+        "pose_low_deg": 1.2895338535308838,
+        "pose_high_deg": 0.24157972633838654
+      }
+    ],
+    "seed2": [
+      {
+        "clip": "seg_00000.wav",
+        "expression_rms": 0.39362746477127075,
+        "pose_low_deg": 1.0994679927825928,
+        "pose_high_deg": 0.162411168217659
+      },
+      {
+        "clip": "seg_00001.wav",
+        "expression_rms": 0.36715152859687805,
+        "pose_low_deg": 1.238606572151184,
+        "pose_high_deg": 0.17575502395629883
+      },
+      {
+        "clip": "seg_00002.wav",
+        "expression_rms": 0.36086952686309814,
+        "pose_low_deg": 1.4411568641662598,
+        "pose_high_deg": 0.1844068020582199
+      },
+      {
+        "clip": "seg_00003.wav",
+        "expression_rms": 0.36085471510887146,
+        "pose_low_deg": 1.1410120725631714,
+        "pose_high_deg": 0.18673396110534668
+      },
+      {
+        "clip": "seg_00004.wav",
+        "expression_rms": 0.4043354392051697,
+        "pose_low_deg": 1.1319001913070679,
+        "pose_high_deg": 0.16745342314243317
+      },
+      {
+        "clip": "seg_00005.wav",
+        "expression_rms": 0.3713189959526062,
+        "pose_low_deg": 1.2525449991226196,
+        "pose_high_deg": 0.16307978332042694
+      },
+      {
+        "clip": "seg_00006.wav",
+        "expression_rms": 0.40659841895103455,
+        "pose_low_deg": 1.45792555809021,
+        "pose_high_deg": 0.19444754719734192
+      },
+      {
+        "clip": "seg_00007.wav",
+        "expression_rms": 0.4519031047821045,
+        "pose_low_deg": 1.6273163557052612,
+        "pose_high_deg": 0.1947820782661438
+      },
+      {
+        "clip": "seg_00008.wav",
+        "expression_rms": 0.3738144338130951,
+        "pose_low_deg": 1.3603850603103638,
+        "pose_high_deg": 0.21530185639858246
+      },
+      {
+        "clip": "seg_00009.wav",
+        "expression_rms": 0.36939460039138794,
+        "pose_low_deg": 1.3112399578094482,
+        "pose_high_deg": 0.16183976829051971
+      },
+      {
+        "clip": "seg_00010.wav",
+        "expression_rms": 0.3648112714290619,
+        "pose_low_deg": 1.3348286151885986,
+        "pose_high_deg": 0.17623621225357056
+      },
+      {
+        "clip": "seg_00011.wav",
+        "expression_rms": 0.3867054283618927,
+        "pose_low_deg": 1.4715921878814697,
+        "pose_high_deg": 0.2610267400741577
+      },
+      {
+        "clip": "seg_00012.wav",
+        "expression_rms": 0.36296331882476807,
+        "pose_low_deg": 1.1783138513565063,
+        "pose_high_deg": 0.149301677942276
+      },
+      {
+        "clip": "seg_00013.wav",
+        "expression_rms": 0.36621978878974915,
+        "pose_low_deg": 1.2509292364120483,
+        "pose_high_deg": 0.14092756807804108
+      },
+      {
+        "clip": "seg_00014.wav",
+        "expression_rms": 0.3600514829158783,
+        "pose_low_deg": 1.1232130527496338,
+        "pose_high_deg": 0.15386149287223816
+      },
+      {
+        "clip": "seg_00015.wav",
+        "expression_rms": 0.3725050985813141,
+        "pose_low_deg": 1.3272539377212524,
+        "pose_high_deg": 0.2633582353591919
+      },
+      {
+        "clip": "seg_00016.wav",
+        "expression_rms": 0.4020305275917053,
+        "pose_low_deg": 1.5322185754776,
+        "pose_high_deg": 0.19164623320102692
+      },
+      {
+        "clip": "seg_00017.wav",
+        "expression_rms": 0.39426925778388977,
+        "pose_low_deg": 1.4395489692687988,
+        "pose_high_deg": 0.17265363037586212
+      },
+      {
+        "clip": "seg_00018.wav",
+        "expression_rms": 0.3678688108921051,
+        "pose_low_deg": 1.3439828157424927,
+        "pose_high_deg": 0.161040261387825
+      },
+      {
+        "clip": "seg_00019.wav",
+        "expression_rms": 0.40517446398735046,
+        "pose_low_deg": 1.5547287464141846,
+        "pose_high_deg": 0.22942470014095306
+      },
+      {
+        "clip": "seg_00020.wav",
+        "expression_rms": 0.41134727001190186,
+        "pose_low_deg": 1.4148164987564087,
+        "pose_high_deg": 0.1740124374628067
+      },
+      {
+        "clip": "seg_00021.wav",
+        "expression_rms": 0.4040001630783081,
+        "pose_low_deg": 1.3554368019104004,
+        "pose_high_deg": 0.23144423961639404
+      },
+      {
+        "clip": "seg_00022.wav",
+        "expression_rms": 0.4353123903274536,
+        "pose_low_deg": 1.5679268836975098,
+        "pose_high_deg": 0.15441198647022247
+      },
+      {
+        "clip": "seg_00023.wav",
+        "expression_rms": 0.4160915017127991,
+        "pose_low_deg": 1.2421472072601318,
+        "pose_high_deg": 0.18594340980052948
+      },
+      {
+        "clip": "seg_00024.wav",
+        "expression_rms": 0.39542245864868164,
+        "pose_low_deg": 1.4463499784469604,
+        "pose_high_deg": 0.17419034242630005
+      },
+      {
+        "clip": "seg_00025.wav",
+        "expression_rms": 0.38907626271247864,
+        "pose_low_deg": 1.3934612274169922,
+        "pose_high_deg": 0.14487040042877197
+      },
+      {
+        "clip": "seg_00026.wav",
+        "expression_rms": 0.37522444128990173,
+        "pose_low_deg": 1.4320176839828491,
+        "pose_high_deg": 0.15605895221233368
+      },
+      {
+        "clip": "seg_00027.wav",
+        "expression_rms": 0.4416249096393585,
+        "pose_low_deg": 1.3830968141555786,
+        "pose_high_deg": 0.2649964690208435
+      },
+      {
+        "clip": "seg_00028.wav",
+        "expression_rms": 0.35967734456062317,
+        "pose_low_deg": 1.1340326070785522,
+        "pose_high_deg": 0.1429385393857956
+      },
+      {
+        "clip": "seg_00029.wav",
+        "expression_rms": 0.3726961016654968,
+        "pose_low_deg": 1.1814873218536377,
+        "pose_high_deg": 0.19833458960056305
+      },
+      {
+        "clip": "seg_00030.wav",
+        "expression_rms": 0.42028188705444336,
+        "pose_low_deg": 1.2926534414291382,
+        "pose_high_deg": 0.19325374066829681
+      },
+      {
+        "clip": "seg_00031.wav",
+        "expression_rms": 0.41526633501052856,
+        "pose_low_deg": 1.255899429321289,
+        "pose_high_deg": 0.18063269555568695
+      },
+      {
+        "clip": "seg_00032.wav",
+        "expression_rms": 0.3520216941833496,
+        "pose_low_deg": 1.0950993299484253,
+        "pose_high_deg": 0.14394092559814453
+      },
+      {
+        "clip": "seg_00033.wav",
+        "expression_rms": 0.3838183581829071,
+        "pose_low_deg": 1.4952406883239746,
+        "pose_high_deg": 0.15783433616161346
+      },
+      {
+        "clip": "seg_00034.wav",
+        "expression_rms": 0.378364235162735,
+        "pose_low_deg": 1.062290906906128,
+        "pose_high_deg": 0.17360539734363556
+      },
+      {
+        "clip": "seg_00035.wav",
+        "expression_rms": 0.4189680218696594,
+        "pose_low_deg": 1.5648798942565918,
+        "pose_high_deg": 0.25177645683288574
+      },
+      {
+        "clip": "seg_00036.wav",
+        "expression_rms": 0.38007667660713196,
+        "pose_low_deg": 1.4809688329696655,
+        "pose_high_deg": 0.13727402687072754
+      },
+      {
+        "clip": "seg_00037.wav",
+        "expression_rms": 0.37550050020217896,
+        "pose_low_deg": 1.2859286069869995,
+        "pose_high_deg": 0.19311420619487762
+      },
+      {
+        "clip": "seg_00038.wav",
+        "expression_rms": 0.2966967821121216,
+        "pose_low_deg": 1.214741826057434,
+        "pose_high_deg": 0.18428239226341248
+      },
+      {
+        "clip": "seg_00039.wav",
+        "expression_rms": 0.37554439902305603,
+        "pose_low_deg": 1.1816715002059937,
+        "pose_high_deg": 0.24368612468242645
+      }
+    ]
+  }
+}

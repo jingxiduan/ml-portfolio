@@ -10,5 +10,6 @@
 | 2026-11-02 | V5 expression probe, 600 steps | expression reward first/final 100-step mean 0.7523/0.8108; active fraction 1.0; loss 0.01022/0.01024 | PASS optimization-signal gate only |
 | 2026-11-03 | V5 artifact recovery | final seed-0 LoRA restored from `origin/backup/2026-11-02-full`; serialized args match the probe log | PASS artifact completeness |
 | 2026-11-03 | R3 same-unit calibration | 40 sampled CelebV/HDTF clips, 77 windows; median target 0.3929, IQR tolerance 0.2071 | PASS for narrow confirmatory run; not a population estimate |
-| 2026-11-03 | R3 calibrated seeds | seeds 0/1/2, 600 steps each, frozen target/tolerance | IN PROGRESS |
-| 2026-11-03 | R3 held-out render | jitter/lip/render gates | PENDING |
+| 2026-11-03 | R3 calibrated seeds | seeds 0/1/2 completed 600 steps each, frozen target/tolerance, no guard trip | PASS optimization gate |
+| 2026-11-03 | R3 held-out coefficients | n=40 paired clips; target-error improvement CIs exclude zero; pose high-frequency RMS 0.75–0.77× base | PASS coefficient and pose-HF gates |
+| 2026-11-03 | R3 matched rendering | same portrait, held-out audio, generation seed; base + three adapters | COMPLETE diagnostic; independent perception pending |

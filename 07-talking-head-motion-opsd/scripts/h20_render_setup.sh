@@ -75,6 +75,9 @@ pip install --quiet \
     "$ORT_PKG" 2>&1 | tee -a "$LOG"
 
 python -c "import torch; print(f'[torch] {torch.__version__}  cuda={torch.cuda.is_available()}')" | tee -a "$LOG"
+# JoyVASA invokes an executable named `ffmpeg`; expose imageio-ffmpeg's bundled binary.
+FFMPEG_BIN="$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
+ln -sf "$FFMPEG_BIN" .venv/bin/ffmpeg
 
 # ------------------------------------------------------------- 2. JoyVASA code
 step "=== STAGE 2: JoyVASA source ==="

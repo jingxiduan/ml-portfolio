@@ -1,0 +1,29 @@
+{
+  "portrait": "data/portraits/host_f.png",
+  "audio": "data/audio_public/eval/seg_00000.wav",
+  "seconds": 4.0,
+  "generation_seed": 0,
+  "matched_inputs": true,
+  "entries": [
+    {
+      "variant": "base",
+      "video": "outputs/expression_demo_r3/expression_r3__base.mp4",
+      "adapter": null
+    },
+    {
+      "variant": "seed0",
+      "video": "outputs/expression_demo_r3/expression_r3__seed0.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed0/lora.pt"
+    },
+    {
+      "variant": "seed1",
+      "video": "outputs/expression_demo_r3/expression_r3__seed1.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed1/lora.pt"
+    },
+    {
+      "variant": "seed2",
+      "video": "outputs/expression_demo_r3/expression_r3__seed2.mp4",
+      "adapter": "outputs/opsd_v5_r3_seed2/lora.pt"
+    }
+  ]
+}

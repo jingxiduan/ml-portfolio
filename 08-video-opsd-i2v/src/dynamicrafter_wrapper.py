@@ -73,7 +73,8 @@ def _import_dynamicrafter():
         return instantiate_from_config, LatentVisualDiffusion
     except ImportError as e:  # pragma: no cover
         raise ImportError(
-            "DynamiCrafter not vendored. Run `bash scripts/02_download_weights.sh` to clone it."
+            "DynamiCrafter is present but could not be imported; check its Python dependencies "
+            f"and vendored path. Original error: {e}"
         ) from e
 
 

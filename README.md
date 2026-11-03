@@ -33,7 +33,7 @@ Every reported number is backed by an artifact in the corresponding project. Neg
 | 04 | [`diffusion-opsd-mps`](04-diffusion-opsd-mps) | Small-scale from-scratch implementation of the DiffusionOPSD training loop on SD-Turbo with differentiable CLIP reward. | Held-out CLIPScore **+0.542**, **60.0%** per-prompt win rate over base on 20 prompts. | Mechanism reproduction |
 | 05 | [`video-opsd-mps`](05-video-opsd-mps) | Extends the same loop to AnimateDiff video latents with frame-averaged CLIP alignment and temporal-consistency reward. | Held-out reward **+0.523**, **77.8%** win rate over base on 9 prompts; the training curve itself remained noisy and flat. | Video proof of concept |
 | 06 | **Reserved research slot** | No public project is assigned to this number. It remains visible so the repository history is not presented as a continuous series that never existed. | No result claimed. | Reserved |
-| 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Three trained amplitude policies reach **0.85–0.89×** their measured targets; four-way identification accuracy **0.831**. The pre-registered absolute-jitter gate failed and lip sync remains unmeasured. | Flagship, active |
+| 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Three amplitude policies reach **0.85–0.89×** target; calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238**. The earlier absolute-jitter gate failed and lip sync remains unmeasured. | Flagship, active |
 | 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | Sigmoid repaired a dead naturalness gradient, but the 500-step held-out metrics showed **no measurable quality gain**. A 2,000-step NoNat run completed; V2 stopped at step **306** on the pre-registered loss guard. | Flagship, active |
 
 ## The OPSD research thread
@@ -60,7 +60,8 @@ The optimization loop is deliberately held recognizable across projects: on-poli
 - **Measured targets:** amplitude, jitter, and blink bands are estimated from public human footage.
 - **Real-video supervision:** 1,753 aligned four-second motion windows are available for behavior cloning.
 - **Controlled evaluation:** held-out speakers, identical audio/seed comparisons, real-motion reference, same-face cross-industry control, effect sizes, bootstrap intervals, and permutation tests.
-- **What did not work:** absolute head jitter failed the registered gate; finance and real-estate are not ecologically separable in the real reference footage; SyncNet/LSE-C and human preference evaluation are still missing.
+- **R3 expression control:** three calibrated seeds pass paired n=40 target-error and pose high-frequency gates; this remains a coefficient-control claim, not an independent perceptual claim.
+- **What did not work:** the earlier absolute-jitter gate failed; finance and real-estate are not ecologically separable in the real reference footage; SyncNet/LSE-C and human preference evaluation are still missing.
 
 Start with the [technical report](07-talking-head-motion-opsd/docs/TECH_REPORT.md), [separability analysis](07-talking-head-motion-opsd/docs/SEPARATION_ANALYSIS.md), and [current experiment record](07-talking-head-motion-opsd/docs/RESULTS_R3.md).
 

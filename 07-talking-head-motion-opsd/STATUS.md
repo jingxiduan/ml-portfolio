@@ -23,7 +23,8 @@ The strongest positive result is the held-out amplitude shift: three policies re
 | Is absolute jitter controlled? | Registered threshold 18.36; naive OPSD result 28.97 | Failed |
 | Is lip synchronization preserved? | `jaw_audio_corr` is unreliable even for base; no SyncNet/LSE-C | Unresolved |
 | Does behavior cloning improve perception? | 1,753-window loader and qualitative prototype | Unresolved |
-| Does V5 improve non-lip expression naturally? | One 600-step optimization probe only | Unresolved |
+| Does V5 control non-lip expression coefficients? | Three calibrated seeds; n=40 paired held-out clips; target-error CIs exclude zero | Established |
+| Does V5 improve perceived naturalness? | Matched render exists; no independent perceptual metric or blind preference | Unresolved |
 
 ## R3 expression-dynamics state
 
@@ -35,12 +36,13 @@ The strongest positive result is the held-out amplitude shift: three policies re
 - The probe's expression reward increased from a first-100 mean of 0.7523 to a last-100 mean of 0.8108.
 - `expr_active_frac` remained 1.0, so the optimization-signal gate passed.
 - R3 expression calibration is complete on 77 windows: target 0.3929, tolerance 0.2071.
+- Calibrated seeds 0/1/2 completed 600 steps each without a guard trip.
+- Held-out n=40 paired coefficient evaluation passed target-error and pose high-frequency gates.
+- Same-portrait/audio/seed four-way rendering is complete.
 
 ### Not completed
 
-- Calibrated seeds 0/1/2 are running; the provisional seed-0 adapter remains a separate historical probe.
-- Held-out coefficient evaluation against the untrained base.
-- Matched rendered evaluation.
+- Independent perceptual evaluation of the matched renders.
 - Independent lip-sync metric.
 - Blind human preference test.
 

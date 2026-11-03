@@ -24,14 +24,15 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 
 - Peaked amplitude targets removed the earlier **2.4–2.7×** monotone-reward overshoot.
 - Three trained policies reached **0.85–0.89×** their corresponding measured amplitude targets on held-out audio.
-- Four classes (base plus three policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude.
+- Calibrated expression V5 reduced mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips); pose high-frequency RMS was **0.75–0.77×** base.
+- Four classes (base plus three amplitude policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude.
 - The real reference data do **not** support a general claim that finance and real-estate speakers have distinct motion styles.
 
 ### What remains unresolved
 
 - The pre-registered absolute-jitter gate failed: **28.97** versus the allowed **18.36**.
 - Lip synchronization has not been validated with SyncNet/LSE-C or an equivalent independent metric.
-- Expression-dynamics V5 has only a 600-step optimization probe; it has not completed calibrated multi-seed training and held-out rendered evaluation.
+- Expression-dynamics V5 passes its calibrated multi-seed coefficient gate, but the optimized expression statistic is not an independent perceptual metric.
 - Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by blind human preference testing.
 
 > This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
@@ -120,6 +121,19 @@ ema_update_behaviour_policy()
 | **Real Estate Persona** | 1.114° | **0.89x** | **1.21x** |
 | **Short Video Persona** | 2.597° | **0.85x** | **2.81x** |
 
+### 3. Calibrated Expression Dynamics (R3, n=40 Paired Clips)
+
+| Variant | Expression RMS | Mean Target Error | Pose High-Frequency RMS | Gate |
+|---|---:|---:|---:|---|
+| **Base** | 0.2727 | 0.1202 | 0.2406° | Reference |
+| **Seed 0** | 0.3872 | **0.0229** | **0.1801°** | Pass |
+| **Seed 1** | 0.3849 | **0.0238** | **0.1822°** | Pass |
+| **Seed 2** | 0.3860 | **0.0234** | **0.1848°** | Pass |
+
+All three paired bootstrap intervals for target-error improvement exclude zero. Because expression RMS is also the optimized statistic, this establishes coefficient control rather than independent perceptual quality. See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md).
+
+![R3 matched render](outputs/expression_demo_r3/expression_r3_fourway.gif)
+
 ----------------------------------------
 
 ## 🔬 DIAGNOSTICS & ABLATION STUDIES
@@ -135,8 +149,7 @@ Early post-trained models exhibited half-closed eyes. We diagnosed this as being
 
 ### 2. Temporal Scale and Translation Stabilization
 Raw motion coefficients suffered from head size drift during driving. We resolved this via `stabilize_scale_translation` (applying a median filter and a ±2% clamp on scale dimension 63, and median filtering on translation dimensions 64–66):
-*   **Face-width std/mean:** **2.04% $
-ightarrow$ 1.15%** (Finance).
+- **Face-width std/mean:** **2.04% → 1.15%** (Finance).
 
 ----------------------------------------
 
@@ -238,7 +251,7 @@ We list and preserve all generated qualitative demos from the project's historic
 | **Visual Realism** | **Not solved.** Skin, color, and teeth textures are determined by the frozen LivePortrait warp. |
 | **Pre-registered Jitter Gate** | **Failed.** Pre-registered gate of `jitter_hp ≤ 1.3x base` (18.36) was not satisfied; OPSD naive attained **28.97 (2.05x base)**. |
 | **Lip Synchronisation** | **Unmeasured.** `jaw_audio_corr` remains negative even for untrained base model; no SyncNet / LSE-C scores computed. |
-| **Expression V5** | **Optimization probe only.** The 600-step run and final adapter exist, but calibrated multi-seed training and rendered held-out evaluation remain incomplete. |
+| **Expression V5** | **Coefficient gate passed.** Three calibrated 600-step seeds and n=40 held-out coefficient evaluation are complete; independent perceptual and lip-sync gates remain open. |
 | **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. |
 
 See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the completion protocol and exact claim boundary.

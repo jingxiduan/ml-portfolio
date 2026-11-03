@@ -24,8 +24,9 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 - Same-unit calibration completed on 77 windows from 40 sampled CelebV/HDTF clips.
 - Frozen target: 0.3929 normalized expression RMS.
 - Frozen tolerance: 0.2071.
-- Calibrated seeds 0/1/2 are running under `tools/train_guard.py`.
-- Held-out rendering, independent lip-sync evaluation, and blind preference remain pending.
+- Calibrated seeds 0/1/2 completed 600 steps without a guard trip.
+- On n=40 paired held-out clips, mean target error fell from 0.1202 to 0.0229–0.0238; pose high-frequency RMS was 0.75–0.77× base.
+- Matched rendering is complete; independent perceptual, lip-sync, and blind-preference evaluation remain pending.
 
 Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motion-opsd/docs/RESULTS_R3.md).
 
@@ -34,8 +35,8 @@ Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motio
 - The 2,000-step NoNat control completed.
 - Naturalness-constrained V2 stopped at step 306 after a 10.95× rolling `loss_plus` increase.
 - V3 replaces the unbounded contrastive quadratic with bounded anchored fitting and removes extreme-pixel hard-clamp dead zones.
-- Unit preflight passes; 100-step model preflight waits for the restored DynamiCrafter environment.
-- A long run cannot produce a quality claim without held-out n≥40 evaluation and blind preference.
+- Unit tests and the 100-step production preflight pass; `loss_plus` remained at 0.00660→0.00681 with no guard trip.
+- The 2,000-step V3 run remains incomplete and cannot produce a quality claim without held-out n≥40 evaluation and blind preference.
 
 Record: [`08-video-opsd-i2v/docs/RESULTS_LONG.md`](08-video-opsd-i2v/docs/RESULTS_LONG.md).
 

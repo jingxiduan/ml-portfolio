@@ -85,6 +85,23 @@ Configurations:
 - `configs/probe_v3_stable.yaml`: 100-step preflight.
 - `configs/long_v3_stable.yaml`: 2,000-step run, launched only after the preflight passes.
 
+## V3 100-step preflight result
+
+Artifacts: `outputs/probe_v3_stable/train_metrics.jsonl`, `train.log`, `guard.log`, and checkpoints at steps 50/100.
+
+The production-resolution preflight completed 100 steps in 1,219 seconds without a guard trip.
+
+| Metric | First 20-step mean | Last 20-step mean | Observed maximum |
+|---|---:|---:|---:|
+| `loss_plus` | 0.00660 | 0.00681 | 0.01035 |
+| `loss_anchor` | 0.000299 | 0.000351 | 0.001179 |
+| `param_grad_norm` | 5.79e-5 | 8.22e-5 | 2.38e-4 |
+| `shift_ratio` | 0.0463 | 0.0494 | 0.1378 |
+| Naturalness reward component | -0.8954 | -0.7820 | 0.2537 |
+| Subject consistency | 0.9857 | 0.9826 | 0.9954 |
+
+Checkpoints at steps 50 and 100 are present. This passes the preflight stability gate and permits the pre-registered 2,000-step run; it is not a quality result.
+
 ## V3 pre-registered gates
 
 | Gate | Threshold | Action on failure |

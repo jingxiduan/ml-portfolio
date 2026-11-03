@@ -43,7 +43,7 @@ if [[ ! -d .venv ]]; then
 fi
 # shellcheck disable=SC1091
 source .venv/bin/activate
-python -m pip install --upgrade pip wheel setuptools 2>&1 | tee -a "$LOG"
+python -m pip install --upgrade pip wheel "setuptools<81" 2>&1 | tee -a "$LOG"
 
 # Detect CUDA major from nvidia-smi; default to cu121 (safe for H20 / Hopper).
 CUDA_MAJOR="121"
@@ -67,6 +67,7 @@ pip install --quiet \
     open_clip_torch==2.26.1 \
     omegaconf==2.3.0 \
     imageio==2.35.1 imageio-ffmpeg==0.5.1 \
+    opencv-python-headless==4.10.0.84 \
     einops==0.8.0 \
     pyyaml \
     scipy \

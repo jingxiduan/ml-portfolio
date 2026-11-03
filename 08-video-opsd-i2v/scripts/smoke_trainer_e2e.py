@@ -46,7 +46,7 @@ def _make_scheduler(num_steps: int, device):
 def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
-    cfg_path = Path("configs/tier2_natural.yaml")
+    cfg_path = Path("configs/probe_v3_stable.yaml")
     with open(cfg_path) as f:
         cfg = yaml.safe_load(f)
     # Clamp to 1 step + minimal shapes for the smoke

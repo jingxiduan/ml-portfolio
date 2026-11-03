@@ -17,7 +17,7 @@ The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioni
 - Replacing the original hard-clamped naturalness formulation with smooth penalties restored an active **training** gradient.
 - The 500-step held-out metrics are effectively tied with base; no quality gain is established.
 - A 2,000-step NoNat control completed, but the naturalness-constrained V2 run hit the fixed loss-growth guard at step 306.
-- V3 introduces bounded anchored fitting and a smooth extreme-pixel mapping; its preflight and long run must pass before any stability or quality claim is updated.
+- V3 introduces bounded anchored fitting and a smooth extreme-pixel mapping. Its 100-step production preflight passed without a guard trip; the 2,000-step run and quality gates remain incomplete.
 
 The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
 

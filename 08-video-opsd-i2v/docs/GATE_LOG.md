@@ -9,4 +9,4 @@
 | 2026-11-02 | NoNat 2,000-step stability control | completed step 2,000; first/final 20-step `loss_plus` 0.00660/0.00640; final LoRA-B norm 0.9875 | PASS numerical completion only; quality not established |
 | 2026-11-02 | V2 2,000-step attempt | stopped at step 306; rolling `loss_plus` reached 10.95× baseline; LoRA-B norm 2.13 | FAIL — guard stop |
 | 2026-11-03 | V3 unit preflight | anchored objective, legacy objective compatibility, and tanh extreme-pixel gradient tests | PASS — 3 tests |
-| 2026-11-03 | V3 100-step training preflight | fixed config `configs/probe_v3_stable.yaml` | PENDING |
+| 2026-11-03 | V3 100-step training preflight | completed in 1,219s; no guard trip; `loss_plus` first/final 20-step mean 0.00660/0.00681; max shift 0.1378; checkpoints 50/100 | PASS stability preflight |
