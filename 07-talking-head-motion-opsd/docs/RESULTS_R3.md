@@ -18,8 +18,8 @@ The intervention is `LivelinessRewardV5`: one peaked Gaussian term over the 0.3�
 | P1 · optimization signal | `expr_active_frac > 0.05` and finite reward gradients during a 600-step run | Passed on seeds 0/1/2; no guard trip |
 | P2 · coefficient behavior | Held-out expression dynamics move toward the calibrated band without pose high-frequency RMS exceeding `1.3×` base | Passed on seeds 0/1/2, n=40 paired clips |
 | P3 · rendered behavior | Matched portrait/audio/seed evaluation shows improvement on independent metrics | Matched four-way render complete; independent perceptual metric pending |
-| P4 · lip preservation | SyncNet/LSE-C or equivalent does not regress relative to base | Not run |
-| P5 · robustness | At least three training seeds satisfy P2–P4 with uncertainty intervals | Not run |
+| P4 · lip preservation | On 40 paired renders, 95% CI lower bound for ΔLSE-C ≥ -0.5 and upper bound for ΔLSE-D ≤ +0.5 versus base | Rendering/evaluator active |
+| P5 · robustness | At least three training seeds satisfy P2–P4 with uncertainty intervals | Pending P3/P4 |
 
 A training reward increase alone cannot pass P2 or P3.
 
@@ -106,7 +106,9 @@ All seeds pass the registered coefficient target-error and pose high-frequency g
 
 ![base and calibrated seeds](../outputs/expression_demo_r3/expression_r3_fourway.gif)
 
-The four clips use the same portrait, held-out audio, and generation seed. They are a diagnostic artifact, not a blind preference result. Individual MP4 files and `manifest.json` are retained with the experiment backup.
+The four clips use the same portrait, held-out audio, and generation seed. The original diagnostic mux retained the source audio's full 11.83-second duration after four seconds of generated motion; it is therefore excluded from SyncNet and perceptual statistics. The confirmatory renderer now trims both streams to four seconds and generates 40 paired clips per variant in `outputs/expression_render_set_r3`.
+
+Before viewing SyncNet results, P4 freezes a ±0.5 non-inferiority margin: the paired-bootstrap 95% CI lower bound for ΔLSE-C must be at least -0.5, and the upper bound for ΔLSE-D must be at most +0.5 for every seed. The evaluator and exact center-crop protocol are in `scripts/eval_syncnet_r3.py`.
 
 ## Calibration and completion protocol
 

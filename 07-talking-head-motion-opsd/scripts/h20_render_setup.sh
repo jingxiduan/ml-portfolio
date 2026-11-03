@@ -72,6 +72,7 @@ pip install --quiet \
     "numpy<2" opencv-python-headless librosa pyyaml tyro rich \
     imageio imageio-ffmpeg scikit-image onnx "transformers<4.46" pykalman \
     matplotlib scipy tqdm huggingface_hub mediapipe soundfile diffusers \
+    python_speech_features \
     "$ORT_PKG" 2>&1 | tee -a "$LOG"
 
 python -c "import torch; print(f'[torch] {torch.__version__}  cuda={torch.cuda.is_available()}')" | tee -a "$LOG"
@@ -85,6 +86,17 @@ if [[ ! -d third_party/JoyVASA/src ]]; then
     git clone --depth 1 https://github.com/jdh-algo/JoyVASA third_party/JoyVASA 2>&1 | tee -a "$LOG"
 else
     step "JoyVASA already present, skip clone"
+fi
+
+step "=== STAGE 2b: SyncNet source + independent lip-sync weights ==="
+if [[ ! -d third_party/syncnet_python ]]; then
+    git clone --depth 1 https://github.com/joonson/syncnet_python.git third_party/syncnet_python 2>&1 | tee -a "$LOG"
+fi
+mkdir -p weights/syncnet
+if [[ ! -s weights/syncnet/syncnet_v2.model ]] || [[ $(stat -c%s weights/syncnet/syncnet_v2.model) -lt 50000000 ]]; then
+    curl -fL --retry 10 -C - \
+        https://www.robots.ox.ac.uk/~vgg/software/lipsync/data/syncnet_v2.model \
+        -o weights/syncnet/syncnet_v2.model 2>&1 | tee -a "$LOG"
 fi
 
 # ------------------------------------------------------------- 3. MediaPipe landmarker

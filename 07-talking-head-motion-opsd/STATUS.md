@@ -38,12 +38,13 @@ The strongest positive result is the held-out amplitude shift: three policies re
 - R3 expression calibration is complete on 77 windows: target 0.3929, tolerance 0.2071.
 - Calibrated seeds 0/1/2 completed 600 steps each without a guard trip.
 - Held-out n=40 paired coefficient evaluation passed target-error and pose high-frequency gates.
-- Same-portrait/audio/seed four-way rendering is complete.
+- Same-portrait/audio/seed four-way diagnostic rendering is complete.
+- The original mux-length defect was identified; a strict four-second, 40-clip-per-variant confirmatory render is active.
 
 ### Not completed
 
-- Independent perceptual evaluation of the matched renders.
-- Independent lip-sync metric.
+- Independent perceptual evaluation of the confirmatory renders.
+- Paired SyncNet LSE-C/LSE-D evaluation is implemented but awaits the full render set and model download.
 - Blind human preference test.
 
 The exact protocol and claim boundary are in [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md).

@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -36,8 +38,33 @@ def main() -> None:
         raise SystemExit("portrait or audio input is missing")
 
     args.out.mkdir(parents=True, exist_ok=True)
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg is None:
+        raise SystemExit("ffmpeg is required")
+    trimmed_audio = args.out / "matched_audio.wav"
+    subprocess.run(
+        [
+            ffmpeg,
+            "-y",
+            "-loglevel",
+            "error",
+            "-i",
+            str(args.audio),
+            "-t",
+            str(args.seconds),
+            "-ac",
+            "1",
+            "-ar",
+            "16000",
+            "-c:a",
+            "pcm_s16le",
+            str(trimmed_audio),
+        ],
+        check=True,
+    )
+
     engine = TalkingHeadEngine(load_renderer=True)
-    audio = engine.load_audio(str(args.audio), args.seconds)
+    audio = engine.load_audio(str(trimmed_audio), args.seconds)
     options = RenderOptions(**HD_OPTS)
 
     variants = [("base", None)] + [
@@ -53,7 +80,7 @@ def main() -> None:
         driving = engine.coef_to_driving(coef, smooth_alpha=0.3)
         engine.render(
             str(args.portrait),
-            str(args.audio),
+            str(trimmed_audio),
             driving,
             str(args.out),
             f"expression_r3__{name}",
