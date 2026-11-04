@@ -70,11 +70,12 @@ python src/evaluate.py \\
 
 # Fixed qualitative panels; the prompt list is frozen before generation.
 # Showcase rendering defaults to 768x768; metrics above remain 512x512 for comparability.
-python src/generate_samples.py --domain scene \\
-  --lora-dir outputs/final/scene/lora_ema \\
+# The stronger raw adapter/scale=2 view is qualitative only; reported metrics use EMA/scale=1.
+python src/generate_samples.py --domain scene --adapter-scale 2.0 \\
+  --lora-dir outputs/final/scene/lora_raw \\
   --out outputs/release/scene
-python src/generate_samples.py --domain portrait \\
-  --lora-dir outputs/final/portrait/lora_ema \\
+python src/generate_samples.py --domain portrait --adapter-scale 2.0 \\
+  --lora-dir outputs/final/portrait/lora_raw \\
   --out outputs/release/portrait
 ```
 
@@ -86,22 +87,26 @@ The result is intentionally split by domain rather than averaged into one flatte
 
 | Domain | Test prompts | Seeds | Base mean | Candidate mean | Paired delta | Prompt-cluster 95% CI | Prompt win rate |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Environment / scenes | 40 | 3 | 37.618 | 37.603 | -0.015 | [-0.110, +0.083] | 40.0% |
-| Portraits | 40 | 3 | 37.441 | 37.533 | **+0.091** | [-0.034, +0.230] | 57.5% |
+| Environment / scenes | 40 | 3 | 37.618 | 37.720 | **+0.102** | [-0.087, +0.305] | **62.5%** |
+| Portraits | 40 | 3 | 37.441 | 37.518 | **+0.076** | [-0.113, +0.263] | 52.5% |
 
 The portrait result is directionally positive but statistically inconclusive at this sample size; the scene result is also inconclusive and slightly negative. Neither domain is presented as a definitive perceptual win. The project demonstrates a working reward-guided training and evaluation pipeline, while showing that transfer is domain-dependent.
 
 ## Fixed visual evidence
 
-The following panels are generated from four pre-registered showcase prompts per domain. Left and right use the same prompt, seed, resolution, and inference settings.
+The following panels are generated from four pre-registered showcase prompts per domain. Left and right use the same prompt, seed, resolution, and inference settings. To make the learned direction visible at portfolio scale, the right column uses the raw adapter at scale 2.0; this is labeled qualitative-only and is not the configuration used for the reported test metrics.
 
 ### Environment / scenes
 
-![Fixed scene comparison: SDXL-Turbo base versus EMA OPSD adapter](outputs/release/scene/scene_comparison.png)
+![Fixed scene comparison: SDXL-Turbo base versus qualitative OPSD adapter](outputs/release/scene/scene_comparison.png)
+
+[Open center-detail comparison](outputs/release/scene/scene_detail_comparison.png) · [Open same-seed flicker comparison](outputs/release/scene/scene_flicker.gif)
 
 ### Portraits
 
-![Fixed portrait comparison: SDXL-Turbo base versus EMA OPSD adapter](outputs/release/portrait/portrait_comparison.png)
+![Fixed portrait comparison: SDXL-Turbo base versus qualitative OPSD adapter](outputs/release/portrait/portrait_comparison.png)
+
+[Open center-detail comparison](outputs/release/portrait/portrait_detail_comparison.png) · [Open same-seed flicker comparison](outputs/release/portrait/portrait_flicker.gif)
 
 Individual PNGs, prompt metadata, evaluation records, run configuration, target-module manifest, and per-step metrics are kept beside the panels in `outputs/`.
 

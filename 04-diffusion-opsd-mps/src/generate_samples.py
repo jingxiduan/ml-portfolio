@@ -35,7 +35,12 @@ def generate(pipe, prompts: list[str], seed: int, resolution: int, steps: int) -
     return images
 
 
-def make_grid(base: list[Image.Image], candidate: list[Image.Image], prompts: list[str]) -> Image.Image:
+def make_grid(
+    base: list[Image.Image],
+    candidate: list[Image.Image],
+    prompts: list[str],
+    right_label: str = "OPSD · QUALITATIVE",
+) -> Image.Image:
     width, height = base[0].size
     pad = 16
     header = 34
@@ -47,12 +52,46 @@ def make_grid(base: list[Image.Image], candidate: list[Image.Image], prompts: li
     for index, prompt in enumerate(prompts):
         top = pad + index * (row_height + pad)
         draw.text((pad, top), "BASE · SDXL-Turbo", fill="black", font=font)
-        draw.text((2 * pad + width, top), "OPSD · EMA ADAPTER", fill="black", font=font)
+        draw.text((2 * pad + width, top), right_label, fill="black", font=font)
         image_top = top + header
         grid.paste(base[index], (pad, image_top))
         grid.paste(candidate[index], (2 * pad + width, image_top))
         wrapped = "\n".join(textwrap.wrap(prompt, width=105)[:3])
         draw.multiline_text((pad, image_top + height + 8), wrapped, fill="black", font=font, spacing=2)
+    return grid
+
+
+def make_flicker_grid(
+    base: list[Image.Image], candidate: list[Image.Image], prompts: list[str]
+) -> tuple[Image.Image, Image.Image]:
+    before = make_grid(base, base, prompts, right_label="BASE · SAME SEED")
+    after = make_grid(base, candidate, prompts)
+    before.info["duration"] = 900
+    after.info["duration"] = 900
+    return before, after
+
+
+def make_detail_grid(base: list[Image.Image], candidate: list[Image.Image]) -> Image.Image:
+    width, height = base[0].size
+    crop_size = int(min(width, height) * 0.55)
+    left = (width - crop_size) // 2
+    top = (height - crop_size) // 2
+    target = min(768, max(512, width))
+    pad = 16
+    header = 34
+    row_height = header + target + pad
+    grid = Image.new("RGB", (2 * target + 3 * pad, len(base) * row_height + (len(base) + 1) * pad), "white")
+    draw = ImageDraw.Draw(grid)
+    font = ImageFont.load_default()
+    for index, (before, after) in enumerate(zip(base, candidate)):
+        row_top = pad + index * row_height
+        draw.text((pad, row_top), "BASE · CENTER DETAIL", fill="black", font=font)
+        draw.text((2 * pad + target, row_top), "OPSD · CENTER DETAIL", fill="black", font=font)
+        before_crop = before.crop((left, top, left + crop_size, top + crop_size)).resize((target, target), Image.Resampling.LANCZOS)
+        after_crop = after.crop((left, top, left + crop_size, top + crop_size)).resize((target, target), Image.Resampling.LANCZOS)
+        image_top = row_top + header
+        grid.paste(before_crop, (pad, image_top))
+        grid.paste(after_crop, (2 * pad + target, image_top))
     return grid
 
 
@@ -70,7 +109,7 @@ def main() -> None:
 
     rows = load_rows(ROOT / "data" / f"showcase_{args.domain}.jsonl")
     prompts = [item["prompt"] for item in rows]
-    lora_dir = Path(args.lora_dir or ROOT / "outputs" / args.domain / "lora_ema")
+    lora_dir = Path(args.lora_dir or ROOT / "outputs" / args.domain / "lora_ema").resolve()
     out_dir = Path(args.out or ROOT / "outputs" / args.domain / "samples")
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -102,6 +141,16 @@ def main() -> None:
         image.save(out_dir / f"candidate_{index:02d}.png")
 
     make_grid(base, candidate, prompts).save(out_dir / f"{args.domain}_comparison.png")
+    make_detail_grid(base, candidate).save(out_dir / f"{args.domain}_detail_comparison.png")
+    flicker_before, flicker_after = make_flicker_grid(base, candidate, prompts)
+    flicker_before.save(
+        out_dir / f"{args.domain}_flicker.gif",
+        save_all=True,
+        append_images=[flicker_after],
+        duration=900,
+        loop=0,
+        optimize=False,
+    )
     metadata = {
         "domain": args.domain,
         "model_id": MODEL_ID,
@@ -111,7 +160,9 @@ def main() -> None:
         "dtype": "float16 backbone / float32 VAE",
         "seed_policy": f"seed={args.seed}+fixed_manifest_index",
         "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
+        "adapter_weights": str(lora_dir.relative_to(ROOT)),
         "adapter_scale": args.adapter_scale,
+        "qualitative_only": args.adapter_scale != 1.0 or "lora_raw" in str(lora_dir),
         "manifest_rows": rows,
     }
     (out_dir / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")

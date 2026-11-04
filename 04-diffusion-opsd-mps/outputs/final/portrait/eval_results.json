@@ -13,14 +13,14 @@
   ],
   "n_pairs": 120,
   "base_mean": 37.44140913089117,
-  "candidate_mean": 37.53285959362984,
-  "paired_delta_mean": 0.0914504627386729,
+  "candidate_mean": 37.51769132912159,
+  "paired_delta_mean": 0.07628219823042552,
   "prompt_cluster_bootstrap_95_ci": [
-    -0.03423865325748921,
-    0.22994749620556823
+    -0.11300058662891388,
+    0.26278724769751227
   ],
-  "pair_win_rate": 0.525,
-  "prompt_win_rate": 0.575,
+  "pair_win_rate": 0.5,
+  "prompt_win_rate": 0.525,
   "records": [
     {
       "source_id": "378",
@@ -31,12 +31,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1910630613565445
       },
-      "candidate_score": 35.00541150569916,
+      "candidate_score": 34.67850983142853,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.19085076451301575
+        "mean_saturation": 0.19330459833145142
       },
-      "delta": 0.43448805809020996
+      "delta": 0.10758638381958008
     },
     {
       "source_id": "378",
@@ -47,12 +47,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.16954940557479858
       },
-      "candidate_score": 35.11351943016052,
+      "candidate_score": 35.91007590293884,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.170096755027771
+        "mean_saturation": 0.17025311291217804
       },
-      "delta": 0.07944703102111816
+      "delta": 0.8760035037994385
     },
     {
       "source_id": "378",
@@ -63,12 +63,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.19435326755046844
       },
-      "candidate_score": 33.722320199012756,
+      "candidate_score": 34.23382639884949,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.19516773521900177
+        "mean_saturation": 0.1958654224872589
       },
-      "delta": -0.5603700876235962
+      "delta": -0.048863887786865234
     },
     {
       "source_id": "379",
@@ -79,12 +79,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.17907866835594177
       },
-      "candidate_score": 37.60569989681244,
+      "candidate_score": 37.341347336769104,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.17919310927391052
+        "mean_saturation": 0.17994612455368042
       },
-      "delta": 0.40639936923980713
+      "delta": 0.14204680919647217
     },
     {
       "source_id": "379",
@@ -95,12 +95,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.16475921869277954
       },
-      "candidate_score": 36.50037944316864,
+      "candidate_score": 36.80941164493561,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.16412200033664703
+        "mean_saturation": 0.16664810478687286
       },
-      "delta": -0.31606853008270264
+      "delta": -0.007036328315734863
     },
     {
       "source_id": "379",
@@ -111,12 +111,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.18888583779335022
       },
-      "candidate_score": 36.77982687950134,
+      "candidate_score": 36.90742254257202,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.18753814697265625
+        "mean_saturation": 0.18931148946285248
       },
-      "delta": 0.1793116331100464
+      "delta": 0.3069072961807251
     },
     {
       "source_id": "380",
@@ -127,12 +127,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.07489680498838425
       },
-      "candidate_score": 40.79162776470184,
+      "candidate_score": 36.29668354988098,
       "candidate_diagnostics": {
         "clipped_fraction": 7.62939453125e-06,
-        "mean_saturation": 0.07526305317878723
+        "mean_saturation": 0.07438685745000839
       },
-      "delta": -0.5146592855453491
+      "delta": -5.009603500366211
     },
     {
       "source_id": "380",
@@ -143,12 +143,12 @@
         "clipped_fraction": 2.288818359375e-05,
         "mean_saturation": 0.058162838220596313
       },
-      "candidate_score": 41.93698465824127,
+      "candidate_score": 41.95433855056763,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.4332275390625e-05,
-        "mean_saturation": 0.05747527629137039
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.05713801831007004
       },
-      "delta": 0.6127476692199707
+      "delta": 0.6301015615463257
     },
     {
       "source_id": "380",
@@ -159,12 +159,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.10873891413211823
       },
-      "candidate_score": 41.01746082305908,
+      "candidate_score": 40.097448229789734,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.10937843471765518
+        "mean_saturation": 0.10740521550178528
       },
-      "delta": 0.44808387756347656
+      "delta": -0.4719287157058716
     },
     {
       "source_id": "381",
@@ -175,12 +175,12 @@
         "clipped_fraction": 7.2479248046875e-05,
         "mean_saturation": 0.16982844471931458
       },
-      "candidate_score": 42.6293671131134,
+      "candidate_score": 42.29497313499451,
       "candidate_diagnostics": {
-        "clipped_fraction": 7.2479248046875e-05,
-        "mean_saturation": 0.17074847221374512
+        "clipped_fraction": 4.1961669921875e-05,
+        "mean_saturation": 0.16946148872375488
       },
-      "delta": -0.23727118968963623
+      "delta": -0.5716651678085327
     },
     {
       "source_id": "381",
@@ -191,12 +191,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.12238821387290955
       },
-      "candidate_score": 41.02289080619812,
+      "candidate_score": 40.93055725097656,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.12310206890106201
+        "mean_saturation": 0.1243688315153122
       },
-      "delta": -0.4499882459640503
+      "delta": -0.5423218011856079
     },
     {
       "source_id": "381",
@@ -207,12 +207,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.16801276803016663
       },
-      "candidate_score": 41.47200286388397,
+      "candidate_score": 40.649235248565674,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.16720381379127502
+        "mean_saturation": 0.16834449768066406
       },
-      "delta": 0.5977421998977661
+      "delta": -0.22502541542053223
     },
     {
       "source_id": "382",
@@ -223,12 +223,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.08458227664232254
       },
-      "candidate_score": 36.6144984960556,
+      "candidate_score": 37.12970018386841,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.08563007414340973
+        "mean_saturation": 0.08371661603450775
       },
-      "delta": 0.7450252771377563
+      "delta": 1.2602269649505615
     },
     {
       "source_id": "382",
@@ -239,12 +239,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.07830072194337845
       },
-      "candidate_score": 40.62522053718567,
+      "candidate_score": 41.202980279922485,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.07474271208047867
+        "mean_saturation": 0.07602168619632721
       },
-      "delta": 0.24524331092834473
+      "delta": 0.8230030536651611
     },
     {
       "source_id": "382",
@@ -255,12 +255,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.06976278126239777
       },
-      "candidate_score": 40.450888872146606,
+      "candidate_score": 44.178587198257446,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.06940429657697678
+        "mean_saturation": 0.06712895631790161
       },
-      "delta": -0.502997636795044
+      "delta": 3.224700689315796
     },
     {
       "source_id": "384",
@@ -271,12 +271,12 @@
         "clipped_fraction": 7.62939453125e-06,
         "mean_saturation": 0.21448005735874176
       },
-      "candidate_score": 42.634156346321106,
+      "candidate_score": 42.304953932762146,
       "candidate_diagnostics": {
-        "clipped_fraction": 1.52587890625e-05,
-        "mean_saturation": 0.2160172462463379
+        "clipped_fraction": 4.9591064453125e-05,
+        "mean_saturation": 0.21788275241851807
       },
-      "delta": 0.06463229656219482
+      "delta": -0.26457011699676514
     },
     {
       "source_id": "384",
@@ -287,12 +287,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.17610949277877808
       },
-      "candidate_score": 38.872045278549194,
+      "candidate_score": 39.66023325920105,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.17616039514541626
+        "mean_saturation": 0.17681536078453064
       },
-      "delta": -0.3757774829864502
+      "delta": 0.4124104976654053
     },
     {
       "source_id": "384",
@@ -303,12 +303,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.19281691312789917
       },
-      "candidate_score": 41.07147455215454,
+      "candidate_score": 40.45088291168213,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.1934715360403061
+        "mean_saturation": 0.19098679721355438
       },
-      "delta": -0.1413404941558838
+      "delta": -0.7619321346282959
     },
     {
       "source_id": "420",
@@ -319,12 +319,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.21814846992492676
       },
-      "candidate_score": 40.21134078502655,
+      "candidate_score": 38.98908197879791,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.21810652315616608
+        "mean_saturation": 0.21936717629432678
       },
-      "delta": 1.0093837976455688
+      "delta": -0.21287500858306885
     },
     {
       "source_id": "420",
@@ -335,12 +335,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.20558156073093414
       },
-      "candidate_score": 38.271450996398926,
+      "candidate_score": 38.68263363838196,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.2060256004333496
+        "mean_saturation": 0.20752017199993134
       },
-      "delta": 0.6294786930084229
+      "delta": 1.040661334991455
     },
     {
       "source_id": "420",
@@ -351,12 +351,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.23923341929912567
       },
-      "candidate_score": 40.15552997589111,
+      "candidate_score": 39.94365334510803,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.2397618591785431
+        "mean_saturation": 0.2403159886598587
       },
-      "delta": 0.15447735786437988
+      "delta": -0.05739927291870117
     },
     {
       "source_id": "421",
@@ -367,12 +367,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.25800764560699463
       },
-      "candidate_score": 46.512168645858765,
+      "candidate_score": 46.12970948219299,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.25822946429252625
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.256009042263031
       },
-      "delta": 0.11404156684875488
+      "delta": -0.2684175968170166
     },
     {
       "source_id": "421",
@@ -383,12 +383,12 @@
         "clipped_fraction": 1.9073486328125e-05,
         "mean_saturation": 0.24510608613491058
       },
-      "candidate_score": 41.83529019355774,
+      "candidate_score": 41.44700765609741,
       "candidate_diagnostics": {
-        "clipped_fraction": 2.288818359375e-05,
-        "mean_saturation": 0.24475176632404327
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.24272283911705017
       },
-      "delta": 0.9009003639221191
+      "delta": 0.512617826461792
     },
     {
       "source_id": "421",
@@ -399,12 +399,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.23497816920280457
       },
-      "candidate_score": 36.08056306838989,
+      "candidate_score": 36.950477957725525,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.23804871737957
+        "mean_saturation": 0.23502793908119202
       },
-      "delta": 0.31042397022247314
+      "delta": 1.1803388595581055
     },
     {
       "source_id": "435",
@@ -415,12 +415,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.18310001492500305
       },
-      "candidate_score": 35.093143582344055,
+      "candidate_score": 35.13091802597046,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.18332254886627197
+        "mean_saturation": 0.18363496661186218
       },
-      "delta": -0.4306524991989136
+      "delta": -0.39287805557250977
     },
     {
       "source_id": "435",
@@ -431,12 +431,12 @@
         "clipped_fraction": 8.392333984375e-05,
         "mean_saturation": 0.16472125053405762
       },
-      "candidate_score": 38.5766476392746,
+      "candidate_score": 38.556694984436035,
       "candidate_diagnostics": {
-        "clipped_fraction": 9.1552734375e-05,
-        "mean_saturation": 0.16244934499263763
+        "clipped_fraction": 0.00023651123046875,
+        "mean_saturation": 0.16371497511863708
       },
-      "delta": -1.4891564846038818
+      "delta": -1.5091091394424438
     },
     {
       "source_id": "435",
@@ -447,12 +447,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1995881199836731
       },
-      "candidate_score": 33.153727650642395,
+      "candidate_score": 32.41257071495056,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.1990622729063034
+        "mean_saturation": 0.19911867380142212
       },
-      "delta": 0.010266900062561035
+      "delta": -0.7308900356292725
     },
     {
       "source_id": "650",
@@ -463,12 +463,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.21326443552970886
       },
-      "candidate_score": 37.31867074966431,
+      "candidate_score": 36.3788366317749,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.2130560427904129
+        "mean_saturation": 0.21270617842674255
       },
-      "delta": 1.3549715280532837
+      "delta": 0.4151374101638794
     },
     {
       "source_id": "650",
@@ -479,12 +479,12 @@
         "clipped_fraction": 0.01581573486328125,
         "mean_saturation": 0.12341998517513275
       },
-      "candidate_score": 43.10028553009033,
+      "candidate_score": 42.717111110687256,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.01572418212890625,
-        "mean_saturation": 0.1238195151090622
+        "clipped_fraction": 0.01293182373046875,
+        "mean_saturation": 0.12430180609226227
       },
-      "delta": 0.4418611526489258
+      "delta": 0.05868673324584961
     },
     {
       "source_id": "650",
@@ -495,12 +495,12 @@
         "clipped_fraction": 0.00183868408203125,
         "mean_saturation": 0.1814972311258316
       },
-      "candidate_score": 40.20811915397644,
+      "candidate_score": 38.153040409088135,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001720428466796875,
-        "mean_saturation": 0.18383146822452545
+        "clipped_fraction": 0.001476287841796875,
+        "mean_saturation": 0.18264757096767426
       },
-      "delta": 2.957034111022949
+      "delta": 0.9019553661346436
     },
     {
       "source_id": "651",
@@ -511,12 +511,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1262831687927246
       },
-      "candidate_score": 37.048301100730896,
+      "candidate_score": 37.581831216812134,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.12684953212738037
+        "mean_saturation": 0.12590943276882172
       },
-      "delta": -1.4093011617660522
+      "delta": -0.8757710456848145
     },
     {
       "source_id": "651",
@@ -527,12 +527,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.09179916232824326
       },
-      "candidate_score": 34.32357609272003,
+      "candidate_score": 34.01102423667908,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.09223946183919907
+        "mean_saturation": 0.09460258483886719
       },
-      "delta": 0.30221641063690186
+      "delta": -0.010335445404052734
     },
     {
       "source_id": "651",
@@ -543,12 +543,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.18275229632854462
       },
-      "candidate_score": 37.240177392959595,
+      "candidate_score": 37.67549693584442,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.18561111390590668
+        "mean_saturation": 0.18674702942371368
       },
-      "delta": -0.045165419578552246
+      "delta": 0.3901541233062744
     },
     {
       "source_id": "652",
@@ -559,12 +559,12 @@
         "clipped_fraction": 0.016094207763671875,
         "mean_saturation": 0.15710510313510895
       },
-      "candidate_score": 33.60326290130615,
+      "candidate_score": 33.35360288619995,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.01425933837890625,
-        "mean_saturation": 0.15718507766723633
+        "clipped_fraction": 0.01071929931640625,
+        "mean_saturation": 0.15582281351089478
       },
-      "delta": -0.4344642162322998
+      "delta": -0.684124231338501
     },
     {
       "source_id": "652",
@@ -575,12 +575,12 @@
         "clipped_fraction": 0.004993438720703125,
         "mean_saturation": 0.12648724019527435
       },
-      "candidate_score": 34.28550064563751,
+      "candidate_score": 33.140408992767334,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.005916595458984375,
-        "mean_saturation": 0.12561948597431183
+        "clipped_fraction": 0.00385284423828125,
+        "mean_saturation": 0.1300203800201416
       },
-      "delta": -0.19221901893615723
+      "delta": -1.3373106718063354
     },
     {
       "source_id": "652",
@@ -591,12 +591,12 @@
         "clipped_fraction": 0.0328521728515625,
         "mean_saturation": 0.16094347834587097
       },
-      "candidate_score": 34.17389988899231,
+      "candidate_score": 33.46954882144928,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.030445098876953125,
-        "mean_saturation": 0.15841153264045715
+        "clipped_fraction": 0.035839080810546875,
+        "mean_saturation": 0.1636839210987091
       },
-      "delta": -0.010889768600463867
+      "delta": -0.7152408361434937
     },
     {
       "source_id": "653",
@@ -607,12 +607,12 @@
         "clipped_fraction": 0.001216888427734375,
         "mean_saturation": 0.1348164677619934
       },
-      "candidate_score": 32.359808683395386,
+      "candidate_score": 32.04225301742554,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001758575439453125,
-        "mean_saturation": 0.1336713582277298
+        "clipped_fraction": 0.00131988525390625,
+        "mean_saturation": 0.13413813710212708
       },
-      "delta": -0.2632260322570801
+      "delta": -0.5807816982269287
     },
     {
       "source_id": "653",
@@ -623,12 +623,12 @@
         "clipped_fraction": 0.0005645751953125,
         "mean_saturation": 0.1264384388923645
       },
-      "candidate_score": 33.59100818634033,
+      "candidate_score": 32.22679793834686,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000591278076171875,
-        "mean_saturation": 0.1245826706290245
+        "clipped_fraction": 0.000354766845703125,
+        "mean_saturation": 0.12464889883995056
       },
-      "delta": 0.05576610565185547
+      "delta": -1.3084441423416138
     },
     {
       "source_id": "653",
@@ -639,12 +639,12 @@
         "clipped_fraction": 0.001911163330078125,
         "mean_saturation": 0.13911594450473785
       },
-      "candidate_score": 36.64233088493347,
+      "candidate_score": 37.09275722503662,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00276947021484375,
-        "mean_saturation": 0.13873592019081116
+        "clipped_fraction": 0.00260162353515625,
+        "mean_saturation": 0.13761202991008759
       },
-      "delta": 0.40038228034973145
+      "delta": 0.8508086204528809
     },
     {
       "source_id": "654",
@@ -655,12 +655,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.1822880655527115
       },
-      "candidate_score": 36.72210872173309,
+      "candidate_score": 36.949849128723145,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.18289218842983246
+        "mean_saturation": 0.18162581324577332
       },
-      "delta": -0.037726759910583496
+      "delta": 0.19001364707946777
     },
     {
       "source_id": "654",
@@ -671,12 +671,12 @@
         "clipped_fraction": 0.000152587890625,
         "mean_saturation": 0.1560353934764862
       },
-      "candidate_score": 38.15446197986603,
+      "candidate_score": 38.65565061569214,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000152587890625,
-        "mean_saturation": 0.1564783751964569
+        "clipped_fraction": 0.00020599365234375,
+        "mean_saturation": 0.15464061498641968
       },
-      "delta": -0.7658213376998901
+      "delta": -0.2646327018737793
     },
     {
       "source_id": "654",
@@ -687,12 +687,12 @@
         "clipped_fraction": 0.001766204833984375,
         "mean_saturation": 0.2063404768705368
       },
-      "candidate_score": 38.126370310783386,
+      "candidate_score": 37.706565856933594,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001689910888671875,
-        "mean_saturation": 0.20842114090919495
+        "clipped_fraction": 0.001384735107421875,
+        "mean_saturation": 0.20661643147468567
       },
-      "delta": 0.042819976806640625
+      "delta": -0.37698447704315186
     },
     {
       "source_id": "655",
@@ -703,12 +703,12 @@
         "clipped_fraction": 7.62939453125e-06,
         "mean_saturation": 0.11614260077476501
       },
-      "candidate_score": 33.7863028049469,
+      "candidate_score": 33.72439742088318,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.11642612516880035
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.11544797569513321
       },
-      "delta": -0.6517946720123291
+      "delta": -0.7137000560760498
     },
     {
       "source_id": "655",
@@ -719,12 +719,12 @@
         "clipped_fraction": 1.1444091796875e-05,
         "mean_saturation": 0.0891200378537178
       },
-      "candidate_score": 39.0141636133194,
+      "candidate_score": 39.19395208358765,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.08802548050880432
+        "mean_saturation": 0.08441130816936493
       },
-      "delta": 0.5079388618469238
+      "delta": 0.6877273321151733
     },
     {
       "source_id": "655",
@@ -735,12 +735,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.11314595490694046
       },
-      "candidate_score": 32.1234405040741,
+      "candidate_score": 32.63215720653534,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.11331551522016525
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.11280740052461624
       },
-      "delta": -0.7033795118331909
+      "delta": -0.19466280937194824
     },
     {
       "source_id": "656",
@@ -751,12 +751,12 @@
         "clipped_fraction": 0.000347137451171875,
         "mean_saturation": 0.10083402693271637
       },
-      "candidate_score": 31.878280639648438,
+      "candidate_score": 32.06816017627716,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00023651123046875,
-        "mean_saturation": 0.10208334773778915
+        "clipped_fraction": 0.000244140625,
+        "mean_saturation": 0.09705560654401779
       },
-      "delta": -0.357133150100708
+      "delta": -0.16725361347198486
     },
     {
       "source_id": "656",
@@ -767,12 +767,12 @@
         "clipped_fraction": 0.000385284423828125,
         "mean_saturation": 0.07737020403146744
       },
-      "candidate_score": 33.8714063167572,
+      "candidate_score": 32.52950310707092,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0005035400390625,
-        "mean_saturation": 0.07745660841464996
+        "clipped_fraction": 0.000240325927734375,
+        "mean_saturation": 0.07648532092571259
       },
-      "delta": 0.018027424812316895
+      "delta": -1.3238757848739624
     },
     {
       "source_id": "656",
@@ -783,12 +783,12 @@
         "clipped_fraction": 0.00016021728515625,
         "mean_saturation": 0.11861922591924667
       },
-      "candidate_score": 30.218863487243652,
+      "candidate_score": 30.611592531204224,
       "candidate_diagnostics": {
-        "clipped_fraction": 6.4849853515625e-05,
-        "mean_saturation": 0.11854802072048187
+        "clipped_fraction": 4.1961669921875e-05,
+        "mean_saturation": 0.11771224439144135
       },
-      "delta": -0.7747769355773926
+      "delta": -0.3820478916168213
     },
     {
       "source_id": "657",
@@ -799,12 +799,12 @@
         "clipped_fraction": 0.002048492431640625,
         "mean_saturation": 0.19792994856834412
       },
-      "candidate_score": 39.5598828792572,
+      "candidate_score": 39.644256234169006,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00238037109375,
-        "mean_saturation": 0.1995653510093689
+        "clipped_fraction": 0.00241851806640625,
+        "mean_saturation": 0.19896507263183594
       },
-      "delta": 0.1525402069091797
+      "delta": 0.2369135618209839
     },
     {
       "source_id": "657",
@@ -815,12 +815,12 @@
         "clipped_fraction": 0.001651763916015625,
         "mean_saturation": 0.1369606852531433
       },
-      "candidate_score": 40.32549858093262,
+      "candidate_score": 39.97953534126282,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001430511474609375,
-        "mean_saturation": 0.1364048421382904
+        "clipped_fraction": 0.001842498779296875,
+        "mean_saturation": 0.1350737065076828
       },
-      "delta": 0.46387314796447754
+      "delta": 0.11790990829467773
     },
     {
       "source_id": "657",
@@ -831,12 +831,12 @@
         "clipped_fraction": 0.004230499267578125,
         "mean_saturation": 0.1981431543827057
       },
-      "candidate_score": 40.89800715446472,
+      "candidate_score": 40.492549538612366,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.004344940185546875,
-        "mean_saturation": 0.19957636296749115
+        "clipped_fraction": 0.004718780517578125,
+        "mean_saturation": 0.19820965826511383
       },
-      "delta": 0.2632230520248413
+      "delta": -0.14223456382751465
     },
     {
       "source_id": "658",
@@ -847,12 +847,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.16611605882644653
       },
-      "candidate_score": 37.347811460494995,
+      "candidate_score": 37.34254837036133,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.16765765845775604
+        "mean_saturation": 0.16724449396133423
       },
-      "delta": 0.3323554992675781
+      "delta": 0.32709240913391113
     },
     {
       "source_id": "658",
@@ -863,12 +863,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1316733956336975
       },
-      "candidate_score": 35.552215576171875,
+      "candidate_score": 35.26259362697601,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.13162463903427124
+        "mean_saturation": 0.13042029738426208
       },
-      "delta": -0.2332627773284912
+      "delta": -0.522884726524353
     },
     {
       "source_id": "658",
@@ -879,12 +879,12 @@
         "clipped_fraction": 8.392333984375e-05,
         "mean_saturation": 0.18778643012046814
       },
-      "candidate_score": 37.154099345207214,
+      "candidate_score": 37.35268712043762,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00023651123046875,
-        "mean_saturation": 0.18736255168914795
+        "clipped_fraction": 4.1961669921875e-05,
+        "mean_saturation": 0.18849746882915497
       },
-      "delta": 0.3987520933151245
+      "delta": 0.5973398685455322
     },
     {
       "source_id": "659",
@@ -895,12 +895,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.14371594786643982
       },
-      "candidate_score": 37.73294389247894,
+      "candidate_score": 37.80980110168457,
       "candidate_diagnostics": {
         "clipped_fraction": 1.52587890625e-05,
-        "mean_saturation": 0.14494739472866058
+        "mean_saturation": 0.1432180404663086
       },
-      "delta": -0.07065236568450928
+      "delta": 0.006204843521118164
     },
     {
       "source_id": "659",
@@ -911,12 +911,12 @@
         "clipped_fraction": 7.62939453125e-06,
         "mean_saturation": 0.07616189867258072
       },
-      "candidate_score": 37.60720491409302,
+      "candidate_score": 38.13864588737488,
       "candidate_diagnostics": {
         "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.07563930004835129
+        "mean_saturation": 0.07337706536054611
       },
-      "delta": -0.0284731388092041
+      "delta": 0.5029678344726562
     },
     {
       "source_id": "659",
@@ -927,12 +927,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.11781597137451172
       },
-      "candidate_score": 38.52870166301727,
+      "candidate_score": 38.39273154735565,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.11754705011844635
+        "mean_saturation": 0.11638102680444717
       },
-      "delta": -0.4905194044113159
+      "delta": -0.626489520072937
     },
     {
       "source_id": "660",
@@ -943,12 +943,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.2684168219566345
       },
-      "candidate_score": 42.29811131954193,
+      "candidate_score": 42.04098880290985,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.27141451835632324
+        "mean_saturation": 0.27226021885871887
       },
-      "delta": -0.052669644355773926
+      "delta": -0.309792160987854
     },
     {
       "source_id": "660",
@@ -959,12 +959,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1896117478609085
       },
-      "candidate_score": 39.85244333744049,
+      "candidate_score": 40.558815002441406,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.19066408276557922
+        "mean_saturation": 0.19214819371700287
       },
-      "delta": -0.03794729709625244
+      "delta": 0.6684243679046631
     },
     {
       "source_id": "660",
@@ -975,12 +975,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.24581724405288696
       },
-      "candidate_score": 41.17702543735504,
+      "candidate_score": 41.56879186630249,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.2475149929523468
+        "mean_saturation": 0.2501545250415802
       },
-      "delta": 0.6114989519119263
+      "delta": 1.003265380859375
     },
     {
       "source_id": "661",
@@ -991,12 +991,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1906009018421173
       },
-      "candidate_score": 40.27053415775299,
+      "candidate_score": 40.37092924118042,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.19200024008750916
+        "mean_saturation": 0.19220171868801117
       },
-      "delta": -0.149574875831604
+      "delta": -0.049179792404174805
     },
     {
       "source_id": "661",
@@ -1007,12 +1007,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.17207857966423035
       },
-      "candidate_score": 41.90052151679993,
+      "candidate_score": 41.75044298171997,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.17333835363388062
+        "mean_saturation": 0.1731557548046112
       },
-      "delta": -0.0340580940246582
+      "delta": -0.18413662910461426
     },
     {
       "source_id": "661",
@@ -1023,12 +1023,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.20077362656593323
       },
-      "candidate_score": 40.19371271133423,
+      "candidate_score": 39.97810781002045,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.20129717886447906
+        "mean_saturation": 0.20218098163604736
       },
-      "delta": 0.11699795722961426
+      "delta": -0.09860694408416748
     },
     {
       "source_id": "662",
@@ -1039,12 +1039,12 @@
         "clipped_fraction": 0.00164794921875,
         "mean_saturation": 0.2186596393585205
       },
-      "candidate_score": 40.71776568889618,
+      "candidate_score": 40.860068798065186,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001735687255859375,
-        "mean_saturation": 0.22052398324012756
+        "clipped_fraction": 0.00167083740234375,
+        "mean_saturation": 0.22139641642570496
       },
-      "delta": -0.4496246576309204
+      "delta": -0.30732154846191406
     },
     {
       "source_id": "662",
@@ -1055,12 +1055,12 @@
         "clipped_fraction": 9.918212890625e-05,
         "mean_saturation": 0.15920962393283844
       },
-      "candidate_score": 39.361733198165894,
+      "candidate_score": 38.963812589645386,
       "candidate_diagnostics": {
-        "clipped_fraction": 9.1552734375e-05,
-        "mean_saturation": 0.15511107444763184
+        "clipped_fraction": 0.00035858154296875,
+        "mean_saturation": 0.15361925959587097
       },
-      "delta": -0.2976357936859131
+      "delta": -0.6955564022064209
     },
     {
       "source_id": "662",
@@ -1071,12 +1071,12 @@
         "clipped_fraction": 0.0027923583984375,
         "mean_saturation": 0.2433258444070816
       },
-      "candidate_score": 39.9345725774765,
+      "candidate_score": 39.37573730945587,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00289154052734375,
-        "mean_saturation": 0.24800071120262146
+        "clipped_fraction": 0.004604339599609375,
+        "mean_saturation": 0.24029527604579926
       },
-      "delta": -0.4249095916748047
+      "delta": -0.9837448596954346
     },
     {
       "source_id": "663",
@@ -1087,12 +1087,12 @@
         "clipped_fraction": 0.000308990478515625,
         "mean_saturation": 0.1732657253742218
       },
-      "candidate_score": 29.10047173500061,
+      "candidate_score": 30.184894800186157,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00018310546875,
-        "mean_saturation": 0.17560213804244995
+        "clipped_fraction": 0.000274658203125,
+        "mean_saturation": 0.17621949315071106
       },
-      "delta": -0.05660653114318848
+      "delta": 1.0278165340423584
     },
     {
       "source_id": "663",
@@ -1103,12 +1103,12 @@
         "clipped_fraction": 1.9073486328125e-05,
         "mean_saturation": 0.1710464358329773
       },
-      "candidate_score": 29.80830669403076,
+      "candidate_score": 30.33573627471924,
       "candidate_diagnostics": {
-        "clipped_fraction": 2.6702880859375e-05,
-        "mean_saturation": 0.17167919874191284
+        "clipped_fraction": 1.52587890625e-05,
+        "mean_saturation": 0.1685025840997696
       },
-      "delta": 0.05500912666320801
+      "delta": 0.5824387073516846
     },
     {
       "source_id": "663",
@@ -1119,12 +1119,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.2033083587884903
       },
-      "candidate_score": 40.932220220565796,
+      "candidate_score": 40.90173542499542,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.19564248621463776
+        "mean_saturation": 0.19761700928211212
       },
-      "delta": -0.13900399208068848
+      "delta": -0.169488787651062
     },
     {
       "source_id": "664",
@@ -1135,12 +1135,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1938759684562683
       },
-      "candidate_score": 40.14497697353363,
+      "candidate_score": 41.06525778770447,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.19454225897789001
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1936308890581131
       },
-      "delta": -0.058463215827941895
+      "delta": 0.8618175983428955
     },
     {
       "source_id": "664",
@@ -1151,12 +1151,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.1267934888601303
       },
-      "candidate_score": 39.20268416404724,
+      "candidate_score": 38.8889342546463,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.1273154467344284
+        "mean_saturation": 0.1255391240119934
       },
-      "delta": 0.6862759590148926
+      "delta": 0.37252604961395264
     },
     {
       "source_id": "664",
@@ -1167,12 +1167,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.18848827481269836
       },
-      "candidate_score": 43.66092383861542,
+      "candidate_score": 44.31941509246826,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.18807215988636017
+        "mean_saturation": 0.18742042779922485
       },
-      "delta": -0.33003687858581543
+      "delta": 0.3284543752670288
     },
     {
       "source_id": "665",
@@ -1183,12 +1183,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.2077990174293518
       },
-      "candidate_score": 40.68365693092346,
+      "candidate_score": 40.95636010169983,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.2082366645336151
+        "clipped_fraction": 1.52587890625e-05,
+        "mean_saturation": 0.20912784337997437
       },
-      "delta": 0.10161399841308594
+      "delta": 0.3743171691894531
     },
     {
       "source_id": "665",
@@ -1199,12 +1199,12 @@
         "clipped_fraction": 5.7220458984375e-05,
         "mean_saturation": 0.2049594521522522
       },
-      "candidate_score": 40.310120582580566,
+      "candidate_score": 40.13218879699707,
       "candidate_diagnostics": {
-        "clipped_fraction": 7.2479248046875e-05,
-        "mean_saturation": 0.20702290534973145
+        "clipped_fraction": 0.000102996826171875,
+        "mean_saturation": 0.21160918474197388
       },
-      "delta": 0.064811110496521
+      "delta": -0.1131206750869751
     },
     {
       "source_id": "665",
@@ -1215,12 +1215,12 @@
         "clipped_fraction": 0.001346588134765625,
         "mean_saturation": 0.2403971403837204
       },
-      "candidate_score": 40.30963182449341,
+      "candidate_score": 40.87147116661072,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0009002685546875,
-        "mean_saturation": 0.24042856693267822
+        "clipped_fraction": 0.00091552734375,
+        "mean_saturation": 0.2448526918888092
       },
-      "delta": -0.37760138511657715
+      "delta": 0.18423795700073242
     },
     {
       "source_id": "666",
@@ -1231,12 +1231,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.0947636067867279
       },
-      "candidate_score": 44.91173028945923,
+      "candidate_score": 44.44182813167572,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.09477674961090088
+        "mean_saturation": 0.0966218113899231
       },
-      "delta": 0.3093719482421875
+      "delta": -0.1605302095413208
     },
     {
       "source_id": "666",
@@ -1247,12 +1247,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.06742088496685028
       },
-      "candidate_score": 45.313915610313416,
+      "candidate_score": 45.45370042324066,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.06788430362939835
+        "mean_saturation": 0.06897188723087311
       },
-      "delta": 0.23880302906036377
+      "delta": 0.37858784198760986
     },
     {
       "source_id": "666",
@@ -1263,12 +1263,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.13366441428661346
       },
-      "candidate_score": 40.36051630973816,
+      "candidate_score": 40.62809646129608,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.13262687623500824
+        "mean_saturation": 0.13439828157424927
       },
-      "delta": -0.15268921852111816
+      "delta": 0.1148909330368042
     },
     {
       "source_id": "668",
@@ -1279,12 +1279,12 @@
         "clipped_fraction": 0.000362396240234375,
         "mean_saturation": 0.26108884811401367
       },
-      "candidate_score": 36.31598949432373,
+      "candidate_score": 35.33807992935181,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0003204345703125,
-        "mean_saturation": 0.25736141204833984
+        "clipped_fraction": 0.000713348388671875,
+        "mean_saturation": 0.26238131523132324
       },
-      "delta": 0.25069713592529297
+      "delta": -0.7272124290466309
     },
     {
       "source_id": "668",
@@ -1295,12 +1295,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.19276033341884613
       },
-      "candidate_score": 38.319408893585205,
+      "candidate_score": 38.25115263462067,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.19443856179714203
+        "mean_saturation": 0.19425587356090546
       },
-      "delta": 0.14562606811523438
+      "delta": 0.0773698091506958
     },
     {
       "source_id": "668",
@@ -1311,12 +1311,12 @@
         "clipped_fraction": 1.1444091796875e-05,
         "mean_saturation": 0.24290865659713745
       },
-      "candidate_score": 36.518749594688416,
+      "candidate_score": 36.54947280883789,
       "candidate_diagnostics": {
-        "clipped_fraction": 1.9073486328125e-05,
-        "mean_saturation": 0.24209430813789368
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.24372710287570953
       },
-      "delta": 0.3414720296859741
+      "delta": 0.3721952438354492
     },
     {
       "source_id": "669",
@@ -1327,12 +1327,12 @@
         "clipped_fraction": 0.008831024169921875,
         "mean_saturation": 0.20214731991291046
       },
-      "candidate_score": 34.545424580574036,
+      "candidate_score": 34.28691625595093,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00673675537109375,
-        "mean_saturation": 0.2017364352941513
+        "clipped_fraction": 0.007061004638671875,
+        "mean_saturation": 0.20177730917930603
       },
-      "delta": -0.06994307041168213
+      "delta": -0.32845139503479004
     },
     {
       "source_id": "669",
@@ -1343,12 +1343,12 @@
         "clipped_fraction": 0.002880096435546875,
         "mean_saturation": 0.15179088711738586
       },
-      "candidate_score": 33.93036425113678,
+      "candidate_score": 33.945873379707336,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00341796875,
-        "mean_saturation": 0.1509745568037033
+        "clipped_fraction": 0.00382232666015625,
+        "mean_saturation": 0.1470295786857605
       },
-      "delta": 0.3405928611755371
+      "delta": 0.35610198974609375
     },
     {
       "source_id": "669",
@@ -1359,12 +1359,12 @@
         "clipped_fraction": 0.000156402587890625,
         "mean_saturation": 0.21087080240249634
       },
-      "candidate_score": 33.70171785354614,
+      "candidate_score": 32.45352804660797,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000316619873046875,
-        "mean_saturation": 0.21073788404464722
+        "clipped_fraction": 0.000270843505859375,
+        "mean_saturation": 0.2070867121219635
       },
-      "delta": -0.007092952728271484
+      "delta": -1.2552827596664429
     },
     {
       "source_id": "670",
@@ -1375,12 +1375,12 @@
         "clipped_fraction": 0.0010528564453125,
         "mean_saturation": 0.1224222406744957
       },
-      "candidate_score": 31.933557987213135,
+      "candidate_score": 31.893855333328247,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0004119873046875,
-        "mean_saturation": 0.12274324148893356
+        "clipped_fraction": 0.00049591064453125,
+        "mean_saturation": 0.1236412525177002
       },
-      "delta": -0.12818574905395508
+      "delta": -0.16788840293884277
     },
     {
       "source_id": "670",
@@ -1391,12 +1391,12 @@
         "clipped_fraction": 7.62939453125e-06,
         "mean_saturation": 0.10428539663553238
       },
-      "candidate_score": 33.67959260940552,
+      "candidate_score": 33.93765091896057,
       "candidate_diagnostics": {
-        "clipped_fraction": 1.1444091796875e-05,
-        "mean_saturation": 0.10677638649940491
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.10947436094284058
       },
-      "delta": 0.1207113265991211
+      "delta": 0.3787696361541748
     },
     {
       "source_id": "670",
@@ -1407,12 +1407,12 @@
         "clipped_fraction": 0.000614166259765625,
         "mean_saturation": 0.16366909444332123
       },
-      "candidate_score": 33.09473395347595,
+      "candidate_score": 32.70372748374939,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000576019287109375,
-        "mean_saturation": 0.1659156084060669
+        "clipped_fraction": 0.00049591064453125,
+        "mean_saturation": 0.16710977256298065
       },
-      "delta": 0.2605140209197998
+      "delta": -0.1304924488067627
     },
     {
       "source_id": "671",
@@ -1423,12 +1423,12 @@
         "clipped_fraction": 0.002635955810546875,
         "mean_saturation": 0.14558611810207367
       },
-      "candidate_score": 43.53322982788086,
+      "candidate_score": 43.04552972316742,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.002758026123046875,
-        "mean_saturation": 0.14460916817188263
+        "clipped_fraction": 0.002105712890625,
+        "mean_saturation": 0.1462978720664978
       },
-      "delta": 5.306684970855713
+      "delta": 4.818984866142273
     },
     {
       "source_id": "671",
@@ -1439,12 +1439,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.12243156880140305
       },
-      "candidate_score": 42.668721079826355,
+      "candidate_score": 43.05270612239838,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.11257108300924301
+        "mean_saturation": 0.12400980293750763
       },
-      "delta": -1.4447838068008423
+      "delta": -1.0607987642288208
     },
     {
       "source_id": "671",
@@ -1455,12 +1455,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.13119307160377502
       },
-      "candidate_score": 49.52263832092285,
+      "candidate_score": 48.77750873565674,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.13262444734573364
+        "mean_saturation": 0.13341321051120758
       },
-      "delta": 0.917595624923706
+      "delta": 0.17246603965759277
     },
     {
       "source_id": "672",
@@ -1471,12 +1471,12 @@
         "clipped_fraction": 0.002780914306640625,
         "mean_saturation": 0.22675476968288422
       },
-      "candidate_score": 38.43926787376404,
+      "candidate_score": 38.441479206085205,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001834869384765625,
-        "mean_saturation": 0.22967982292175293
+        "clipped_fraction": 0.00260162353515625,
+        "mean_saturation": 0.2285759150981903
       },
-      "delta": -0.4300445318222046
+      "delta": -0.4278331995010376
     },
     {
       "source_id": "672",
@@ -1487,12 +1487,12 @@
         "clipped_fraction": 0.00055694580078125,
         "mean_saturation": 0.15803807973861694
       },
-      "candidate_score": 33.211877942085266,
+      "candidate_score": 39.395761489868164,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00067138671875,
-        "mean_saturation": 0.1573876291513443
+        "clipped_fraction": 0.00019073486328125,
+        "mean_saturation": 0.15862563252449036
       },
-      "delta": -1.0885626077651978
+      "delta": 5.0953209400177
     },
     {
       "source_id": "672",
@@ -1503,12 +1503,12 @@
         "clipped_fraction": 0.000858306884765625,
         "mean_saturation": 0.2165941596031189
       },
-      "candidate_score": 38.075876235961914,
+      "candidate_score": 37.26642429828644,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00087738037109375,
-        "mean_saturation": 0.216669499874115
+        "clipped_fraction": 0.000965118408203125,
+        "mean_saturation": 0.21618829667568207
       },
-      "delta": 0.5920469760894775
+      "delta": -0.21740496158599854
     },
     {
       "source_id": "673",
@@ -1519,12 +1519,12 @@
         "clipped_fraction": 0.000732421875,
         "mean_saturation": 0.2325211465358734
       },
-      "candidate_score": 32.03973174095154,
+      "candidate_score": 33.73078107833862,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001461029052734375,
-        "mean_saturation": 0.23154079914093018
+        "clipped_fraction": 0.001697540283203125,
+        "mean_saturation": 0.23100398480892181
       },
-      "delta": 0.013455748558044434
+      "delta": 1.7045050859451294
     },
     {
       "source_id": "673",
@@ -1535,12 +1535,12 @@
         "clipped_fraction": 0.005741119384765625,
         "mean_saturation": 0.24360360205173492
       },
-      "candidate_score": 25.778907537460327,
+      "candidate_score": 26.562729477882385,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.005779266357421875,
-        "mean_saturation": 0.24480320513248444
+        "clipped_fraction": 0.006103515625,
+        "mean_saturation": 0.24394169449806213
       },
-      "delta": -0.6842672824859619
+      "delta": 0.09955465793609619
     },
     {
       "source_id": "673",
@@ -1551,12 +1551,12 @@
         "clipped_fraction": 0.00099945068359375,
         "mean_saturation": 0.1717558354139328
       },
-      "candidate_score": 27.960091829299927,
+      "candidate_score": 28.50133180618286,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00077056884765625,
-        "mean_saturation": 0.16731373965740204
+        "clipped_fraction": 0.00084686279296875,
+        "mean_saturation": 0.17943669855594635
       },
-      "delta": 0.26547908782958984
+      "delta": 0.8067190647125244
     },
     {
       "source_id": "675",
@@ -1567,12 +1567,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.16556429862976074
       },
-      "candidate_score": 34.38735902309418,
+      "candidate_score": 34.556615352630615,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0,
-        "mean_saturation": 0.16519685089588165
+        "clipped_fraction": 1.52587890625e-05,
+        "mean_saturation": 0.1651589423418045
       },
-      "delta": -0.14799535274505615
+      "delta": 0.021260976791381836
     },
     {
       "source_id": "675",
@@ -1583,12 +1583,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1313525140285492
       },
-      "candidate_score": 34.23214852809906,
+      "candidate_score": 34.285154938697815,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.13112948834896088
+        "mean_saturation": 0.12916362285614014
       },
-      "delta": 0.196036696434021
+      "delta": 0.24904310703277588
     },
     {
       "source_id": "675",
@@ -1599,12 +1599,12 @@
         "clipped_fraction": 1.9073486328125e-05,
         "mean_saturation": 0.1898956149816513
       },
-      "candidate_score": 33.93409848213196,
+      "candidate_score": 33.867835998535156,
       "candidate_diagnostics": {
-        "clipped_fraction": 1.9073486328125e-05,
-        "mean_saturation": 0.1896142065525055
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.1909663826227188
       },
-      "delta": -0.030377507209777832
+      "delta": -0.09663999080657959
     },
     {
       "source_id": "676",
@@ -1615,12 +1615,12 @@
         "clipped_fraction": 0.002044677734375,
         "mean_saturation": 0.27058589458465576
       },
-      "candidate_score": 40.856724977493286,
+      "candidate_score": 41.337233781814575,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.002147674560546875,
-        "mean_saturation": 0.2742806375026703
+        "clipped_fraction": 0.00244903564453125,
+        "mean_saturation": 0.27325648069381714
       },
-      "delta": 0.46690404415130615
+      "delta": 0.9474128484725952
     },
     {
       "source_id": "676",
@@ -1631,12 +1631,12 @@
         "clipped_fraction": 0.000286102294921875,
         "mean_saturation": 0.20636826753616333
       },
-      "candidate_score": 36.248379945755005,
+      "candidate_score": 37.39652335643768,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000354766845703125,
-        "mean_saturation": 0.20349207520484924
+        "clipped_fraction": 0.000278472900390625,
+        "mean_saturation": 0.21163977682590485
       },
-      "delta": -1.3448715209960938
+      "delta": -0.19672811031341553
     },
     {
       "source_id": "676",
@@ -1647,12 +1647,12 @@
         "clipped_fraction": 0.00014495849609375,
         "mean_saturation": 0.2780674993991852
       },
-      "candidate_score": 38.67608904838562,
+      "candidate_score": 38.00102174282074,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000202178955078125,
-        "mean_saturation": 0.27815526723861694
+        "clipped_fraction": 0.000102996826171875,
+        "mean_saturation": 0.27971863746643066
       },
-      "delta": 1.1430799961090088
+      "delta": 0.4680126905441284
     },
     {
       "source_id": "679",
@@ -1663,12 +1663,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.16821222007274628
       },
-      "candidate_score": 35.215139389038086,
+      "candidate_score": 34.978508949279785,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.1658027172088623
+        "mean_saturation": 0.1691998690366745
       },
-      "delta": 0.28361976146698
+      "delta": 0.0469893217086792
     },
     {
       "source_id": "679",
@@ -1679,12 +1679,12 @@
         "clipped_fraction": 0.002166748046875,
         "mean_saturation": 0.12954528629779816
       },
-      "candidate_score": 34.71032381057739,
+      "candidate_score": 34.58951711654663,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.003185272216796875,
-        "mean_saturation": 0.12828895449638367
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1285228729248047
       },
-      "delta": 0.16475319862365723
+      "delta": 0.04394650459289551
     },
     {
       "source_id": "679",
@@ -1695,12 +1695,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.13218581676483154
       },
-      "candidate_score": 33.98364186286926,
+      "candidate_score": 33.85090231895447,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.12771838903427124
+        "mean_saturation": 0.12793292105197906
       },
-      "delta": -0.13363957405090332
+      "delta": -0.26637911796569824
     },
     {
       "source_id": "680",
@@ -1711,12 +1711,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.138673335313797
       },
-      "candidate_score": 31.762230396270752,
+      "candidate_score": 31.901255249977112,
       "candidate_diagnostics": {
-        "clipped_fraction": 7.62939453125e-06,
-        "mean_saturation": 0.1391262710094452
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.14262861013412476
       },
-      "delta": -0.027996301651000977
+      "delta": 0.11102855205535889
     },
     {
       "source_id": "680",
@@ -1727,12 +1727,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.1031898781657219
       },
-      "candidate_score": 30.74442446231842,
+      "candidate_score": 30.844014883041382,
       "candidate_diagnostics": {
-        "clipped_fraction": 7.62939453125e-06,
-        "mean_saturation": 0.10374435782432556
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.10545413941144943
       },
-      "delta": -0.08638203144073486
+      "delta": 0.013208389282226562
     },
     {
       "source_id": "680",
@@ -1743,12 +1743,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.16410189867019653
       },
-      "candidate_score": 31.859177350997925,
+      "candidate_score": 31.453746557235718,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0,
-        "mean_saturation": 0.16421613097190857
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.166912242770195
       },
-      "delta": 0.20306110382080078
+      "delta": -0.20236968994140625
     },
     {
       "source_id": "681",
@@ -1759,12 +1759,12 @@
         "clipped_fraction": 8.392333984375e-05,
         "mean_saturation": 0.20954765379428864
       },
-      "candidate_score": 42.646485567092896,
+      "candidate_score": 41.99663996696472,
       "candidate_diagnostics": {
-        "clipped_fraction": 3.814697265625e-05,
-        "mean_saturation": 0.20777851343154907
+        "clipped_fraction": 4.1961669921875e-05,
+        "mean_saturation": 0.2058011144399643
       },
-      "delta": 0.2282857894897461
+      "delta": -0.42155981063842773
     },
     {
       "source_id": "681",
@@ -1775,12 +1775,12 @@
         "clipped_fraction": 1.52587890625e-05,
         "mean_saturation": 0.18958202004432678
       },
-      "candidate_score": 42.673856019973755,
+      "candidate_score": 42.659199237823486,
       "candidate_diagnostics": {
-        "clipped_fraction": 5.340576171875e-05,
-        "mean_saturation": 0.1898699402809143
+        "clipped_fraction": 3.4332275390625e-05,
+        "mean_saturation": 0.18960356712341309
       },
-      "delta": 0.33413469791412354
+      "delta": 0.319477915763855
     },
     {
       "source_id": "681",
@@ -1791,12 +1791,12 @@
         "clipped_fraction": 0.000797271728515625,
         "mean_saturation": 0.23285426199436188
       },
-      "candidate_score": 43.19557547569275,
+      "candidate_score": 42.63280928134918,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0008087158203125,
-        "mean_saturation": 0.23099693655967712
+        "clipped_fraction": 0.000904083251953125,
+        "mean_saturation": 0.22903458774089813
       },
-      "delta": 0.5951672792434692
+      "delta": 0.032401084899902344
     },
     {
       "source_id": "682",
@@ -1807,12 +1807,12 @@
         "clipped_fraction": 3.814697265625e-06,
         "mean_saturation": 0.1925354301929474
       },
-      "candidate_score": 33.95323157310486,
+      "candidate_score": 34.29548740386963,
       "candidate_diagnostics": {
-        "clipped_fraction": 1.1444091796875e-05,
-        "mean_saturation": 0.19234910607337952
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.19284868240356445
       },
-      "delta": 0.8643627166748047
+      "delta": 1.2066185474395752
     },
     {
       "source_id": "682",
@@ -1823,12 +1823,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.1694210171699524
       },
-      "candidate_score": 39.193761348724365,
+      "candidate_score": 39.42230939865112,
       "candidate_diagnostics": {
         "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.1698974072933197
+        "mean_saturation": 0.17203381657600403
       },
-      "delta": -0.15925467014312744
+      "delta": 0.06929337978363037
     },
     {
       "source_id": "682",
@@ -1839,12 +1839,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.19754073023796082
       },
-      "candidate_score": 38.891977071762085,
+      "candidate_score": 38.714006543159485,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.1975686103105545
+        "mean_saturation": 0.19972988963127136
       },
-      "delta": -0.41817426681518555
+      "delta": -0.5961447954177856
     },
     {
       "source_id": "683",
@@ -1855,12 +1855,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.19534176588058472
       },
-      "candidate_score": 36.609625816345215,
+      "candidate_score": 35.804253816604614,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.1961437314748764
+        "mean_saturation": 0.19709892570972443
       },
-      "delta": 0.9785741567611694
+      "delta": 0.17320215702056885
     },
     {
       "source_id": "683",
@@ -1871,12 +1871,12 @@
         "clipped_fraction": 6.866455078125e-05,
         "mean_saturation": 0.17952615022659302
       },
-      "candidate_score": 41.82877838611603,
+      "candidate_score": 41.486287117004395,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000148773193359375,
-        "mean_saturation": 0.18145200610160828
+        "clipped_fraction": 9.5367431640625e-05,
+        "mean_saturation": 0.18050135672092438
       },
-      "delta": 1.50052011013031
+      "delta": 1.1580288410186768
     },
     {
       "source_id": "683",
@@ -1887,12 +1887,12 @@
         "clipped_fraction": 0.0,
         "mean_saturation": 0.2135016918182373
       },
-      "candidate_score": 36.523082852363586,
+      "candidate_score": 36.97783946990967,
       "candidate_diagnostics": {
         "clipped_fraction": 0.0,
-        "mean_saturation": 0.21391908824443817
+        "mean_saturation": 0.2141437530517578
       },
-      "delta": -0.5795389413833618
+      "delta": -0.12478232383728027
     },
     {
       "source_id": "684",
@@ -1903,12 +1903,12 @@
         "clipped_fraction": 0.00031280517578125,
         "mean_saturation": 0.17469051480293274
       },
-      "candidate_score": 33.2489550113678,
+      "candidate_score": 32.97942876815796,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000438690185546875,
-        "mean_saturation": 0.17391467094421387
+        "clipped_fraction": 0.0004425048828125,
+        "mean_saturation": 0.17402340471744537
       },
-      "delta": 0.26586949825286865
+      "delta": -0.003656744956970215
     },
     {
       "source_id": "684",
@@ -1919,12 +1919,12 @@
         "clipped_fraction": 0.0006256103515625,
         "mean_saturation": 0.1545955240726471
       },
-      "candidate_score": 33.58067274093628,
+      "candidate_score": 33.54473114013672,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000827789306640625,
-        "mean_saturation": 0.1531561017036438
+        "clipped_fraction": 0.00055694580078125,
+        "mean_saturation": 0.15464089810848236
       },
-      "delta": -0.3605872392654419
+      "delta": -0.39652884006500244
     },
     {
       "source_id": "684",
@@ -1935,12 +1935,12 @@
         "clipped_fraction": 0.000675201416015625,
         "mean_saturation": 0.16619664430618286
       },
-      "candidate_score": 35.019612312316895,
+      "candidate_score": 35.16201376914978,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00061798095703125,
-        "mean_saturation": 0.16582126915454865
+        "clipped_fraction": 0.0006103515625,
+        "mean_saturation": 0.16671542823314667
       },
-      "delta": -0.4338204860687256
+      "delta": -0.29141902923583984
     }
   ]
 }

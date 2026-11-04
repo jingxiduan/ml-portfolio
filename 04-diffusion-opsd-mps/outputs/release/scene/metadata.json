@@ -10,7 +10,9 @@
   "dtype": "float16 backbone / float32 VAE",
   "seed_policy": "seed=3407+fixed_manifest_index",
   "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
-  "adapter_scale": 1.0,
+  "adapter_weights": "outputs/final/scene/lora_raw",
+  "adapter_scale": 2.0,
+  "qualitative_only": true,
   "manifest_rows": [
     {
       "source": "portfolio-authored",
