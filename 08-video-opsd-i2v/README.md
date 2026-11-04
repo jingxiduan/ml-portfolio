@@ -75,7 +75,7 @@ U_t=\frac{\sqrt{\sum_l\|\Delta W_{t,l}\|_F^2}}
 {\sqrt{\sum_l\|W_l^{base}\|_F^2}+\varepsilon}.
 $$
 
-Here, $U_t$ is the normalized effective LoRA update ratio at checkpoint $t$, including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change; it does not by itself prove better video quality or isolate the causal effect of the optimizer schedule.
+Here, $U_t$ is the normalized effective LoRA update ratio at checkpoint $t$, including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change across training. What this measurement does and does not establish is detailed in **Limitations** below.
 
 For paired videos with the same first frame, caption, and seed, the diagnostic visual score is
 
@@ -350,7 +350,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | 500-step diagnostic run | Appeal, naturalness, and dynamic-degree metrics are statistically tied with base (e.g. appeal 0.7291 vs base 0.7295). This run established that the reward gradient and naturalness signal remain active, not a held-out quality gain. |
 | Long-run stability | The smooth-naturalness objective stopped at step 306 and the anchored fit at step 522 before gradient clipping was added; effective gradient control completed 2,000 steps without a guard trip. |
 | Held-out improvement | **Generalized improvement not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]; none of the three has a 95% interval favoring the candidate. |
-| Quantified adapter effect | Effective update ratio and paired visual proxy are computed from saved checkpoints/videos; low-scale development settings show positive but non-significant diagnostic deltas, and the 40-pair confirmatory $\Delta Q$ interval `[-0.00384, +0.00586]` includes zero. |
+| Quantified adapter effect | Effective update ratio and paired visual proxy are computed from saved checkpoints/videos; low-scale development settings show positive but non-significant diagnostic deltas, and the 40-pair confirmatory $\Delta Q$ interval `[-0.00384, +0.00586]` includes zero. This measurement does not isolate the causal effect of the optimizer schedule. |
 | Eval sample size | Confirmatory n=40 paired evaluation with 10,000-draw bootstrap intervals is complete. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
 | Standard metrics | FVD/FID and broader video-quality suites have not been computed. |

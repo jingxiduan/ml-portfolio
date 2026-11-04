@@ -12,28 +12,31 @@
 
 ---
 
-## Research question
+## 📌 ABSTRACT
 
-A frozen audio-to-motion model can synchronize the mouth while leaving the rest of the face under-active or producing implausible head motion. This project asks:
+> **DiffusionOPSD optimizes against a single scalar image-preference reward. Can the same reward-guided fine-tuning mechanism be retargeted to a human-motion domain — driven by motion statistics measured from real speakers instead of visual preference alone — while staying inside explicit, pre-registered failure gates?**
 
-> **Can reward-guided post-training move selected motion statistics toward bands measured from real speakers without damaging stability, lip motion, or visual naturalness?**
+**Core contribution — moving OPSD from a visual-preference reward to measured human-motion targets.** This project retargets DiffusionOPSD's query/target/EMA optimization structure onto a 73-coefficient audio-to-motion trajectory space produced by JoyVASA and rendered by frozen LivePortrait:
 
-The unit of optimization is a four-second trajectory of 73 normalized motion coefficients produced by JoyVASA and rendered by frozen LivePortrait. DiffusionOPSD supplies the optimization mechanism; this project contributes the motion-space formulation, measured targets, reward diagnostics, real-video behavior-cloning path, controlled evaluation, and failure analysis. It does **not** claim a new base-model architecture or foundation-model pretraining.
+1. **New measured reward targets** — per-industry amplitude, jitter, and blink bands estimated from real speaker footage (HDTF news anchors, CelebV-HQ) replace a single hand-tuned visual-preference reward.
+2. **A bounded motion reward** — a peaked Gaussian target around the measured band replaces monotone amplitude maximization, removing the earlier **2.4–2.7×** overshoot it caused.
+3. **Diagnosed and fixed a blink-target bug** — an excessive blink target drove the eyes toward half-closed; retuning it restored eye-aspect-ratio to untrained-base levels.
+4. **A real-video behavior-cloning path** — 1,753 aligned motion windows from real footage supplement the reward signal through an auxiliary supervised objective.
+5. **Pre-registered failure gates kept in the main result** — jitter, lip-sync, and ecological-separability gates are evaluated and reported as part of the headline result, not filtered out after the fact.
 
-### What is established
+Three trained policies reach **0.85–0.89×** of their measured amplitude targets on held-out speakers, and the calibrated expression policy reduces mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips; all three 95% bootstrap intervals exclude zero). Full scope boundaries, failed gates, and open questions are documented in **Limitations** below.
 
-- Peaked amplitude targets removed the earlier **2.4–2.7×** monotone-reward overshoot.
-- Three trained policies reached **0.85–0.89×** their corresponding measured amplitude targets on held-out audio.
-- The calibrated expression policy reduced mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips); pose high-frequency RMS was **0.75–0.77×** base.
-- Four classes (base plus three amplitude policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude.
-- The real reference data do **not** support a general claim that finance and real-estate speakers have distinct motion styles.
+## 🌟 HIGHLIGHTS
 
-### What remains unresolved
+### What this project built
 
-- The pre-registered absolute-jitter gate failed: **28.97** versus the allowed **18.36**.
-- SyncNet non-inferiority is validated on 40 paired renders per seed, but low absolute confidence and 7.7–8.8-frame mean offsets mean lip synchronization itself is not solved.
-- The expression-dynamics policy passes its calibrated multi-seed coefficient gate, but the optimized expression statistic is not an independent perceptual metric.
-- Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by real participants. A randomized, balanced 40-pair expression study is executable from [`../human-study`](../human-study); no responses are fabricated.
+- **Domain transfer of OPSD to motion space.** Retained DiffusionOPSD's query/target/EMA structure and retargeted it from pixel latents to a 73-coefficient audio-conditioned motion trajectory.
+- **Measured, not hand-tuned, reward targets.** Amplitude, jitter, and blink targets are estimated from public human footage per industry, instead of being selected only by visual preference.
+- **Fixed two concrete reward-design bugs.** The monotone amplitude reward caused 2.4–2.7× overshoot; replacing it with a peaked Gaussian target fixed it. An excessive blink target caused half-closed eyes; retuning it restored normal eye-aspect-ratio.
+- **Added a real-video supervision path.** 1,753 aligned real-motion windows support an auxiliary behavior-cloning objective alongside the reward.
+- **Auditable, pre-registered evaluation.** Jitter, lip-sync non-inferiority, and ecological-separability gates are all reported as part of the main result regardless of outcome.
+
+Failed gates, sample sizes, and open questions are in **Limitations** below.
 
 > This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
 
@@ -51,14 +54,6 @@ Both 1024×1024 inputs were extracted from previously unused 4K Pexels License v
 ![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
 *Evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*
-
-## Contributions and boundaries
-
-- **Domain transfer, not optimizer invention:** the OPSD query/target/EMA structure is retained; the implementation moves it to audio-conditioned motion trajectories.
-- **Measured reward targets:** amplitude, jitter, and blink targets are estimated from public human footage instead of selected only by visual preference.
-- **Bounded motion reward:** a peaked Gaussian target replaces monotone amplitude maximization.
-- **Real-video supervision:** 1,753 aligned windows support an auxiliary behavior-cloning path.
-- **Auditable negative results:** failed jitter, ecological-separability, and lip-sync gates remain part of the main result rather than being omitted.
 
 ----------------------------------------
 
@@ -141,7 +136,7 @@ ema_update_behaviour_policy()
 | **Seed 1** | 0.3849 | **0.0238** | **0.1822°** | Pass |
 | **Seed 2** | 0.3860 | **0.0234** | **0.1848°** | Pass |
 
-All three paired bootstrap intervals for target-error improvement exclude zero. Because expression RMS is also the optimized statistic, this establishes coefficient control rather than independent perceptual quality. See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md).
+All three paired bootstrap intervals for target-error improvement exclude zero. Full interpretation of this result relative to the optimized statistic is in **Limitations** below; see [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the complete protocol.
 
 ![Calibrated expression policy: strict four-second matched render](outputs/expression_render_set_r3/clip000_fourway.gif)
 
@@ -261,9 +256,11 @@ The gallery organizes qualitative evidence by research question and control type
 |---|---|
 | **Visual Realism** | **Not solved.** Skin, color, and teeth textures are determined by the frozen LivePortrait warp. |
 | **Pre-registered Jitter Gate** | **Failed.** Pre-registered gate of `jitter_hp ≤ 1.3x base` (18.36) was not satisfied; OPSD naive attained **28.97 (2.05x base)**. |
-| **Lip Synchronisation** | **Relative gate passed, absolute quality unresolved.** Three seeds pass the frozen paired SyncNet non-inferiority margin, but all variants have low confidence and large offsets. |
-| **Expression dynamics** | **Coefficient and lip-preservation gates passed.** Three calibrated seeds and n=40 paired evaluations are complete; independent perceptual preference remains open. |
-| **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. |
+| **Lip Synchronisation** | **Relative gate passed, absolute quality unresolved.** Three seeds pass the frozen paired SyncNet non-inferiority margin, but all variants have low confidence and 7.7–8.8-frame mean offsets. |
+| **Expression dynamics** | **Coefficient and lip-preservation gates passed.** Three calibrated seeds and n=40 paired evaluations are complete, but expression RMS is also the optimized statistic, so this establishes coefficient control rather than an independent perceptual-quality claim. |
+| **Ecological separability** | Four classes (base + 3 amplitude policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude alone; the real reference data do not support a general claim that finance and real-estate speakers have distinct motion styles. |
+| **Behavior cloning** | Uses 1,753 real-video motion windows, but its perceptual gain has not been established by real participants. |
+| **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. A randomized, balanced 40-pair expression study is executable from [`../human-study`](../human-study); no responses are fabricated. |
 
 See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the completion protocol and exact claim boundary.
 

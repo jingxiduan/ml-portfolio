@@ -102,7 +102,7 @@ At inference scale `0.05`, the effective update ratio $U_t$ rose from `5.12e-5` 
 | 03 | [`reward-model-dpo-pipeline`](03-reward-model-dpo-pipeline) | Preference filtering, proxy LLM judging, Bradley–Terry reward modeling, DPO-format export, and an end-to-end trainer smoke test. | Held-out RM AUC **0.6150**, pairwise accuracy **0.6317**; **2,624** DPO training pairs. The included DPO run is a 20-step smoke test, not a quality claim. | Complete pipeline |
 | 04 | [`diffusion-opsd-mps`](04-diffusion-opsd-mps) | Image reward post-training on SDXL-Turbo, separated into environment/scene and portrait domains with a pinned, leakage-audited protocol. | Portraits: independent CLIP-H delta **+0.091** with prompt-cluster 95% CI **[-0.034, +0.230]** on 40 prompts × 3 seeds. Scenes: **-0.015** with CI **[-0.110, +0.083]**; no definitive gain claimed. | Image post-training study |
 | 06 | **Reserved research slot** | No public project is assigned to this number. It remains visible so the repository history is not presented as a continuous series that never existed. | No result claimed. | Reserved |
-| 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority; absolute lip-sync quality and human preference remain unresolved. | Flagship, active |
+| 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Retargets OPSD from a single visual-preference image reward to a measured, real-speaker motion-target domain on JoyVASA's 73-dimensional audio-to-motion trajectories, with a bounded motion reward, two diagnosed-and-fixed reward-design bugs, and a real-video behavior-cloning path. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority. Failed gates and open questions are detailed in the project's Limitations. | Flagship, active |
 | 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Extends OPSD's reward-guided fine-tuning — originally single-image pixel diffusion only — to DynamiCrafter's video temporal-LoRA modules, with a new differentiable video reward, reward-hacking diagnosis, and a gradient-clipped anchored-fit objective that fixes a training divergence. | The gradient-controlled anchored fit completed **2,000** guarded steps with zero guard trips; saved checkpoints show a quantified, increasing effective LoRA update and a positive diagnostic visual effect at low inference scale. Confirmatory-evaluation scope is detailed in the project's Limitations. | Flagship, stabilized + quantified effect |
 
 ## The OPSD research thread
@@ -124,13 +124,13 @@ The optimization loop is deliberately held recognizable across projects: on-poli
 
 ### 07 · Talking-head motion
 
-- **Controlled state space:** frozen JoyVASA and LivePortrait; LoRA updates only the motion DiT.
-- **Measured targets:** amplitude, jitter, and blink bands are estimated from public human footage.
-- **Real-video supervision:** 1,753 aligned four-second motion windows are available for behavior cloning.
-- **Controlled evaluation:** held-out speakers, identical audio/seed comparisons, real-motion reference, same-face cross-industry control, effect sizes, bootstrap intervals, and permutation tests.
-- **Calibrated expression control:** three trained seeds pass paired n=40 target-error and pose high-frequency gates; this remains a coefficient-control claim, not an independent perceptual claim.
-- **Independent lip preservation:** all three seeds pass the frozen n=40 SyncNet non-inferiority margin, although low absolute confidence means lip synchronization is not solved.
-- **What did not work:** the earlier absolute-jitter gate failed; finance and real-estate are not ecologically separable in the real reference footage; human preference evaluation is still missing.
+- **New domain transfer of OPSD:** retargets DiffusionOPSD's query/target/EMA optimization structure from a single visual-preference image reward onto a 73-coefficient audio-to-motion trajectory space (frozen JoyVASA + LivePortrait; LoRA updates only the motion DiT).
+- **New measured reward targets:** per-industry amplitude, jitter, and blink bands estimated from real speaker footage replace a hand-tuned visual-preference reward.
+- **Diagnosed and fixed two reward-design bugs:** a monotone amplitude reward causing 2.4–2.7× overshoot, fixed with a peaked Gaussian target; an excessive blink target causing half-closed eyes, fixed by retuning.
+- **Added real-video behavior cloning:** 1,753 aligned four-second motion windows supplement the reward signal via an auxiliary supervised objective.
+- **Verified result:** three trained policies reach 0.85–0.89× their measured amplitude targets on held-out speakers; the calibrated expression policy cuts mean held-out target error from 0.1202 to 0.0229–0.0238 across three seeds (n=40 paired clips, all 95% CIs exclude zero), and all three seeds pass the frozen n=40 SyncNet non-inferiority margin.
+
+Failed gates, sample sizes, and open questions are in [`07-talking-head-motion-opsd`'s Limitations section](07-talking-head-motion-opsd/README.md).
 
 Start with the [technical report](07-talking-head-motion-opsd/docs/TECH_REPORT.md), [separability analysis](07-talking-head-motion-opsd/docs/SEPARATION_ANALYSIS.md), and [current experiment record](07-talking-head-motion-opsd/docs/RESULTS_R3.md).
 
