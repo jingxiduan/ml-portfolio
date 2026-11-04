@@ -102,15 +102,15 @@ The following panels are generated from four pre-registered showcase prompts per
 
 ### Environment / scenes
 
-![Fixed scene comparison: SDXL-Turbo base versus quality-directed OPSD adapter](outputs/release/scene/scene_comparison.png)
+![Fixed scene comparison: SDXL-Turbo base versus quality-directed OPSD adapter](outputs/release/scene/scene_quality_comparison.png)
 
-[Open center-detail comparison](outputs/release/scene/scene_detail_comparison.png) · [Open same-seed flicker comparison](outputs/release/scene/scene_flicker.gif)
+[Open center-detail comparison](outputs/release/scene/scene_quality_detail.png) · [Open same-seed flicker comparison](outputs/release/scene/scene_flicker.gif)
 
 ### Portraits
 
-![Fixed portrait comparison: SDXL-Turbo base versus quality-directed OPSD adapter](outputs/release/portrait/portrait_comparison.png)
+![Fixed portrait comparison: SDXL-Turbo base versus quality-directed OPSD adapter](outputs/release/portrait/portrait_quality_comparison.png)
 
-[Open center-detail comparison](outputs/release/portrait/portrait_detail_comparison.png) · [Open same-seed flicker comparison](outputs/release/portrait/portrait_flicker.gif)
+[Open center-detail comparison](outputs/release/portrait/portrait_quality_detail.png) · [Open same-seed flicker comparison](outputs/release/portrait/portrait_flicker.gif)
 
 Individual PNGs, prompt metadata, evaluation records, run configuration, target-module manifest, and per-step metrics are kept beside the panels in `outputs/`.
 
