@@ -1,8 +1,8 @@
 # RTB Win-Rate Modeling + PID/MPC Bid Shading Feedback Control Simulation
 
-![02 project overview](outputs/hero.png)
-
 > **At a glance:** under the same simulated market, PID feedback raises win rate from **10.3% to 27.1%** and profit from **2,678 to 5,557**, while keeping ROI near the target.
+
+![Recorded bid-shading curves](outputs/bid_shading_curves.png)
 
 Reproduces the core technical pipeline of "win-rate/bid-landscape modeling + framing Bid Shading as a feedback control problem" using a public CTR dataset plus an auction simulation environment: pCTR drives the bid -> win-rate model estimates win probability -> greedy search over candidate bids -> PID / MPC controllers dynamically adjust the bid coefficient based on ROI deviation.
 

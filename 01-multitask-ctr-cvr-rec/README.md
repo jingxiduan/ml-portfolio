@@ -1,8 +1,8 @@
 # Multi-Task CTR/CVR Recommendation with RankMixer-style Dense Interaction
 
-![01 project overview](outputs/hero.png)
-
 > **At a glance:** a shared RankMixer representation reaches **0.8805 CTR AUC**, **0.7960 CVR AUC**, and **0.0046 CTR calibration bias** in a CPU-scale, leakage-audited proxy-label experiment.
+
+![Recorded training curve](outputs/training_curve.png)
 
 Reproduces a "multi-task tower modeling + dense feature interaction (RankMixer)" recommendation scenario on a public dataset: a shared bottom representation feeds two task-specific towers (CTR / CVR), where the CVR branch backpropagates gradients only on clicked samples via a **sample mask** — the classic solution to the "impression-click-conversion" dependency chain in multi-task recommendation (ESMM-style).
 

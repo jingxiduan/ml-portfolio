@@ -1,8 +1,8 @@
 # Preference Data Construction + Reward Model + DPO Pipeline
 
-![03 project overview](outputs/hero.png)
-
 > **At a glance:** the funnel turns **7,980** raw preference pairs into **2,624** DPO pairs, while a lightweight Reward Model scores candidates about **16,700× faster** than the judge baseline.
+
+![Recorded Reward Model validation curve](outputs/reward_model_validation.png)
 
 Reproduces the full pipeline of "human preference data construction -> LLM-as-a-Judge re-labeling -> Reward Model distillation -> DPO training data generation" on a public preference dataset.
 
