@@ -1,5 +1,9 @@
 # RTB Win-Rate Modeling + PID/MPC Bid Shading Feedback Control Simulation
 
+![02 project overview](outputs/hero.png)
+
+> **At a glance:** under the same simulated market, PID feedback raises win rate from **10.3% to 27.1%** and profit from **2,678 to 5,557**, while keeping ROI near the target.
+
 Reproduces the core technical pipeline of "win-rate/bid-landscape modeling + framing Bid Shading as a feedback control problem" using a public CTR dataset plus an auction simulation environment: pCTR drives the bid -> win-rate model estimates win probability -> greedy search over candidate bids -> PID / MPC controllers dynamically adjust the bid coefficient based on ROI deviation.
 
 > Note: real RTB bidding logs (bid price, winning price, clearing price) involve advertisers' commercial secrets, so there is essentially no public dataset that directly includes all these fields. This project therefore follows the standard academic approach for "bid landscape prediction" (e.g. Wu et al., KDD'15, *Predicting Winning Price in RTB with Censored Data*): **real features come from the public [Avazu CTR dataset](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary/avazu-app.bz2)** (official LIBSVM mirror, ~40M mobile ad click logs, 400K used here) to train a real pCTR model; **market competing prices (winning prices) are parameterized via a log-normal distribution**. This simulation assumption is stated explicitly in the README, and all strategy comparisons share the same set of random market prices to ensure a fair, internally consistent comparison.
