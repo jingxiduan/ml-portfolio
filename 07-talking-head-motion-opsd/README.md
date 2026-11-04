@@ -163,8 +163,6 @@ Raw motion coefficients suffered from head size drift during driving. We resolve
 
 The gallery organizes qualitative evidence by research question and control type, with **soft, realistic, low-saturation skin tones** used wherever comparable renders are available.
 
-> **Rendering note:** raw LivePortrait output is grey and oversaturated at once — flat mid-tones plus punchy, slightly magenta color. `scripts/build_persona_grid.py` first solved this with a `natural_light()` grading pass (per-clip gamma lift, black lift, local contrast, mild saturation/vibrance, 3% warm shift). Every gallery below (previously shipped as the raw, ungraded render) has since been re-graded with the same pipeline via `scripts/regrade_demo.py`, so color/light treatment is now consistent across the whole page; only the motion being compared changes between panels. Pre-regrade originals are kept under `outputs/_pre_regrade_backup/`.
-
 ### **Multi-Subject Persona Generalization**
 *Description:* Two distinct subjects are presented per industry to assess within-industry consistency and cross-subject generalizability. The renders use soft, natural color grading without artificial warm saturation.
 *   **BASE**: Pretrained model without post-training.
