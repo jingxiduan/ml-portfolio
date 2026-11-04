@@ -49,7 +49,15 @@ The documented H20 render playbook reports **under 20 seconds per generated vide
 
 ## 3. Pre-generated demo
 
-No weights or GPU are needed to inspect the checked-in result:
+No weights or GPU are needed to inspect the checked-in result. The high-resolution overview panel can be regenerated from the licensed 1024×1024 source portraits:
+
+```bash
+python3 scripts/build_holdout_portrait_panel.py
+```
+
+The command writes `outputs/new_face_demo_r3/holdout_portraits_male_female.png`; it does not rerun inference or change any evaluation result.
+
+No weights or GPU are needed to inspect the checked-in videos:
 
 - [Female held-out Base vs calibrated GIF](../outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif)
 - [Male held-out Base vs calibrated GIF](../outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif)
