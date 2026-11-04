@@ -33,7 +33,7 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 - The pre-registered absolute-jitter gate failed: **28.97** versus the allowed **18.36**.
 - SyncNet non-inferiority is validated on 40 paired renders per seed, but low absolute confidence and 7.7–8.8-frame mean offsets mean lip synchronization itself is not solved.
 - Expression-dynamics V5 passes its calibrated multi-seed coefficient gate, but the optimized expression statistic is not an independent perceptual metric.
-- Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by blind human preference testing.
+- Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by real participants. A randomized, balanced 40-pair R3 study is executable from [`../human-study`](../human-study); no responses are fabricated.
 
 > This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
 

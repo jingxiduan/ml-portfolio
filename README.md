@@ -145,6 +145,16 @@ Each active generative project separates four kinds of evidence:
 
 Training optimizations are launched through `tools/train_guard.py`. Each run records its configuration, logs, checkpoint state, gate result, and failure reason in Markdown before the next experiment begins. Small artifacts are committed to `main`; large media are retained on the documented backup branch when available.
 
+## Human evaluation package
+
+The remaining perceptual question is packaged as an executable 80-trial blind A/B study: 40 matched Base/R3 talking-head pairs and 40 matched Base/V4 I2V pairs. Candidate placement is exactly balanced within each project, trial order and filenames are anonymized, and the private answer key is excluded from Git.
+
+- [Study protocol and local UI](human-study)
+- Builder: `tools/build_blind_study.py`
+- Scorer: `tools/score_blind_study.py`
+
+No human-preference number is claimed yet. Real participant CSV files are required before the scorer can produce a publishable result.
+
 ## Reproduction
 
 Clone the actual repository name, then use the project-local environment and instructions:

@@ -37,7 +37,8 @@ Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motio
 - V4 retained the anchored objective, applied effective `1e-3` gradient clipping, and completed 2,000 steps without a guard trip.
 - The candidate was selected from a frozen 4-checkpoint × 3-scale grid on six development pairs.
 - On 40 untouched confirmatory pairs, appeal decreased by 0.0042 (95% CI [-0.0062, -0.0024]), naturalness was tied, and dynamics decreased by 0.0079 (95% CI [-0.0115, -0.0048]).
-- V4 establishes long-run numerical stability but rejects held-out quality improvement for this configuration; blind human preference remains absent.
+- V4 establishes long-run numerical stability but rejects held-out quality improvement for this configuration.
+- A unified randomized 80-trial blind-study UI and participant-cluster scorer are ready under `human-study/`; real participant responses remain absent.
 
 Record: [`08-video-opsd-i2v/docs/RESULTS_LONG.md`](08-video-opsd-i2v/docs/RESULTS_LONG.md).
 

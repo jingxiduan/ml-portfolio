@@ -308,7 +308,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | Eval sample size | Confirmatory n=40 paired evaluation with 10,000-draw bootstrap intervals is complete. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
 | Standard metrics | FVD/FID and broader video-quality suites have not been computed. |
-| Human evaluation | No matched-seed blind preference study has been completed. |
+| Human evaluation | A randomized, balanced 40-pair blind-study package is executable from [`../human-study`](../human-study), but no real participant responses exist yet. |
 | Scale-sweep language | The `0.2` setting is a diagnostic trade-off on six scenes, not a universal optimum. |
 
 See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures, completed V4 stability run, development selection, and confirmatory null/negative result.
