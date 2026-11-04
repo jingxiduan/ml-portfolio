@@ -179,10 +179,27 @@ The command, exit state, guard record, metric summary, and checkpoint inventory 
 
 ## Claim boundary
 
-At present the project establishes a working I2V reward-gradient path, diagnoses dead gradients and reward hacking, and records a genuine long-run instability. It does **not** yet establish superior I2V generation quality.
+The project establishes a working I2V reward-gradient path, diagnoses dead gradients and reward hacking, and demonstrates that effective gradient clipping permits a 2,000-step anchored run. The untouched n=40 result rejects superior I2V quality for the selected V4 candidate: stability and quality are separate outcomes.
 
 <!-- V4_RESULT_START -->
-## V4 final result
+### 08 · V4 held-out I2V result
 
-V4 training and the frozen dev/confirmatory evaluation route are active. This block is replaced by `scripts/publish_v4_result.py` after the run terminates.
+![V4 training and stability curves](../outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
+
+| Metric | Base | V4 | V4−Base mean [95% CI] |
+|---|---:|---:|---:|
+| Appeal | 0.7146 | 0.7104 | -0.0042 [-0.0062, -0.0024] |
+| Naturalness | 0.9434 | 0.9429 | -0.0005 [-0.0031, +0.0013] |
+| Dynamic degree | 0.4858 | 0.4779 | -0.0079 [-0.0115, -0.0048] |
+
+Metrics with a favorable 95% interval excluding zero: **none**.
+
+
+<table>
+<tr><td width="50%"><img src="figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">V4 MP4</a></td><td width="50%"><img src="figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">V4 MP4</a></td></tr>
+<tr><td width="50%"><img src="figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">V4 MP4</a></td><td width="50%"><img src="figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">V4 MP4</a></td></tr>
+<tr><td width="50%"><img src="figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">V4 MP4</a></td><td width="50%"><img src="figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">V4 MP4</a></td></tr>
+</table>
+
+The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [Full operation record](../operations/v4/README.md).
 <!-- V4_RESULT_END -->

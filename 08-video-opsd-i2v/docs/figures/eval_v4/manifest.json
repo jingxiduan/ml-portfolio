@@ -1,0 +1,32 @@
+[
+  {
+    "index": 0,
+    "prompt": "There is very little traffic at this city intersection, gentle natural motion, stable cinematic camera",
+    "gif": "docs/figures/eval_v4/eval_000_base_vs_candidate.gif"
+  },
+  {
+    "index": 1,
+    "prompt": "An orange reddish rose in a vase filled with water on top of a table, gentle natural motion, stable cinematic camera",
+    "gif": "docs/figures/eval_v4/eval_001_base_vs_candidate.gif"
+  },
+  {
+    "index": 2,
+    "prompt": "A cat pausing as it's picture is taken, gentle natural motion, stable cinematic camera",
+    "gif": "docs/figures/eval_v4/eval_002_base_vs_candidate.gif"
+  },
+  {
+    "index": 3,
+    "prompt": "A clean kitchen with the windows white and open, gentle natural motion, stable cinematic camera",
+    "gif": "docs/figures/eval_v4/eval_003_base_vs_candidate.gif"
+  },
+  {
+    "index": 4,
+    "prompt": "A glass bowl filled with oranges on a table, gentle natural motion, stable cinematic camera",
+    "gif": "docs/figures/eval_v4/eval_004_base_vs_candidate.gif"
+  },
+  {
+    "index": 5,
+    "prompt": "A young woman using a laptop computer while sitting on a bunk bed, gentle natural motion, stable cinematic camera",
+    "gif": "docs/figures/eval_v4/eval_005_base_vs_candidate.gif"
+  }
+]

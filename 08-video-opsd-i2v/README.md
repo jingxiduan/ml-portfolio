@@ -17,12 +17,30 @@ The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioni
 - Replacing the original hard-clamped naturalness formulation with smooth penalties restored an active **training** gradient.
 - The 500-step held-out metrics are effectively tied with base; no quality gain is established.
 - A 2,000-step NoNat control completed, but the naturalness-constrained V2 run hit the fixed loss-growth guard at step 306.
-- V3 introduced bounded anchored fitting and smooth pixel mapping, but its 2,000-step attempt hit the parameter-gradient guard at step 522. V4 changes only effective gradient clipping (`1.0` → `1e-3`) and is the active stabilization test.
+- V3 hit the parameter-gradient guard at step 522. V4's `1e-3` effective gradient clipping completed 2,000 steps without a guard trip.
+- The development-selected V4 candidate did **not** generalize: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. Stability improved; held-out quality did not.
 
 <!-- V4_RESULT_START -->
-## V4 visible result
+### 08 · V4 held-out I2V result
 
-V4 is still running. On completion this block is automatically replaced with the final stability curve, n≥40 paired held-out confidence intervals, and six fixed-index Base/V4 GIF demos on new COCO-validation inputs.
+![V4 training and stability curves](outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
+
+| Metric | Base | V4 | V4−Base mean [95% CI] |
+|---|---:|---:|---:|
+| Appeal | 0.7146 | 0.7104 | -0.0042 [-0.0062, -0.0024] |
+| Naturalness | 0.9434 | 0.9429 | -0.0005 [-0.0031, +0.0013] |
+| Dynamic degree | 0.4858 | 0.4779 | -0.0079 [-0.0115, -0.0048] |
+
+Metrics with a favorable 95% interval excluding zero: **none**.
+
+
+<table>
+<tr><td width="50%"><img src="docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">V4 MP4</a></td></tr>
+<tr><td width="50%"><img src="docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">V4 MP4</a></td></tr>
+<tr><td width="50%"><img src="docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">V4 MP4</a></td></tr>
+</table>
+
+The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [Full operation record](operations/v4/README.md).
 <!-- V4_RESULT_END -->
 
 The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
@@ -285,15 +303,15 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 | Area | Current Status |
 |------|---------------|
-| Long-run stability | V2 stopped at step 306 on fit loss; V3 stopped at step 522 on >20× parameter-gradient growth; V4 gradient control is active. |
-| Held-out improvement | The 500-step results are tied with base; the completed NoNat long run is not evidence of natural quality. |
-| Eval sample size | The published table uses n=10 held-out prompts; confirmatory evaluation requires at least 40 and confidence intervals. |
+| Long-run stability | V2 stopped at step 306 and V3 at step 522; V4 completed 2,000 steps without a guard trip. |
+| Held-out improvement | **Not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]. |
+| Eval sample size | Confirmatory n=40 paired evaluation with 10,000-draw bootstrap intervals is complete. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
 | Standard metrics | FVD/FID and broader video-quality suites have not been computed. |
 | Human evaluation | No matched-seed blind preference study has been completed. |
 | Scale-sweep language | The `0.2` setting is a diagnostic trade-off on six scenes, not a universal optimum. |
 
-See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures and pre-registered V4 intervention.
+See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures, completed V4 stability run, development selection, and confirmatory null/negative result.
 
 ---
 

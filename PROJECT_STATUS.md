@@ -31,14 +31,13 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 
 Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motion-opsd/docs/RESULTS_R3.md).
 
-### 08 · V3 stabilization
+### 08 · Stabilized I2V OPSD
 
-- The 2,000-step NoNat control completed.
-- Naturalness-constrained V2 stopped at step 306 after a 10.95× rolling `loss_plus` increase.
-- V3 replaces the unbounded contrastive quadratic with bounded anchored fitting and removes extreme-pixel hard-clamp dead zones.
-- Unit tests and the 100-step production preflight pass; `loss_plus` remained at 0.00660→0.00681 with no guard trip.
-- The V3 long run failed the fixed parameter-gradient gate at step 522; V4 changes only effective gradient clipping from 1.0 to 1e-3 and is pre-registered.
-- Even a completed V4 run cannot produce a quality claim without held-out n≥40 evaluation and blind preference.
+- The 2,000-step NoNat control completed; naturalness-constrained V2 stopped at step 306 and anchored V3 at step 522.
+- V4 retained the anchored objective, applied effective `1e-3` gradient clipping, and completed 2,000 steps without a guard trip.
+- The candidate was selected from a frozen 4-checkpoint × 3-scale grid on six development pairs.
+- On 40 untouched confirmatory pairs, appeal decreased by 0.0042 (95% CI [-0.0062, -0.0024]), naturalness was tied, and dynamics decreased by 0.0079 (95% CI [-0.0115, -0.0048]).
+- V4 establishes long-run numerical stability but rejects held-out quality improvement for this configuration; blind human preference remains absent.
 
 Record: [`08-video-opsd-i2v/docs/RESULTS_LONG.md`](08-video-opsd-i2v/docs/RESULTS_LONG.md).
 

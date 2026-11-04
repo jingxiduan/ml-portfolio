@@ -14,4 +14,6 @@
 | 2026-11-03 | V4 gradient-control pre-registration | only `grad_clip` changes 1.0 → 1e-3; raw and effective norms logged; step 600 first promotion point | REGISTERED before launch |
 | 2026-11-04 | V4 first process | reached step 1038, then concurrent dev rendering consumed GPU memory and RAFT raised CUDA OOM; no algorithmic guard had tripped | INVALID infrastructure interruption; full clean rerun required |
 | 2026-11-04 | V4 visual development smoke | step-1000 scale 1.0 is severely green/overexposed on dev pair 0 despite no numerical guard trip | FAIL full-strength perceptual safety |
-| 2026-11-04 | V4 candidate selection | dev n=6 only; checkpoints 500/1000/1500/2000 × scales 0.01/0.02/0.05; fixed naturalness/appeal floors and score | REGISTERED before confirmatory set viewing |
+| 2026-11-04 | V4 candidate selection | dev n=6; fixed 4-checkpoint × 3-scale grid selected step 1000, scale 0.05 | PASS development gate |
+| 2026-11-04 | V4 clean long run | exact rerun completed 2,000 steps; no numerical guard trip | PASS stability gate |
+| 2026-11-04 | V4 confirmatory quality | untouched n=40: appeal -0.0042 [-0.0062,-0.0024], naturalness -0.0005 [-0.0031,+0.0013], dynamics -0.0079 [-0.0115,-0.0048] | FAIL quality gate; no improvement claim |

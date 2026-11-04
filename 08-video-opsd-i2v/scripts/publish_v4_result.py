@@ -111,7 +111,7 @@ V4 recorded **{last_step}/2000** steps and did not enter held-out quality evalua
         report_lines.extend(["## Decision", "", block])
 
     report = args.run_dir / "FINAL_REPORT.md"
-    report.write_text("\n".join(report_lines) + "\n")
+    report.write_text("\n".join(report_lines).rstrip() + "\n")
     replace_block(args.repo_root / "README.md", block)
 
     project_block = block.replace("08-video-opsd-i2v/", "")
@@ -120,7 +120,13 @@ V4 recorded **{last_step}/2000** steps and did not enter held-out quality evalua
         replace_block(project_readme, project_block)
     results_doc = args.repo_root / "08-video-opsd-i2v" / "docs" / "RESULTS_LONG.md"
     if START in results_doc.read_text():
-        replace_block(results_doc, project_block)
+        docs_block = (
+            project_block.replace("](outputs/", "](../outputs/")
+            .replace('src="docs/', 'src="')
+            .replace('href="outputs/', 'href="../outputs/')
+            .replace("(operations/", "(../operations/")
+        )
+        replace_block(results_doc, docs_block)
     print(f"published V4 block; complete={complete}; report={report}")
 
 

@@ -1,10 +1,10 @@
 # 08 · Video OPSD-I2V · Project status
 
-**Updated:** 2026-11-03
+**Updated:** 2026-11-04
 
-**Validated milestone:** reward-path and failure diagnosis
+**Validated milestone:** V4 long-run numerical stabilization
 
-**Active milestone:** V4 gradient-controlled long-run stabilization
+**Closed milestone:** held-out quality improvement was not established
 
 ## Current conclusion
 
@@ -23,7 +23,8 @@ Current artifacts do **not** establish better held-out I2V quality than the froz
 | Can the unconstrained control run for 2,000 steps? | `opsd_long_no_nat` final metrics/checkpoint | Yes |
 | Can naturalness-constrained V2 run for 2,000 steps? | Guard stop at step 306, 10.95× `loss_plus` growth | No |
 | Is V3 stable and better? | 100-step preflight passed, but the long run stopped at step 522 on a >20× parameter-gradient gate | No |
-| Does V4 gradient clipping stabilize the same objective? | Single-variable `grad_clip=1e-3` run registered; step 600 first promotion point | Active |
+| Does V4 gradient clipping stabilize the same objective? | 2,000 steps completed; no guard trip; raw and effective gradients recorded separately | Yes |
+| Does development-selected V4 improve untouched held-out quality? | n=40: appeal -0.0042, naturalness tied, dynamics -0.0079 with paired bootstrap intervals | No |
 | Do humans prefer the result? | No blind matched-seed evaluation | Unresolved |
 
 ## Long-run artifacts
@@ -50,7 +51,7 @@ V3 keeps V2's data, LoRA, learning rate, target radius, EMA schedule, and reward
 1. Replaces attraction-minus-repulsion with a bounded positive-target fit plus a behavior-anchor penalty.
 2. Replaces hard clipping in the naturalness pixel mapping with a smooth `tanh` mapping so extreme decoded pixels retain gradients.
 
-The 100-step production-resolution preflight completed without a guard trip, but its cosine schedule reached zero learning rate at step 100. The corresponding long run remained near `1e-4`, developed progressively larger fit loss and gradients, and was stopped at step 522. V4 keeps all V3 conditions fixed except effective parameter-gradient clipping at `1e-3`; raw and post-clip norms are logged separately.
+The 100-step production-resolution preflight completed without a guard trip, but its cosine schedule reached zero learning rate at step 100. V3 remained near `1e-4`, developed progressively larger fit loss and gradients, and stopped at step 522. V4 kept all V3 conditions fixed except effective parameter-gradient clipping at `1e-3`, completed 2,000 steps, and passed every numerical guard. The resulting development-selected adapter did not improve the untouched confirmatory split.
 
 Files:
 
