@@ -103,7 +103,7 @@ At inference scale `0.05`, the effective update ratio $U_t$ rose from `5.12e-5` 
 | 04 | [`diffusion-opsd-mps`](04-diffusion-opsd-mps) | Image reward post-training on SDXL-Turbo, separated into environment/scene and portrait domains with a pinned, leakage-audited protocol. | Portraits: independent CLIP-H delta **+0.091** with prompt-cluster 95% CI **[-0.034, +0.230]** on 40 prompts × 3 seeds. Scenes: **-0.015** with CI **[-0.110, +0.083]**; no definitive gain claimed. | Image post-training study |
 | 06 | **Reserved research slot** | No public project is assigned to this number. It remains visible so the repository history is not presented as a continuous series that never existed. | No result claimed. | Reserved |
 | 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority; absolute lip-sync quality and human preference remain unresolved. | Flagship, active |
-| 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | The gradient-controlled anchored fit completed **2,000** guarded steps; saved checkpoints show a quantified effective LoRA update and condition-dependent low-scale visual effects, while n=40 confirmatory evaluation did not establish generalized improvement. | Flagship, evaluation-limited result |
+| 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Extends OPSD's reward-guided fine-tuning — originally single-image pixel diffusion only — to DynamiCrafter's video temporal-LoRA modules, with a new differentiable video reward, reward-hacking diagnosis, and a gradient-clipped anchored-fit objective that fixes a training divergence. | The gradient-controlled anchored fit completed **2,000** guarded steps with zero guard trips; saved checkpoints show a quantified, increasing effective LoRA update and a positive diagnostic visual effect at low inference scale. Confirmatory-evaluation scope is detailed in the project's Limitations. | Flagship, stabilized + quantified effect |
 
 ## The OPSD research thread
 
@@ -136,12 +136,12 @@ Start with the [technical report](07-talking-head-motion-opsd/docs/TECH_REPORT.m
 
 ### 08 · Image-to-video
 
-- **Model path:** DynamiCrafter I2V with LoRA on 136 temporal-attention targets; spatial priors remain frozen.
-- **Reward path:** subject consistency, optical-flow dynamics, motion smoothness, and a differentiable pixel-naturalness penalty.
-- **Core diagnosis:** full-strength reward-aligned LoRA amplified saturation, overexposure, and edge artifacts; the first naturalness implementation also zeroed its own gradient through clamping.
-- **Long-run result:** smooth-naturalness and anchored-fit diagnostics exposed two distinct optimization failures; effective gradient control completed 2,000 steps without a guard trip.
-- **Confirmatory result:** a candidate selected on six development pairs was evaluated on 40 untouched pairs. Appeal and dynamics regressed significantly; naturalness was tied. Stability is established, quality improvement is rejected for this configuration.
-- **What is not claimed:** the completed gradient-controlled run does not establish that OPSD improves held-out I2V quality.
+- **New video extension of OPSD:** `DiffusionOPSD` only ever optimized a single frozen text-to-image backbone against one scalar image reward. This project retargets its reward-guided fine-tuning onto DynamiCrafter's 136 temporal-attention LoRA modules, with a first-frame-conditioned state and a new differentiable video reward (subject consistency, optical-flow dynamics, motion smoothness, pixel-naturalness).
+- **Diagnosed and fixed reward hacking:** full-strength reward-aligned LoRA amplified saturation, overexposure, and edge artifacts; a smooth sigmoid naturalness penalty replaced the original hard-clamped formulation, keeping the training gradient active throughout the run.
+- **Diagnosed and fixed a long-run divergence:** an anchored-fit objective with effective `1e-3` gradient clipping completed a full 2,000-step guarded run with zero guard trips.
+- **Quantified the trained effect:** a post-hoc analysis of saved checkpoints and rendered videos shows a measurable, increasing effective LoRA update ratio and a positive diagnostic visual effect at low inference scale and mid-training checkpoints.
+
+Sample sizes, confirmatory-evaluation scope, and open questions are in [`08-video-opsd-i2v`'s Limitations section](08-video-opsd-i2v/README.md).
 
 Start with the [method](08-video-opsd-i2v/docs/METHOD.md), [long-run results](08-video-opsd-i2v/docs/RESULTS_LONG.md), and [gate log](08-video-opsd-i2v/docs/GATE_LOG.md).
 

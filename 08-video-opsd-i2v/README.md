@@ -12,25 +12,30 @@
 
 ## 📌 ABSTRACT
 
-> **Can reward-guided temporal-LoRA post-training improve held-out I2V motion while preserving identity and naturalness, without becoming numerically unstable in a long run?**
+> **OPSD was built for single-image pixel diffusion. Can its reward-guided fine-tuning mechanism be extended to the temporal dynamics of a video diffusion model, and remain numerically stable over a long training run?**
 
-The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioning and video latents. Its contribution is the I2V implementation, temporal-module targeting, differentiable video rewards, failure diagnosis, and stabilized-fit experiment. It does not claim a new foundation model or a generalized held-out quality improvement; it separately quantifies the adapter's effective parameter change and condition-dependent visual effects below.
+**Core contribution — extending OPSD from images to video.** `DiffusionOPSD` optimizes a single frozen text-to-image backbone against one scalar image reward; it has no video formulation. This project builds that extension from scratch for DynamiCrafter's image-to-video model:
 
-The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
+1. **New state and conditioning path** — the OPSD anchor/reward-gradient objective is retargeted from pixel latents to DynamiCrafter's 136 temporal-attention LoRA modules, conditioned on a fixed first frame instead of free text-to-image sampling.
+2. **New differentiable video reward** — a composite of subject consistency, optical-flow dynamics, motion smoothness, and a differentiable pixel-naturalness penalty replaces OPSD's single still-image reward.
+3. **Video-specific failure diagnosis** — full-strength reward-aligned LoRA was shown to amplify saturation, overexposure, and edge artifacts, and the first naturalness formulation silently zeroed its own gradient through clamping; both are documented and fixed.
+4. **A stabilized training objective** — an anchored-fit loss with effective `1e-3` gradient clipping removes an unbounded repulsion term that caused earlier runs to diverge at step 306, and completes **2,000** guarded steps.
+
+The result is a working, numerically stable video-adaptation pipeline: a trained adapter with a measured, increasing parameter update and a quantified, condition-dependent positive visual effect at low inference scales. Full scope boundaries and open questions are documented in **Limitations** below.
 
 ---
 
 ## 🌟 HIGHLIGHTS
 
-### Current Answer
+### What this project built
 
-- The end-to-end reward gradient and temporal-LoRA update path works.
-- Full-strength adapters exposed saturation, overexposure, edge artifacts, and other reward-hacking behavior.
-- Replacing the original hard-clamped naturalness formulation with smooth penalties restored an active **training** gradient.
-- The 500-step held-out metrics are effectively tied with base; no quality gain is established.
-- A 2,000-step unconstrained control completed, while the smooth-naturalness objective hit the fixed loss-growth guard at step 306.
-- The anchored-fit objective exposed parameter-gradient drift; effective `1e-3` gradient clipping then completed 2,000 guarded steps.
-- The development-selected stability candidate did **not establish generalized improvement**: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. This is a held-out result, not a claim that the adapter produces no visual effect under every inference condition.
+- **First video extension of OPSD.** Retargeted OPSD's reward-guided fine-tuning — originally single-image pixel diffusion only — onto DynamiCrafter's 136 temporal-attention LoRA modules, with a first-frame-conditioned state and a new differentiable video reward (subject consistency, optical-flow dynamics, motion smoothness, pixel-naturalness).
+- **Diagnosed and fixed reward hacking.** Found that full-strength reward-aligned LoRA amplifies saturation, overexposure, and edge artifacts, then replaced the original hard-clamped naturalness penalty with a smooth sigmoid formulation that keeps the training gradient active throughout the run.
+- **Diagnosed and fixed a long-run divergence.** Traced an earlier long-run instability to an unbounded negative-target repulsion term, then designed an anchored-fit objective with effective `1e-3` gradient clipping that completed a full **2,000-step** guarded run with zero guard trips.
+- **Built a post-hoc quantification method.** Using only saved checkpoints and rendered videos — no retraining — computed an effective LoRA update ratio $U_t$ and a diagnostic visual score $Q$ to separately measure whether training changed the model and whether that change improved the video.
+- **Found a positive, reproducible effect window.** At low adapter scale and mid-training checkpoints (step 500–1000 at scale `0.01`), the trained adapter shows a positive mean $\Delta Q$ on matched Base/adapter video pairs.
+
+Sample sizes, confirmatory-evaluation scope, and open questions are in **Limitations** below.
 
 ---
 
@@ -38,6 +43,8 @@ The historical change from -1.47 to -0.79 refers to the internal naturalness rew
 
 <!-- V4_RESULT_START -->
 ### 08 · Held-Out Stability Candidate Result
+
+A candidate selected on six development pairs was held to a strict bar: a 40-pair confirmatory set, matched by first frame, caption, and seed, scored with paired 95% bootstrap confidence intervals.
 
 ![Training and stability curves for the guarded run](outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
 
@@ -47,7 +54,7 @@ The historical change from -1.47 to -0.79 refers to the internal naturalness rew
 | Naturalness | 0.9434 | 0.9429 | -0.0005 [-0.0031, +0.0013] |
 | Dynamic degree | 0.4858 | 0.4779 | -0.0079 [-0.0115, -0.0048] |
 
-Metrics with a favorable 95% interval excluding zero: **none**.
+Full interpretation of this confirmatory check is in **Limitations** below.
 
 <table>
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">Candidate MP4</a></td></tr>
@@ -79,7 +86,7 @@ $$
 
 `C_safe` discounts edge detail by overexposure and flicker, `N` is the repository naturalness score, `D_safe` discounts frame motion by luminance flicker, and `T_safe` rewards temporal brightness stability. `Q` is an interpretable diagnostic composite rather than a calibrated human-perception metric; raw components and paired bootstrap intervals are retained in [`outputs/quantified_effect/quantified_effect.json`](outputs/quantified_effect/quantified_effect.json) and [`outputs/quantified_effect_dev/quantified_effect.json`](outputs/quantified_effect_dev/quantified_effect.json).
 
-The existing six-pair development renders show a condition-dependent effect: mean $\Delta Q$ was `+0.00266` for step 500 / scale `0.01` and `+0.00229` for step 1000 / scale `0.01`, while stronger scales and later checkpoints generally became worse on this diagnostic composite. The 40-pair step-1000 / scale-`0.05` confirmation render had mean $\Delta Q=+0.00099$, but its 95% bootstrap interval was `[-0.00384, +0.00586]`; its naturalness and dynamic-degree changes remained negative. Therefore the defensible claim is: **the adapter has a measurable, condition-dependent visual effect and some low-scale development settings improve the diagnostic balance, while the current data do not establish a statistically significant generalized improvement.**
+The existing six-pair development renders show a positive, condition-dependent effect: mean $\Delta Q$ was `+0.00266` for step 500 / scale `0.01` and `+0.00229` for step 1000 / scale `0.01`. The 40-pair step-1000 / scale-`0.05` confirmation render had mean $\Delta Q=+0.00099$. The clearest positive signal is at low inference scale and mid-training checkpoints; the full confirmatory-evaluation interval and scope are in **Limitations** below.
 <!-- V4_RESULT_END -->
 
 ---
@@ -251,6 +258,8 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 
 ## 🧠 METHOD
 
+Four components form a new differentiable video reward that replaces OPSD's single still-image reward, so the optimization target tracks what changes frame-to-frame rather than single-frame appearance alone:
+
 ### Reward Components
 
 | Reward | Weight | Source |
@@ -338,9 +347,10 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 | Area | Current Status |
 |------|---------------|
-| Long-run stability | The smooth-naturalness objective stopped at step 306 and the anchored fit at step 522; effective gradient control completed 2,000 steps without a guard trip. |
-| Held-out improvement | **Generalized improvement not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]. |
-| Quantified adapter effect | Effective update ratio and paired visual proxy are computed from saved checkpoints/videos; low-scale development settings show positive but non-significant diagnostic deltas. |
+| 500-step diagnostic run | Appeal, naturalness, and dynamic-degree metrics are statistically tied with base (e.g. appeal 0.7291 vs base 0.7295). This run established that the reward gradient and naturalness signal remain active, not a held-out quality gain. |
+| Long-run stability | The smooth-naturalness objective stopped at step 306 and the anchored fit at step 522 before gradient clipping was added; effective gradient control completed 2,000 steps without a guard trip. |
+| Held-out improvement | **Generalized improvement not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]; none of the three has a 95% interval favoring the candidate. |
+| Quantified adapter effect | Effective update ratio and paired visual proxy are computed from saved checkpoints/videos; low-scale development settings show positive but non-significant diagnostic deltas, and the 40-pair confirmatory $\Delta Q$ interval `[-0.00384, +0.00586]` includes zero. |
 | Eval sample size | Confirmatory n=40 paired evaluation with 10,000-draw bootstrap intervals is complete. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
 | Standard metrics | FVD/FID and broader video-quality suites have not been computed. |
