@@ -25,7 +25,7 @@ bash scripts/h20_render_setup.sh
 python3 scripts/demo.py --mode gpu --seconds 4 --seed 0 --out outputs/demo/gpu_r3
 ```
 
-The checked-in visual comparison is [female Base vs calibrated GIF](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) and [male Base vs calibrated GIF](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif). The [high-resolution male/female portrait panel](outputs/new_face_demo_r3/holdout_portraits_male_female.png) is the clean overview image; the mock is a pipeline/UI smoke test, and only the GPU path loads the model.
+The checked-in visual comparison is [female Base vs calibrated GIF](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) and [male Base vs calibrated GIF](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif). The mock is a pipeline/UI smoke test; only the GPU path loads the model.
 
 ## Contribution boundary
 
@@ -68,19 +68,11 @@ Failed gates, sample sizes, and open questions are in **Limitations** below.
 
 Both 1024×1024 inputs were extracted from previously unused 4K Pexels License videos. They were not part of training, behavior calibration, or model selection. Base and the calibrated policy use identical portrait, held-out audio, generation seed, and frozen LivePortrait renderer. The test isolates motion changes; it does not claim improved skin texture, lighting, or color. [Source URLs, authors, timestamps, license and checksums](data/portraits_new_licensed/SOURCES.json).
 
-### Held-out male/female portrait set
+### Historical evaluation portraits
 
-![High-resolution held-out male/female portrait panel](outputs/new_face_demo_r3/holdout_portraits_male_female.png)
+![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
 
-*These two licensed 1024×1024 portraits are unused hold-outs for the matched Base versus calibrated-policy renders above. The panel is an overview of the evaluation subjects, not a model-output quality claim.*
-
-<details>
-<summary>Historical frontal evaluation sheet</summary>
-
-![historical portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
-
-*Historical evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*
-</details>
+*Evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*
 
 ----------------------------------------
 
