@@ -14,12 +14,12 @@
 
 > **OPSD was built for single-image pixel diffusion. Can its reward-guided fine-tuning mechanism be extended to the temporal dynamics of a video diffusion model, and remain numerically stable over a long training run?**
 
-**Core contribution — extending OPSD from images to video.** `DiffusionOPSD` optimizes a single frozen text-to-image backbone against one scalar image reward; it has no video formulation. This project builds that extension from scratch for DynamiCrafter's image-to-video model:
+**Core contribution: extending OPSD from images to video.** `DiffusionOPSD` optimizes a single frozen text-to-image backbone against one scalar image reward; it has no video formulation. This project builds that extension from scratch for DynamiCrafter's image-to-video model:
 
-1. **New state and conditioning path** — the OPSD anchor/reward-gradient objective is retargeted from pixel latents to DynamiCrafter's 136 temporal-attention LoRA modules, conditioned on a fixed first frame instead of free text-to-image sampling.
-2. **New differentiable video reward** — a composite of subject consistency, optical-flow dynamics, motion smoothness, and a differentiable pixel-naturalness penalty replaces OPSD's single still-image reward.
-3. **Video-specific failure diagnosis** — full-strength reward-aligned LoRA was shown to amplify saturation, overexposure, and edge artifacts, and the first naturalness formulation silently zeroed its own gradient through clamping; both are documented and fixed.
-4. **A stabilized training objective** — an anchored-fit loss with effective `1e-3` gradient clipping removes an unbounded repulsion term that caused earlier runs to diverge at step 306, and completes **2,000** guarded steps.
+1. **New state and conditioning path:** the OPSD anchor/reward-gradient objective is retargeted from pixel latents to DynamiCrafter's 136 temporal-attention LoRA modules, conditioned on a fixed first frame instead of free text-to-image sampling.
+2. **New differentiable video reward:** a composite of subject consistency, optical-flow dynamics, motion smoothness, and a differentiable pixel-naturalness penalty replaces OPSD's single still-image reward.
+3. **Video-specific failure diagnosis:** full-strength reward-aligned LoRA was shown to amplify saturation, overexposure, and edge artifacts, and the first naturalness formulation silently zeroed its own gradient through clamping; both are documented and fixed.
+4. **A stabilized training objective:** an anchored-fit loss with effective `1e-3` gradient clipping removes an unbounded repulsion term that caused earlier runs to diverge at step 306, and completes **2,000** guarded steps.
 
 The result is a working, numerically stable video-adaptation pipeline: a trained adapter with a measured, increasing parameter update and a quantified, condition-dependent positive visual effect at low inference scales. Full scope boundaries and open questions are documented in **Limitations** below.
 
@@ -29,10 +29,10 @@ The result is a working, numerically stable video-adaptation pipeline: a trained
 
 ### What this project built
 
-- **First video extension of OPSD.** Retargeted OPSD's reward-guided fine-tuning — originally single-image pixel diffusion only — onto DynamiCrafter's 136 temporal-attention LoRA modules, with a first-frame-conditioned state and a new differentiable video reward (subject consistency, optical-flow dynamics, motion smoothness, pixel-naturalness).
+- **First video extension of OPSD.** Retargeted OPSD's reward-guided fine-tuning, originally limited to single-image pixel diffusion, onto DynamiCrafter's 136 temporal-attention LoRA modules, with a first-frame-conditioned state and a new differentiable video reward (subject consistency, optical-flow dynamics, motion smoothness, pixel-naturalness).
 - **Diagnosed and fixed reward hacking.** Found that full-strength reward-aligned LoRA amplifies saturation, overexposure, and edge artifacts, then replaced the original hard-clamped naturalness penalty with a smooth sigmoid formulation that keeps the training gradient active throughout the run.
 - **Diagnosed and fixed a long-run divergence.** Traced an earlier long-run instability to an unbounded negative-target repulsion term, then designed an anchored-fit objective with effective `1e-3` gradient clipping that completed a full **2,000-step** guarded run with zero guard trips.
-- **Built a post-hoc quantification method.** Using only saved checkpoints and rendered videos — no retraining — computed an effective LoRA update ratio $U_t$ and a diagnostic visual score $Q$ to separately measure whether training changed the model and whether that change improved the video.
+- **Built a post-hoc quantification method.** Using only saved checkpoints and rendered videos, with no retraining required, computed an effective LoRA update ratio $U_t$ and a diagnostic visual score $Q$ to separately measure whether training changed the model and whether that change improved the video.
 - **Found a positive, reproducible effect window.** At low adapter scale and mid-training checkpoints (step 500–1000 at scale `0.01`), the trained adapter shows a positive mean $\Delta Q$ on matched Base/adapter video pairs.
 
 Sample sizes, confirmatory-evaluation scope, and open questions are in **Limitations** below.

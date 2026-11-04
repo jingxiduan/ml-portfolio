@@ -14,15 +14,15 @@
 
 ## 📌 ABSTRACT
 
-> **DiffusionOPSD optimizes against a single scalar image-preference reward. Can the same reward-guided fine-tuning mechanism be retargeted to a human-motion domain — driven by motion statistics measured from real speakers instead of visual preference alone — while staying inside explicit, pre-registered failure gates?**
+> **DiffusionOPSD optimizes against a single scalar image-preference reward. Can the same reward-guided fine-tuning mechanism be retargeted to a human-motion domain, driven by motion statistics measured from real speakers instead of visual preference alone, while staying inside explicit, pre-registered failure gates?**
 
-**Core contribution — moving OPSD from a visual-preference reward to measured human-motion targets.** This project retargets DiffusionOPSD's query/target/EMA optimization structure onto a 73-coefficient audio-to-motion trajectory space produced by JoyVASA and rendered by frozen LivePortrait:
+**Core contribution: moving OPSD from a visual-preference reward to measured human-motion targets.** This project retargets DiffusionOPSD's query/target/EMA optimization structure onto a 73-coefficient audio-to-motion trajectory space produced by JoyVASA and rendered by frozen LivePortrait:
 
-1. **New measured reward targets** — per-industry amplitude, jitter, and blink bands estimated from real speaker footage (HDTF news anchors, CelebV-HQ) replace a single hand-tuned visual-preference reward.
-2. **A bounded motion reward** — a peaked Gaussian target around the measured band replaces monotone amplitude maximization, removing the earlier **2.4–2.7×** overshoot it caused.
-3. **Diagnosed and fixed a blink-target bug** — an excessive blink target drove the eyes toward half-closed; retuning it restored eye-aspect-ratio to untrained-base levels.
-4. **A real-video behavior-cloning path** — 1,753 aligned motion windows from real footage supplement the reward signal through an auxiliary supervised objective.
-5. **Pre-registered failure gates kept in the main result** — jitter, lip-sync, and ecological-separability gates are evaluated and reported as part of the headline result, not filtered out after the fact.
+1. **New measured reward targets:** per-industry amplitude, jitter, and blink bands estimated from real speaker footage (HDTF news anchors, CelebV-HQ) replace a single hand-tuned visual-preference reward.
+2. **A bounded motion reward:** a peaked Gaussian target around the measured band replaces monotone amplitude maximization, removing the earlier **2.4–2.7×** overshoot it caused.
+3. **Diagnosed and fixed a blink-target bug:** an excessive blink target drove the eyes toward half-closed; retuning it restored eye-aspect-ratio to untrained-base levels.
+4. **A real-video behavior-cloning path:** 1,753 aligned motion windows from real footage supplement the reward signal through an auxiliary supervised objective.
+5. **Pre-registered failure gates kept in the main result:** jitter, lip-sync, and ecological-separability gates are evaluated and reported as part of the headline result, not filtered out after the fact.
 
 Three trained policies reach **0.85–0.89×** of their measured amplitude targets on held-out speakers, and the calibrated expression policy reduces mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips; all three 95% bootstrap intervals exclude zero). Full scope boundaries, failed gates, and open questions are documented in **Limitations** below.
 
