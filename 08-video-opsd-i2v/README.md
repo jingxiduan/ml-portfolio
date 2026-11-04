@@ -61,25 +61,25 @@ The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not use
 
 The post-hoc analysis in [`scripts/quantify_effect.py`](scripts/quantify_effect.py) uses the saved checkpoints and rendered videos; it does not retrain the model. For each temporal LoRA module, it computes the effective weight perturbation
 
-\[
+$$
 \Delta W_{t,l}=s\frac{\alpha}{r}B_{t,l}A_{t,l},
 \qquad
 U_t=\frac{\sqrt{\sum_l\|\Delta W_{t,l}\|_F^2}}
 {\sqrt{\sum_l\|W_l^{base}\|_F^2}+\varepsilon}.
-\]
+$$
 
-Here, \(U_t\) is the normalized effective LoRA update ratio at checkpoint \(t\), including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change; it does not by itself prove better video quality or isolate the causal effect of the optimizer schedule.
+Here, $U_t$ is the normalized effective LoRA update ratio at checkpoint $t$, including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change; it does not by itself prove better video quality or isolate the causal effect of the optimizer schedule.
 
 For paired videos with the same first frame, caption, and seed, the diagnostic visual score is
 
-\[
+$$
 Q=0.35C_{safe}+0.25N+0.20D_{safe}+0.20T_{safe},
 \qquad \Delta Q_i=Q(v_i^{adapter})-Q(v_i^{base}).
-\]
+$$
 
 `C_safe` discounts edge detail by overexposure and flicker, `N` is the repository naturalness score, `D_safe` discounts frame motion by luminance flicker, and `T_safe` rewards temporal brightness stability. `Q` is an interpretable diagnostic composite rather than a calibrated human-perception metric; raw components and paired bootstrap intervals are retained in [`outputs/quantified_effect/quantified_effect.json`](outputs/quantified_effect/quantified_effect.json) and [`outputs/quantified_effect_dev/quantified_effect.json`](outputs/quantified_effect_dev/quantified_effect.json).
 
-The existing six-pair development renders show a condition-dependent effect: mean \(\Delta Q\) was `+0.00266` for step 500 / scale `0.01` and `+0.00229` for step 1000 / scale `0.01`, while stronger scales and later checkpoints generally became worse on this diagnostic composite. The 40-pair step-1000 / scale-`0.05` confirmation render had mean \(\Delta Q=+0.00099\), but its 95% bootstrap interval was `[-0.00384, +0.00586]`; its naturalness and dynamic-degree changes remained negative. Therefore the defensible claim is: **the adapter has a measurable, condition-dependent visual effect and some low-scale development settings improve the diagnostic balance, while the current data do not establish a statistically significant generalized improvement.**
+The existing six-pair development renders show a condition-dependent effect: mean $\Delta Q$ was `+0.00266` for step 500 / scale `0.01` and `+0.00229` for step 1000 / scale `0.01`, while stronger scales and later checkpoints generally became worse on this diagnostic composite. The 40-pair step-1000 / scale-`0.05` confirmation render had mean $\Delta Q=+0.00099$, but its 95% bootstrap interval was `[-0.00384, +0.00586]`; its naturalness and dynamic-degree changes remained negative. Therefore the defensible claim is: **the adapter has a measurable, condition-dependent visual effect and some low-scale development settings improve the diagnostic balance, while the current data do not establish a statistically significant generalized improvement.**
 <!-- V4_RESULT_END -->
 
 ---

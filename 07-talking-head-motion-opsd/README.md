@@ -64,7 +64,7 @@ Both 1024×1024 inputs were extracted from previously unused 4K Pexels License v
 
 ## Method
 
-At query state \(s=(c,z_q,\sigma_q)\), the frozen behavior policy defines a clean anchor:
+At query state $s=(c,z_q,\sigma_q)$, the frozen behavior policy defines a clean anchor:
 
 $$
 y_0 = z_q - \sigma_q v_{\mathrm{old}}(z_q,c,\sigma_q).

@@ -53,11 +53,11 @@ The run stopped at step 306 under the pre-registered guard. The 20-step mean of 
 
 The historical objective was
 
-\[
+$$
 \lVert\hat y-y^+\rVert_2^2-\lVert\hat y-y^-\rVert_2^2.
-\]
+$$
 
-The subtraction of two quadratic distances is not lower-bounded as a function of \(\hat y\). During a long run it can continue rewarding motion away from the negative target without an explicit behavior anchor. The V2 reward path also mapped decoded pixels through a hard clamp before computing naturalness, giving zero pixel-mapping derivatives outside the display range.
+The subtraction of two quadratic distances is not lower-bounded as a function of $\hat y$. During a long run it can continue rewarding motion away from the negative target without an explicit behavior anchor. The V2 reward path also mapped decoded pixels through a hard clamp before computing naturalness, giving zero pixel-mapping derivatives outside the display range.
 
 These are algorithmic stability problems, not evidence that 2,000 steps merely need to be rerun unchanged.
 
@@ -67,12 +67,12 @@ V3 keeps the V2 dataset, LoRA, learning rate, `c_adv`, EMA schedule, and reward 
 
 1. **Bounded anchored fitting**
 
-\[
+$$
 \mathcal L_{\mathrm{V3}}
 =\lVert\hat y-y^+\rVert_2^2
 +\lambda_{\mathrm{anchor}}\lVert\hat y-y_0\rVert_2^2,
 \qquad \lambda_{\mathrm{anchor}}=0.25.
-\]
+$$
 
 The negative target is retained as a diagnostic but is no longer an unbounded repulsive objective.
 

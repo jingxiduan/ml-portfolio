@@ -25,18 +25,18 @@ Every reported number is backed by an artifact in the corresponding project. Neg
 
 ## Core method and visible evidence
 
-For an on-policy intermediate state \(z_q\), the frozen behavior model defines a clean anchor and the normalized reward gradient defines a bounded positive target:
+For an on-policy intermediate state $z_q$, the frozen behavior model defines a clean anchor and the normalized reward gradient defines a bounded positive target:
 
-\[
+$$
 y_0=z_q-\sigma_qv_{\mathrm{old}}(z_q,c,\sigma_q),\qquad
 y_0^+=y_0+c_{\mathrm{adv}}\sigma_q\frac{\nabla_{y_0}R(y_0,c)}{\lVert\nabla_{y_0}R(y_0,c)\rVert_2+\epsilon}.
-\]
+$$
 
 The stabilized video fit removes the original unbounded negative-target repulsion:
 
-\[
+$$
 \mathcal L_{\mathrm{stable}}=\lVert\hat y_0-y_0^+\rVert_2^2+\lambda_a\lVert\hat y_0-y_0\rVert_2^2.
-\]
+$$
 
 Full derivation and implementation boundaries: [`08 · METHOD.md`](08-video-opsd-i2v/docs/METHOD.md).
 
@@ -81,14 +81,14 @@ The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not use
 
 The saved V4 checkpoints were evaluated post hoc, without retraining. For temporal LoRA modules:
 
-\[
+$$
 \Delta W_{t,l}=s\frac{\alpha}{r}B_{t,l}A_{t,l},
 \qquad
 U_t=\frac{\sqrt{\sum_l\|\Delta W_{t,l}\|_F^2}}
 {\sqrt{\sum_l\|W_l^{base}\|_F^2}+\varepsilon}.
-\]
+$$
 
-At inference scale `0.05`, the effective update ratio \(U_t\) rose from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000. A paired diagnostic video score also showed condition-dependent effects: step 500 / scale `0.01` had mean \(\Delta Q=+0.00266\), and step 1000 / scale `0.01` had `+0.00229` on six development pairs. The 40-pair step-1000 / scale-`0.05` confirmation had \(\Delta Q=+0.00099\), with bootstrap 95% CI `[-0.00384, +0.00586]`. This supports a measurable, low-scale visual effect, but not a statistically established generalized improvement.
+At inference scale `0.05`, the effective update ratio $U_t$ rose from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000. A paired diagnostic video score also showed condition-dependent effects: step 500 / scale `0.01` had mean $\Delta Q=+0.00266$, and step 1000 / scale `0.01` had `+0.00229` on six development pairs. The 40-pair step-1000 / scale-`0.05` confirmation had $\Delta Q=+0.00099$, with bootstrap 95% CI `[-0.00384, +0.00586]`. This supports a measurable, low-scale visual effect, but not a statistically established generalized improvement.
 
 [Full quantitative report](08-video-opsd-i2v/outputs/quantified_effect/quantified_effect.json) · [Development sweep](08-video-opsd-i2v/outputs/quantified_effect_dev/quantified_effect.json)
 <!-- V4_RESULT_END -->
@@ -100,7 +100,7 @@ At inference scale `0.05`, the effective update ratio \(U_t\) rose from `5.12e-5
 | 01 | [`multitask-ctr-cvr-rec`](01-multitask-ctr-cvr-rec) | Multi-task CTR/CVR ranking with shared RankMixer-style feature interaction and clicked-sample masking for CVR. | CTR AUC **0.8805**, GAUC **0.8796**; CVR AUC **0.7960** on proxy labels derived from MovieLens-1M. | Complete |
 | 02 | [`rtb-bid-shading-control`](02-rtb-bid-shading-control) | Combines pCTR, a win-rate model, candidate-bid search, and PID/MPC feedback control in a second-price auction simulator. | Avazu pCTR AUC **0.7796**; PID profit **5,557** vs fixed-policy **2,678** under the documented simulation. | Complete |
 | 03 | [`reward-model-dpo-pipeline`](03-reward-model-dpo-pipeline) | Preference filtering, proxy LLM judging, Bradley–Terry reward modeling, DPO-format export, and an end-to-end trainer smoke test. | Held-out RM AUC **0.6150**, pairwise accuracy **0.6317**; **2,624** DPO training pairs. The included DPO run is a 20-step smoke test, not a quality claim. | Complete pipeline |
-| 04 | [`diffusion-opsd-mps`](04-diffusion-opsd-mps) | Image reward post-training on SDXL-Turbo, separated into environment/scene and portrait domains with a pinned, leakage-audited protocol. | Portraits: independent CLIP-H delta **+0.137** with prompt-cluster 95% CI **[+0.017, +0.273]** on 40 prompts × 3 seeds. Scenes: **-0.059** with CI **[-0.175, +0.043]**; no scene gain claimed. | Image post-training study |
+| 04 | [`diffusion-opsd-mps`](04-diffusion-opsd-mps) | Image reward post-training on SDXL-Turbo, separated into environment/scene and portrait domains with a pinned, leakage-audited protocol. | Portraits: independent CLIP-H delta **+0.091** with prompt-cluster 95% CI **[-0.034, +0.230]** on 40 prompts × 3 seeds. Scenes: **-0.015** with CI **[-0.110, +0.083]**; no definitive gain claimed. | Image post-training study |
 | 06 | **Reserved research slot** | No public project is assigned to this number. It remains visible so the repository history is not presented as a continuous series that never existed. | No result claimed. | Reserved |
 | 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority; absolute lip-sync quality and human preference remain unresolved. | Flagship, active |
 | 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | The gradient-controlled anchored fit completed **2,000** guarded steps; saved checkpoints show a quantified effective LoRA update and condition-dependent low-scale visual effects, while n=40 confirmatory evaluation did not establish generalized improvement. | Flagship, evaluation-limited result |

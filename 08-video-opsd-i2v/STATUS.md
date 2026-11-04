@@ -25,8 +25,8 @@ Current artifacts do **not** establish a generalized improvement on the untouche
 | Is V3 stable and better? | 100-step preflight passed, but the long run stopped at step 522 on a >20× parameter-gradient gate | No |
 | Does V4 gradient clipping stabilize the same objective? | 2,000 steps completed; no guard trip; raw and effective gradients recorded separately | Yes |
 | Does development-selected V4 improve untouched held-out quality? | n=40: appeal -0.0042, naturalness tied, dynamics -0.0079 with paired bootstrap intervals | Generalized gain not established |
-| Does the saved adapter produce a measurable parameter change? | Effective update ratio \(U_t\) rises from 5.12e-5 at step 50 to 1.97e-3 at step 2000 at scale 0.05 | Yes |
-| Do paired videos show a condition-dependent diagnostic visual effect? | Six-pair development renders have positive mean \(\Delta Q\) at step 500/scale 0.01 and step 1000/scale 0.01; intervals include zero | Effect observed; significance unresolved |
+| Does the saved adapter produce a measurable parameter change? | Effective update ratio $U_t$ rises from 5.12e-5 at step 50 to 1.97e-3 at step 2000 at scale 0.05 | Yes |
+| Do paired videos show a condition-dependent diagnostic visual effect? | Six-pair development renders have positive mean $\Delta Q$ at step 500/scale 0.01 and step 1000/scale 0.01; intervals include zero | Effect observed; significance unresolved |
 | Do humans prefer the result? | No blind matched-seed evaluation | Unresolved |
 
 ## Long-run artifacts
