@@ -105,6 +105,21 @@ At inference scale `0.05`, the effective update ratio $U_t$ rose from `5.12e-5` 
 | 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Retargets OPSD from a single visual-preference image reward to a measured, real-speaker motion-target domain on JoyVASA's 73-dimensional audio-to-motion trajectories, with a bounded motion reward, two diagnosed-and-fixed reward-design bugs, and a real-video behavior-cloning path. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority. Failed gates and open questions are detailed in the project's Limitations. | Flagship, active |
 | 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Extends OPSD's reward-guided fine-tuning — originally single-image pixel diffusion only — to DynamiCrafter's video temporal-LoRA modules, with a new differentiable video reward, reward-hacking diagnosis, and a gradient-clipped anchored-fit objective that fixes a training divergence. | The gradient-controlled anchored fit completed **2,000** guarded steps with zero guard trips; saved checkpoints show a quantified, increasing effective LoRA update and a positive diagnostic visual effect at low inference scale. Confirmatory-evaluation scope is detailed in the project's Limitations. | Flagship, stabilized + quantified effect |
 
+### 04 · Image reward post-training: fixed visual evidence
+
+<table>
+<tr>
+<td width="50%"><img src="04-diffusion-opsd-mps/outputs/release/scene/scene_comparison.png" alt="Scene Base versus qualitative OPSD adapter"></td>
+<td width="50%"><img src="04-diffusion-opsd-mps/outputs/release/portrait/portrait_comparison.png" alt="Portrait Base versus qualitative OPSD adapter"></td>
+</tr>
+<tr>
+<td align="center"><a href="04-diffusion-opsd-mps/outputs/release/scene/scene_detail_comparison.png">Scene detail</a> · <a href="04-diffusion-opsd-mps/outputs/release/scene/scene_flicker.gif">Scene flicker</a></td>
+<td align="center"><a href="04-diffusion-opsd-mps/outputs/release/portrait/portrait_detail_comparison.png">Portrait detail</a> · <a href="04-diffusion-opsd-mps/outputs/release/portrait/portrait_flicker.gif">Portrait flicker</a></td>
+</tr>
+</table>
+
+The panels use frozen prompts, matched seeds, and identical rendering settings. The enlarged detail and flicker views make the learned change easier to inspect; the project README distinguishes qualitative visualization from the formal EMA/scale-1 evaluation.
+
 ## The OPSD research thread
 
 ```text
