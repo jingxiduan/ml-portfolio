@@ -61,6 +61,7 @@ def process_split(split: str, embedder, pca: PCA = None):
         # mitigates overfitting of the 384-dim sentence embedding on small samples
         pca = PCA(n_components=PCA_DIM, random_state=42)
         pca.fit(np.concatenate([emb_c, emb_r_vec], axis=0))
+        os.makedirs(PROC_DIR, exist_ok=True)
         joblib.dump(pca, os.path.join(PROC_DIR, "embedding_pca.joblib"))
 
     emb_c_pca = pca.transform(emb_c)

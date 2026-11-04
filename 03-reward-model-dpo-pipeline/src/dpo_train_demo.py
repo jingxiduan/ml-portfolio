@@ -34,7 +34,7 @@ def main():
         per_device_train_batch_size=2,
         max_steps=MAX_STEPS,
         learning_rate=1e-5,
-        logging_steps=5,
+        logging_steps=1,
         report_to=[],
         max_length=256,
         max_prompt_length=128,
@@ -44,10 +44,14 @@ def main():
     trainer = DPOTrainer(
         model=model,
         args=config,
-        processing_class=tokenizer,
+        tokenizer=tokenizer,
         train_dataset=ds,
     )
     result = trainer.train()
+    trainer.save_state()
+    with open(os.path.join(OUT_DIR, "dpo_smoke_training.json"), "w") as f:
+        import json
+        json.dump(trainer.state.log_history, f, indent=2)
     print("DPO smoke-test training finished:", result)
 
 
