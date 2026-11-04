@@ -1,0 +1,263 @@
+{
+  "development_only": true,
+  "n_pairs": 6,
+  "base": {
+    "appeal": 0.7230306439929538,
+    "nat": 0.9879753112792969,
+    "dynamic": 0.4580859767066108
+  },
+  "grid": {
+    "checkpoints": [
+      500,
+      1000,
+      1500,
+      2000
+    ],
+    "scales": [
+      0.01,
+      0.02,
+      0.05
+    ]
+  },
+  "eligibility": {
+    "delta_nat_min": -0.02,
+    "delta_appeal_min": -0.02
+  },
+  "score": "delta_appeal + 0.5*delta_nat + 0.5*delta_dynamic",
+  "selected": {
+    "tag": "step1000_scale0.05",
+    "step": 1000,
+    "scale": 0.05,
+    "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05",
+    "metrics": {
+      "appeal": 0.7285924037297568,
+      "nat": 0.9873663584391276,
+      "dynamic": 0.46981844902038583
+    },
+    "delta_vs_base": {
+      "appeal": 0.0055617597368029514,
+      "nat": -0.0006089528401693745,
+      "dynamic": 0.011732472313775055
+    },
+    "eligible": true,
+    "selection_score": 0.011123519473605792
+  },
+  "candidates": [
+    {
+      "tag": "step0500_scale0.01",
+      "step": 500,
+      "scale": 0.01,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.01",
+      "metrics": {
+        "appeal": 0.7246758460998534,
+        "nat": 0.987876065572103,
+        "dynamic": 0.4614756266276041
+      },
+      "delta_vs_base": {
+        "appeal": 0.001645202106899557,
+        "nat": -9.924570719399561e-05,
+        "dynamic": 0.0033896499209933317
+      },
+      "eligible": true,
+      "selection_score": 0.003290404213799225
+    },
+    {
+      "tag": "step0500_scale0.02",
+      "step": 500,
+      "scale": 0.02,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.02",
+      "metrics": {
+        "appeal": 0.7252677970462376,
+        "nat": 0.9879145940144857,
+        "dynamic": 0.4626210000779894
+      },
+      "delta_vs_base": {
+        "appeal": 0.002237153053283758,
+        "nat": -6.071726481127193e-05,
+        "dynamic": 0.0045350233713786214
+      },
+      "eligible": true,
+      "selection_score": 0.004474306106567433
+    },
+    {
+      "tag": "step0500_scale0.05",
+      "step": 500,
+      "scale": 0.05,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.05",
+      "metrics": {
+        "appeal": 0.7285755899217393,
+        "nat": 0.9877237955729167,
+        "dynamic": 0.469427384270562
+      },
+      "delta_vs_base": {
+        "appeal": 0.005544945928785516,
+        "nat": -0.00025151570638026755,
+        "dynamic": 0.011341407563951245
+      },
+      "eligible": true,
+      "selection_score": 0.011089891857571005
+    },
+    {
+      "tag": "step1000_scale0.01",
+      "step": 1000,
+      "scale": 0.01,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.01",
+      "metrics": {
+        "appeal": 0.7238848871654934,
+        "nat": 0.9879810333251952,
+        "dynamic": 0.45978874100579165
+      },
+      "delta_vs_base": {
+        "appeal": 0.0008542431725395705,
+        "nat": 5.722045898215455e-06,
+        "dynamic": 0.00170276429918087
+      },
+      "eligible": true,
+      "selection_score": 0.0017084863450791132
+    },
+    {
+      "tag": "step1000_scale0.02",
+      "step": 1000,
+      "scale": 0.02,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.02",
+      "metrics": {
+        "appeal": 0.7265989647971259,
+        "nat": 0.9876399358113606,
+        "dynamic": 0.4655579937828911
+      },
+      "delta_vs_base": {
+        "appeal": 0.0035683208041721315,
+        "nat": -0.00033537546793638295,
+        "dynamic": 0.007472017076280313
+      },
+      "eligible": true,
+      "selection_score": 0.0071366416083440964
+    },
+    {
+      "tag": "step1000_scale0.05",
+      "step": 1000,
+      "scale": 0.05,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05",
+      "metrics": {
+        "appeal": 0.7285924037297568,
+        "nat": 0.9873663584391276,
+        "dynamic": 0.46981844902038583
+      },
+      "delta_vs_base": {
+        "appeal": 0.0055617597368029514,
+        "nat": -0.0006089528401693745,
+        "dynamic": 0.011732472313775055
+      },
+      "eligible": true,
+      "selection_score": 0.011123519473605792
+    },
+    {
+      "tag": "step1500_scale0.01",
+      "step": 1500,
+      "scale": 0.01,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.01",
+      "metrics": {
+        "appeal": 0.7231492837270102,
+        "nat": 0.9879346211751301,
+        "dynamic": 0.45836394627889
+      },
+      "delta_vs_base": {
+        "appeal": 0.0001186397340563472,
+        "nat": -4.0690104166851704e-05,
+        "dynamic": 0.00027796957227921304
+      },
+      "eligible": true,
+      "selection_score": 0.00023727946811252787
+    },
+    {
+      "tag": "step1500_scale0.02",
+      "step": 1500,
+      "scale": 0.02,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.02",
+      "metrics": {
+        "appeal": 0.7254617585076226,
+        "nat": 0.9875840504964192,
+        "dynamic": 0.46333946651882596
+      },
+      "delta_vs_base": {
+        "appeal": 0.0024311145146688196,
+        "nat": -0.000391260782877767,
+        "dynamic": 0.005253489812215184
+      },
+      "eligible": true,
+      "selection_score": 0.004862229029337528
+    },
+    {
+      "tag": "step1500_scale0.05",
+      "step": 1500,
+      "scale": 0.05,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.05",
+      "metrics": {
+        "appeal": 0.7276362127727932,
+        "nat": 0.9872512181599936,
+        "dynamic": 0.46802120738559294
+      },
+      "delta_vs_base": {
+        "appeal": 0.00460556877983942,
+        "nat": -0.0007240931193033262,
+        "dynamic": 0.009935230678982165
+      },
+      "eligible": true,
+      "selection_score": 0.00921113755967884
+    },
+    {
+      "tag": "step2000_scale0.01",
+      "step": 2000,
+      "scale": 0.01,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.01",
+      "metrics": {
+        "appeal": 0.721990262137519,
+        "nat": 0.9879686991373697,
+        "dynamic": 0.4560118251376683
+      },
+      "delta_vs_base": {
+        "appeal": -0.0010403818554347577,
+        "nat": -6.612141927209159e-06,
+        "dynamic": -0.0020741515689424728
+      },
+      "eligible": true,
+      "selection_score": -0.0020807637108695987
+    },
+    {
+      "tag": "step2000_scale0.02",
+      "step": 2000,
+      "scale": 0.02,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.02",
+      "metrics": {
+        "appeal": 0.7250659465789795,
+        "nat": 0.9876403172810871,
+        "dynamic": 0.46249157587687173
+      },
+      "delta_vs_base": {
+        "appeal": 0.002035302586025689,
+        "nat": -0.00033499399820979825,
+        "dynamic": 0.004405599170260954
+      },
+      "eligible": true,
+      "selection_score": 0.004070605172051267
+    },
+    {
+      "tag": "step2000_scale0.05",
+      "step": 2000,
+      "scale": 0.05,
+      "adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.05",
+      "metrics": {
+        "appeal": 0.7274943113327027,
+        "nat": 0.9872663497924806,
+        "dynamic": 0.4677222728729247
+      },
+      "delta_vs_base": {
+        "appeal": 0.0044636673397489,
+        "nat": -0.0007089614868163174,
+        "dynamic": 0.009636296166313951
+      },
+      "eligible": true,
+      "selection_score": 0.008927334679497717
+    }
+  ]
+}

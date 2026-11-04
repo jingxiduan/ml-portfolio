@@ -1,0 +1,2 @@
+[GUARD] kind=i2v log=outputs/opsd_long_v4_gradclip_rerun/train_metrics.jsonl pid=271732 window=50
+[GUARD] pid 271732 exited after 2000 steps, no trip

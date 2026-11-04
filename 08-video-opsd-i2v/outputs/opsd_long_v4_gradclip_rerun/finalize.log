@@ -1,0 +1,345 @@
+[finalize] waiting for train pid=271732
+saved /root/ml-portfolio/08-video-opsd-i2v/outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png
+[finalize] training complete; selecting on six-pair development split
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] seed=0 1/6 (29.9s, avg 29.9s/vid)
+[render_i2v] seed=0 2/6 (58.8s, avg 29.4s/vid)
+[render_i2v] seed=0 3/6 (87.7s, avg 29.2s/vid)
+[render_i2v] seed=0 4/6 (116.5s, avg 29.1s/vid)
+[render_i2v] seed=0 5/6 (145.2s, avg 29.0s/vid)
+[render_i2v] seed=0 6/6 (174.0s, avg 29.0s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/base. Total 174.0s.
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.01, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.5s, avg 29.5s/vid)
+[render_i2v] seed=0 2/6 (58.3s, avg 29.1s/vid)
+[render_i2v] seed=0 3/6 (87.0s, avg 29.0s/vid)
+[render_i2v] seed=0 4/6 (115.5s, avg 28.9s/vid)
+[render_i2v] seed=0 5/6 (144.1s, avg 28.8s/vid)
+[render_i2v] seed=0 6/6 (172.7s, avg 28.8s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step0500_scale0.01. Total 172.7s.
+step0500_scale0.01 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.01", "delta_vs_base": {"appeal": 0.001645202106899557, "dynamic": 0.0033896499209933317, "nat": -9.924570719399561e-05}, "eligible": true, "metrics": {"appeal": 0.7246758460998534, "dynamic": 0.4614756266276041, "nat": 0.987876065572103}, "scale": 0.01, "selection_score": 0.003290404213799225, "step": 500, "tag": "step0500_scale0.01"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.02, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.4s, avg 29.4s/vid)
+[render_i2v] seed=0 2/6 (58.0s, avg 29.0s/vid)
+[render_i2v] seed=0 3/6 (86.7s, avg 28.9s/vid)
+[render_i2v] seed=0 4/6 (115.2s, avg 28.8s/vid)
+[render_i2v] seed=0 5/6 (143.7s, avg 28.7s/vid)
+[render_i2v] seed=0 6/6 (172.1s, avg 28.7s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step0500_scale0.02. Total 172.1s.
+step0500_scale0.02 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.02", "delta_vs_base": {"appeal": 0.002237153053283758, "dynamic": 0.0045350233713786214, "nat": -6.071726481127193e-05}, "eligible": true, "metrics": {"appeal": 0.7252677970462376, "dynamic": 0.4626210000779894, "nat": 0.9879145940144857}, "scale": 0.02, "selection_score": 0.004474306106567433, "step": 500, "tag": "step0500_scale0.02"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.05, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.4s, avg 29.4s/vid)
+[render_i2v] seed=0 2/6 (58.0s, avg 29.0s/vid)
+[render_i2v] seed=0 3/6 (86.6s, avg 28.9s/vid)
+[render_i2v] seed=0 4/6 (115.1s, avg 28.8s/vid)
+[render_i2v] seed=0 5/6 (143.5s, avg 28.7s/vid)
+[render_i2v] seed=0 6/6 (172.0s, avg 28.7s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step0500_scale0.05. Total 172.0s.
+step0500_scale0.05 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step00500__scale_0.05", "delta_vs_base": {"appeal": 0.005544945928785516, "dynamic": 0.011341407563951245, "nat": -0.00025151570638026755}, "eligible": true, "metrics": {"appeal": 0.7285755899217393, "dynamic": 0.469427384270562, "nat": 0.9877237955729167}, "scale": 0.05, "selection_score": 0.011089891857571005, "step": 500, "tag": "step0500_scale0.05"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.01, dtype=torch.float16
+[render_i2v] seed=0 1/6 (30.0s, avg 30.0s/vid)
+[render_i2v] seed=0 2/6 (58.8s, avg 29.4s/vid)
+[render_i2v] seed=0 3/6 (87.6s, avg 29.2s/vid)
+[render_i2v] seed=0 4/6 (116.3s, avg 29.1s/vid)
+[render_i2v] seed=0 5/6 (145.0s, avg 29.0s/vid)
+[render_i2v] seed=0 6/6 (173.7s, avg 29.0s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step1000_scale0.01. Total 173.7s.
+step1000_scale0.01 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.01", "delta_vs_base": {"appeal": 0.0008542431725395705, "dynamic": 0.00170276429918087, "nat": 5.722045898215455e-06}, "eligible": true, "metrics": {"appeal": 0.7238848871654934, "dynamic": 0.45978874100579165, "nat": 0.9879810333251952}, "scale": 0.01, "selection_score": 0.0017084863450791132, "step": 1000, "tag": "step1000_scale0.01"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.02, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.8s, avg 29.8s/vid)
+[render_i2v] seed=0 2/6 (58.5s, avg 29.2s/vid)
+[render_i2v] seed=0 3/6 (87.1s, avg 29.0s/vid)
+[render_i2v] seed=0 4/6 (115.7s, avg 28.9s/vid)
+[render_i2v] seed=0 5/6 (144.2s, avg 28.8s/vid)
+[render_i2v] seed=0 6/6 (172.8s, avg 28.8s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step1000_scale0.02. Total 172.8s.
+step1000_scale0.02 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.02", "delta_vs_base": {"appeal": 0.0035683208041721315, "dynamic": 0.007472017076280313, "nat": -0.00033537546793638295}, "eligible": true, "metrics": {"appeal": 0.7265989647971259, "dynamic": 0.4655579937828911, "nat": 0.9876399358113606}, "scale": 0.02, "selection_score": 0.0071366416083440964, "step": 1000, "tag": "step1000_scale0.02"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.9s, avg 29.9s/vid)
+[render_i2v] seed=0 2/6 (58.7s, avg 29.4s/vid)
+[render_i2v] seed=0 3/6 (87.4s, avg 29.1s/vid)
+[render_i2v] seed=0 4/6 (116.1s, avg 29.0s/vid)
+[render_i2v] seed=0 5/6 (144.8s, avg 29.0s/vid)
+[render_i2v] seed=0 6/6 (173.5s, avg 28.9s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step1000_scale0.05. Total 173.5s.
+step1000_scale0.05 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05", "delta_vs_base": {"appeal": 0.0055617597368029514, "dynamic": 0.011732472313775055, "nat": -0.0006089528401693745}, "eligible": true, "metrics": {"appeal": 0.7285924037297568, "dynamic": 0.46981844902038583, "nat": 0.9873663584391276}, "scale": 0.05, "selection_score": 0.011123519473605792, "step": 1000, "tag": "step1000_scale0.05"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.01, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.4s, avg 29.4s/vid)
+[render_i2v] seed=0 2/6 (58.0s, avg 29.0s/vid)
+[render_i2v] seed=0 3/6 (86.5s, avg 28.8s/vid)
+[render_i2v] seed=0 4/6 (115.0s, avg 28.7s/vid)
+[render_i2v] seed=0 5/6 (143.4s, avg 28.7s/vid)
+[render_i2v] seed=0 6/6 (171.9s, avg 28.7s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step1500_scale0.01. Total 171.9s.
+step1500_scale0.01 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.01", "delta_vs_base": {"appeal": 0.0001186397340563472, "dynamic": 0.00027796957227921304, "nat": -4.0690104166851704e-05}, "eligible": true, "metrics": {"appeal": 0.7231492837270102, "dynamic": 0.45836394627889, "nat": 0.9879346211751301}, "scale": 0.01, "selection_score": 0.00023727946811252787, "step": 1500, "tag": "step1500_scale0.01"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.02, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.7s, avg 29.7s/vid)
+[render_i2v] seed=0 2/6 (58.4s, avg 29.2s/vid)
+[render_i2v] seed=0 3/6 (87.0s, avg 29.0s/vid)
+[render_i2v] seed=0 4/6 (115.6s, avg 28.9s/vid)
+[render_i2v] seed=0 5/6 (144.1s, avg 28.8s/vid)
+[render_i2v] seed=0 6/6 (172.7s, avg 28.8s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step1500_scale0.02. Total 172.7s.
+step1500_scale0.02 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.02", "delta_vs_base": {"appeal": 0.0024311145146688196, "dynamic": 0.005253489812215184, "nat": -0.000391260782877767}, "eligible": true, "metrics": {"appeal": 0.7254617585076226, "dynamic": 0.46333946651882596, "nat": 0.9875840504964192}, "scale": 0.02, "selection_score": 0.004862229029337528, "step": 1500, "tag": "step1500_scale0.02"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.05, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.5s, avg 29.5s/vid)
+[render_i2v] seed=0 2/6 (58.2s, avg 29.1s/vid)
+[render_i2v] seed=0 3/6 (86.7s, avg 28.9s/vid)
+[render_i2v] seed=0 4/6 (115.3s, avg 28.8s/vid)
+[render_i2v] seed=0 5/6 (143.8s, avg 28.8s/vid)
+[render_i2v] seed=0 6/6 (172.3s, avg 28.7s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step1500_scale0.05. Total 172.3s.
+step1500_scale0.05 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01500__scale_0.05", "delta_vs_base": {"appeal": 0.00460556877983942, "dynamic": 0.009935230678982165, "nat": -0.0007240931193033262}, "eligible": true, "metrics": {"appeal": 0.7276362127727932, "dynamic": 0.46802120738559294, "nat": 0.9872512181599936}, "scale": 0.05, "selection_score": 0.00921113755967884, "step": 1500, "tag": "step1500_scale0.05"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.01, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.6s, avg 29.6s/vid)
+[render_i2v] seed=0 2/6 (58.3s, avg 29.1s/vid)
+[render_i2v] seed=0 3/6 (86.9s, avg 29.0s/vid)
+[render_i2v] seed=0 4/6 (115.5s, avg 28.9s/vid)
+[render_i2v] seed=0 5/6 (144.1s, avg 28.8s/vid)
+[render_i2v] seed=0 6/6 (172.8s, avg 28.8s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step2000_scale0.01. Total 172.8s.
+step2000_scale0.01 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.01", "delta_vs_base": {"appeal": -0.0010403818554347577, "dynamic": -0.0020741515689424728, "nat": -6.612141927209159e-06}, "eligible": true, "metrics": {"appeal": 0.721990262137519, "dynamic": 0.4560118251376683, "nat": 0.9879686991373697}, "scale": 0.01, "selection_score": -0.0020807637108695987, "step": 2000, "tag": "step2000_scale0.01"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.02, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.6s, avg 29.6s/vid)
+[render_i2v] seed=0 2/6 (58.3s, avg 29.1s/vid)
+[render_i2v] seed=0 3/6 (86.8s, avg 28.9s/vid)
+[render_i2v] seed=0 4/6 (115.5s, avg 28.9s/vid)
+[render_i2v] seed=0 5/6 (144.1s, avg 28.8s/vid)
+[render_i2v] seed=0 6/6 (172.8s, avg 28.8s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step2000_scale0.02. Total 172.8s.
+step2000_scale0.02 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.02", "delta_vs_base": {"appeal": 0.002035302586025689, "dynamic": 0.004405599170260954, "nat": -0.00033499399820979825}, "eligible": true, "metrics": {"appeal": 0.7250659465789795, "dynamic": 0.46249157587687173, "nat": 0.9876403172810871}, "scale": 0.02, "selection_score": 0.004070605172051267, "step": 2000, "tag": "step2000_scale0.02"}
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.05, dtype=torch.float16
+[render_i2v] seed=0 1/6 (29.5s, avg 29.5s/vid)
+[render_i2v] seed=0 2/6 (58.2s, avg 29.1s/vid)
+[render_i2v] seed=0 3/6 (86.9s, avg 29.0s/vid)
+[render_i2v] seed=0 4/6 (115.6s, avg 28.9s/vid)
+[render_i2v] seed=0 5/6 (144.3s, avg 28.9s/vid)
+[render_i2v] seed=0 6/6 (173.2s, avg 28.9s/vid)
+[render_i2v] done. 6 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/step2000_scale0.05. Total 173.2s.
+step2000_scale0.05 {"adapter": "/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step02000__scale_0.05", "delta_vs_base": {"appeal": 0.0044636673397489, "dynamic": 0.009636296166313951, "nat": -0.0007089614868163174}, "eligible": true, "metrics": {"appeal": 0.7274943113327027, "dynamic": 0.4677222728729247, "nat": 0.9872663497924806}, "scale": 0.05, "selection_score": 0.008927334679497717, "step": 2000, "tag": "step2000_scale0.05"}
+selected step1000_scale0.05 -> /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05
+saved /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/selection.json
+[finalize] selected step1000_scale0.05 (/root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05)
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] seed=0 1/40 (29.5s, avg 29.5s/vid)
+[render_i2v] seed=0 2/40 (58.2s, avg 29.1s/vid)
+[render_i2v] seed=0 3/40 (86.8s, avg 28.9s/vid)
+[render_i2v] seed=0 4/40 (115.5s, avg 28.9s/vid)
+[render_i2v] seed=0 5/40 (144.1s, avg 28.8s/vid)
+[render_i2v] seed=0 6/40 (172.8s, avg 28.8s/vid)
+[render_i2v] seed=0 7/40 (201.4s, avg 28.8s/vid)
+[render_i2v] seed=0 8/40 (230.0s, avg 28.8s/vid)
+[render_i2v] seed=0 9/40 (258.7s, avg 28.7s/vid)
+[render_i2v] seed=0 10/40 (287.4s, avg 28.7s/vid)
+[render_i2v] seed=0 11/40 (316.0s, avg 28.7s/vid)
+[render_i2v] seed=0 12/40 (344.7s, avg 28.7s/vid)
+[render_i2v] seed=0 13/40 (373.3s, avg 28.7s/vid)
+[render_i2v] seed=0 14/40 (402.0s, avg 28.7s/vid)
+[render_i2v] seed=0 15/40 (430.7s, avg 28.7s/vid)
+[render_i2v] seed=0 16/40 (459.3s, avg 28.7s/vid)
+[render_i2v] seed=0 17/40 (488.0s, avg 28.7s/vid)
+[render_i2v] seed=0 18/40 (516.7s, avg 28.7s/vid)
+[render_i2v] seed=0 19/40 (545.3s, avg 28.7s/vid)
+[render_i2v] seed=0 20/40 (573.9s, avg 28.7s/vid)
+[render_i2v] seed=0 21/40 (602.6s, avg 28.7s/vid)
+[render_i2v] seed=0 22/40 (631.2s, avg 28.7s/vid)
+[render_i2v] seed=0 23/40 (659.8s, avg 28.7s/vid)
+[render_i2v] seed=0 24/40 (688.5s, avg 28.7s/vid)
+[render_i2v] seed=0 25/40 (717.1s, avg 28.7s/vid)
+[render_i2v] seed=0 26/40 (745.7s, avg 28.7s/vid)
+[render_i2v] seed=0 27/40 (774.4s, avg 28.7s/vid)
+[render_i2v] seed=0 28/40 (803.0s, avg 28.7s/vid)
+[render_i2v] seed=0 29/40 (831.6s, avg 28.7s/vid)
+[render_i2v] seed=0 30/40 (860.3s, avg 28.7s/vid)
+[render_i2v] seed=0 31/40 (888.9s, avg 28.7s/vid)
+[render_i2v] seed=0 32/40 (917.5s, avg 28.7s/vid)
+[render_i2v] seed=0 33/40 (946.2s, avg 28.7s/vid)
+[render_i2v] seed=0 34/40 (974.8s, avg 28.7s/vid)
+[render_i2v] seed=0 35/40 (1003.4s, avg 28.7s/vid)
+[render_i2v] seed=0 36/40 (1032.1s, avg 28.7s/vid)
+[render_i2v] seed=0 37/40 (1060.7s, avg 28.7s/vid)
+[render_i2v] seed=0 38/40 (1089.4s, avg 28.7s/vid)
+[render_i2v] seed=0 39/40 (1118.0s, avg 28.7s/vid)
+[render_i2v] seed=0 40/40 (1146.7s, avg 28.7s/vid)
+[render_i2v] done. 40 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/eval_v4/videos_base. Total 1146.7s.
+[render] base: 40 videos in 1180s
+/root/ml-portfolio/08-video-opsd-i2v/src/utils/mps_patch.py:64: RuntimeWarning: MPS not available; patches are no-ops.
+  warnings.warn("MPS not available; patches are no-ops.", RuntimeWarning)
+[render_i2v] device=cuda  dtype=torch.float16
+/root/ml-portfolio/08-video-opsd-i2v/.venv/lib64/python3.9/site-packages/lightning_fabric/__init__.py:41: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+AE working on z of shape (1, 4, 32, 32) = 4096 dimensions.
+[DC] weights loaded from weights/dynamicrafter_512/model.ckpt
+[render_i2v] LoRA merged from /root/ml-portfolio/08-video-opsd-i2v/outputs/v4_dev_selection/scaled_adapters/lora_step01000__scale_0.05, dtype=torch.float16
+[render_i2v] seed=0 1/40 (29.5s, avg 29.5s/vid)
+[render_i2v] seed=0 2/40 (58.2s, avg 29.1s/vid)
+[render_i2v] seed=0 3/40 (86.8s, avg 28.9s/vid)
+[render_i2v] seed=0 4/40 (115.5s, avg 28.9s/vid)
+[render_i2v] seed=0 5/40 (144.2s, avg 28.8s/vid)
+[render_i2v] seed=0 6/40 (172.9s, avg 28.8s/vid)
+[render_i2v] seed=0 7/40 (201.5s, avg 28.8s/vid)
+[render_i2v] seed=0 8/40 (230.3s, avg 28.8s/vid)
+[render_i2v] seed=0 9/40 (259.0s, avg 28.8s/vid)
+[render_i2v] seed=0 10/40 (287.8s, avg 28.8s/vid)
+[render_i2v] seed=0 11/40 (316.4s, avg 28.8s/vid)
+[render_i2v] seed=0 12/40 (345.0s, avg 28.8s/vid)
+[render_i2v] seed=0 13/40 (373.6s, avg 28.7s/vid)
+[render_i2v] seed=0 14/40 (402.3s, avg 28.7s/vid)
+[render_i2v] seed=0 15/40 (430.9s, avg 28.7s/vid)
+[render_i2v] seed=0 16/40 (459.5s, avg 28.7s/vid)
+[render_i2v] seed=0 17/40 (488.1s, avg 28.7s/vid)
+[render_i2v] seed=0 18/40 (516.7s, avg 28.7s/vid)
+[render_i2v] seed=0 19/40 (545.3s, avg 28.7s/vid)
+[render_i2v] seed=0 20/40 (573.9s, avg 28.7s/vid)
+[render_i2v] seed=0 21/40 (602.5s, avg 28.7s/vid)
+[render_i2v] seed=0 22/40 (631.1s, avg 28.7s/vid)
+[render_i2v] seed=0 23/40 (659.8s, avg 28.7s/vid)
+[render_i2v] seed=0 24/40 (688.4s, avg 28.7s/vid)
+[render_i2v] seed=0 25/40 (716.9s, avg 28.7s/vid)
+[render_i2v] seed=0 26/40 (745.5s, avg 28.7s/vid)
+[render_i2v] seed=0 27/40 (774.2s, avg 28.7s/vid)
+[render_i2v] seed=0 28/40 (802.8s, avg 28.7s/vid)
+[render_i2v] seed=0 29/40 (831.3s, avg 28.7s/vid)
+[render_i2v] seed=0 30/40 (859.9s, avg 28.7s/vid)
+[render_i2v] seed=0 31/40 (888.5s, avg 28.7s/vid)
+[render_i2v] seed=0 32/40 (917.2s, avg 28.7s/vid)
+[render_i2v] seed=0 33/40 (945.8s, avg 28.7s/vid)
+[render_i2v] seed=0 34/40 (974.4s, avg 28.7s/vid)
+[render_i2v] seed=0 35/40 (1003.0s, avg 28.7s/vid)
+[render_i2v] seed=0 36/40 (1031.7s, avg 28.7s/vid)
+[render_i2v] seed=0 37/40 (1060.3s, avg 28.7s/vid)
+[render_i2v] seed=0 38/40 (1088.9s, avg 28.7s/vid)
+[render_i2v] seed=0 39/40 (1117.5s, avg 28.7s/vid)
+[render_i2v] seed=0 40/40 (1146.1s, avg 28.7s/vid)
+[render_i2v] done. 40 videos in /root/ml-portfolio/08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05. Total 1146.1s.
+[render] step1000_scale0.05: 40 videos in 1180s
+{
+  "summaries": {
+    "base": {
+      "appeal": 0.7145809997121493,
+      "nat": 0.9433894880612692,
+      "dynamic": 0.48577251136302946,
+      "n": 40
+    },
+    "step1000_scale0.05": {
+      "appeal": 0.7103750365475814,
+      "nat": 0.9428947765628497,
+      "dynamic": 0.477855296532313,
+      "n": 40
+    }
+  },
+  "candidate_minus_base": {
+    "appeal": {
+      "mean": -0.004205963164567936,
+      "lo": -0.0062402596784134744,
+      "hi": -0.002419281673928099,
+      "n_pairs": 40,
+      "favorable_ci_excludes_zero": false
+    },
+    "nat": {
+      "mean": -0.000494711498419445,
+      "lo": -0.0030630049370229183,
+      "hi": 0.001272311019400757,
+      "n_pairs": 40,
+      "favorable_ci_excludes_zero": false
+    },
+    "dynamic": {
+      "mean": -0.007917214830716453,
+      "lo": -0.01153854435682297,
+      "hi": -0.004816515276829405,
+      "n_pairs": 40,
+      "favorable_ci_excludes_zero": false
+    }
+  }
+}
+saved /root/ml-portfolio/08-video-opsd-i2v/outputs/eval_v4/metrics_step1000_scale0.05.json
+  -> eval_000_base_vs_candidate.gif (846KB)
+  -> eval_001_base_vs_candidate.gif (617KB)
+  -> eval_002_base_vs_candidate.gif (855KB)
+  -> eval_003_base_vs_candidate.gif (767KB)
+  -> eval_004_base_vs_candidate.gif (783KB)
+  -> eval_005_base_vs_candidate.gif (771KB)
+saved 6 visible demos to /root/ml-portfolio/08-video-opsd-i2v/docs/figures/eval_v4
+published V4 block; complete=True; report=/root/ml-portfolio/08-video-opsd-i2v/outputs/opsd_long_v4_gradclip_rerun/FINAL_REPORT.md
+08-video-opsd-i2v/outputs/opsd_long_v4_gradclip_rerun/FINAL_REPORT.md:18: new blank line at EOF.

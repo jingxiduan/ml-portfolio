@@ -1,0 +1,38 @@
+[
+  {
+    "index": 0,
+    "prompt": "A small closed toilet in a cramped space, gentle natural motion, stable cinematic camera",
+    "seed": 0,
+    "file": "seed_00/000.mp4"
+  },
+  {
+    "index": 1,
+    "prompt": "A beautiful dessert waiting to be shared by two people, gentle natural motion, stable cinematic camera",
+    "seed": 0,
+    "file": "seed_00/001.mp4"
+  },
+  {
+    "index": 2,
+    "prompt": "A cat eating a bird it has caught, gentle natural motion, stable cinematic camera",
+    "seed": 0,
+    "file": "seed_00/002.mp4"
+  },
+  {
+    "index": 3,
+    "prompt": "A parade of motorcycles is going through a group of tall trees, gentle natural motion, stable cinematic camera",
+    "seed": 0,
+    "file": "seed_00/003.mp4"
+  },
+  {
+    "index": 4,
+    "prompt": "The telephone has a banana where the receiver should be, gentle natural motion, stable cinematic camera",
+    "seed": 0,
+    "file": "seed_00/004.mp4"
+  },
+  {
+    "index": 5,
+    "prompt": "A sculpture of two women stting on a bench with their purses on the ground while people standing in a line behind them. , gentle natural motion, stable cinematic camera",
+    "seed": 0,
+    "file": "seed_00/005.mp4"
+  }
+]
