@@ -10,9 +10,10 @@
   "dtype": "float16 backbone / float32 VAE",
   "seed_policy": "seed=3407+fixed_manifest_index",
   "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
-  "adapter_weights": "outputs/final/scene/lora_raw",
-  "adapter_scale": 2.0,
-  "qualitative_only": true,
+  "adapter_weights": "outputs/final/scene/lora_ema",
+  "adapter_scale": 1.0,
+  "qualitative_only": false,
+  "reward_objective": "CLIP semantic alignment + positive/negative professional-photography quality margin",
   "manifest_rows": [
     {
       "source": "portfolio-authored",

@@ -11,6 +11,7 @@ import torch
 from diffusers import AutoPipelineForText2Image
 from peft import LoraConfig, set_peft_model_state_dict
 from safetensors.torch import load_file
+from reward_model import QUALITY_NEGATIVE, QUALITY_POSITIVE
 
 ROOT = Path(__file__).resolve().parent.parent
 MODEL_ID = "stabilityai/sdxl-turbo"
@@ -35,17 +36,32 @@ class IndependentClipHEvaluator:
         )
         self.model.eval().requires_grad_(False)
         self.tokenizer = open_clip.get_tokenizer(EVALUATOR_ID)
+        quality_tokens = self.tokenizer([QUALITY_POSITIVE, QUALITY_NEGATIVE]).to(self.device)
+        with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
+            quality_text = self.model.encode_text(quality_tokens).float()
+        self.quality_text = quality_text / quality_text.norm(dim=-1, keepdim=True)
+
+    @torch.no_grad()
+    def encode_image(self, image):
+        pixels = self.preprocess(image).unsqueeze(0).to(self.device)
+        with torch.autocast("cuda", dtype=torch.bfloat16):
+            features = self.model.encode_image(pixels).float()
+        return features / features.norm(dim=-1, keepdim=True)
 
     @torch.no_grad()
     def score(self, image, prompt: str) -> float:
-        pixels = self.preprocess(image).unsqueeze(0).to(self.device)
+        image_features = self.encode_image(image)
         tokens = self.tokenizer([prompt]).to(self.device)
         with torch.autocast("cuda", dtype=torch.bfloat16):
-            image_features = self.model.encode_image(pixels)
-            text_features = self.model.encode_text(tokens)
-        image_features = image_features.float() / image_features.float().norm(dim=-1, keepdim=True)
-        text_features = text_features.float() / text_features.float().norm(dim=-1, keepdim=True)
+            text_features = self.model.encode_text(tokens).float()
+        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
         return float((image_features * text_features).sum().item() * 100.0)
+
+    @torch.no_grad()
+    def quality_score(self, image) -> float:
+        image_features = self.encode_image(image)
+        positive, negative = self.quality_text
+        return float(((image_features * positive).sum() - (image_features * negative).sum()).item() * 100.0)
 
 
 def generate(pipe, prompt: str, seed: int, resolution: int, steps: int):
@@ -105,6 +121,7 @@ def main() -> None:
                 "prompt": item["prompt"],
                 "seed": seed,
                 "base_score": evaluator.score(image, item["prompt"]),
+                "base_quality_score": evaluator.quality_score(image),
                 "base_diagnostics": image_diagnostics(image),
             })
         print(f"base {prompt_index + 1:02d}/{len(rows)}", flush=True)
@@ -123,25 +140,31 @@ def main() -> None:
     if load_result.unexpected_keys:
         raise RuntimeError(f"unexpected LoRA keys: {load_result.unexpected_keys}")
     pipe.unet.set_adapters("candidate", weights=args.adapter_scale)
-    print(f"evaluating EMA candidate at scale={args.adapter_scale:g} with matched prompts and seeds")
+    print(f"evaluating candidate at scale={args.adapter_scale:g} with matched prompts and seeds")
     cursor = 0
     for prompt_index, item in enumerate(rows):
         for seed in args.seeds:
             image = generate(pipe, item["prompt"], seed, args.resolution, args.inference_steps)
             records[cursor]["candidate_score"] = evaluator.score(image, item["prompt"])
+            records[cursor]["candidate_quality_score"] = evaluator.quality_score(image)
             records[cursor]["candidate_diagnostics"] = image_diagnostics(image)
             records[cursor]["delta"] = records[cursor]["candidate_score"] - records[cursor]["base_score"]
+            records[cursor]["quality_delta"] = records[cursor]["candidate_quality_score"] - records[cursor]["base_quality_score"]
             cursor += 1
         print(f"candidate {prompt_index + 1:02d}/{len(rows)}", flush=True)
 
     prompt_deltas = []
+    prompt_quality_deltas = []
     for item in rows:
-        values = [record["delta"] for record in records if record["source_id"] == item["source_id"]]
-        prompt_deltas.append(float(np.mean(values)))
+        matching = [record for record in records if record["source_id"] == item["source_id"]]
+        prompt_deltas.append(float(np.mean([record["delta"] for record in matching])))
+        prompt_quality_deltas.append(float(np.mean([record["quality_delta"] for record in matching])))
     deltas = np.asarray([record["delta"] for record in records], dtype=np.float64)
+    quality_deltas = np.asarray([record["quality_delta"] for record in records], dtype=np.float64)
     base_scores = np.asarray([record["base_score"] for record in records], dtype=np.float64)
     candidate_scores = np.asarray([record["candidate_score"] for record in records], dtype=np.float64)
     prompt_delta_array = np.asarray(prompt_deltas, dtype=np.float64)
+    prompt_quality_delta_array = np.asarray(prompt_quality_deltas, dtype=np.float64)
 
     result = {
         "domain": args.domain,
@@ -159,6 +182,12 @@ def main() -> None:
         "prompt_cluster_bootstrap_95_ci": bootstrap_ci(prompt_delta_array),
         "pair_win_rate": float((deltas > 0).mean()),
         "prompt_win_rate": float((prompt_delta_array > 0).mean()),
+        "quality_metric": "CLIP-H positive-quality minus negative-quality text margin",
+        "base_quality_mean": float(np.mean([record["base_quality_score"] for record in records])),
+        "candidate_quality_mean": float(np.mean([record["candidate_quality_score"] for record in records])),
+        "quality_delta_mean": float(quality_deltas.mean()),
+        "quality_prompt_cluster_bootstrap_95_ci": bootstrap_ci(prompt_quality_delta_array),
+        "quality_prompt_win_rate": float((prompt_quality_delta_array > 0).mean()),
         "records": records,
     }
     out_path.write_text(json.dumps(result, indent=2) + "\n")

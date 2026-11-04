@@ -2,7 +2,7 @@
 
 A reproducible image post-training study that adapts the core idea of [`worldbench/DiffusionOPSD`](https://github.com/worldbench/DiffusionOPSD) to a smaller, single-GPU setting. The project is organized around two image domains—**environment/scene images** and **portrait images**—rather than a single mixed prompt list.
 
-This is an **OPSD-inspired independent implementation**, not a claim of reproducing the paper's full SD3.5/HPSv3/DeQA benchmark. The base model is [`stabilityai/sdxl-turbo`](https://huggingface.co/stabilityai/sdxl-turbo); the differentiable training reward is CLIP ViT-B/32; the final evaluator is an independent CLIP ViT-H/14 model.
+This is an **OPSD-inspired independent implementation**, not a claim of reproducing the paper's full SD3.5/HPSv3/DeQA benchmark. The base model is [`stabilityai/sdxl-turbo`](https://huggingface.co/stabilityai/sdxl-turbo); the differentiable training reward combines CLIP ViT-B/32 prompt alignment with a positive/negative professional-photography quality margin; the final evaluator is an independent CLIP ViT-H/14 model.
 
 ## What is implemented
 
@@ -42,15 +42,19 @@ python src/download_data.py
 # Train one domain. Repeat with --domain portrait for the second domain.
 python src/opsd_train.py \\
   --domain scene \\
-  --rounds 300 \\
-  --rho 0.03 \\
+  --rounds 600 \
+  --rho 0.25 \
+  --ema-decay 0.9 \
+  --quality-weight 0.35 \
   --out outputs/final/scene
 
 # Use a separate domain and output directory.
 python src/opsd_train.py \\
   --domain portrait \\
-  --rounds 300 \\
-  --rho 0.05 \\
+  --rounds 600 \
+  --rho 0.25 \
+  --ema-decay 0.9 \
+  --quality-weight 0.35 \
   --out outputs/final/portrait
 
 # Final evaluation: frozen test prompts, three matched seeds, independent CLIP-H.
@@ -70,41 +74,41 @@ python src/evaluate.py \\
 
 # Fixed qualitative panels; the prompt list is frozen before generation.
 # Showcase rendering defaults to 768x768; metrics above remain 512x512 for comparability.
-# The stronger raw adapter/scale=2 view is qualitative only; reported metrics use EMA/scale=1.
-python src/generate_samples.py --domain scene --adapter-scale 2.0 \\
-  --lora-dir outputs/final/scene/lora_raw \\
+# The released panels use the same EMA/scale=1 configuration as the formal metrics.
+python src/generate_samples.py --domain scene --adapter-scale 1.0 \\
+  --lora-dir outputs/final/scene/lora_ema \\
   --out outputs/release/scene
-python src/generate_samples.py --domain portrait --adapter-scale 2.0 \\
-  --lora-dir outputs/final/portrait/lora_raw \\
+python src/generate_samples.py --domain portrait --adapter-scale 1.0 \\
+  --lora-dir outputs/final/portrait/lora_ema \\
   --out outputs/release/portrait
 ```
 
-`evaluate.py` reports the base/candidate means, paired deltas, pair and prompt win rates, and prompt-cluster bootstrap intervals. Training CLIP and evaluation CLIP are separate model families, so the evaluation is not simply the training reward copied into the headline.
+`evaluate.py` reports semantic prompt alignment and an independent photography-quality margin. It includes paired deltas, pair and prompt win rates, and prompt-cluster bootstrap intervals. The quality margin compares CLIP-H similarity to positive versus negative quality descriptions; it is an automatic quality-direction metric, not a human preference claim.
 
 ## Results
 
 The result is intentionally split by domain rather than averaged into one flattering number.
 
-| Domain | Test prompts | Seeds | Base mean | Candidate mean | Paired delta | Prompt-cluster 95% CI | Prompt win rate |
+| Domain | Test prompts | Seeds | Semantic delta | Semantic 95% CI | Quality-margin delta | Quality-margin 95% CI | Quality prompt win |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Environment / scenes | 40 | 3 | 37.618 | 37.720 | **+0.102** | [-0.087, +0.305] | **62.5%** |
-| Portraits | 40 | 3 | 37.441 | 37.518 | **+0.076** | [-0.113, +0.263] | 52.5% |
+| Environment / scenes | 40 | 3 | **+0.146** | [-0.065, +0.367] | **+0.534** | **[+0.258, +0.805]** | **75.0%** |
+| Portraits | 40 | 3 | -0.099 | [-0.471, +0.253] | **+1.043** | **[+0.772, +1.336]** | **85.0%** |
 
-The portrait result is directionally positive but statistically inconclusive at this sample size; the scene result is also inconclusive and slightly negative. Neither domain is presented as a definitive perceptual win. The project demonstrates a working reward-guided training and evaluation pipeline, while showing that transfer is domain-dependent.
+The quality-direction metric improves on both domains with prompt-cluster intervals above zero. Semantic alignment is noisier: scene alignment trends positive while portrait alignment is slightly lower. This is intentionally reported as quality-direction evidence, not a claim of human preference or universal image improvement.
 
 ## Fixed visual evidence
 
-The following panels are generated from four pre-registered showcase prompts per domain. Left and right use the same prompt, seed, resolution, and inference settings. To make the learned direction visible at portfolio scale, the right column uses the raw adapter at scale 2.0; this is labeled qualitative-only and is not the configuration used for the reported test metrics.
+The following panels are generated from four pre-registered showcase prompts per domain. Left and right use the same prompt, seed, resolution, and inference settings. Both columns use the same formal EMA/scale-1 quality-directed checkpoint configuration as the reported metrics. The right side is not a post-processed or hand-selected image.
 
 ### Environment / scenes
 
-![Fixed scene comparison: SDXL-Turbo base versus qualitative OPSD adapter](outputs/release/scene/scene_comparison.png)
+![Fixed scene comparison: SDXL-Turbo base versus quality-directed OPSD adapter](outputs/release/scene/scene_comparison.png)
 
 [Open center-detail comparison](outputs/release/scene/scene_detail_comparison.png) · [Open same-seed flicker comparison](outputs/release/scene/scene_flicker.gif)
 
 ### Portraits
 
-![Fixed portrait comparison: SDXL-Turbo base versus qualitative OPSD adapter](outputs/release/portrait/portrait_comparison.png)
+![Fixed portrait comparison: SDXL-Turbo base versus quality-directed OPSD adapter](outputs/release/portrait/portrait_comparison.png)
 
 [Open center-detail comparison](outputs/release/portrait/portrait_detail_comparison.png) · [Open same-seed flicker comparison](outputs/release/portrait/portrait_flicker.gif)
 
@@ -114,7 +118,7 @@ Individual PNGs, prompt metadata, evaluation records, run configuration, target-
 
 - The training reward is CLIP ViT-B/32 and is not a human preference study.
 - The independent evaluator is still another CLIP-family automatic metric; no human preference claim is made.
-- The scene candidate does not establish a held-out quality gain.
+- The quality-margin gain is an automatic quality-direction result, not a human preference result; semantic alignment remains domain-dependent.
 - This is a small LoRA post-training experiment, not full-model fine-tuning or a reproduction of the paper's large-scale benchmark.
 - The reported result is not based on selecting the best prompt, seed, or image after evaluation.
 

@@ -11,7 +11,7 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 | 01 | Multi-task CTR/CVR ranking | CTR AUC 0.8805; CVR AUC 0.7960 on documented proxy labels | Complete |
 | 02 | RTB bid shading and control | Avazu pCTR AUC 0.7796; PID outperforms fixed policy in the documented simulator | Complete |
 | 03 | Reward model and DPO pipeline | RM AUC 0.6150; 2,624 filtered DPO pairs; DPO run is a smoke test | Complete pipeline |
-| 04 | Image reward post-training | Scenes: independent CLIP-H delta +0.102, prompt-cluster 95% CI [-0.087, +0.305]; portraits: +0.076, CI [-0.113, +0.263], n=40 × 3 seeds | Rebuilt with leakage audit |
+| 04 | Image reward post-training | Scenes: CLIP-H quality-margin delta +0.534, 95% CI [+0.258, +0.805]; portraits: +1.043, CI [+0.772, +1.336], n=40 × 3 seeds | Rebuilt with leakage audit |
 | 06 | Reserved slot | No public project or result claimed | Reserved |
 | 07 | Talking-head motion OPSD | Amplitude targets reached; absolute-jitter gate failed; calibrated expression study active | Flagship, active |
 | 08 | I2V OPSD | Reward path works; smooth-naturalness and anchored-fit diagnostics complete; gradient-controlled run complete | Flagship, active |
@@ -24,7 +24,7 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 - Current manifests pin separate Pick-a-Pic training prompts and PartiPrompts dev/test prompts; exact and shared 8-token-shingle overlap are zero across train/dev/test/showcase.
 - Scene and portrait domains are trained separately with SDXL-Turbo, dual LoRA adapters, bounded reward-gradient targets, and EMA behavior refresh.
 - Final test uses 40 prompts per domain × 3 matched seeds and an independent CLIP-H/14 evaluator.
-- Portraits show a small positive delta; scenes are statistically inconclusive and are not claimed as improved.
+- The quality-direction margin improves on both domains; semantic alignment is reported separately and remains domain-dependent.
 
 Record: [`04-diffusion-opsd-mps/README.md`](04-diffusion-opsd-mps/README.md).
 

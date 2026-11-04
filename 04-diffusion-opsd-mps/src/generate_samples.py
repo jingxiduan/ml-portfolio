@@ -160,7 +160,7 @@ def main() -> None:
         "dtype": "float16 backbone / float32 VAE",
         "seed_policy": f"seed={args.seed}+fixed_manifest_index",
         "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
-        "adapter_weights": str(lora_dir.relative_to(ROOT)),
+        "adapter_weights": str(lora_dir.relative_to(ROOT)) if lora_dir.is_relative_to(ROOT) else str(lora_dir),
         "adapter_scale": args.adapter_scale,
         "qualitative_only": args.adapter_scale != 1.0 or "lora_raw" in str(lora_dir),
         "manifest_rows": rows,

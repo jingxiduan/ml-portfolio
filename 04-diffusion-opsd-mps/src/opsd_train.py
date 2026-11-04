@@ -147,6 +147,7 @@ def main() -> None:
     parser.add_argument("--beta", type=float, default=1.0)
     parser.add_argument("--ema-decay", type=float, default=0.95)
     parser.add_argument("--grad-clip", type=float, default=1.0)
+    parser.add_argument("--quality-weight", type=float, default=0.35)
     parser.add_argument("--seed", type=int, default=3407)
     parser.add_argument("--log-every", type=int, default=10)
     parser.add_argument("--out", default=None)
@@ -206,6 +207,7 @@ def main() -> None:
     train_params = list(trainable.values())
     optimizer = torch.optim.AdamW(train_params, lr=args.lr, weight_decay=0.0)
     reward_model = ClipRewardModel(device=args.device)
+    quality_positive, quality_negative = reward_model.encode_quality_targets()
 
     pipe.scheduler.set_timesteps(args.inference_steps, device=device)
     timesteps = pipe.scheduler.timesteps.clone()
@@ -285,7 +287,13 @@ def main() -> None:
         anchor_leaf = anchor.detach().requires_grad_(True)
         with torch.autocast("cuda", enabled=False):
             image = decode_for_reward(pipe.vae, anchor_leaf)
-            reward, reward_parts = reward_model.score(image, text_features)
+            reward, reward_parts = reward_model.score(
+                image,
+                text_features,
+                quality_positive,
+                quality_negative,
+                quality_weight=args.quality_weight,
+            )
             reward_gradient = torch.autograd.grad(reward.sum(), anchor_leaf)[0]
         if not torch.isfinite(reward_gradient).all():
             raise RuntimeError(f"non-finite reward gradient at step {step}")
@@ -332,6 +340,7 @@ def main() -> None:
             "loss_neg": float(loss_neg.item()),
             "anchor_reward": float(reward.mean().item()),
             "anchor_alignment": float(reward_parts["alignment"].mean().item()),
+            "anchor_quality_margin": float(reward_parts["quality_margin"].mean().item()),
             "display_penalty": float(reward_parts["display_penalty"].mean().item()),
             "reward_grad_norm": float(gradient_norm.mean().item()),
             "policy_grad_norm_pre_clip": float(grad_norm),
