@@ -40,27 +40,27 @@ The stabilized video fit removes the original unbounded negative-target repulsio
 
 Full derivation and implementation boundaries: [`08 · METHOD.md`](08-video-opsd-i2v/docs/METHOD.md).
 
-### 07 · New licensed hold-out faces — Base vs R3
+### 07 · New licensed hold-out faces — Base vs calibrated policy
 
 <table>
 <tr>
-<td width="50%"><img src="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif" alt="New licensed female face: Base versus R3 seed 0"></td>
-<td width="50%"><img src="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif" alt="New licensed male face: Base versus R3 seed 0"></td>
+<td width="50%"><img src="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif" alt="New licensed female face: Base versus calibrated policy, seed 0"></td>
+<td width="50%"><img src="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif" alt="New licensed male face: Base versus calibrated policy, seed 0"></td>
 </tr>
 <tr>
-<td><a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/expression_r3__base.mp4">Base MP4</a> · <a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/expression_r3__seed0.mp4">R3 MP4</a></td>
-<td><a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/expression_r3__base.mp4">Base MP4</a> · <a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/expression_r3__seed0.mp4">R3 MP4</a></td>
+<td><a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/expression_r3__base.mp4">Base MP4</a> · <a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/female/expression_r3__seed0.mp4">Calibrated policy MP4</a></td>
+<td><a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/expression_r3__base.mp4">Base MP4</a> · <a href="07-talking-head-motion-opsd/outputs/new_face_demo_r3/male/expression_r3__seed0.mp4">Calibrated policy MP4</a></td>
 </tr>
 </table>
 
 These portraits are newly extracted from two 4K Pexels License videos and were not used for training or calibration. Both columns use matched portrait, held-out audio, generation seed, and frozen renderer; only the motion adapter changes. Judge expression/head-motion behavior here—not color or skin detail, which are controlled by the same frozen LivePortrait renderer. [Sources and checksums](07-talking-head-motion-opsd/data/portraits_new_licensed/SOURCES.json).
 
 <!-- V4_RESULT_START -->
-### 08 · V4 held-out I2V result
+### 08 · Held-out stability candidate result
 
-![V4 training and stability curves](08-video-opsd-i2v/outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
+![Training and stability curves for the guarded run](08-video-opsd-i2v/outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
 
-| Metric | Base | V4 | V4−Base mean [95% CI] |
+| Metric | Base | Candidate | Candidate−Base mean [95% CI] |
 |---|---:|---:|---:|
 | Appeal | 0.7146 | 0.7104 | -0.0042 [-0.0062, -0.0024] |
 | Naturalness | 0.9434 | 0.9429 | -0.0005 [-0.0031, +0.0013] |
@@ -70,12 +70,12 @@ Metrics with a favorable 95% interval excluding zero: **none**.
 
 
 <table>
-<tr><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus V4"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">V4 MP4</a></td><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus V4"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">V4 MP4</a></td></tr>
-<tr><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus V4"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">V4 MP4</a></td><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus V4"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">V4 MP4</a></td></tr>
-<tr><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus V4"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">V4 MP4</a></td><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus V4"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">V4 MP4</a></td></tr>
+<tr><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus stability candidate"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">Candidate MP4</a></td><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus stability candidate"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">Candidate MP4</a></td></tr>
+<tr><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus stability candidate"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">Candidate MP4</a></td><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus stability candidate"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">Candidate MP4</a></td></tr>
+<tr><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus stability candidate"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">Candidate MP4</a></td><td width="50%"><img src="08-video-opsd-i2v/docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus stability candidate"><br><a href="08-video-opsd-i2v/outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="08-video-opsd-i2v/outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">Candidate MP4</a></td></tr>
 </table>
 
-The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [Full operation record](08-video-opsd-i2v/operations/v4/README.md).
+The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [Full operation record](08-video-opsd-i2v/operations/v4/README.md).
 <!-- V4_RESULT_END -->
 
 ## Projects 01–08
@@ -89,7 +89,7 @@ The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not use
 | 05 | [`video-opsd-mps`](05-video-opsd-mps) | Extends the same loop to AnimateDiff video latents with frame-averaged CLIP alignment and temporal-consistency reward. | Held-out reward **+0.523**, **77.8%** win rate over base on 9 prompts; the training curve itself remained noisy and flat. | Video proof of concept |
 | 06 | **Reserved research slot** | No public project is assigned to this number. It remains visible so the repository history is not presented as a continuous series that never existed. | No result claimed. | Reserved |
 | 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority; absolute lip-sync quality and human preference remain unresolved. | Flagship, active |
-| 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | V4 completed **2,000** guarded steps, but n=40 confirmatory evaluation found no gain: appeal **-0.0042**, naturalness statistically tied, dynamics **-0.0079**. | Flagship, closed negative result |
+| 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | The gradient-controlled anchored fit completed **2,000** guarded steps; n=40 confirmatory evaluation measured appeal **-0.0042**, statistically tied naturalness, and dynamics **-0.0079**. | Flagship, closed negative result |
 
 ## The OPSD research thread
 
@@ -115,7 +115,7 @@ The optimization loop is deliberately held recognizable across projects: on-poli
 - **Measured targets:** amplitude, jitter, and blink bands are estimated from public human footage.
 - **Real-video supervision:** 1,753 aligned four-second motion windows are available for behavior cloning.
 - **Controlled evaluation:** held-out speakers, identical audio/seed comparisons, real-motion reference, same-face cross-industry control, effect sizes, bootstrap intervals, and permutation tests.
-- **R3 expression control:** three calibrated seeds pass paired n=40 target-error and pose high-frequency gates; this remains a coefficient-control claim, not an independent perceptual claim.
+- **Calibrated expression control:** three trained seeds pass paired n=40 target-error and pose high-frequency gates; this remains a coefficient-control claim, not an independent perceptual claim.
 - **Independent lip preservation:** all three seeds pass the frozen n=40 SyncNet non-inferiority margin, although low absolute confidence means lip synchronization is not solved.
 - **What did not work:** the earlier absolute-jitter gate failed; finance and real-estate are not ecologically separable in the real reference footage; human preference evaluation is still missing.
 
@@ -126,9 +126,9 @@ Start with the [technical report](07-talking-head-motion-opsd/docs/TECH_REPORT.m
 - **Model path:** DynamiCrafter I2V with LoRA on 136 temporal-attention targets; spatial priors remain frozen.
 - **Reward path:** subject consistency, optical-flow dynamics, motion smoothness, and a differentiable pixel-naturalness penalty.
 - **Core diagnosis:** full-strength reward-aligned LoRA amplified saturation, overexposure, and edge artifacts; the first naturalness implementation also zeroed its own gradient through clamping.
-- **Long-run result:** V2 stopped at step 306 and V3 at step 522; gradient-controlled V4 completed 2,000 steps without a guard trip.
+- **Long-run result:** smooth-naturalness and anchored-fit diagnostics exposed two distinct optimization failures; effective gradient control completed 2,000 steps without a guard trip.
 - **Confirmatory result:** a candidate selected on six development pairs was evaluated on 40 untouched pairs. Appeal and dynamics regressed significantly; naturalness was tied. Stability is established, quality improvement is rejected for this configuration.
-- **What is not claimed:** the completed V4 run does not establish that OPSD improves held-out I2V quality.
+- **What is not claimed:** the completed gradient-controlled run does not establish that OPSD improves held-out I2V quality.
 
 Start with the [method](08-video-opsd-i2v/docs/METHOD.md), [long-run results](08-video-opsd-i2v/docs/RESULTS_LONG.md), and [gate log](08-video-opsd-i2v/docs/GATE_LOG.md).
 
@@ -147,7 +147,7 @@ Training optimizations are launched through `tools/train_guard.py`. Each run rec
 
 ## Human evaluation package
 
-The remaining perceptual question is packaged as an executable 80-trial blind A/B study: 40 matched Base/R3 talking-head pairs and 40 matched Base/V4 I2V pairs. Candidate placement is exactly balanced within each project, trial order and filenames are anonymized, and the private answer key is excluded from Git.
+The remaining perceptual question is packaged as an executable 80-trial blind A/B study: 40 matched Base/calibrated-policy talking-head pairs and 40 matched Base/stability-candidate I2V pairs. Candidate placement is exactly balanced within each project, trial order and filenames are anonymized, and the private answer key is excluded from Git.
 
 - [Study protocol and local UI](human-study)
 - Builder: `tools/build_blind_study.py`

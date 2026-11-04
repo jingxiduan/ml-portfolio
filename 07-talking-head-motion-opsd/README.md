@@ -24,7 +24,7 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 
 - Peaked amplitude targets removed the earlier **2.4–2.7×** monotone-reward overshoot.
 - Three trained policies reached **0.85–0.89×** their corresponding measured amplitude targets on held-out audio.
-- Calibrated expression V5 reduced mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips); pose high-frequency RMS was **0.75–0.77×** base.
+- The calibrated expression policy reduced mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips); pose high-frequency RMS was **0.75–0.77×** base.
 - Four classes (base plus three amplitude policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude.
 - The real reference data do **not** support a general claim that finance and real-estate speakers have distinct motion styles.
 
@@ -32,8 +32,8 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 
 - The pre-registered absolute-jitter gate failed: **28.97** versus the allowed **18.36**.
 - SyncNet non-inferiority is validated on 40 paired renders per seed, but low absolute confidence and 7.7–8.8-frame mean offsets mean lip synchronization itself is not solved.
-- Expression-dynamics V5 passes its calibrated multi-seed coefficient gate, but the optimized expression statistic is not an independent perceptual metric.
-- Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by real participants. A randomized, balanced 40-pair R3 study is executable from [`../human-study`](../human-study); no responses are fabricated.
+- The expression-dynamics policy passes its calibrated multi-seed coefficient gate, but the optimized expression statistic is not an independent perceptual metric.
+- Behavior cloning uses 1,753 four-second windows, but its perceptual gain has not been established by real participants. A randomized, balanced 40-pair expression study is executable from [`../human-study`](../human-study); no responses are fabricated.
 
 > This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
 
@@ -41,10 +41,10 @@ The unit of optimization is a four-second trajectory of 73 normalized motion coe
 
 | New face A | New face B |
 |---|---|
-| ![Pexels face A Base versus R3](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) | ![Pexels face B Base versus R3](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif) |
-| [Base MP4](outputs/new_face_demo_r3/female/expression_r3__base.mp4) · [R3 MP4](outputs/new_face_demo_r3/female/expression_r3__seed0.mp4) | [Base MP4](outputs/new_face_demo_r3/male/expression_r3__base.mp4) · [R3 MP4](outputs/new_face_demo_r3/male/expression_r3__seed0.mp4) |
+| ![Pexels face A Base versus calibrated policy](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) | ![Pexels face B Base versus calibrated policy](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif) |
+| [Base MP4](outputs/new_face_demo_r3/female/expression_r3__base.mp4) · [Calibrated policy MP4](outputs/new_face_demo_r3/female/expression_r3__seed0.mp4) | [Base MP4](outputs/new_face_demo_r3/male/expression_r3__base.mp4) · [Calibrated policy MP4](outputs/new_face_demo_r3/male/expression_r3__seed0.mp4) |
 
-Both 1024×1024 inputs were extracted from previously unused 4K Pexels License videos. They were not part of training, behavior calibration, or model selection. Base and R3 use identical portrait, held-out audio, generation seed, and frozen LivePortrait renderer. The test isolates motion changes; it does not claim improved skin texture, lighting, or color. [Source URLs, authors, timestamps, license and checksums](data/portraits_new_licensed/SOURCES.json).
+Both 1024×1024 inputs were extracted from previously unused 4K Pexels License videos. They were not part of training, behavior calibration, or model selection. Base and the calibrated policy use identical portrait, held-out audio, generation seed, and frozen LivePortrait renderer. The test isolates motion changes; it does not claim improved skin texture, lighting, or color. [Source URLs, authors, timestamps, license and checksums](data/portraits_new_licensed/SOURCES.json).
 
 ### Historical evaluation portraits
 
@@ -132,7 +132,7 @@ ema_update_behaviour_policy()
 | **Real Estate Persona** | 1.114° | **0.89x** | **1.21x** |
 | **Short Video Persona** | 2.597° | **0.85x** | **2.81x** |
 
-### 3. Calibrated Expression Dynamics (R3, n=40 Paired Clips)
+### 3. Calibrated Expression Dynamics (n=40 Paired Clips)
 
 | Variant | Expression RMS | Mean Target Error | Pose High-Frequency RMS | Gate |
 |---|---:|---:|---:|---|
@@ -143,7 +143,7 @@ ema_update_behaviour_policy()
 
 All three paired bootstrap intervals for target-error improvement exclude zero. Because expression RMS is also the optimized statistic, this establishes coefficient control rather than independent perceptual quality. See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md).
 
-![R3 strict four-second matched render](outputs/expression_render_set_r3/clip000_fourway.gif)
+![Calibrated expression policy: strict four-second matched render](outputs/expression_render_set_r3/clip000_fourway.gif)
 
 ----------------------------------------
 
@@ -164,12 +164,12 @@ Raw motion coefficients suffered from head size drift during driving. We resolve
 
 ----------------------------------------
 
-## 🎬 COMPREHENSIVE VISUAL GALLERY (V1 - V8)
+## 🎬 COMPREHENSIVE VISUAL EVIDENCE GALLERY
 
-We list and preserve all generated qualitative demos from the project's historical versions, standardized to prioritize **soft, realistic, low-saturation skin tones (V4 style)** over artificial warm saturations.
+The gallery organizes qualitative evidence by research question and control type, with **soft, realistic, low-saturation skin tones** used wherever comparable renders are available.
 
-### **V1 · Three Industry Personas (Two-Subject Grid - Soft Tone)**
-*Description:* Two distinct subjects are presented per industry to assess within-industry consistency and cross-subject generalizability. Standardized to use our soft, natural color grading (no `_v8` over-saturation).
+### **Multi-Subject Persona Generalization**
+*Description:* Two distinct subjects are presented per industry to assess within-industry consistency and cross-subject generalizability. The renders use soft, natural color grading without artificial warm saturation.
 *   **BASE**: Pretrained model without post-training.
 *   **PERSONA**: Model post-trained with OPSD against each industry's measured target band.
 
@@ -181,7 +181,7 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V2 · Reference Condition (Real Human Drive - Upper Bound)**
+### **Real-Motion Reference Condition (Upper Bound)**
 *Description:* Direct transfer of recorded human motion coefficients onto the portrait. This represents the reference target that the OPSD policy is optimized to approach.
 
 | Industry | Qualitative Comparison (BASE vs. REAL) | High-Definition Video |
@@ -192,7 +192,7 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V3 · Same-Face Cross-Industry Control**
+### **Same-Face Cross-Industry Control**
 *Description:* Control experiment holding portrait and driving audio identical. Any behavioral difference is purely due to the target persona checkpoint.
 
 ![same face, three industries](outputs/industry_gifs_v3/control/same_face_p00_-R5aAhsrS9w_3_0__base_vs_three.gif)
@@ -200,8 +200,8 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V4 · Three Industry Personas (Single-Subject, Soft Tone)**
-*Description:* Six single-subject comparisons from the earlier soft, low-saturation grading. These are displayed directly rather than hidden behind directory links. Slight grey/background flicker remains in this historical release.
+### **Single-Subject Persona Comparisons (Soft Tone)**
+*Description:* Six single-subject comparisons using soft, low-saturation grading. These are displayed directly rather than hidden behind directory links. Slight grey/background flicker remains in these renders.
 
 | Finance | Finance |
 |---|---|
@@ -213,8 +213,8 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V5 · Frontal Portrait Demos (Base vs. V3)**
-*Description:* All eight frontal-portrait comparisons driven by the early V3 weights. V3 overshoots the measured human motion band and is retained as an ablation/history result.
+### **High-Amplitude Frontal-Portrait Ablation**
+*Description:* Eight frontal-portrait comparisons driven by the high-amplitude checkpoint. This checkpoint overshoots the measured human motion band and is retained as an ablation result.
 
 | Clip 00 | Clip 01 |
 |---|---|
@@ -225,8 +225,8 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V6 · Historical Release Demos (Base vs. V4)**
-*Description:* All six V4 comparisons under the legacy grading pipeline. These demonstrate the calibrated, restrained-motion checkpoint before the later industry layout and colour grades.
+### **Calibrated Restrained-Motion Comparisons**
+*Description:* Six comparisons under the soft-tone grading pipeline. These demonstrate the calibrated, restrained-motion checkpoint across held-out clips.
 
 | Clip 00 | Clip 01 |
 |---|---|
@@ -236,7 +236,7 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V7 · High-Definition Master Videos**
+### **Synchronized High-Definition Deliverables**
 *Description:* GitHub README pages do not reliably render repository MP4 files inline. Therefore each master is represented by its visible GIF preview below, with the synchronized high-definition MP4 available beside it.
 
 | Industry master | Visible preview | Synchronized master |
@@ -247,8 +247,8 @@ We list and preserve all generated qualitative demos from the project's historic
 
 ---
 
-### **V8 · Behavior-Cloning + OPSD Prototype (600 Steps)**
-*Description:* Alternates OPSD updates with supervised fitting to 1,753 extracted real-video motion windows. This gallery is qualitative evidence only: no blind preference test or independent lip-sync gain has been established. *Rendering note: this historical sample uses the earlier warm/sharp tone.*
+### **Real-Video Behavior-Cloning + OPSD Prototype (600 Steps)**
+*Description:* Alternates OPSD updates with supervised fitting to 1,753 extracted real-video motion windows. This gallery is qualitative evidence only: no blind preference test or independent lip-sync gain has been established. *Rendering note: this sample uses the warm/sharp tone.*
 
 ![bc_v1](outputs/demos/bc_v1_base_vs_trained.gif)
 <div align="center">Left: <code>BASE</code>. Right: <code>TRAINED</code>. Same portrait, audio and seed. [1080-line mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)</div>
@@ -262,7 +262,7 @@ We list and preserve all generated qualitative demos from the project's historic
 | **Visual Realism** | **Not solved.** Skin, color, and teeth textures are determined by the frozen LivePortrait warp. |
 | **Pre-registered Jitter Gate** | **Failed.** Pre-registered gate of `jitter_hp ≤ 1.3x base` (18.36) was not satisfied; OPSD naive attained **28.97 (2.05x base)**. |
 | **Lip Synchronisation** | **Relative gate passed, absolute quality unresolved.** Three seeds pass the frozen paired SyncNet non-inferiority margin, but all variants have low confidence and large offsets. |
-| **Expression V5** | **Coefficient and lip-preservation gates passed.** Three calibrated seeds and n=40 paired evaluations are complete; independent perceptual preference remains open. |
+| **Expression dynamics** | **Coefficient and lip-preservation gates passed.** Three calibrated seeds and n=40 paired evaluations are complete; independent perceptual preference remains open. |
 | **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. |
 
 See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the completion protocol and exact claim boundary.
@@ -287,7 +287,7 @@ python scripts/calibrate_behaviour_bands.py
 python ../tools/train_guard.py --selftest
 ROUNDS=3000 bash scripts/train_industries.sh
 
-# V5 expression runs use the target/tolerance written above and unique output dirs;
+# Calibrated expression runs use the target/tolerance written above and unique output dirs;
 # the exact command and outcome must be appended to docs/RESULTS_R3.md.
 
 # 5. held-out evaluation and matched demo rendering

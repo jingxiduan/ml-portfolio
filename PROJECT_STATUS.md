@@ -14,12 +14,12 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 | 04 | Image DiffusionOPSD | Held-out CLIPScore +0.542; 60% prompt-level win rate on n=20 | Mechanism reproduction |
 | 05 | Text-to-video OPSD | Held-out reward +0.523; 77.8% win rate on n=9; training curve remains noisy | Proof of concept |
 | 06 | Reserved slot | No public project or result claimed | Reserved |
-| 07 | Talking-head motion OPSD | Amplitude targets reached; absolute-jitter gate failed; R3 expression study active | Flagship, active |
-| 08 | I2V OPSD | Reward path works; held-out gain absent; V2 long run failed stability guard; V3 active | Flagship, active |
+| 07 | Talking-head motion OPSD | Amplitude targets reached; absolute-jitter gate failed; calibrated expression study active | Flagship, active |
+| 08 | I2V OPSD | Reward path works; smooth-naturalness and anchored-fit diagnostics complete; gradient-controlled run complete | Flagship, active |
 
 ## Active work
 
-### 07 · R3 expression dynamics
+### 07 · Calibrated expression dynamics
 
 - Same-unit calibration completed on 77 windows from 40 sampled CelebV/HDTF clips.
 - Frozen target: 0.3929 normalized expression RMS.
@@ -33,11 +33,11 @@ Record: [`07-talking-head-motion-opsd/docs/RESULTS_R3.md`](07-talking-head-motio
 
 ### 08 · Stabilized I2V OPSD
 
-- The 2,000-step NoNat control completed; naturalness-constrained V2 stopped at step 306 and anchored V3 at step 522.
-- V4 retained the anchored objective, applied effective `1e-3` gradient clipping, and completed 2,000 steps without a guard trip.
-- The candidate was selected from a frozen 4-checkpoint × 3-scale grid on six development pairs.
+- The 2,000-step no-naturalness control completed; the smooth-naturalness objective stopped at step 306 and the anchored fit at step 522.
+- Effective `1e-3` gradient clipping stabilized the anchored objective and completed 2,000 steps without a guard trip.
+- The stability candidate was selected from a frozen 4-checkpoint × 3-scale grid on six development pairs.
 - On 40 untouched confirmatory pairs, appeal decreased by 0.0042 (95% CI [-0.0062, -0.0024]), naturalness was tied, and dynamics decreased by 0.0079 (95% CI [-0.0115, -0.0048]).
-- V4 establishes long-run numerical stability but rejects held-out quality improvement for this configuration.
+- The gradient-controlled run establishes long-run numerical stability but rejects held-out quality improvement for this configuration.
 - A unified randomized 80-trial blind-study UI and participant-cluster scorer are ready under `human-study/`; real participant responses remain absent.
 
 Record: [`08-video-opsd-i2v/docs/RESULTS_LONG.md`](08-video-opsd-i2v/docs/RESULTS_LONG.md).

@@ -28,20 +28,20 @@ The historical change from -1.47 to -0.79 refers to the internal naturalness rew
 - Full-strength adapters exposed saturation, overexposure, edge artifacts, and other reward-hacking behavior.
 - Replacing the original hard-clamped naturalness formulation with smooth penalties restored an active **training** gradient.
 - The 500-step held-out metrics are effectively tied with base; no quality gain is established.
-- A 2,000-step NoNat control completed, but the naturalness-constrained V2 run hit the fixed loss-growth guard at step 306.
-- V3 hit the parameter-gradient guard at step 522. V4's `1e-3` effective gradient clipping completed 2,000 steps without a guard trip.
-- The development-selected V4 candidate did **not** generalize: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. Stability improved; held-out quality did not.
+- A 2,000-step unconstrained control completed, while the smooth-naturalness objective hit the fixed loss-growth guard at step 306.
+- The anchored-fit objective exposed parameter-gradient drift; effective `1e-3` gradient clipping then completed 2,000 guarded steps.
+- The development-selected stability candidate did **not** generalize: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. Stability improved; held-out quality did not.
 
 ---
 
 ## 📊 MAIN RESULTS
 
 <!-- V4_RESULT_START -->
-### 08 · V4 Held-Out I2V Result
+### 08 · Held-Out Stability Candidate Result
 
-![V4 training and stability curves](outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
+![Training and stability curves for the guarded run](outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
 
-| Metric | Base | V4 | V4−Base mean [95% CI] |
+| Metric | Base | Candidate | Candidate−Base mean [95% CI] |
 |---|---:|---:|---:|
 | Appeal | 0.7146 | 0.7104 | -0.0042 [-0.0062, -0.0024] |
 | Naturalness | 0.9434 | 0.9429 | -0.0005 [-0.0031, +0.0013] |
@@ -50,12 +50,12 @@ The historical change from -1.47 to -0.79 refers to the internal naturalness rew
 Metrics with a favorable 95% interval excluding zero: **none**.
 
 <table>
-<tr><td width="50%"><img src="docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">V4 MP4</a></td></tr>
-<tr><td width="50%"><img src="docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">V4 MP4</a></td></tr>
-<tr><td width="50%"><img src="docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">V4 MP4</a></td></tr>
+<tr><td width="50%"><img src="docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">Candidate MP4</a></td></tr>
+<tr><td width="50%"><img src="docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">Candidate MP4</a></td></tr>
+<tr><td width="50%"><img src="docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">Candidate MP4</a></td></tr>
 </table>
 
-The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [Full operation record](operations/v4/README.md).
+The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [Full operation record](operations/v4/README.md).
 <!-- V4_RESULT_END -->
 
 ---
@@ -158,23 +158,23 @@ alpha=6 is the I2V equivalent of scale~0.2; alpha=32 is full strength.
 
 ![Reward Comparison](outputs/figures_comparison/comparison_rewards.png)
 
-- **V2 (sigmoid, green):** the naturalness reward path remains active; this is an optimization diagnostic, not perceptual evidence.
-- **V1 (ReLU+clamp, blue dashed):** the naturalness gradient is zero after saturation, so the intended constraint cannot influence the update.
-- **NoNat (red dash-dot):** removes the naturalness term and serves as the reward-hacking control.
+- **Smooth penalty (sigmoid, green):** the naturalness reward path remains active; this is an optimization diagnostic, not perceptual evidence.
+- **Hard clamp (ReLU+clamp, blue dashed):** the naturalness gradient is zero after saturation, so the intended constraint cannot influence the update.
+- **No-naturalness control (red dash-dot):** removes the naturalness term and serves as the reward-hacking control.
 
 #### Naturalness Penalty Evolution
 
 ![Naturalness Evolution](outputs/figures_comparison/naturalness_evolution.png)
 
-The V2 **training reward component** moves from -1.47 to -0.79 over 500 steps. This confirms an active optimization signal only; the held-out naturalness metric does not improve.
+The smooth-penalty **training reward component** moves from -1.47 to -0.79 over 500 steps. This confirms an active optimization signal only; the held-out naturalness metric does not improve.
 
 #### Key Finding: Gradient Flow Is Everything
 
 | Config | Naturalness Impl | R_nat @ step 500 | Gradient? |
 |--------|-----------------|-------------------|-----------|
-| V1 | `ReLU + clamp(0,1)` | **0.000** (dead) | No -- 100% steps zero gradient |
-| **V2** | **`sigmoid`** | **-0.786** (alive) | Yes -- smooth gradient everywhere |
-| NoNat | none | N/A | N/A |
+| Hard-clamp objective | `ReLU + clamp(0,1)` | **0.000** (dead) | No -- 100% steps zero gradient |
+| **Smooth-penalty objective** | **`sigmoid`** | **-0.786** (alive) | Yes -- smooth gradient everywhere |
+| No-naturalness control | none | N/A | N/A |
 
 Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. `sigmoid` guarantees smooth gradient for any input.
 
@@ -184,21 +184,21 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 
 | Experiment | GPU | Steps | Time |
 |------------|-----|-------|------|
-| V1 (nat_clamp) | H20 80GB | 500 | 86 min |
-| V2 (nat_sigmoid) | H20 80GB | 500 | 86 min |
-| NoNat (ablation) | H20 80GB | 500 | 86 min |
+| Hard clamp | H20 80GB | 500 | 86 min |
+| Smooth penalty | H20 80GB | 500 | 86 min |
+| No-naturalness control | H20 80GB | 500 | 86 min |
 | **Total** | | | **4.3 GPU-hours** |
 
 <details>
 <summary>Per-Experiment Detailed Curves</summary>
 
-**V1 (ReLU+clamp, dead gradient)**
+**Hard-clamp objective (dead gradient)**
 
 | Reward | Loss | Diagnostics |
 |---|---|---|
 | ![](outputs/opsd_tier2/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2/figures/fig_diagnostics.png) |
 
-**V2 (sigmoid, gradient alive)**
+**Smooth-penalty objective (gradient alive)**
 
 | Reward | Loss | Diagnostics |
 |---|---|---|
@@ -217,11 +217,11 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 | Config | Appeal | Naturalness | Dynamic |
 |--------|--------|-------------|---------|
 | Base (no LoRA) | 0.7295 | 0.9515 | 0.5075 |
-| V1 (nat_clamp) | 0.7294 | 0.9515 | 0.5074 |
-| V2 (nat_sigmoid) | 0.7291 | 0.9513 | 0.5069 |
-| NoNat (ablation) | 0.7296 | 0.9512 | 0.5079 |
+| Hard-clamp objective | 0.7294 | 0.9515 | 0.5074 |
+| Smooth-penalty objective | 0.7291 | 0.9513 | 0.5069 |
+| No-naturalness control | 0.7296 | 0.9512 | 0.5079 |
 
-> At 500 steps, the held-out metric differences are within noise. A longer run is not automatically better: the V2 2,000-step attempt crossed the registered loss-growth guard at step 306, while the NoNat control completed but does not solve reward hacking. See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md).
+> At 500 steps, the held-out metric differences are within noise. A longer run is not automatically better: the 2,000-step smooth-penalty run crossed the registered loss-growth guard at step 306, while the no-naturalness control completed but does not solve reward hacking. See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md).
 
 ---
 
@@ -314,7 +314,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 | Area | Current Status |
 |------|---------------|
-| Long-run stability | V2 stopped at step 306 and V3 at step 522; V4 completed 2,000 steps without a guard trip. |
+| Long-run stability | The smooth-naturalness objective stopped at step 306 and the anchored fit at step 522; effective gradient control completed 2,000 steps without a guard trip. |
 | Held-out improvement | **Not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]. |
 | Eval sample size | Confirmatory n=40 paired evaluation with 10,000-draw bootstrap intervals is complete. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
@@ -322,7 +322,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | Human evaluation | A randomized, balanced 40-pair blind-study package is executable from [`../human-study`](../human-study), but no real participant responses exist yet. |
 | Scale-sweep language | The `0.2` setting is a diagnostic trade-off on six scenes, not a universal optimum. |
 
-See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures, completed V4 stability run, development selection, and confirmatory null/negative result.
+See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the smooth-penalty and anchored-fit diagnostics, completed gradient-controlled run, development selection, and confirmatory evaluation.
 
 ---
 
@@ -333,11 +333,11 @@ See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures, compl
 python scripts/generate_prompts_200.py
 CUDA_VISIBLE_DEVICES=0 python scripts/generate_first_frames.py cuda:0
 
-# Historical 500-step V2 and NoNat runs
+# Reproduce the 500-step smooth-penalty and no-naturalness ablations
 python -m src.train_entry --method opsd_i2v --config configs/tier2_v2.yaml
 python -m src.train_entry --method opsd_i2v --config configs/tier2_ablation_no_nat.yaml
 
-# Stabilized V3 must pass a guarded 100-step preflight before long training
+# Run the guarded anchored-fit preflight before long training
 mkdir -p outputs/probe_v3_stable
 python -m src.train_entry --method opsd_i2v --config configs/probe_v3_stable.yaml \
   > outputs/probe_v3_stable/train.log 2>&1 &
@@ -366,7 +366,7 @@ python scripts/make_tier2_gifs.py
 08-video-opsd-i2v/
   README.md
   STATUS.md                           -- progress tracking + next steps
-  configs/                            3 training configs (V1/V2/NoNat)
+  configs/                            3 training configs (hard clamp / smooth penalty / no-naturalness control)
   data/
     prompts/                          200 prompts (160 train + 40 eval)
     first_frames_200/                 200 SDXL-Turbo first frames (512x320)
@@ -384,5 +384,5 @@ python scripts/make_tier2_gifs.py
   docs/figures/
     duel/                             32 GIFs -- Tier-1 comparisons (6 scenes)
     tier2_new/                        10 GIFs -- Tier-2 alpha sweep (10 new scenes)
-    eval_compare/                     10 GIFs -- Base vs V2 (10 eval scenes)
+    eval_compare/                     10 GIFs -- Base vs smooth-penalty objective (10 eval scenes)
 ```
