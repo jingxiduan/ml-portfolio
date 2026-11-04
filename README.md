@@ -76,6 +76,21 @@ Metrics with a favorable 95% interval excluding zero: **none**.
 </table>
 
 The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [Full operation record](08-video-opsd-i2v/operations/v4/README.md).
+
+#### Quantified parameter-to-visual effect
+
+The saved V4 checkpoints were evaluated post hoc, without retraining. For temporal LoRA modules:
+
+\[
+\Delta W_{t,l}=s\frac{\alpha}{r}B_{t,l}A_{t,l},
+\qquad
+U_t=\frac{\sqrt{\sum_l\|\Delta W_{t,l}\|_F^2}}
+{\sqrt{\sum_l\|W_l^{base}\|_F^2}+\varepsilon}.
+\]
+
+At inference scale `0.05`, the effective update ratio \(U_t\) rose from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000. A paired diagnostic video score also showed condition-dependent effects: step 500 / scale `0.01` had mean \(\Delta Q=+0.00266\), and step 1000 / scale `0.01` had `+0.00229` on six development pairs. The 40-pair step-1000 / scale-`0.05` confirmation had \(\Delta Q=+0.00099\), with bootstrap 95% CI `[-0.00384, +0.00586]`. This supports a measurable, low-scale visual effect, but not a statistically established generalized improvement.
+
+[Full quantitative report](08-video-opsd-i2v/outputs/quantified_effect/quantified_effect.json) · [Development sweep](08-video-opsd-i2v/outputs/quantified_effect_dev/quantified_effect.json)
 <!-- V4_RESULT_END -->
 
 ## Projects
@@ -88,7 +103,7 @@ The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not use
 | 04 | [`diffusion-opsd-mps`](04-diffusion-opsd-mps) | Image reward post-training on SDXL-Turbo, separated into environment/scene and portrait domains with a pinned, leakage-audited protocol. | Portraits: independent CLIP-H delta **+0.137** with prompt-cluster 95% CI **[+0.017, +0.273]** on 40 prompts × 3 seeds. Scenes: **-0.059** with CI **[-0.175, +0.043]**; no scene gain claimed. | Image post-training study |
 | 06 | **Reserved research slot** | No public project is assigned to this number. It remains visible so the repository history is not presented as a continuous series that never existed. | No result claimed. | Reserved |
 | 07 | [`talking-head-motion-opsd`](07-talking-head-motion-opsd) | Transfers OPSD to JoyVASA's 73-dimensional audio-to-motion trajectories; adds measured human target bands, motion rewards, real-video behavior cloning, diagnostics, and rendered controls. | Calibrated expression seeds reduce paired target error from **0.1202** to **0.0229–0.0238** and pass n=40 SyncNet non-inferiority; absolute lip-sync quality and human preference remain unresolved. | Flagship, active |
-| 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | The gradient-controlled anchored fit completed **2,000** guarded steps; n=40 confirmatory evaluation measured appeal **-0.0042**, statistically tied naturalness, and dynamics **-0.0079**. | Flagship, closed negative result |
+| 08 | [`video-opsd-i2v`](08-video-opsd-i2v) | Adapts OPSD to DynamiCrafter I2V temporal modules and studies reward hacking, naturalness constraints, gradient flow, and long-run stability. | The gradient-controlled anchored fit completed **2,000** guarded steps; saved checkpoints show a quantified effective LoRA update and condition-dependent low-scale visual effects, while n=40 confirmatory evaluation did not establish generalized improvement. | Flagship, evaluation-limited result |
 
 ## The OPSD research thread
 
