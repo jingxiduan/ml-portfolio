@@ -1,16 +1,28 @@
+<div align="center">
+
 # Image-to-Video Reward Post-Training
 
 **Temporal-LoRA adaptation of DynamiCrafter, with explicit reward-hacking and long-run stability analysis**
 
 [Method](docs/METHOD.md) · [Long-run results](docs/RESULTS_LONG.md) · [Gate log](docs/GATE_LOG.md) · [Project status](STATUS.md)
 
-## Research question
+</div>
+
+---
+
+## 📌 ABSTRACT
 
 > **Can reward-guided temporal-LoRA post-training improve held-out I2V motion while preserving identity and naturalness, without becoming numerically unstable in a long run?**
 
 The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioning and video latents. Its contribution is the I2V implementation, temporal-module targeting, differentiable video rewards, failure diagnosis, and stabilized-fit experiment. It does not claim a new foundation model or that the current adapters improve held-out video quality.
 
-### Current answer
+The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
+
+---
+
+## 🌟 HIGHLIGHTS
+
+### Current Answer
 
 - The end-to-end reward gradient and temporal-LoRA update path works.
 - Full-strength adapters exposed saturation, overexposure, edge artifacts, and other reward-hacking behavior.
@@ -20,8 +32,12 @@ The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioni
 - V3 hit the parameter-gradient guard at step 522. V4's `1e-3` effective gradient clipping completed 2,000 steps without a guard trip.
 - The development-selected V4 candidate did **not** generalize: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. Stability improved; held-out quality did not.
 
+---
+
+## 📊 MAIN RESULTS
+
 <!-- V4_RESULT_START -->
-### 08 · V4 held-out I2V result
+### 08 · V4 Held-Out I2V Result
 
 ![V4 training and stability curves](outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
 
@@ -33,7 +49,6 @@ The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioni
 
 Metrics with a favorable 95% interval excluding zero: **none**.
 
-
 <table>
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">V4 MP4</a></td></tr>
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">V4 MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus V4"><br><a href="outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">V4 MP4</a></td></tr>
@@ -43,17 +58,17 @@ Metrics with a favorable 95% interval excluding zero: **none**.
 The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [Full operation record](operations/v4/README.md).
 <!-- V4_RESULT_END -->
 
-The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
-
 ---
 
-## Tier-1: LoRA Scale Sweep and Diagnosis
+## 🔬 ABLATION STUDIES
+
+### Tier-1: LoRA Scale Sweep and Diagnosis
 
 Tier-1 discovers that a full-strength LoRA (scale=1.0) causes **reward hacking**:
 saturation x1.95, overexposure x1.65, edge artifacts x1.86 vs. base.
 Reducing scale to **0.2** retains the dynamic improvement without visual degradation.
 
-### Three-Way: Base vs Scale=0.2 vs Scale=1.0
+#### Three-Way: Base vs Scale=0.2 vs Scale=1.0
 
 | Base / Scale=0.2 / Scale=1.0 |
 |---|
@@ -62,7 +77,7 @@ Reducing scale to **0.2** retains the dynamic improvement without visual degrada
 
 Scale=1.0 (right) is visibly over-saturated and over-exposed. Scale=0.2 (center) is the sweet spot.
 
-### LoRA Rescale -- Base (left) vs Scale=0.2 (right), 6 scenes
+#### LoRA Rescale -- Base (left) vs Scale=0.2 (right), 6 scenes
 
 | | |
 |---|---|
@@ -72,14 +87,14 @@ Scale=1.0 (right) is visibly over-saturated and over-exposed. Scale=0.2 (center)
 
 Scale=0.2 adds dynamics while keeping colors natural.
 
-### Four-Way: Base / Scale=0.2 / Best-of-N / BoN+Lightness
+#### Four-Way: Base / Scale=0.2 / Best-of-N / BoN+Lightness
 
 | | | |
 |---|---|---|
 | ![](docs/figures/duel/fourway_sun_rays.gif) | ![](docs/figures/duel/fourway_houses_hillside.gif) | ![](docs/figures/duel/fourway_pagoda_snowy.gif) |
 | ![](docs/figures/duel/fourway_candle_dark.gif) | ![](docs/figures/duel/fourway_fog_pine_dawn.gif) | ![](docs/figures/duel/fourway_waterfall_zoom.gif) |
 
-### Lightness Post-Processing
+#### Lightness Post-Processing
 
 Shadow lift + highlight knee + saturation pullback:
 
@@ -90,14 +105,12 @@ Shadow lift + highlight knee + saturation pullback:
 
 Wilcoxon test: `appeal(+lightness) > appeal(base)`: **p=0.016** (n=6)
 
----
-
-## Tier-2: I2V LoRA Training with Naturalness Penalty
+### Tier-2: I2V LoRA Training with Naturalness Penalty
 
 Tier-2 trains a DynamiCrafter I2V LoRA via OPSD with a **sigmoid naturalness penalty**.
 Three ablation runs on H20 80GB (500 steps each, ~86 min/run).
 
-### I2V LoRA Results -- 6 Original Scenes
+#### I2V LoRA Results -- 6 Original Scenes
 
 LoRA-tuned I2V vs Base vs Best-of-N:
 
@@ -113,7 +126,7 @@ Best-of-N variant:
 | ![](docs/figures/duel/tier2_bon_sun_rays.gif) | ![](docs/figures/duel/tier2_bon_candle_dark.gif) | ![](docs/figures/duel/tier2_bon_houses_hillside.gif) |
 | ![](docs/figures/duel/tier2_bon_fog_pine_dawn.gif) | ![](docs/figures/duel/tier2_bon_pagoda_snowy.gif) | ![](docs/figures/duel/tier2_bon_waterfall_zoom.gif) |
 
-### I2V LoRA Alpha Sweep -- 10 New Eval Scenes
+#### I2V LoRA Alpha Sweep -- 10 New Eval Scenes
 
 Three-way comparison: **Base (red)** | **LoRA alpha=6 (green)** | **LoRA alpha=32 (blue)**
 
@@ -139,11 +152,9 @@ alpha=6 is the I2V equivalent of scale~0.2; alpha=32 is full strength.
 |---|---|
 | ![](docs/figures/tier2_new/tier2_008_art_studio.gif) | ![](docs/figures/tier2_new/tier2_009_rain_puddle.gif) |
 
----
+### Training Curves: 3-Way Ablation
 
-## Training Curves: 3-Way Ablation
-
-### Reward Comparison
+#### Reward Comparison
 
 ![Reward Comparison](outputs/figures_comparison/comparison_rewards.png)
 
@@ -151,13 +162,13 @@ alpha=6 is the I2V equivalent of scale~0.2; alpha=32 is full strength.
 - **V1 (ReLU+clamp, blue dashed):** the naturalness gradient is zero after saturation, so the intended constraint cannot influence the update.
 - **NoNat (red dash-dot):** removes the naturalness term and serves as the reward-hacking control.
 
-### Naturalness Penalty Evolution
+#### Naturalness Penalty Evolution
 
 ![Naturalness Evolution](outputs/figures_comparison/naturalness_evolution.png)
 
 The V2 **training reward component** moves from -1.47 to -0.79 over 500 steps. This confirms an active optimization signal only; the held-out naturalness metric does not improve.
 
-### Key Finding: Gradient Flow Is Everything
+#### Key Finding: Gradient Flow Is Everything
 
 | Config | Naturalness Impl | R_nat @ step 500 | Gradient? |
 |--------|-----------------|-------------------|-----------|
@@ -167,7 +178,7 @@ The V2 **training reward component** moves from -1.47 to -0.79 over 500 steps. T
 
 Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. `sigmoid` guarantees smooth gradient for any input.
 
-### GPU-Hours
+#### GPU-Hours
 
 ![GPU-hours](outputs/figures_comparison/reward_vs_gpu_hours.png)
 
@@ -201,7 +212,7 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 
 </details>
 
-### Eval Metrics (n=10 held-out prompts)
+#### Eval Metrics (n=10 held-out prompts)
 
 | Config | Appeal | Naturalness | Dynamic |
 |--------|--------|-------------|---------|
@@ -214,7 +225,7 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 
 ---
 
-## Method
+## 🧠 METHOD
 
 ### Reward Components
 
@@ -255,7 +266,7 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 
 ---
 
-## Diagnosis Data
+## 🧪 DIAGNOSIS
 
 <details>
 <summary>Reward Hacking Metrics (Base vs OPSD-LoRA @ 1.0)</summary>
@@ -299,7 +310,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 ---
 
-## Limitations
+## ⚠️ LIMITATIONS
 
 | Area | Current Status |
 |------|---------------|
@@ -315,7 +326,7 @@ See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the V2/V3 failures, compl
 
 ---
 
-## Reproduce
+## ⚙️ REPRODUCTION
 
 ```bash
 # Generate 200 prompts + first frames
@@ -347,7 +358,9 @@ bash scripts/render_eval_all.sh 40
 python scripts/make_tier2_gifs.py
 ```
 
-## Repository Layout
+---
+
+## 📁 REPOSITORY LAYOUT
 
 ```
 08-video-opsd-i2v/
