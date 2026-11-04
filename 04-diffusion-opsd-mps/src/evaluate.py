@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 import open_clip
 import torch
-from diffusers import AutoPipelineForText2Image, EulerDiscreteScheduler
+from diffusers import AutoPipelineForText2Image
 from peft import LoraConfig, set_peft_model_state_dict
 from safetensors.torch import load_file
 
@@ -90,11 +90,8 @@ def main() -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     pipe = AutoPipelineForText2Image.from_pretrained(
-        MODEL_ID, torch_dtype=torch.bfloat16, variant="fp16", use_safetensors=True
+        MODEL_ID, torch_dtype=torch.float16, variant="fp16", use_safetensors=True
     ).to(args.device)
-    pipe.scheduler = EulerDiscreteScheduler.from_config(
-        pipe.scheduler.config, timestep_spacing="trailing"
-    )
     pipe.set_progress_bar_config(disable=True)
     evaluator = IndependentClipHEvaluator(args.device)
 

@@ -69,6 +69,7 @@ python src/evaluate.py \\
   --out outputs/final/portrait/eval_results.json
 
 # Fixed qualitative panels; the prompt list is frozen before generation.
+# Showcase rendering defaults to 768x768; metrics above remain 512x512 for comparability.
 python src/generate_samples.py --domain scene \\
   --lora-dir outputs/final/scene/lora_ema \\
   --out outputs/release/scene
@@ -85,10 +86,10 @@ The result is intentionally split by domain rather than averaged into one flatte
 
 | Domain | Test prompts | Seeds | Base mean | Candidate mean | Paired delta | Prompt-cluster 95% CI | Prompt win rate |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Environment / scenes | 40 | 3 | 36.331 | 36.272 | -0.059 | [-0.175, +0.043] | 50.0% |
-| Portraits | 40 | 3 | 37.622 | 37.759 | **+0.137** | **[+0.017, +0.273]** | **67.5%** |
+| Environment / scenes | 40 | 3 | 37.618 | 37.603 | -0.015 | [-0.110, +0.083] | 40.0% |
+| Portraits | 40 | 3 | 37.441 | 37.533 | **+0.091** | [-0.034, +0.230] | 57.5% |
 
-The portrait result is a small but positive independent-evaluator result. The scene result is statistically inconclusive and is **not** presented as a quality improvement. This separation is important: the project demonstrates a working reward-guided training and evaluation pipeline, while showing that transfer is domain-dependent.
+The portrait result is directionally positive but statistically inconclusive at this sample size; the scene result is also inconclusive and slightly negative. Neither domain is presented as a definitive perceptual win. The project demonstrates a working reward-guided training and evaluation pipeline, while showing that transfer is domain-dependent.
 
 ## Fixed visual evidence
 

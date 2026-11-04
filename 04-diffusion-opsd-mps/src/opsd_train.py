@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 
 import torch
-from diffusers import AutoPipelineForText2Image, EulerDiscreteScheduler
+from diffusers import AutoPipelineForText2Image
 from peft import LoraConfig, get_peft_model_state_dict
 from safetensors.torch import save_file
 
@@ -171,14 +171,11 @@ def main() -> None:
 
     pipe = AutoPipelineForText2Image.from_pretrained(
         MODEL_ID,
-        torch_dtype=torch.bfloat16,
+        torch_dtype=torch.float16,
         variant="fp16",
         use_safetensors=True,
     ).to(device)
     pipe.set_progress_bar_config(disable=True)
-    pipe.scheduler = EulerDiscreteScheduler.from_config(
-        pipe.scheduler.config, timestep_spacing="trailing"
-    )
     if pipe.scheduler.config.prediction_type != "epsilon":
         raise RuntimeError(f"unsupported prediction type: {pipe.scheduler.config.prediction_type}")
     pipe.vae.to(dtype=torch.float32).requires_grad_(False)
@@ -231,7 +228,7 @@ def main() -> None:
         "trainable_parameters": sum(value.numel() for value in train_params),
         "adapter_tensor_count": len(train_params),
         "target_module_count": len(module_names),
-        "dtype": "bfloat16 backbone / float32 LoRA and reward path",
+        "dtype": "float16 backbone / float32 LoRA and reward path",
     }
     (out_dir / "run_config.json").write_text(json.dumps(run_config, indent=2) + "\n")
     (out_dir / "target_modules.json").write_text(json.dumps(module_names, indent=2) + "\n")

@@ -14,11 +14,11 @@
   "grad_clip": 1.0,
   "seed": 3407,
   "log_every": 10,
-  "out": "outputs/final/scene",
+  "out": "/tmp/opsd_native_final/scene",
   "model_id": "stabilityai/sdxl-turbo",
   "prompt_manifest": "data/train_scene.jsonl",
   "n_training_prompts": 768,
-  "scheduler": "EulerDiscreteScheduler",
+  "scheduler": "EulerAncestralDiscreteScheduler",
   "timesteps": [
     999.0,
     749.0,
@@ -37,5 +37,5 @@
   "trainable_parameters": 23224320,
   "adapter_tensor_count": 1120,
   "target_module_count": 560,
-  "dtype": "bfloat16 backbone / float32 LoRA and reward path"
+  "dtype": "float16 backbone / float32 LoRA and reward path"
 }

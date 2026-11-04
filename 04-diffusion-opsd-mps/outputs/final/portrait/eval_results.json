@@ -12,1935 +12,1935 @@
     303
   ],
   "n_pairs": 120,
-  "base_mean": 37.62191243469715,
-  "candidate_mean": 37.75916154185931,
-  "paired_delta_mean": 0.13724910716215769,
+  "base_mean": 37.44140913089117,
+  "candidate_mean": 37.53285959362984,
+  "paired_delta_mean": 0.0914504627386729,
   "prompt_cluster_bootstrap_95_ci": [
-    0.017312317465742435,
-    0.2727961136649052
+    -0.03423865325748921,
+    0.22994749620556823
   ],
-  "pair_win_rate": 0.575,
-  "prompt_win_rate": 0.675,
+  "pair_win_rate": 0.525,
+  "prompt_win_rate": 0.575,
   "records": [
     {
       "source_id": "378",
       "prompt": "a grandmother reading a book to her grandson and granddaughter",
       "seed": 101,
-      "base_score": 36.03978157043457,
+      "base_score": 34.57092344760895,
       "base_diagnostics": {
-        "clipped_fraction": 0.002849578857421875,
-        "mean_saturation": 0.1824566274881363
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1910630613565445
       },
-      "candidate_score": 36.17139458656311,
+      "candidate_score": 35.00541150569916,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.003387451171875,
-        "mean_saturation": 0.17987748980522156
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19085076451301575
       },
-      "delta": 0.13161301612854004
+      "delta": 0.43448805809020996
     },
     {
       "source_id": "378",
       "prompt": "a grandmother reading a book to her grandson and granddaughter",
       "seed": 202,
-      "base_score": 33.29692780971527,
+      "base_score": 35.034072399139404,
       "base_diagnostics": {
-        "clipped_fraction": 0.006954193115234375,
-        "mean_saturation": 0.2239760011434555
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16954940557479858
       },
-      "candidate_score": 38.33175301551819,
+      "candidate_score": 35.11351943016052,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.008701324462890625,
-        "mean_saturation": 0.21793316304683685
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.170096755027771
       },
-      "delta": 5.0348252058029175
+      "delta": 0.07944703102111816
     },
     {
       "source_id": "378",
       "prompt": "a grandmother reading a book to her grandson and granddaughter",
       "seed": 303,
-      "base_score": 37.63575851917267,
+      "base_score": 34.28269028663635,
       "base_diagnostics": {
-        "clipped_fraction": 0.008571624755859375,
-        "mean_saturation": 0.2236199676990509
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19435326755046844
       },
-      "candidate_score": 37.95886039733887,
+      "candidate_score": 33.722320199012756,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00905609130859375,
-        "mean_saturation": 0.22323141992092133
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19516773521900177
       },
-      "delta": 0.32310187816619873
+      "delta": -0.5603700876235962
     },
     {
       "source_id": "379",
       "prompt": "a young woman with glasses reading a thick book at a mahogany desk",
       "seed": 101,
-      "base_score": 39.808389544487,
+      "base_score": 37.19930052757263,
       "base_diagnostics": {
-        "clipped_fraction": 0.000347137451171875,
-        "mean_saturation": 0.15561234951019287
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.17907866835594177
       },
-      "candidate_score": 39.39950466156006,
+      "candidate_score": 37.60569989681244,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0003204345703125,
-        "mean_saturation": 0.1559126377105713
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.17919310927391052
       },
-      "delta": -0.4088848829269409
+      "delta": 0.40639936923980713
     },
     {
       "source_id": "379",
       "prompt": "a young woman with glasses reading a thick book at a mahogany desk",
       "seed": 202,
-      "base_score": 37.63556480407715,
+      "base_score": 36.81644797325134,
       "base_diagnostics": {
-        "clipped_fraction": 0.002349853515625,
-        "mean_saturation": 0.17731446027755737
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16475921869277954
       },
-      "candidate_score": 37.697917222976685,
+      "candidate_score": 36.50037944316864,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.002567291259765625,
-        "mean_saturation": 0.1774594485759735
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16412200033664703
       },
-      "delta": 0.06235241889953613
+      "delta": -0.31606853008270264
     },
     {
       "source_id": "379",
       "prompt": "a young woman with glasses reading a thick book at a mahogany desk",
       "seed": 303,
-      "base_score": 37.307220697402954,
+      "base_score": 36.600515246391296,
       "base_diagnostics": {
-        "clipped_fraction": 0.006824493408203125,
-        "mean_saturation": 0.20352718234062195
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18888583779335022
       },
-      "candidate_score": 36.83374524116516,
+      "candidate_score": 36.77982687950134,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.007785797119140625,
-        "mean_saturation": 0.20085880160331726
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18753814697265625
       },
-      "delta": -0.47347545623779297
+      "delta": 0.1793116331100464
     },
     {
       "source_id": "380",
       "prompt": "a man in a business suit on a ladder that is leaning up against the side of a white house",
       "seed": 101,
-      "base_score": 40.76895713806152,
+      "base_score": 41.30628705024719,
       "base_diagnostics": {
-        "clipped_fraction": 0.00922393798828125,
-        "mean_saturation": 0.11570174992084503
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.07489680498838425
       },
-      "candidate_score": 40.982913970947266,
+      "candidate_score": 40.79162776470184,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.008312225341796875,
-        "mean_saturation": 0.11385257542133331
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.07526305317878723
       },
-      "delta": 0.2139568328857422
+      "delta": -0.5146592855453491
     },
     {
       "source_id": "380",
       "prompt": "a man in a business suit on a ladder that is leaning up against the side of a white house",
       "seed": 202,
-      "base_score": 43.46665441989899,
+      "base_score": 41.3242369890213,
       "base_diagnostics": {
-        "clipped_fraction": 0.02970123291015625,
-        "mean_saturation": 0.129558265209198
+        "clipped_fraction": 2.288818359375e-05,
+        "mean_saturation": 0.058162838220596313
       },
-      "candidate_score": 43.03296208381653,
+      "candidate_score": 41.93698465824127,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.030139923095703125,
-        "mean_saturation": 0.13012245297431946
+        "clipped_fraction": 3.4332275390625e-05,
+        "mean_saturation": 0.05747527629137039
       },
-      "delta": -0.4336923360824585
+      "delta": 0.6127476692199707
     },
     {
       "source_id": "380",
       "prompt": "a man in a business suit on a ladder that is leaning up against the side of a white house",
       "seed": 303,
-      "base_score": 40.27758836746216,
+      "base_score": 40.569376945495605,
       "base_diagnostics": {
-        "clipped_fraction": 0.0200347900390625,
-        "mean_saturation": 0.13958893716335297
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.10873891413211823
       },
-      "candidate_score": 41.39835834503174,
+      "candidate_score": 41.01746082305908,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.02001953125,
-        "mean_saturation": 0.13899363577365875
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.10937843471765518
       },
-      "delta": 1.12076997756958
+      "delta": 0.44808387756347656
     },
     {
       "source_id": "381",
       "prompt": "a man pouring milk into a coffee cup to make a latte with a beatiful design",
       "seed": 101,
-      "base_score": 38.32572102546692,
+      "base_score": 42.86663830280304,
       "base_diagnostics": {
-        "clipped_fraction": 0.0008544921875,
-        "mean_saturation": 0.1458704173564911
+        "clipped_fraction": 7.2479248046875e-05,
+        "mean_saturation": 0.16982844471931458
       },
-      "candidate_score": 37.817978858947754,
+      "candidate_score": 42.6293671131134,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001712799072265625,
-        "mean_saturation": 0.14673231542110443
+        "clipped_fraction": 7.2479248046875e-05,
+        "mean_saturation": 0.17074847221374512
       },
-      "delta": -0.507742166519165
+      "delta": -0.23727118968963623
     },
     {
       "source_id": "381",
       "prompt": "a man pouring milk into a coffee cup to make a latte with a beatiful design",
       "seed": 202,
-      "base_score": 40.032315254211426,
+      "base_score": 41.47287905216217,
       "base_diagnostics": {
-        "clipped_fraction": 0.000324249267578125,
-        "mean_saturation": 0.1561039835214615
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.12238821387290955
       },
-      "candidate_score": 40.29621481895447,
+      "candidate_score": 41.02289080619812,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00028228759765625,
-        "mean_saturation": 0.15534913539886475
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.12310206890106201
       },
-      "delta": 0.263899564743042
+      "delta": -0.4499882459640503
     },
     {
       "source_id": "381",
       "prompt": "a man pouring milk into a coffee cup to make a latte with a beatiful design",
       "seed": 303,
-      "base_score": 38.8066828250885,
+      "base_score": 40.874260663986206,
       "base_diagnostics": {
-        "clipped_fraction": 0.00067901611328125,
-        "mean_saturation": 0.1640113890171051
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16801276803016663
       },
-      "candidate_score": 39.63956832885742,
+      "candidate_score": 41.47200286388397,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.000400543212890625,
-        "mean_saturation": 0.16551396250724792
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16720381379127502
       },
-      "delta": 0.8328855037689209
+      "delta": 0.5977421998977661
     },
     {
       "source_id": "382",
       "prompt": "a woman using a sledgehammer to smash an ice sculpture of a goose",
       "seed": 101,
-      "base_score": 36.13073229789734,
+      "base_score": 35.86947321891785,
       "base_diagnostics": {
-        "clipped_fraction": 0.0229644775390625,
-        "mean_saturation": 0.11339855939149857
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.08458227664232254
       },
-      "candidate_score": 37.137410044670105,
+      "candidate_score": 36.6144984960556,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.02362823486328125,
-        "mean_saturation": 0.11153857409954071
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.08563007414340973
       },
-      "delta": 1.0066777467727661
+      "delta": 0.7450252771377563
     },
     {
       "source_id": "382",
       "prompt": "a woman using a sledgehammer to smash an ice sculpture of a goose",
       "seed": 202,
-      "base_score": 36.70295774936676,
+      "base_score": 40.379977226257324,
       "base_diagnostics": {
-        "clipped_fraction": 0.0286102294921875,
-        "mean_saturation": 0.14389248192310333
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.07830072194337845
       },
-      "candidate_score": 38.27824592590332,
+      "candidate_score": 40.62522053718567,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0272979736328125,
-        "mean_saturation": 0.14133429527282715
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.07474271208047867
       },
-      "delta": 1.57528817653656
+      "delta": 0.24524331092834473
     },
     {
       "source_id": "382",
       "prompt": "a woman using a sledgehammer to smash an ice sculpture of a goose",
       "seed": 303,
-      "base_score": 38.68221640586853,
+      "base_score": 40.95388650894165,
       "base_diagnostics": {
-        "clipped_fraction": 0.033435821533203125,
-        "mean_saturation": 0.09836999326944351
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.06976278126239777
       },
-      "candidate_score": 38.61213028430939,
+      "candidate_score": 40.450888872146606,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.03623199462890625,
-        "mean_saturation": 0.09710688889026642
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.06940429657697678
       },
-      "delta": -0.07008612155914307
+      "delta": -0.502997636795044
     },
     {
       "source_id": "384",
       "prompt": "a man eating a glazed donut and a woman eating a chocolate cake",
       "seed": 101,
-      "base_score": 40.77358841896057,
+      "base_score": 42.56952404975891,
       "base_diagnostics": {
-        "clipped_fraction": 0.006885528564453125,
-        "mean_saturation": 0.19917058944702148
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.21448005735874176
       },
-      "candidate_score": 40.24326801300049,
+      "candidate_score": 42.634156346321106,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00786590576171875,
-        "mean_saturation": 0.20105363428592682
+        "clipped_fraction": 1.52587890625e-05,
+        "mean_saturation": 0.2160172462463379
       },
-      "delta": -0.530320405960083
+      "delta": 0.06463229656219482
     },
     {
       "source_id": "384",
       "prompt": "a man eating a glazed donut and a woman eating a chocolate cake",
       "seed": 202,
-      "base_score": 39.88252282142639,
+      "base_score": 39.247822761535645,
       "base_diagnostics": {
-        "clipped_fraction": 0.005096435546875,
-        "mean_saturation": 0.2116122990846634
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.17610949277877808
       },
-      "candidate_score": 39.58132863044739,
+      "candidate_score": 38.872045278549194,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.005321502685546875,
-        "mean_saturation": 0.21206483244895935
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.17616039514541626
       },
-      "delta": -0.3011941909790039
+      "delta": -0.3757774829864502
     },
     {
       "source_id": "384",
       "prompt": "a man eating a glazed donut and a woman eating a chocolate cake",
       "seed": 303,
-      "base_score": 33.60470533370972,
+      "base_score": 41.212815046310425,
       "base_diagnostics": {
-        "clipped_fraction": 0.01202392578125,
-        "mean_saturation": 0.24086542427539825
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19281691312789917
       },
-      "candidate_score": 34.03483033180237,
+      "candidate_score": 41.07147455215454,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0124969482421875,
-        "mean_saturation": 0.2382356822490692
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1934715360403061
       },
-      "delta": 0.43012499809265137
+      "delta": -0.1413404941558838
     },
     {
       "source_id": "420",
       "prompt": "a photograph of the mona lisa drinking coffee as she has her breakfast. her plate has an omelette and croissant.",
       "seed": 101,
-      "base_score": 41.81602895259857,
+      "base_score": 39.20195698738098,
       "base_diagnostics": {
-        "clipped_fraction": 0.016265869140625,
-        "mean_saturation": 0.22937992215156555
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.21814846992492676
       },
-      "candidate_score": 42.1126127243042,
+      "candidate_score": 40.21134078502655,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.018459320068359375,
-        "mean_saturation": 0.22909285128116608
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.21810652315616608
       },
-      "delta": 0.29658377170562744
+      "delta": 1.0093837976455688
     },
     {
       "source_id": "420",
       "prompt": "a photograph of the mona lisa drinking coffee as she has her breakfast. her plate has an omelette and croissant.",
       "seed": 202,
-      "base_score": 39.468321204185486,
+      "base_score": 37.6419723033905,
       "base_diagnostics": {
-        "clipped_fraction": 0.027454376220703125,
-        "mean_saturation": 0.25873255729675293
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.20558156073093414
       },
-      "candidate_score": 39.551955461502075,
+      "candidate_score": 38.271450996398926,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.02972412109375,
-        "mean_saturation": 0.2583368420600891
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2060256004333496
       },
-      "delta": 0.08363425731658936
+      "delta": 0.6294786930084229
     },
     {
       "source_id": "420",
       "prompt": "a photograph of the mona lisa drinking coffee as she has her breakfast. her plate has an omelette and croissant.",
       "seed": 303,
-      "base_score": 42.10520088672638,
+      "base_score": 40.00105261802673,
       "base_diagnostics": {
-        "clipped_fraction": 0.00942230224609375,
-        "mean_saturation": 0.21823987364768982
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.23923341929912567
       },
-      "candidate_score": 42.07036793231964,
+      "candidate_score": 40.15552997589111,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0106201171875,
-        "mean_saturation": 0.21712487936019897
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2397618591785431
       },
-      "delta": -0.03483295440673828
+      "delta": 0.15447735786437988
     },
     {
       "source_id": "421",
       "prompt": "the mona lisa wearing a cowboy hat and screaming a punk song into a microphone",
       "seed": 101,
-      "base_score": 46.59343361854553,
+      "base_score": 46.39812707901001,
       "base_diagnostics": {
-        "clipped_fraction": 0.001049041748046875,
-        "mean_saturation": 0.2564883828163147
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.25800764560699463
       },
-      "candidate_score": 45.464468002319336,
+      "candidate_score": 46.512168645858765,
+      "candidate_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.25822946429252625
+      },
+      "delta": 0.11404156684875488
+    },
+    {
+      "source_id": "421",
+      "prompt": "the mona lisa wearing a cowboy hat and screaming a punk song into a microphone",
+      "seed": 202,
+      "base_score": 40.93438982963562,
+      "base_diagnostics": {
+        "clipped_fraction": 1.9073486328125e-05,
+        "mean_saturation": 0.24510608613491058
+      },
+      "candidate_score": 41.83529019355774,
+      "candidate_diagnostics": {
+        "clipped_fraction": 2.288818359375e-05,
+        "mean_saturation": 0.24475176632404327
+      },
+      "delta": 0.9009003639221191
+    },
+    {
+      "source_id": "421",
+      "prompt": "the mona lisa wearing a cowboy hat and screaming a punk song into a microphone",
+      "seed": 303,
+      "base_score": 35.77013909816742,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.23497816920280457
+      },
+      "candidate_score": 36.08056306838989,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.23804871737957
+      },
+      "delta": 0.31042397022247314
+    },
+    {
+      "source_id": "435",
+      "prompt": "a handpalm with leaves growing from it",
+      "seed": 101,
+      "base_score": 35.52379608154297,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18310001492500305
+      },
+      "candidate_score": 35.093143582344055,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18332254886627197
+      },
+      "delta": -0.4306524991989136
+    },
+    {
+      "source_id": "435",
+      "prompt": "a handpalm with leaves growing from it",
+      "seed": 202,
+      "base_score": 40.06580412387848,
+      "base_diagnostics": {
+        "clipped_fraction": 8.392333984375e-05,
+        "mean_saturation": 0.16472125053405762
+      },
+      "candidate_score": 38.5766476392746,
+      "candidate_diagnostics": {
+        "clipped_fraction": 9.1552734375e-05,
+        "mean_saturation": 0.16244934499263763
+      },
+      "delta": -1.4891564846038818
+    },
+    {
+      "source_id": "435",
+      "prompt": "a handpalm with leaves growing from it",
+      "seed": 303,
+      "base_score": 33.143460750579834,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1995881199836731
+      },
+      "candidate_score": 33.153727650642395,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1990622729063034
+      },
+      "delta": 0.010266900062561035
+    },
+    {
+      "source_id": "650",
+      "prompt": "a team playing baseball at the beach",
+      "seed": 101,
+      "base_score": 35.96369922161102,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.21326443552970886
+      },
+      "candidate_score": 37.31867074966431,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2130560427904129
+      },
+      "delta": 1.3549715280532837
+    },
+    {
+      "source_id": "650",
+      "prompt": "a team playing baseball at the beach",
+      "seed": 202,
+      "base_score": 42.658424377441406,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01581573486328125,
+        "mean_saturation": 0.12341998517513275
+      },
+      "candidate_score": 43.10028553009033,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.01572418212890625,
+        "mean_saturation": 0.1238195151090622
+      },
+      "delta": 0.4418611526489258
+    },
+    {
+      "source_id": "650",
+      "prompt": "a team playing baseball at the beach",
+      "seed": 303,
+      "base_score": 37.25108504295349,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00183868408203125,
+        "mean_saturation": 0.1814972311258316
+      },
+      "candidate_score": 40.20811915397644,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001720428466796875,
+        "mean_saturation": 0.18383146822452545
+      },
+      "delta": 2.957034111022949
+    },
+    {
+      "source_id": "651",
+      "prompt": "a man standing on a street corner",
+      "seed": 101,
+      "base_score": 38.45760226249695,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1262831687927246
+      },
+      "candidate_score": 37.048301100730896,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.12684953212738037
+      },
+      "delta": -1.4093011617660522
+    },
+    {
+      "source_id": "651",
+      "prompt": "a man standing on a street corner",
+      "seed": 202,
+      "base_score": 34.02135968208313,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.09179916232824326
+      },
+      "candidate_score": 34.32357609272003,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.09223946183919907
+      },
+      "delta": 0.30221641063690186
+    },
+    {
+      "source_id": "651",
+      "prompt": "a man standing on a street corner",
+      "seed": 303,
+      "base_score": 37.28534281253815,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18275229632854462
+      },
+      "candidate_score": 37.240177392959595,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18561111390590668
+      },
+      "delta": -0.045165419578552246
+    },
+    {
+      "source_id": "652",
+      "prompt": "a crowd of people watching fireworks by a park",
+      "seed": 101,
+      "base_score": 34.03772711753845,
+      "base_diagnostics": {
+        "clipped_fraction": 0.016094207763671875,
+        "mean_saturation": 0.15710510313510895
+      },
+      "candidate_score": 33.60326290130615,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.01425933837890625,
+        "mean_saturation": 0.15718507766723633
+      },
+      "delta": -0.4344642162322998
+    },
+    {
+      "source_id": "652",
+      "prompt": "a crowd of people watching fireworks by a park",
+      "seed": 202,
+      "base_score": 34.47771966457367,
+      "base_diagnostics": {
+        "clipped_fraction": 0.004993438720703125,
+        "mean_saturation": 0.12648724019527435
+      },
+      "candidate_score": 34.28550064563751,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.005916595458984375,
+        "mean_saturation": 0.12561948597431183
+      },
+      "delta": -0.19221901893615723
+    },
+    {
+      "source_id": "652",
+      "prompt": "a crowd of people watching fireworks by a park",
+      "seed": 303,
+      "base_score": 34.18478965759277,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0328521728515625,
+        "mean_saturation": 0.16094347834587097
+      },
+      "candidate_score": 34.17389988899231,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.030445098876953125,
+        "mean_saturation": 0.15841153264045715
+      },
+      "delta": -0.010889768600463867
+    },
+    {
+      "source_id": "653",
+      "prompt": "a crowd of people watching fireworks by a city",
+      "seed": 101,
+      "base_score": 32.623034715652466,
+      "base_diagnostics": {
+        "clipped_fraction": 0.001216888427734375,
+        "mean_saturation": 0.1348164677619934
+      },
+      "candidate_score": 32.359808683395386,
       "candidate_diagnostics": {
         "clipped_fraction": 0.001758575439453125,
-        "mean_saturation": 0.25599735975265503
+        "mean_saturation": 0.1336713582277298
       },
-      "delta": -1.1289656162261963
+      "delta": -0.2632260322570801
     },
     {
-      "source_id": "421",
-      "prompt": "the mona lisa wearing a cowboy hat and screaming a punk song into a microphone",
+      "source_id": "653",
+      "prompt": "a crowd of people watching fireworks by a city",
       "seed": 202,
-      "base_score": 40.95781445503235,
+      "base_score": 33.53524208068848,
       "base_diagnostics": {
-        "clipped_fraction": 0.004913330078125,
-        "mean_saturation": 0.2715447247028351
+        "clipped_fraction": 0.0005645751953125,
+        "mean_saturation": 0.1264384388923645
       },
-      "candidate_score": 40.895503759384155,
+      "candidate_score": 33.59100818634033,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.005298614501953125,
-        "mean_saturation": 0.269229531288147
+        "clipped_fraction": 0.000591278076171875,
+        "mean_saturation": 0.1245826706290245
       },
-      "delta": -0.06231069564819336
+      "delta": 0.05576610565185547
     },
     {
-      "source_id": "421",
-      "prompt": "the mona lisa wearing a cowboy hat and screaming a punk song into a microphone",
+      "source_id": "653",
+      "prompt": "a crowd of people watching fireworks by a city",
       "seed": 303,
-      "base_score": 39.355263113975525,
+      "base_score": 36.24194860458374,
       "base_diagnostics": {
-        "clipped_fraction": 0.020557403564453125,
-        "mean_saturation": 0.2675831913948059
+        "clipped_fraction": 0.001911163330078125,
+        "mean_saturation": 0.13911594450473785
       },
-      "candidate_score": 39.74121809005737,
+      "candidate_score": 36.64233088493347,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.018711090087890625,
-        "mean_saturation": 0.2646484375
+        "clipped_fraction": 0.00276947021484375,
+        "mean_saturation": 0.13873592019081116
       },
-      "delta": 0.38595497608184814
+      "delta": 0.40038228034973145
     },
     {
-      "source_id": "435",
-      "prompt": "a handpalm with leaves growing from it",
+      "source_id": "654",
+      "prompt": "a smiling man with wavy brown hair and trimmed beard",
       "seed": 101,
-      "base_score": 35.60084104537964,
+      "base_score": 36.75983548164368,
       "base_diagnostics": {
-        "clipped_fraction": 6.866455078125e-05,
-        "mean_saturation": 0.20995894074440002
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.1822880655527115
       },
-      "candidate_score": 35.9875351190567,
+      "candidate_score": 36.72210872173309,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18289218842983246
+      },
+      "delta": -0.037726759910583496
+    },
+    {
+      "source_id": "654",
+      "prompt": "a smiling man with wavy brown hair and trimmed beard",
+      "seed": 202,
+      "base_score": 38.92028331756592,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000152587890625,
+        "mean_saturation": 0.1560353934764862
+      },
+      "candidate_score": 38.15446197986603,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.000152587890625,
+        "mean_saturation": 0.1564783751964569
+      },
+      "delta": -0.7658213376998901
+    },
+    {
+      "source_id": "654",
+      "prompt": "a smiling man with wavy brown hair and trimmed beard",
+      "seed": 303,
+      "base_score": 38.083550333976746,
+      "base_diagnostics": {
+        "clipped_fraction": 0.001766204833984375,
+        "mean_saturation": 0.2063404768705368
+      },
+      "candidate_score": 38.126370310783386,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001689910888671875,
+        "mean_saturation": 0.20842114090919495
+      },
+      "delta": 0.042819976806640625
+    },
+    {
+      "source_id": "655",
+      "prompt": "a woman with long black hair and dark skin",
+      "seed": 101,
+      "base_score": 34.43809747695923,
+      "base_diagnostics": {
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.11614260077476501
+      },
+      "candidate_score": 33.7863028049469,
       "candidate_diagnostics": {
         "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.20884855091571808
+        "mean_saturation": 0.11642612516880035
       },
-      "delta": 0.386694073677063
-    },
-    {
-      "source_id": "435",
-      "prompt": "a handpalm with leaves growing from it",
-      "seed": 202,
-      "base_score": 39.858949184417725,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00337982177734375,
-        "mean_saturation": 0.2324620932340622
-      },
-      "candidate_score": 39.857858419418335,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.003253936767578125,
-        "mean_saturation": 0.23334439098834991
-      },
-      "delta": -0.0010907649993896484
-    },
-    {
-      "source_id": "435",
-      "prompt": "a handpalm with leaves growing from it",
-      "seed": 303,
-      "base_score": 37.02958822250366,
-      "base_diagnostics": {
-        "clipped_fraction": 0.05010223388671875,
-        "mean_saturation": 0.25646430253982544
-      },
-      "candidate_score": 37.20349669456482,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.051544189453125,
-        "mean_saturation": 0.25487375259399414
-      },
-      "delta": 0.17390847206115723
-    },
-    {
-      "source_id": "650",
-      "prompt": "a team playing baseball at the beach",
-      "seed": 101,
-      "base_score": 40.2490109205246,
-      "base_diagnostics": {
-        "clipped_fraction": 0.007259368896484375,
-        "mean_saturation": 0.18420080840587616
-      },
-      "candidate_score": 40.315401554107666,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.008190155029296875,
-        "mean_saturation": 0.1833977997303009
-      },
-      "delta": 0.06639063358306885
-    },
-    {
-      "source_id": "650",
-      "prompt": "a team playing baseball at the beach",
-      "seed": 202,
-      "base_score": 38.07610869407654,
-      "base_diagnostics": {
-        "clipped_fraction": 0.021541595458984375,
-        "mean_saturation": 0.1889505535364151
-      },
-      "candidate_score": 37.987732887268066,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.022312164306640625,
-        "mean_saturation": 0.1870872527360916
-      },
-      "delta": -0.08837580680847168
-    },
-    {
-      "source_id": "650",
-      "prompt": "a team playing baseball at the beach",
-      "seed": 303,
-      "base_score": 37.167638540267944,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00605010986328125,
-        "mean_saturation": 0.21993711590766907
-      },
-      "candidate_score": 37.239283323287964,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.007915496826171875,
-        "mean_saturation": 0.2146635800600052
-      },
-      "delta": 0.07164478302001953
-    },
-    {
-      "source_id": "651",
-      "prompt": "a man standing on a street corner",
-      "seed": 101,
-      "base_score": 39.31988477706909,
-      "base_diagnostics": {
-        "clipped_fraction": 8.0108642578125e-05,
-        "mean_saturation": 0.11948876082897186
-      },
-      "candidate_score": 38.5663241147995,
-      "candidate_diagnostics": {
-        "clipped_fraction": 5.7220458984375e-05,
-        "mean_saturation": 0.12023738771677017
-      },
-      "delta": -0.7535606622695923
-    },
-    {
-      "source_id": "651",
-      "prompt": "a man standing on a street corner",
-      "seed": 202,
-      "base_score": 37.80739903450012,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00251007080078125,
-        "mean_saturation": 0.12549589574337006
-      },
-      "candidate_score": 37.58152723312378,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.003719329833984375,
-        "mean_saturation": 0.12396203726530075
-      },
-      "delta": -0.22587180137634277
-    },
-    {
-      "source_id": "651",
-      "prompt": "a man standing on a street corner",
-      "seed": 303,
-      "base_score": 37.814027070999146,
-      "base_diagnostics": {
-        "clipped_fraction": 0.037357330322265625,
-        "mean_saturation": 0.10146500915288925
-      },
-      "candidate_score": 38.03994953632355,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.04193115234375,
-        "mean_saturation": 0.10289540141820908
-      },
-      "delta": 0.22592246532440186
-    },
-    {
-      "source_id": "652",
-      "prompt": "a crowd of people watching fireworks by a park",
-      "seed": 101,
-      "base_score": 37.611740827560425,
-      "base_diagnostics": {
-        "clipped_fraction": 0.11079025268554688,
-        "mean_saturation": 0.1620480865240097
-      },
-      "candidate_score": 37.82963752746582,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.10790634155273438,
-        "mean_saturation": 0.16009661555290222
-      },
-      "delta": 0.2178966999053955
-    },
-    {
-      "source_id": "652",
-      "prompt": "a crowd of people watching fireworks by a park",
-      "seed": 202,
-      "base_score": 37.57860064506531,
-      "base_diagnostics": {
-        "clipped_fraction": 0.15639495849609375,
-        "mean_saturation": 0.16534550487995148
-      },
-      "candidate_score": 37.519076466560364,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.15462875366210938,
-        "mean_saturation": 0.16010643541812897
-      },
-      "delta": -0.05952417850494385
-    },
-    {
-      "source_id": "652",
-      "prompt": "a crowd of people watching fireworks by a park",
-      "seed": 303,
-      "base_score": 37.8583550453186,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0952606201171875,
-        "mean_saturation": 0.20663388073444366
-      },
-      "candidate_score": 37.99222409725189,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.09337997436523438,
-        "mean_saturation": 0.20656348764896393
-      },
-      "delta": 0.13386905193328857
-    },
-    {
-      "source_id": "653",
-      "prompt": "a crowd of people watching fireworks by a city",
-      "seed": 101,
-      "base_score": 35.95750629901886,
-      "base_diagnostics": {
-        "clipped_fraction": 0.07311630249023438,
-        "mean_saturation": 0.1617244929075241
-      },
-      "candidate_score": 34.68155264854431,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.0699615478515625,
-        "mean_saturation": 0.16120444238185883
-      },
-      "delta": -1.2759536504745483
-    },
-    {
-      "source_id": "653",
-      "prompt": "a crowd of people watching fireworks by a city",
-      "seed": 202,
-      "base_score": 35.92844009399414,
-      "base_diagnostics": {
-        "clipped_fraction": 0.10535430908203125,
-        "mean_saturation": 0.16325919330120087
-      },
-      "candidate_score": 35.18535494804382,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.1204071044921875,
-        "mean_saturation": 0.16068434715270996
-      },
-      "delta": -0.7430851459503174
-    },
-    {
-      "source_id": "653",
-      "prompt": "a crowd of people watching fireworks by a city",
-      "seed": 303,
-      "base_score": 33.6928516626358,
-      "base_diagnostics": {
-        "clipped_fraction": 0.06758499145507812,
-        "mean_saturation": 0.18328441679477692
-      },
-      "candidate_score": 34.337788820266724,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.08047103881835938,
-        "mean_saturation": 0.18406443297863007
-      },
-      "delta": 0.6449371576309204
-    },
-    {
-      "source_id": "654",
-      "prompt": "a smiling man with wavy brown hair and trimmed beard",
-      "seed": 101,
-      "base_score": 34.6936970949173,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0266265869140625,
-        "mean_saturation": 0.1782516986131668
-      },
-      "candidate_score": 34.529903531074524,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.026645660400390625,
-        "mean_saturation": 0.175197035074234
-      },
-      "delta": -0.16379356384277344
-    },
-    {
-      "source_id": "654",
-      "prompt": "a smiling man with wavy brown hair and trimmed beard",
-      "seed": 202,
-      "base_score": 36.99484467506409,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0079345703125,
-        "mean_saturation": 0.1816207766532898
-      },
-      "candidate_score": 37.26091384887695,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.009120941162109375,
-        "mean_saturation": 0.18005986511707306
-      },
-      "delta": 0.2660691738128662
-    },
-    {
-      "source_id": "654",
-      "prompt": "a smiling man with wavy brown hair and trimmed beard",
-      "seed": 303,
-      "base_score": 35.44689416885376,
-      "base_diagnostics": {
-        "clipped_fraction": 0.01181793212890625,
-        "mean_saturation": 0.17718243598937988
-      },
-      "candidate_score": 35.473090410232544,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.013553619384765625,
-        "mean_saturation": 0.17587336897850037
-      },
-      "delta": 0.02619624137878418
-    },
-    {
-      "source_id": "655",
-      "prompt": "a woman with long black hair and dark skin",
-      "seed": 101,
-      "base_score": 34.66250002384186,
-      "base_diagnostics": {
-        "clipped_fraction": 0.12285995483398438,
-        "mean_saturation": 0.1437240093946457
-      },
-      "candidate_score": 34.49240326881409,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.1231231689453125,
-        "mean_saturation": 0.1433279812335968
-      },
-      "delta": -0.170096755027771
+      "delta": -0.6517946720123291
     },
     {
       "source_id": "655",
       "prompt": "a woman with long black hair and dark skin",
       "seed": 202,
-      "base_score": 36.26624345779419,
+      "base_score": 38.50622475147247,
       "base_diagnostics": {
-        "clipped_fraction": 0.10961532592773438,
-        "mean_saturation": 0.13473565876483917
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.0891200378537178
       },
-      "candidate_score": 36.65821850299835,
+      "candidate_score": 39.0141636133194,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.13184738159179688,
-        "mean_saturation": 0.133697047829628
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.08802548050880432
       },
-      "delta": 0.3919750452041626
+      "delta": 0.5079388618469238
     },
     {
       "source_id": "655",
       "prompt": "a woman with long black hair and dark skin",
       "seed": 303,
-      "base_score": 35.67383885383606,
+      "base_score": 32.82682001590729,
       "base_diagnostics": {
-        "clipped_fraction": 0.041530609130859375,
-        "mean_saturation": 0.12063183635473251
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.11314595490694046
       },
-      "candidate_score": 36.02873086929321,
+      "candidate_score": 32.1234405040741,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0473480224609375,
-        "mean_saturation": 0.11838791519403458
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.11331551522016525
       },
-      "delta": 0.3548920154571533
+      "delta": -0.7033795118331909
     },
     {
       "source_id": "656",
       "prompt": "a woman with long black hair and dark skin in a long white dress",
       "seed": 101,
-      "base_score": 29.538297653198242,
+      "base_score": 32.235413789749146,
       "base_diagnostics": {
-        "clipped_fraction": 0.10932540893554688,
-        "mean_saturation": 0.11402300745248795
+        "clipped_fraction": 0.000347137451171875,
+        "mean_saturation": 0.10083402693271637
       },
-      "candidate_score": 29.9508273601532,
+      "candidate_score": 31.878280639648438,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.106170654296875,
-        "mean_saturation": 0.1113877221941948
+        "clipped_fraction": 0.00023651123046875,
+        "mean_saturation": 0.10208334773778915
       },
-      "delta": 0.41252970695495605
+      "delta": -0.357133150100708
     },
     {
       "source_id": "656",
       "prompt": "a woman with long black hair and dark skin in a long white dress",
       "seed": 202,
-      "base_score": 31.44136071205139,
+      "base_score": 33.853378891944885,
       "base_diagnostics": {
-        "clipped_fraction": 0.08049774169921875,
-        "mean_saturation": 0.10843375325202942
+        "clipped_fraction": 0.000385284423828125,
+        "mean_saturation": 0.07737020403146744
       },
-      "candidate_score": 31.246402859687805,
+      "candidate_score": 33.8714063167572,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.07755279541015625,
-        "mean_saturation": 0.10637994855642319
+        "clipped_fraction": 0.0005035400390625,
+        "mean_saturation": 0.07745660841464996
       },
-      "delta": -0.19495785236358643
+      "delta": 0.018027424812316895
     },
     {
       "source_id": "656",
       "prompt": "a woman with long black hair and dark skin in a long white dress",
       "seed": 303,
-      "base_score": 36.423808336257935,
+      "base_score": 30.993640422821045,
       "base_diagnostics": {
-        "clipped_fraction": 0.03490447998046875,
-        "mean_saturation": 0.138710618019104
+        "clipped_fraction": 0.00016021728515625,
+        "mean_saturation": 0.11861922591924667
       },
-      "candidate_score": 37.00453341007233,
+      "candidate_score": 30.218863487243652,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.034610748291015625,
-        "mean_saturation": 0.13800138235092163
+        "clipped_fraction": 6.4849853515625e-05,
+        "mean_saturation": 0.11854802072048187
       },
-      "delta": 0.5807250738143921
+      "delta": -0.7747769355773926
     },
     {
       "source_id": "657",
       "prompt": "a man with long blonde hair, brown eyes and blue jeans",
       "seed": 101,
-      "base_score": 39.3502414226532,
+      "base_score": 39.40734267234802,
       "base_diagnostics": {
-        "clipped_fraction": 0.022022247314453125,
-        "mean_saturation": 0.17402134835720062
+        "clipped_fraction": 0.002048492431640625,
+        "mean_saturation": 0.19792994856834412
       },
-      "candidate_score": 39.14250135421753,
+      "candidate_score": 39.5598828792572,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.02173614501953125,
-        "mean_saturation": 0.17425118386745453
+        "clipped_fraction": 0.00238037109375,
+        "mean_saturation": 0.1995653510093689
       },
-      "delta": -0.20774006843566895
+      "delta": 0.1525402069091797
     },
     {
       "source_id": "657",
       "prompt": "a man with long blonde hair, brown eyes and blue jeans",
       "seed": 202,
-      "base_score": 39.61658477783203,
+      "base_score": 39.86162543296814,
       "base_diagnostics": {
-        "clipped_fraction": 0.01873779296875,
-        "mean_saturation": 0.15809276700019836
+        "clipped_fraction": 0.001651763916015625,
+        "mean_saturation": 0.1369606852531433
       },
-      "candidate_score": 39.17780816555023,
+      "candidate_score": 40.32549858093262,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.01877593994140625,
-        "mean_saturation": 0.1586727350950241
+        "clipped_fraction": 0.001430511474609375,
+        "mean_saturation": 0.1364048421382904
       },
-      "delta": -0.4387766122817993
+      "delta": 0.46387314796447754
     },
     {
       "source_id": "657",
       "prompt": "a man with long blonde hair, brown eyes and blue jeans",
       "seed": 303,
-      "base_score": 41.10744595527649,
+      "base_score": 40.63478410243988,
       "base_diagnostics": {
-        "clipped_fraction": 0.018444061279296875,
-        "mean_saturation": 0.17223218083381653
+        "clipped_fraction": 0.004230499267578125,
+        "mean_saturation": 0.1981431543827057
       },
-      "candidate_score": 41.429731249809265,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.017848968505859375,
-        "mean_saturation": 0.1675206422805786
-      },
-      "delta": 0.3222852945327759
-    },
-    {
-      "source_id": "658",
-      "prompt": "an elderly woman with straight hair and metal-rimmed glasses",
-      "seed": 101,
-      "base_score": 37.238386273384094,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00307464599609375,
-        "mean_saturation": 0.14402158558368683
-      },
-      "candidate_score": 37.18428015708923,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.003444671630859375,
-        "mean_saturation": 0.14197997748851776
-      },
-      "delta": -0.05410611629486084
-    },
-    {
-      "source_id": "658",
-      "prompt": "an elderly woman with straight hair and metal-rimmed glasses",
-      "seed": 202,
-      "base_score": 38.77899646759033,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00315093994140625,
-        "mean_saturation": 0.1823396384716034
-      },
-      "candidate_score": 39.30231332778931,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00341796875,
-        "mean_saturation": 0.17970144748687744
-      },
-      "delta": 0.5233168601989746
-    },
-    {
-      "source_id": "658",
-      "prompt": "an elderly woman with straight hair and metal-rimmed glasses",
-      "seed": 303,
-      "base_score": 35.96065044403076,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00341796875,
-        "mean_saturation": 0.1930246651172638
-      },
-      "candidate_score": 36.09544038772583,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.0034942626953125,
-        "mean_saturation": 0.19273607432842255
-      },
-      "delta": 0.13478994369506836
-    },
-    {
-      "source_id": "659",
-      "prompt": "a man wearing sunglasses and business suit",
-      "seed": 101,
-      "base_score": 36.88947558403015,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0034637451171875,
-        "mean_saturation": 0.10309065878391266
-      },
-      "candidate_score": 37.24226951599121,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00377655029296875,
-        "mean_saturation": 0.10351643711328506
-      },
-      "delta": 0.35279393196105957
-    },
-    {
-      "source_id": "659",
-      "prompt": "a man wearing sunglasses and business suit",
-      "seed": 202,
-      "base_score": 34.98348593711853,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00632476806640625,
-        "mean_saturation": 0.12423676997423172
-      },
-      "candidate_score": 34.89266335964203,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.007232666015625,
-        "mean_saturation": 0.12410669028759003
-      },
-      "delta": -0.09082257747650146
-    },
-    {
-      "source_id": "659",
-      "prompt": "a man wearing sunglasses and business suit",
-      "seed": 303,
-      "base_score": 37.310755252838135,
-      "base_diagnostics": {
-        "clipped_fraction": 0.012378692626953125,
-        "mean_saturation": 0.11308214068412781
-      },
-      "candidate_score": 37.221330404281616,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.01256561279296875,
-        "mean_saturation": 0.11254771798849106
-      },
-      "delta": -0.08942484855651855
-    },
-    {
-      "source_id": "660",
-      "prompt": "a girl with long curly blonde hair and sunglasses",
-      "seed": 101,
-      "base_score": 41.61085486412048,
-      "base_diagnostics": {
-        "clipped_fraction": 0.017482757568359375,
-        "mean_saturation": 0.21363143622875214
-      },
-      "candidate_score": 42.234206199645996,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.02118682861328125,
-        "mean_saturation": 0.21174068748950958
-      },
-      "delta": 0.6233513355255127
-    },
-    {
-      "source_id": "660",
-      "prompt": "a girl with long curly blonde hair and sunglasses",
-      "seed": 202,
-      "base_score": 40.299299359321594,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0149688720703125,
-        "mean_saturation": 0.2668762505054474
-      },
-      "candidate_score": 39.56478536128998,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.016185760498046875,
-        "mean_saturation": 0.2665509879589081
-      },
-      "delta": -0.7345139980316162
-    },
-    {
-      "source_id": "660",
-      "prompt": "a girl with long curly blonde hair and sunglasses",
-      "seed": 303,
-      "base_score": 38.52313756942749,
-      "base_diagnostics": {
-        "clipped_fraction": 0.013523101806640625,
-        "mean_saturation": 0.24483861029148102
-      },
-      "candidate_score": 38.87777030467987,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.01618194580078125,
-        "mean_saturation": 0.2455420047044754
-      },
-      "delta": 0.35463273525238037
-    },
-    {
-      "source_id": "661",
-      "prompt": "an old man with a long grey beard and green eyes",
-      "seed": 101,
-      "base_score": 39.75379765033722,
-      "base_diagnostics": {
-        "clipped_fraction": 0.005634307861328125,
-        "mean_saturation": 0.17496125400066376
-      },
-      "candidate_score": 40.44408202171326,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.006031036376953125,
-        "mean_saturation": 0.17491468787193298
-      },
-      "delta": 0.6902843713760376
-    },
-    {
-      "source_id": "661",
-      "prompt": "an old man with a long grey beard and green eyes",
-      "seed": 202,
-      "base_score": 38.63224387168884,
-      "base_diagnostics": {
-        "clipped_fraction": 0.003719329833984375,
-        "mean_saturation": 0.20633774995803833
-      },
-      "candidate_score": 39.23129439353943,
+      "candidate_score": 40.89800715446472,
       "candidate_diagnostics": {
         "clipped_fraction": 0.004344940185546875,
-        "mean_saturation": 0.202198326587677
+        "mean_saturation": 0.19957636296749115
       },
-      "delta": 0.5990505218505859
+      "delta": 0.2632230520248413
+    },
+    {
+      "source_id": "658",
+      "prompt": "an elderly woman with straight hair and metal-rimmed glasses",
+      "seed": 101,
+      "base_score": 37.01545596122742,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16611605882644653
+      },
+      "candidate_score": 37.347811460494995,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16765765845775604
+      },
+      "delta": 0.3323554992675781
+    },
+    {
+      "source_id": "658",
+      "prompt": "an elderly woman with straight hair and metal-rimmed glasses",
+      "seed": 202,
+      "base_score": 35.785478353500366,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1316733956336975
+      },
+      "candidate_score": 35.552215576171875,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13162463903427124
+      },
+      "delta": -0.2332627773284912
+    },
+    {
+      "source_id": "658",
+      "prompt": "an elderly woman with straight hair and metal-rimmed glasses",
+      "seed": 303,
+      "base_score": 36.75534725189209,
+      "base_diagnostics": {
+        "clipped_fraction": 8.392333984375e-05,
+        "mean_saturation": 0.18778643012046814
+      },
+      "candidate_score": 37.154099345207214,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00023651123046875,
+        "mean_saturation": 0.18736255168914795
+      },
+      "delta": 0.3987520933151245
+    },
+    {
+      "source_id": "659",
+      "prompt": "a man wearing sunglasses and business suit",
+      "seed": 101,
+      "base_score": 37.80359625816345,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.14371594786643982
+      },
+      "candidate_score": 37.73294389247894,
+      "candidate_diagnostics": {
+        "clipped_fraction": 1.52587890625e-05,
+        "mean_saturation": 0.14494739472866058
+      },
+      "delta": -0.07065236568450928
+    },
+    {
+      "source_id": "659",
+      "prompt": "a man wearing sunglasses and business suit",
+      "seed": 202,
+      "base_score": 37.63567805290222,
+      "base_diagnostics": {
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.07616189867258072
+      },
+      "candidate_score": 37.60720491409302,
+      "candidate_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.07563930004835129
+      },
+      "delta": -0.0284731388092041
+    },
+    {
+      "source_id": "659",
+      "prompt": "a man wearing sunglasses and business suit",
+      "seed": 303,
+      "base_score": 39.01922106742859,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.11781597137451172
+      },
+      "candidate_score": 38.52870166301727,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.11754705011844635
+      },
+      "delta": -0.4905194044113159
+    },
+    {
+      "source_id": "660",
+      "prompt": "a girl with long curly blonde hair and sunglasses",
+      "seed": 101,
+      "base_score": 42.350780963897705,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2684168219566345
+      },
+      "candidate_score": 42.29811131954193,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.27141451835632324
+      },
+      "delta": -0.052669644355773926
+    },
+    {
+      "source_id": "660",
+      "prompt": "a girl with long curly blonde hair and sunglasses",
+      "seed": 202,
+      "base_score": 39.89039063453674,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1896117478609085
+      },
+      "candidate_score": 39.85244333744049,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19066408276557922
+      },
+      "delta": -0.03794729709625244
+    },
+    {
+      "source_id": "660",
+      "prompt": "a girl with long curly blonde hair and sunglasses",
+      "seed": 303,
+      "base_score": 40.565526485443115,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.24581724405288696
+      },
+      "candidate_score": 41.17702543735504,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2475149929523468
+      },
+      "delta": 0.6114989519119263
+    },
+    {
+      "source_id": "661",
+      "prompt": "an old man with a long grey beard and green eyes",
+      "seed": 101,
+      "base_score": 40.420109033584595,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1906009018421173
+      },
+      "candidate_score": 40.27053415775299,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19200024008750916
+      },
+      "delta": -0.149574875831604
+    },
+    {
+      "source_id": "661",
+      "prompt": "an old man with a long grey beard and green eyes",
+      "seed": 202,
+      "base_score": 41.934579610824585,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.17207857966423035
+      },
+      "candidate_score": 41.90052151679993,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.17333835363388062
+      },
+      "delta": -0.0340580940246582
     },
     {
       "source_id": "661",
       "prompt": "an old man with a long grey beard and green eyes",
       "seed": 303,
-      "base_score": 39.59866166114807,
+      "base_score": 40.076714754104614,
       "base_diagnostics": {
-        "clipped_fraction": 0.00879669189453125,
-        "mean_saturation": 0.18899013102054596
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.20077362656593323
       },
-      "candidate_score": 39.91859555244446,
+      "candidate_score": 40.19371271133423,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.01100921630859375,
-        "mean_saturation": 0.19005024433135986
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.20129717886447906
       },
-      "delta": 0.3199338912963867
+      "delta": 0.11699795722961426
     },
     {
       "source_id": "662",
       "prompt": "a woman with tan skin in blue jeans and yellow shirt",
       "seed": 101,
-      "base_score": 38.360217213630676,
+      "base_score": 41.1673903465271,
       "base_diagnostics": {
-        "clipped_fraction": 0.002529144287109375,
-        "mean_saturation": 0.24420049786567688
+        "clipped_fraction": 0.00164794921875,
+        "mean_saturation": 0.2186596393585205
       },
-      "candidate_score": 39.06170725822449,
+      "candidate_score": 40.71776568889618,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0025634765625,
-        "mean_saturation": 0.24311430752277374
+        "clipped_fraction": 0.001735687255859375,
+        "mean_saturation": 0.22052398324012756
       },
-      "delta": 0.701490044593811
+      "delta": -0.4496246576309204
     },
     {
       "source_id": "662",
       "prompt": "a woman with tan skin in blue jeans and yellow shirt",
       "seed": 202,
-      "base_score": 38.63909840583801,
+      "base_score": 39.65936899185181,
       "base_diagnostics": {
-        "clipped_fraction": 0.0121002197265625,
-        "mean_saturation": 0.2237902730703354
+        "clipped_fraction": 9.918212890625e-05,
+        "mean_saturation": 0.15920962393283844
       },
-      "candidate_score": 38.199582695961,
+      "candidate_score": 39.361733198165894,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0120391845703125,
-        "mean_saturation": 0.22354795038700104
+        "clipped_fraction": 9.1552734375e-05,
+        "mean_saturation": 0.15511107444763184
       },
-      "delta": -0.43951570987701416
+      "delta": -0.2976357936859131
     },
     {
       "source_id": "662",
       "prompt": "a woman with tan skin in blue jeans and yellow shirt",
       "seed": 303,
-      "base_score": 39.265501499176025,
+      "base_score": 40.359482169151306,
       "base_diagnostics": {
-        "clipped_fraction": 0.00495147705078125,
-        "mean_saturation": 0.22583894431591034
+        "clipped_fraction": 0.0027923583984375,
+        "mean_saturation": 0.2433258444070816
       },
-      "candidate_score": 39.47072625160217,
+      "candidate_score": 39.9345725774765,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.007091522216796875,
-        "mean_saturation": 0.2268441915512085
+        "clipped_fraction": 0.00289154052734375,
+        "mean_saturation": 0.24800071120262146
       },
-      "delta": 0.20522475242614746
+      "delta": -0.4249095916748047
     },
     {
       "source_id": "663",
       "prompt": "a woman with a dog puppet and a cat puppet",
       "seed": 101,
-      "base_score": 35.20367741584778,
+      "base_score": 29.1570782661438,
       "base_diagnostics": {
-        "clipped_fraction": 0.019466400146484375,
-        "mean_saturation": 0.19826114177703857
+        "clipped_fraction": 0.000308990478515625,
+        "mean_saturation": 0.1732657253742218
       },
-      "candidate_score": 36.571723222732544,
+      "candidate_score": 29.10047173500061,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.0212860107421875,
-        "mean_saturation": 0.1989331841468811
+        "clipped_fraction": 0.00018310546875,
+        "mean_saturation": 0.17560213804244995
       },
-      "delta": 1.3680458068847656
+      "delta": -0.05660653114318848
     },
     {
       "source_id": "663",
       "prompt": "a woman with a dog puppet and a cat puppet",
       "seed": 202,
-      "base_score": 33.551961183547974,
+      "base_score": 29.753297567367554,
       "base_diagnostics": {
-        "clipped_fraction": 0.03586578369140625,
-        "mean_saturation": 0.19387108087539673
+        "clipped_fraction": 1.9073486328125e-05,
+        "mean_saturation": 0.1710464358329773
       },
-      "candidate_score": 34.14272367954254,
+      "candidate_score": 29.80830669403076,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.03388214111328125,
-        "mean_saturation": 0.1917896866798401
+        "clipped_fraction": 2.6702880859375e-05,
+        "mean_saturation": 0.17167919874191284
       },
-      "delta": 0.5907624959945679
+      "delta": 0.05500912666320801
     },
     {
       "source_id": "663",
       "prompt": "a woman with a dog puppet and a cat puppet",
       "seed": 303,
-      "base_score": 39.06690776348114,
-      "base_diagnostics": {
-        "clipped_fraction": 0.025531768798828125,
-        "mean_saturation": 0.22692404687404633
-      },
-      "candidate_score": 38.907650113105774,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.026294708251953125,
-        "mean_saturation": 0.2266118973493576
-      },
-      "delta": -0.1592576503753662
-    },
-    {
-      "source_id": "664",
-      "prompt": "a group of skiers are preparing to walk up a sand dune",
-      "seed": 101,
-      "base_score": 40.65254330635071,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0121612548828125,
-        "mean_saturation": 0.17753678560256958
-      },
-      "candidate_score": 41.14692211151123,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.013202667236328125,
-        "mean_saturation": 0.17785422503948212
-      },
-      "delta": 0.49437880516052246
-    },
-    {
-      "source_id": "664",
-      "prompt": "a group of skiers are preparing to walk up a sand dune",
-      "seed": 202,
-      "base_score": 40.051013231277466,
-      "base_diagnostics": {
-        "clipped_fraction": 0.022586822509765625,
-        "mean_saturation": 0.20353847742080688
-      },
-      "candidate_score": 40.42196869850159,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.02481842041015625,
-        "mean_saturation": 0.20685400068759918
-      },
-      "delta": 0.3709554672241211
-    },
-    {
-      "source_id": "664",
-      "prompt": "a group of skiers are preparing to walk up a sand dune",
-      "seed": 303,
-      "base_score": 42.61603355407715,
-      "base_diagnostics": {
-        "clipped_fraction": 0.019802093505859375,
-        "mean_saturation": 0.2072688639163971
-      },
-      "candidate_score": 42.25226640701294,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.020259857177734375,
-        "mean_saturation": 0.20468564331531525
-      },
-      "delta": -0.363767147064209
-    },
-    {
-      "source_id": "665",
-      "prompt": "a child eating a birthday cake near some palm trees",
-      "seed": 101,
-      "base_score": 41.644394397735596,
-      "base_diagnostics": {
-        "clipped_fraction": 0.003704071044921875,
-        "mean_saturation": 0.20153771340847015
-      },
-      "candidate_score": 40.93896150588989,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00446319580078125,
-        "mean_saturation": 0.2033928483724594
-      },
-      "delta": -0.7054328918457031
-    },
-    {
-      "source_id": "665",
-      "prompt": "a child eating a birthday cake near some palm trees",
-      "seed": 202,
-      "base_score": 42.59835481643677,
-      "base_diagnostics": {
-        "clipped_fraction": 0.005100250244140625,
-        "mean_saturation": 0.2972392737865448
-      },
-      "candidate_score": 42.654237151145935,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.005046844482421875,
-        "mean_saturation": 0.29735231399536133
-      },
-      "delta": 0.05588233470916748
-    },
-    {
-      "source_id": "665",
-      "prompt": "a child eating a birthday cake near some palm trees",
-      "seed": 303,
-      "base_score": 44.60946321487427,
-      "base_diagnostics": {
-        "clipped_fraction": 0.01952362060546875,
-        "mean_saturation": 0.23720812797546387
-      },
-      "candidate_score": 46.48248255252838,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.020298004150390625,
-        "mean_saturation": 0.2367539256811142
-      },
-      "delta": 1.8730193376541138
-    },
-    {
-      "source_id": "666",
-      "prompt": "a man with wild hair looking into a crystal ball",
-      "seed": 101,
-      "base_score": 37.27515935897827,
-      "base_diagnostics": {
-        "clipped_fraction": 0.004058837890625,
-        "mean_saturation": 0.11340788006782532
-      },
-      "candidate_score": 36.19040250778198,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.006870269775390625,
-        "mean_saturation": 0.1123790293931961
-      },
-      "delta": -1.084756851196289
-    },
-    {
-      "source_id": "666",
-      "prompt": "a man with wild hair looking into a crystal ball",
-      "seed": 202,
-      "base_score": 42.619311809539795,
-      "base_diagnostics": {
-        "clipped_fraction": 0.011142730712890625,
-        "mean_saturation": 0.1704777181148529
-      },
-      "candidate_score": 43.030691146850586,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.01583099365234375,
-        "mean_saturation": 0.16461844742298126
-      },
-      "delta": 0.411379337310791
-    },
-    {
-      "source_id": "666",
-      "prompt": "a man with wild hair looking into a crystal ball",
-      "seed": 303,
-      "base_score": 42.03699231147766,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0182647705078125,
-        "mean_saturation": 0.13830243051052094
-      },
-      "candidate_score": 40.69432616233826,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.01935577392578125,
-        "mean_saturation": 0.1397891789674759
-      },
-      "delta": -1.3426661491394043
-    },
-    {
-      "source_id": "668",
-      "prompt": "a mosquito biting a man",
-      "seed": 101,
-      "base_score": 36.09118163585663,
+      "base_score": 41.071224212646484,
       "base_diagnostics": {
         "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.19815997779369354
+        "mean_saturation": 0.2033083587884903
       },
-      "candidate_score": 36.632513999938965,
+      "candidate_score": 40.932220220565796,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19564248621463776
+      },
+      "delta": -0.13900399208068848
+    },
+    {
+      "source_id": "664",
+      "prompt": "a group of skiers are preparing to walk up a sand dune",
+      "seed": 101,
+      "base_score": 40.20344018936157,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1938759684562683
+      },
+      "candidate_score": 40.14497697353363,
       "candidate_diagnostics": {
         "clipped_fraction": 3.814697265625e-06,
-        "mean_saturation": 0.1996072381734848
+        "mean_saturation": 0.19454225897789001
       },
-      "delta": 0.5413323640823364
+      "delta": -0.058463215827941895
+    },
+    {
+      "source_id": "664",
+      "prompt": "a group of skiers are preparing to walk up a sand dune",
+      "seed": 202,
+      "base_score": 38.51640820503235,
+      "base_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.1267934888601303
+      },
+      "candidate_score": 39.20268416404724,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1273154467344284
+      },
+      "delta": 0.6862759590148926
+    },
+    {
+      "source_id": "664",
+      "prompt": "a group of skiers are preparing to walk up a sand dune",
+      "seed": 303,
+      "base_score": 43.99096071720123,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18848827481269836
+      },
+      "candidate_score": 43.66092383861542,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.18807215988636017
+      },
+      "delta": -0.33003687858581543
+    },
+    {
+      "source_id": "665",
+      "prompt": "a child eating a birthday cake near some palm trees",
+      "seed": 101,
+      "base_score": 40.582042932510376,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2077990174293518
+      },
+      "candidate_score": 40.68365693092346,
+      "candidate_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.2082366645336151
+      },
+      "delta": 0.10161399841308594
+    },
+    {
+      "source_id": "665",
+      "prompt": "a child eating a birthday cake near some palm trees",
+      "seed": 202,
+      "base_score": 40.245309472084045,
+      "base_diagnostics": {
+        "clipped_fraction": 5.7220458984375e-05,
+        "mean_saturation": 0.2049594521522522
+      },
+      "candidate_score": 40.310120582580566,
+      "candidate_diagnostics": {
+        "clipped_fraction": 7.2479248046875e-05,
+        "mean_saturation": 0.20702290534973145
+      },
+      "delta": 0.064811110496521
+    },
+    {
+      "source_id": "665",
+      "prompt": "a child eating a birthday cake near some palm trees",
+      "seed": 303,
+      "base_score": 40.687233209609985,
+      "base_diagnostics": {
+        "clipped_fraction": 0.001346588134765625,
+        "mean_saturation": 0.2403971403837204
+      },
+      "candidate_score": 40.30963182449341,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0009002685546875,
+        "mean_saturation": 0.24042856693267822
+      },
+      "delta": -0.37760138511657715
+    },
+    {
+      "source_id": "666",
+      "prompt": "a man with wild hair looking into a crystal ball",
+      "seed": 101,
+      "base_score": 44.60235834121704,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.0947636067867279
+      },
+      "candidate_score": 44.91173028945923,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.09477674961090088
+      },
+      "delta": 0.3093719482421875
+    },
+    {
+      "source_id": "666",
+      "prompt": "a man with wild hair looking into a crystal ball",
+      "seed": 202,
+      "base_score": 45.07511258125305,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.06742088496685028
+      },
+      "candidate_score": 45.313915610313416,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.06788430362939835
+      },
+      "delta": 0.23880302906036377
+    },
+    {
+      "source_id": "666",
+      "prompt": "a man with wild hair looking into a crystal ball",
+      "seed": 303,
+      "base_score": 40.51320552825928,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13366441428661346
+      },
+      "candidate_score": 40.36051630973816,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13262687623500824
+      },
+      "delta": -0.15268921852111816
+    },
+    {
+      "source_id": "668",
+      "prompt": "a mosquito biting a man",
+      "seed": 101,
+      "base_score": 36.06529235839844,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000362396240234375,
+        "mean_saturation": 0.26108884811401367
+      },
+      "candidate_score": 36.31598949432373,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0003204345703125,
+        "mean_saturation": 0.25736141204833984
+      },
+      "delta": 0.25069713592529297
     },
     {
       "source_id": "668",
       "prompt": "a mosquito biting a man",
       "seed": 202,
-      "base_score": 35.24303436279297,
+      "base_score": 38.17378282546997,
       "base_diagnostics": {
-        "clipped_fraction": 0.010433197021484375,
-        "mean_saturation": 0.22226586937904358
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19276033341884613
       },
-      "candidate_score": 35.66914200782776,
+      "candidate_score": 38.319408893585205,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.011440277099609375,
-        "mean_saturation": 0.22127854824066162
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19443856179714203
       },
-      "delta": 0.42610764503479004
+      "delta": 0.14562606811523438
     },
     {
       "source_id": "668",
       "prompt": "a mosquito biting a man",
       "seed": 303,
-      "base_score": 34.70128774642944,
+      "base_score": 36.17727756500244,
       "base_diagnostics": {
-        "clipped_fraction": 0.0028076171875,
-        "mean_saturation": 0.23297004401683807
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.24290865659713745
       },
-      "candidate_score": 34.3762069940567,
+      "candidate_score": 36.518749594688416,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.006557464599609375,
-        "mean_saturation": 0.23465898633003235
+        "clipped_fraction": 1.9073486328125e-05,
+        "mean_saturation": 0.24209430813789368
       },
-      "delta": -0.3250807523727417
+      "delta": 0.3414720296859741
     },
     {
       "source_id": "669",
       "prompt": "a witch riding a broom",
       "seed": 101,
-      "base_score": 34.89375710487366,
+      "base_score": 34.61536765098572,
       "base_diagnostics": {
-        "clipped_fraction": 0.047412872314453125,
-        "mean_saturation": 0.19450488686561584
+        "clipped_fraction": 0.008831024169921875,
+        "mean_saturation": 0.20214731991291046
       },
-      "candidate_score": 35.11565923690796,
+      "candidate_score": 34.545424580574036,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.05145263671875,
-        "mean_saturation": 0.18780617415905
+        "clipped_fraction": 0.00673675537109375,
+        "mean_saturation": 0.2017364352941513
       },
-      "delta": 0.22190213203430176
+      "delta": -0.06994307041168213
     },
     {
       "source_id": "669",
       "prompt": "a witch riding a broom",
       "seed": 202,
-      "base_score": 33.98774266242981,
+      "base_score": 33.58977138996124,
       "base_diagnostics": {
-        "clipped_fraction": 0.06379318237304688,
-        "mean_saturation": 0.25644758343696594
+        "clipped_fraction": 0.002880096435546875,
+        "mean_saturation": 0.15179088711738586
       },
-      "candidate_score": 33.74916911125183,
+      "candidate_score": 33.93036425113678,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.066802978515625,
-        "mean_saturation": 0.2539176046848297
+        "clipped_fraction": 0.00341796875,
+        "mean_saturation": 0.1509745568037033
       },
-      "delta": -0.23857355117797852
+      "delta": 0.3405928611755371
     },
     {
       "source_id": "669",
       "prompt": "a witch riding a broom",
       "seed": 303,
-      "base_score": 35.62805652618408,
+      "base_score": 33.708810806274414,
       "base_diagnostics": {
-        "clipped_fraction": 0.060840606689453125,
-        "mean_saturation": 0.2322753667831421
+        "clipped_fraction": 0.000156402587890625,
+        "mean_saturation": 0.21087080240249634
       },
-      "candidate_score": 35.60461401939392,
+      "candidate_score": 33.70171785354614,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.05584716796875,
-        "mean_saturation": 0.23105159401893616
+        "clipped_fraction": 0.000316619873046875,
+        "mean_saturation": 0.21073788404464722
       },
-      "delta": -0.023442506790161133
+      "delta": -0.007092952728271484
     },
     {
       "source_id": "670",
       "prompt": "a knight holding a long sword",
       "seed": 101,
-      "base_score": 31.53546452522278,
+      "base_score": 32.06174373626709,
       "base_diagnostics": {
-        "clipped_fraction": 9.1552734375e-05,
-        "mean_saturation": 0.14986971020698547
+        "clipped_fraction": 0.0010528564453125,
+        "mean_saturation": 0.1224222406744957
       },
-      "candidate_score": 31.45679235458374,
+      "candidate_score": 31.933557987213135,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0004119873046875,
+        "mean_saturation": 0.12274324148893356
+      },
+      "delta": -0.12818574905395508
+    },
+    {
+      "source_id": "670",
+      "prompt": "a knight holding a long sword",
+      "seed": 202,
+      "base_score": 33.5588812828064,
+      "base_diagnostics": {
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.10428539663553238
+      },
+      "candidate_score": 33.67959260940552,
+      "candidate_diagnostics": {
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.10677638649940491
+      },
+      "delta": 0.1207113265991211
+    },
+    {
+      "source_id": "670",
+      "prompt": "a knight holding a long sword",
+      "seed": 303,
+      "base_score": 32.83421993255615,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000614166259765625,
+        "mean_saturation": 0.16366909444332123
+      },
+      "candidate_score": 33.09473395347595,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.000576019287109375,
+        "mean_saturation": 0.1659156084060669
+      },
+      "delta": 0.2605140209197998
+    },
+    {
+      "source_id": "671",
+      "prompt": "a man reading a book with a prism on its cover",
+      "seed": 101,
+      "base_score": 38.22654485702515,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002635955810546875,
+        "mean_saturation": 0.14558611810207367
+      },
+      "candidate_score": 43.53322982788086,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.002758026123046875,
+        "mean_saturation": 0.14460916817188263
+      },
+      "delta": 5.306684970855713
+    },
+    {
+      "source_id": "671",
+      "prompt": "a man reading a book with a prism on its cover",
+      "seed": 202,
+      "base_score": 44.1135048866272,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.12243156880140305
+      },
+      "candidate_score": 42.668721079826355,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.11257108300924301
+      },
+      "delta": -1.4447838068008423
+    },
+    {
+      "source_id": "671",
+      "prompt": "a man reading a book with a prism on its cover",
+      "seed": 303,
+      "base_score": 48.605042695999146,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13119307160377502
+      },
+      "candidate_score": 49.52263832092285,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13262444734573364
+      },
+      "delta": 0.917595624923706
+    },
+    {
+      "source_id": "672",
+      "prompt": "a cricket team walking on to the pitch",
+      "seed": 101,
+      "base_score": 38.86931240558624,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002780914306640625,
+        "mean_saturation": 0.22675476968288422
+      },
+      "candidate_score": 38.43926787376404,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001834869384765625,
+        "mean_saturation": 0.22967982292175293
+      },
+      "delta": -0.4300445318222046
+    },
+    {
+      "source_id": "672",
+      "prompt": "a cricket team walking on to the pitch",
+      "seed": 202,
+      "base_score": 34.300440549850464,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00055694580078125,
+        "mean_saturation": 0.15803807973861694
+      },
+      "candidate_score": 33.211877942085266,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00067138671875,
+        "mean_saturation": 0.1573876291513443
+      },
+      "delta": -1.0885626077651978
+    },
+    {
+      "source_id": "672",
+      "prompt": "a cricket team walking on to the pitch",
+      "seed": 303,
+      "base_score": 37.48382925987244,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000858306884765625,
+        "mean_saturation": 0.2165941596031189
+      },
+      "candidate_score": 38.075876235961914,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00087738037109375,
+        "mean_saturation": 0.216669499874115
+      },
+      "delta": 0.5920469760894775
+    },
+    {
+      "source_id": "673",
+      "prompt": "a cricketer standing next to a wicket",
+      "seed": 101,
+      "base_score": 32.026275992393494,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000732421875,
+        "mean_saturation": 0.2325211465358734
+      },
+      "candidate_score": 32.03973174095154,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001461029052734375,
+        "mean_saturation": 0.23154079914093018
+      },
+      "delta": 0.013455748558044434
+    },
+    {
+      "source_id": "673",
+      "prompt": "a cricketer standing next to a wicket",
+      "seed": 202,
+      "base_score": 26.46317481994629,
+      "base_diagnostics": {
+        "clipped_fraction": 0.005741119384765625,
+        "mean_saturation": 0.24360360205173492
+      },
+      "candidate_score": 25.778907537460327,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.005779266357421875,
+        "mean_saturation": 0.24480320513248444
+      },
+      "delta": -0.6842672824859619
+    },
+    {
+      "source_id": "673",
+      "prompt": "a cricketer standing next to a wicket",
+      "seed": 303,
+      "base_score": 27.694612741470337,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00099945068359375,
+        "mean_saturation": 0.1717558354139328
+      },
+      "candidate_score": 27.960091829299927,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00077056884765625,
+        "mean_saturation": 0.16731373965740204
+      },
+      "delta": 0.26547908782958984
+    },
+    {
+      "source_id": "675",
+      "prompt": "a young girl playing piano",
+      "seed": 101,
+      "base_score": 34.53535437583923,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16556429862976074
+      },
+      "candidate_score": 34.38735902309418,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16519685089588165
+      },
+      "delta": -0.14799535274505615
+    },
+    {
+      "source_id": "675",
+      "prompt": "a young girl playing piano",
+      "seed": 202,
+      "base_score": 34.03611183166504,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1313525140285492
+      },
+      "candidate_score": 34.23214852809906,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13112948834896088
+      },
+      "delta": 0.196036696434021
+    },
+    {
+      "source_id": "675",
+      "prompt": "a young girl playing piano",
+      "seed": 303,
+      "base_score": 33.964475989341736,
+      "base_diagnostics": {
+        "clipped_fraction": 1.9073486328125e-05,
+        "mean_saturation": 0.1898956149816513
+      },
+      "candidate_score": 33.93409848213196,
+      "candidate_diagnostics": {
+        "clipped_fraction": 1.9073486328125e-05,
+        "mean_saturation": 0.1896142065525055
+      },
+      "delta": -0.030377507209777832
+    },
+    {
+      "source_id": "676",
+      "prompt": "a girl getting a kite out of a tree",
+      "seed": 101,
+      "base_score": 40.38982093334198,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002044677734375,
+        "mean_saturation": 0.27058589458465576
+      },
+      "candidate_score": 40.856724977493286,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.002147674560546875,
+        "mean_saturation": 0.2742806375026703
+      },
+      "delta": 0.46690404415130615
+    },
+    {
+      "source_id": "676",
+      "prompt": "a girl getting a kite out of a tree",
+      "seed": 202,
+      "base_score": 37.5932514667511,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000286102294921875,
+        "mean_saturation": 0.20636826753616333
+      },
+      "candidate_score": 36.248379945755005,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.000354766845703125,
+        "mean_saturation": 0.20349207520484924
+      },
+      "delta": -1.3448715209960938
+    },
+    {
+      "source_id": "676",
+      "prompt": "a girl getting a kite out of a tree",
+      "seed": 303,
+      "base_score": 37.53300905227661,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00014495849609375,
+        "mean_saturation": 0.2780674993991852
+      },
+      "candidate_score": 38.67608904838562,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.000202178955078125,
+        "mean_saturation": 0.27815526723861694
+      },
+      "delta": 1.1430799961090088
+    },
+    {
+      "source_id": "679",
+      "prompt": "a child in the air while jumping on a trampoline",
+      "seed": 101,
+      "base_score": 34.931519627571106,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16821222007274628
+      },
+      "candidate_score": 35.215139389038086,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1658027172088623
+      },
+      "delta": 0.28361976146698
+    },
+    {
+      "source_id": "679",
+      "prompt": "a child in the air while jumping on a trampoline",
+      "seed": 202,
+      "base_score": 34.545570611953735,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002166748046875,
+        "mean_saturation": 0.12954528629779816
+      },
+      "candidate_score": 34.71032381057739,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.003185272216796875,
+        "mean_saturation": 0.12828895449638367
+      },
+      "delta": 0.16475319862365723
+    },
+    {
+      "source_id": "679",
+      "prompt": "a child in the air while jumping on a trampoline",
+      "seed": 303,
+      "base_score": 34.117281436920166,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.13218581676483154
+      },
+      "candidate_score": 33.98364186286926,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.12771838903427124
+      },
+      "delta": -0.13363957405090332
+    },
+    {
+      "source_id": "680",
+      "prompt": "the Beatles crossing Abbey road",
+      "seed": 101,
+      "base_score": 31.790226697921753,
+      "base_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.138673335313797
+      },
+      "candidate_score": 31.762230396270752,
+      "candidate_diagnostics": {
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.1391262710094452
+      },
+      "delta": -0.027996301651000977
+    },
+    {
+      "source_id": "680",
+      "prompt": "the Beatles crossing Abbey road",
+      "seed": 202,
+      "base_score": 30.830806493759155,
+      "base_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.1031898781657219
+      },
+      "candidate_score": 30.74442446231842,
+      "candidate_diagnostics": {
+        "clipped_fraction": 7.62939453125e-06,
+        "mean_saturation": 0.10374435782432556
+      },
+      "delta": -0.08638203144073486
+    },
+    {
+      "source_id": "680",
+      "prompt": "the Beatles crossing Abbey road",
+      "seed": 303,
+      "base_score": 31.656116247177124,
+      "base_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.16410189867019653
+      },
+      "candidate_score": 31.859177350997925,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.16421613097190857
+      },
+      "delta": 0.20306110382080078
+    },
+    {
+      "source_id": "681",
+      "prompt": "a girl riding an ostrich",
+      "seed": 101,
+      "base_score": 42.41819977760315,
+      "base_diagnostics": {
+        "clipped_fraction": 8.392333984375e-05,
+        "mean_saturation": 0.20954765379428864
+      },
+      "candidate_score": 42.646485567092896,
+      "candidate_diagnostics": {
+        "clipped_fraction": 3.814697265625e-05,
+        "mean_saturation": 0.20777851343154907
+      },
+      "delta": 0.2282857894897461
+    },
+    {
+      "source_id": "681",
+      "prompt": "a girl riding an ostrich",
+      "seed": 202,
+      "base_score": 42.33972132205963,
+      "base_diagnostics": {
+        "clipped_fraction": 1.52587890625e-05,
+        "mean_saturation": 0.18958202004432678
+      },
+      "candidate_score": 42.673856019973755,
+      "candidate_diagnostics": {
+        "clipped_fraction": 5.340576171875e-05,
+        "mean_saturation": 0.1898699402809143
+      },
+      "delta": 0.33413469791412354
+    },
+    {
+      "source_id": "681",
+      "prompt": "a girl riding an ostrich",
+      "seed": 303,
+      "base_score": 42.60040819644928,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000797271728515625,
+        "mean_saturation": 0.23285426199436188
+      },
+      "candidate_score": 43.19557547569275,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0008087158203125,
+        "mean_saturation": 0.23099693655967712
+      },
+      "delta": 0.5951672792434692
+    },
+    {
+      "source_id": "682",
+      "prompt": "a river with people swimming in it as a boat goes by",
+      "seed": 101,
+      "base_score": 33.088868856430054,
+      "base_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.1925354301929474
+      },
+      "candidate_score": 33.95323157310486,
+      "candidate_diagnostics": {
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.19234910607337952
+      },
+      "delta": 0.8643627166748047
+    },
+    {
+      "source_id": "682",
+      "prompt": "a river with people swimming in it as a boat goes by",
+      "seed": 202,
+      "base_score": 39.35301601886749,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1694210171699524
+      },
+      "candidate_score": 39.193761348724365,
+      "candidate_diagnostics": {
+        "clipped_fraction": 3.814697265625e-06,
+        "mean_saturation": 0.1698974072933197
+      },
+      "delta": -0.15925467014312744
+    },
+    {
+      "source_id": "682",
+      "prompt": "a river with people swimming in it as a boat goes by",
+      "seed": 303,
+      "base_score": 39.31015133857727,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19754073023796082
+      },
+      "candidate_score": 38.891977071762085,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1975686103105545
+      },
+      "delta": -0.41817426681518555
+    },
+    {
+      "source_id": "683",
+      "prompt": "a selfie of an old man with a white beard",
+      "seed": 101,
+      "base_score": 35.631051659584045,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.19534176588058472
+      },
+      "candidate_score": 36.609625816345215,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.1961437314748764
+      },
+      "delta": 0.9785741567611694
+    },
+    {
+      "source_id": "683",
+      "prompt": "a selfie of an old man with a white beard",
+      "seed": 202,
+      "base_score": 40.32825827598572,
+      "base_diagnostics": {
+        "clipped_fraction": 6.866455078125e-05,
+        "mean_saturation": 0.17952615022659302
+      },
+      "candidate_score": 41.82877838611603,
       "candidate_diagnostics": {
         "clipped_fraction": 0.000148773193359375,
-        "mean_saturation": 0.14978763461112976
+        "mean_saturation": 0.18145200610160828
       },
-      "delta": -0.07867217063903809
-    },
-    {
-      "source_id": "670",
-      "prompt": "a knight holding a long sword",
-      "seed": 202,
-      "base_score": 32.70217776298523,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0144195556640625,
-        "mean_saturation": 0.1630890816450119
-      },
-      "candidate_score": 33.11242461204529,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.017177581787109375,
-        "mean_saturation": 0.1615249216556549
-      },
-      "delta": 0.4102468490600586
-    },
-    {
-      "source_id": "670",
-      "prompt": "a knight holding a long sword",
-      "seed": 303,
-      "base_score": 30.865007638931274,
-      "base_diagnostics": {
-        "clipped_fraction": 0.009510040283203125,
-        "mean_saturation": 0.17295502126216888
-      },
-      "candidate_score": 30.93833327293396,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.012012481689453125,
-        "mean_saturation": 0.1688055694103241
-      },
-      "delta": 0.07332563400268555
-    },
-    {
-      "source_id": "671",
-      "prompt": "a man reading a book with a prism on its cover",
-      "seed": 101,
-      "base_score": 48.26432168483734,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00728607177734375,
-        "mean_saturation": 0.2097926139831543
-      },
-      "candidate_score": 47.53173589706421,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.0080413818359375,
-        "mean_saturation": 0.2115764021873474
-      },
-      "delta": -0.7325857877731323
-    },
-    {
-      "source_id": "671",
-      "prompt": "a man reading a book with a prism on its cover",
-      "seed": 202,
-      "base_score": 50.59405565261841,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0028839111328125,
-        "mean_saturation": 0.1814521998167038
-      },
-      "candidate_score": 50.939005613327026,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00286102294921875,
-        "mean_saturation": 0.1815062165260315
-      },
-      "delta": 0.34494996070861816
-    },
-    {
-      "source_id": "671",
-      "prompt": "a man reading a book with a prism on its cover",
-      "seed": 303,
-      "base_score": 36.316123604774475,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00188446044921875,
-        "mean_saturation": 0.27344822883605957
-      },
-      "candidate_score": 35.17622351646423,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.001132965087890625,
-        "mean_saturation": 0.2743213474750519
-      },
-      "delta": -1.1399000883102417
-    },
-    {
-      "source_id": "672",
-      "prompt": "a cricket team walking on to the pitch",
-      "seed": 101,
-      "base_score": 38.745442032814026,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0218505859375,
-        "mean_saturation": 0.20405778288841248
-      },
-      "candidate_score": 38.74240219593048,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.024295806884765625,
-        "mean_saturation": 0.20487625896930695
-      },
-      "delta": -0.003039836883544922
-    },
-    {
-      "source_id": "672",
-      "prompt": "a cricket team walking on to the pitch",
-      "seed": 202,
-      "base_score": 37.705567479133606,
-      "base_diagnostics": {
-        "clipped_fraction": 0.034580230712890625,
-        "mean_saturation": 0.26746949553489685
-      },
-      "candidate_score": 37.958115339279175,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.035884857177734375,
-        "mean_saturation": 0.2661248743534088
-      },
-      "delta": 0.25254786014556885
-    },
-    {
-      "source_id": "672",
-      "prompt": "a cricket team walking on to the pitch",
-      "seed": 303,
-      "base_score": 39.70513343811035,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0526275634765625,
-        "mean_saturation": 0.23657283186912537
-      },
-      "candidate_score": 39.06172215938568,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.0517425537109375,
-        "mean_saturation": 0.23591424524784088
-      },
-      "delta": -0.6434112787246704
-    },
-    {
-      "source_id": "673",
-      "prompt": "a cricketer standing next to a wicket",
-      "seed": 101,
-      "base_score": 29.928505420684814,
-      "base_diagnostics": {
-        "clipped_fraction": 0.007411956787109375,
-        "mean_saturation": 0.2516140639781952
-      },
-      "candidate_score": 29.888778924942017,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.009136199951171875,
-        "mean_saturation": 0.2525413930416107
-      },
-      "delta": -0.03972649574279785
-    },
-    {
-      "source_id": "673",
-      "prompt": "a cricketer standing next to a wicket",
-      "seed": 202,
-      "base_score": 29.944443702697754,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0072784423828125,
-        "mean_saturation": 0.3040415048599243
-      },
-      "candidate_score": 32.292523980140686,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00623321533203125,
-        "mean_saturation": 0.29584458470344543
-      },
-      "delta": 2.348080277442932
-    },
-    {
-      "source_id": "673",
-      "prompt": "a cricketer standing next to a wicket",
-      "seed": 303,
-      "base_score": 31.569290161132812,
-      "base_diagnostics": {
-        "clipped_fraction": 0.007678985595703125,
-        "mean_saturation": 0.2799012064933777
-      },
-      "candidate_score": 31.627508997917175,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.008090972900390625,
-        "mean_saturation": 0.28089526295661926
-      },
-      "delta": 0.05821883678436279
-    },
-    {
-      "source_id": "675",
-      "prompt": "a young girl playing piano",
-      "seed": 101,
-      "base_score": 35.317614674568176,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0087432861328125,
-        "mean_saturation": 0.16048601269721985
-      },
-      "candidate_score": 35.286012291908264,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.008144378662109375,
-        "mean_saturation": 0.15875980257987976
-      },
-      "delta": -0.03160238265991211
-    },
-    {
-      "source_id": "675",
-      "prompt": "a young girl playing piano",
-      "seed": 202,
-      "base_score": 35.00620126724243,
-      "base_diagnostics": {
-        "clipped_fraction": 0.07001495361328125,
-        "mean_saturation": 0.18277907371520996
-      },
-      "candidate_score": 34.62527394294739,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.06912994384765625,
-        "mean_saturation": 0.1813376098871231
-      },
-      "delta": -0.38092732429504395
-    },
-    {
-      "source_id": "675",
-      "prompt": "a young girl playing piano",
-      "seed": 303,
-      "base_score": 35.156601667404175,
-      "base_diagnostics": {
-        "clipped_fraction": 0.07601165771484375,
-        "mean_saturation": 0.17561618983745575
-      },
-      "candidate_score": 35.080209374427795,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.08020782470703125,
-        "mean_saturation": 0.1756134182214737
-      },
-      "delta": -0.0763922929763794
-    },
-    {
-      "source_id": "676",
-      "prompt": "a girl getting a kite out of a tree",
-      "seed": 101,
-      "base_score": 40.73164463043213,
-      "base_diagnostics": {
-        "clipped_fraction": 0.03054046630859375,
-        "mean_saturation": 0.23634113371372223
-      },
-      "candidate_score": 41.11009240150452,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.026538848876953125,
-        "mean_saturation": 0.23687505722045898
-      },
-      "delta": 0.3784477710723877
-    },
-    {
-      "source_id": "676",
-      "prompt": "a girl getting a kite out of a tree",
-      "seed": 202,
-      "base_score": 40.31091928482056,
-      "base_diagnostics": {
-        "clipped_fraction": 0.01944732666015625,
-        "mean_saturation": 0.2815244793891907
-      },
-      "candidate_score": 40.12064337730408,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.016727447509765625,
-        "mean_saturation": 0.28277668356895447
-      },
-      "delta": -0.1902759075164795
-    },
-    {
-      "source_id": "676",
-      "prompt": "a girl getting a kite out of a tree",
-      "seed": 303,
-      "base_score": 41.90197288990021,
-      "base_diagnostics": {
-        "clipped_fraction": 0.027263641357421875,
-        "mean_saturation": 0.2772338092327118
-      },
-      "candidate_score": 42.31294393539429,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.029918670654296875,
-        "mean_saturation": 0.27929919958114624
-      },
-      "delta": 0.4109710454940796
-    },
-    {
-      "source_id": "679",
-      "prompt": "a child in the air while jumping on a trampoline",
-      "seed": 101,
-      "base_score": 34.96953547000885,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0128936767578125,
-        "mean_saturation": 0.17565302550792694
-      },
-      "candidate_score": 34.985315799713135,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.0133056640625,
-        "mean_saturation": 0.17739145457744598
-      },
-      "delta": 0.015780329704284668
-    },
-    {
-      "source_id": "679",
-      "prompt": "a child in the air while jumping on a trampoline",
-      "seed": 202,
-      "base_score": 34.8109245300293,
-      "base_diagnostics": {
-        "clipped_fraction": 0.020069122314453125,
-        "mean_saturation": 0.24380166828632355
-      },
-      "candidate_score": 34.5706433057785,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.018463134765625,
-        "mean_saturation": 0.23953396081924438
-      },
-      "delta": -0.24028122425079346
-    },
-    {
-      "source_id": "679",
-      "prompt": "a child in the air while jumping on a trampoline",
-      "seed": 303,
-      "base_score": 35.323548316955566,
-      "base_diagnostics": {
-        "clipped_fraction": 0.032367706298828125,
-        "mean_saturation": 0.2494448870420456
-      },
-      "candidate_score": 35.48552989959717,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.032283782958984375,
-        "mean_saturation": 0.24620652198791504
-      },
-      "delta": 0.16198158264160156
-    },
-    {
-      "source_id": "680",
-      "prompt": "the Beatles crossing Abbey road",
-      "seed": 101,
-      "base_score": 31.3509464263916,
-      "base_diagnostics": {
-        "clipped_fraction": 0.013519287109375,
-        "mean_saturation": 0.15020734071731567
-      },
-      "candidate_score": 31.595221161842346,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.016674041748046875,
-        "mean_saturation": 0.14996060729026794
-      },
-      "delta": 0.24427473545074463
-    },
-    {
-      "source_id": "680",
-      "prompt": "the Beatles crossing Abbey road",
-      "seed": 202,
-      "base_score": 32.93795585632324,
-      "base_diagnostics": {
-        "clipped_fraction": 0.056304931640625,
-        "mean_saturation": 0.1468774676322937
-      },
-      "candidate_score": 33.03748965263367,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.057399749755859375,
-        "mean_saturation": 0.14742329716682434
-      },
-      "delta": 0.0995337963104248
-    },
-    {
-      "source_id": "680",
-      "prompt": "the Beatles crossing Abbey road",
-      "seed": 303,
-      "base_score": 32.58136808872223,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0411376953125,
-        "mean_saturation": 0.1460820883512497
-      },
-      "candidate_score": 33.032649755477905,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.042659759521484375,
-        "mean_saturation": 0.14538192749023438
-      },
-      "delta": 0.45128166675567627
-    },
-    {
-      "source_id": "681",
-      "prompt": "a girl riding an ostrich",
-      "seed": 101,
-      "base_score": 41.94938540458679,
-      "base_diagnostics": {
-        "clipped_fraction": 0.00800323486328125,
-        "mean_saturation": 0.20443765819072723
-      },
-      "candidate_score": 42.002204060554504,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.009796142578125,
-        "mean_saturation": 0.2022222876548767
-      },
-      "delta": 0.0528186559677124
-    },
-    {
-      "source_id": "681",
-      "prompt": "a girl riding an ostrich",
-      "seed": 202,
-      "base_score": 40.50198197364807,
-      "base_diagnostics": {
-        "clipped_fraction": 0.01589202880859375,
-        "mean_saturation": 0.2228177785873413
-      },
-      "candidate_score": 40.51965773105621,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.01663970947265625,
-        "mean_saturation": 0.22214475274085999
-      },
-      "delta": 0.01767575740814209
-    },
-    {
-      "source_id": "681",
-      "prompt": "a girl riding an ostrich",
-      "seed": 303,
-      "base_score": 41.648656129837036,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0053863525390625,
-        "mean_saturation": 0.26236188411712646
-      },
-      "candidate_score": 42.26358234882355,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00598907470703125,
-        "mean_saturation": 0.25873297452926636
-      },
-      "delta": 0.6149262189865112
-    },
-    {
-      "source_id": "682",
-      "prompt": "a river with people swimming in it as a boat goes by",
-      "seed": 101,
-      "base_score": 35.244062542915344,
-      "base_diagnostics": {
-        "clipped_fraction": 0.004665374755859375,
-        "mean_saturation": 0.14515428245067596
-      },
-      "candidate_score": 36.69511377811432,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.00531768798828125,
-        "mean_saturation": 0.1456519216299057
-      },
-      "delta": 1.4510512351989746
-    },
-    {
-      "source_id": "682",
-      "prompt": "a river with people swimming in it as a boat goes by",
-      "seed": 202,
-      "base_score": 34.82745289802551,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0291900634765625,
-        "mean_saturation": 0.17909374833106995
-      },
-      "candidate_score": 35.05086600780487,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.02912139892578125,
-        "mean_saturation": 0.17669302225112915
-      },
-      "delta": 0.2234131097793579
-    },
-    {
-      "source_id": "682",
-      "prompt": "a river with people swimming in it as a boat goes by",
-      "seed": 303,
-      "base_score": 34.052157402038574,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0357666015625,
-        "mean_saturation": 0.16378077864646912
-      },
-      "candidate_score": 33.71714949607849,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.03508758544921875,
-        "mean_saturation": 0.16580040752887726
-      },
-      "delta": -0.335007905960083
-    },
-    {
-      "source_id": "683",
-      "prompt": "a selfie of an old man with a white beard",
-      "seed": 101,
-      "base_score": 37.938499450683594,
-      "base_diagnostics": {
-        "clipped_fraction": 0.0079193115234375,
-        "mean_saturation": 0.18394403159618378
-      },
-      "candidate_score": 38.333308696746826,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.008457183837890625,
-        "mean_saturation": 0.18132857978343964
-      },
-      "delta": 0.3948092460632324
-    },
-    {
-      "source_id": "683",
-      "prompt": "a selfie of an old man with a white beard",
-      "seed": 202,
-      "base_score": 38.365763425827026,
-      "base_diagnostics": {
-        "clipped_fraction": 0.01836395263671875,
-        "mean_saturation": 0.18497532606124878
-      },
-      "candidate_score": 38.30423355102539,
-      "candidate_diagnostics": {
-        "clipped_fraction": 0.018688201904296875,
-        "mean_saturation": 0.18381911516189575
-      },
-      "delta": -0.06152987480163574
+      "delta": 1.50052011013031
     },
     {
       "source_id": "683",
       "prompt": "a selfie of an old man with a white beard",
       "seed": 303,
-      "base_score": 37.45938837528229,
+      "base_score": 37.10262179374695,
       "base_diagnostics": {
-        "clipped_fraction": 0.008514404296875,
-        "mean_saturation": 0.20797309279441833
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.2135016918182373
       },
-      "candidate_score": 37.4779999256134,
+      "candidate_score": 36.523082852363586,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.008525848388671875,
-        "mean_saturation": 0.20850755274295807
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.21391908824443817
       },
-      "delta": 0.018611550331115723
+      "delta": -0.5795389413833618
     },
     {
       "source_id": "684",
       "prompt": "a young girl wearing a tiara and frilly dress",
       "seed": 101,
-      "base_score": 33.99946987628937,
+      "base_score": 32.98308551311493,
       "base_diagnostics": {
-        "clipped_fraction": 0.0141143798828125,
-        "mean_saturation": 0.16911834478378296
+        "clipped_fraction": 0.00031280517578125,
+        "mean_saturation": 0.17469051480293274
       },
-      "candidate_score": 33.8392972946167,
+      "candidate_score": 33.2489550113678,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.013095855712890625,
-        "mean_saturation": 0.1667792946100235
+        "clipped_fraction": 0.000438690185546875,
+        "mean_saturation": 0.17391467094421387
       },
-      "delta": -0.16017258167266846
+      "delta": 0.26586949825286865
     },
     {
       "source_id": "684",
       "prompt": "a young girl wearing a tiara and frilly dress",
       "seed": 202,
-      "base_score": 35.60752868652344,
+      "base_score": 33.94125998020172,
       "base_diagnostics": {
-        "clipped_fraction": 0.00506591796875,
-        "mean_saturation": 0.17398223280906677
+        "clipped_fraction": 0.0006256103515625,
+        "mean_saturation": 0.1545955240726471
       },
-      "candidate_score": 35.533466935157776,
+      "candidate_score": 33.58067274093628,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.00656890869140625,
-        "mean_saturation": 0.17366580665111542
+        "clipped_fraction": 0.000827789306640625,
+        "mean_saturation": 0.1531561017036438
       },
-      "delta": -0.07406175136566162
+      "delta": -0.3605872392654419
     },
     {
       "source_id": "684",
       "prompt": "a young girl wearing a tiara and frilly dress",
       "seed": 303,
-      "base_score": 34.203898906707764,
+      "base_score": 35.45343279838562,
       "base_diagnostics": {
-        "clipped_fraction": 0.00086212158203125,
-        "mean_saturation": 0.17556412518024445
+        "clipped_fraction": 0.000675201416015625,
+        "mean_saturation": 0.16619664430618286
       },
-      "candidate_score": 33.867886662483215,
+      "candidate_score": 35.019612312316895,
       "candidate_diagnostics": {
-        "clipped_fraction": 0.001422882080078125,
-        "mean_saturation": 0.17457370460033417
+        "clipped_fraction": 0.00061798095703125,
+        "mean_saturation": 0.16582126915454865
       },
-      "delta": -0.33601224422454834
+      "delta": -0.4338204860687256
     }
   ]
 }

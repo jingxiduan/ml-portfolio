@@ -7,7 +7,7 @@ import textwrap
 from pathlib import Path
 
 import torch
-from diffusers import AutoPipelineForText2Image, EulerDiscreteScheduler
+from diffusers import AutoPipelineForText2Image
 from peft import LoraConfig, set_peft_model_state_dict
 from PIL import Image, ImageDraw, ImageFont
 from safetensors.torch import load_file
@@ -60,7 +60,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--domain", choices=("scene", "portrait"), required=True)
     parser.add_argument("--device", default="cuda")
-    parser.add_argument("--resolution", type=int, default=512)
+    parser.add_argument("--resolution", type=int, default=768)
     parser.add_argument("--inference-steps", type=int, default=4)
     parser.add_argument("--seed", type=int, default=3407)
     parser.add_argument("--lora-dir", default=None)
@@ -75,9 +75,8 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     pipe = AutoPipelineForText2Image.from_pretrained(
-        MODEL_ID, torch_dtype=torch.bfloat16, variant="fp16", use_safetensors=True
+        MODEL_ID, torch_dtype=torch.float16, variant="fp16", use_safetensors=True
     ).to(args.device)
-    pipe.scheduler = EulerDiscreteScheduler.from_config(pipe.scheduler.config, timestep_spacing="trailing")
     pipe.set_progress_bar_config(disable=True)
 
     base = generate(pipe, prompts, args.seed, args.resolution, args.inference_steps)
@@ -105,6 +104,11 @@ def main() -> None:
     make_grid(base, candidate, prompts).save(out_dir / f"{args.domain}_comparison.png")
     metadata = {
         "domain": args.domain,
+        "model_id": MODEL_ID,
+        "resolution": [args.resolution, args.resolution],
+        "inference_steps": args.inference_steps,
+        "scheduler": pipe.scheduler.__class__.__name__,
+        "dtype": "float16 backbone / float32 VAE",
         "seed_policy": f"seed={args.seed}+fixed_manifest_index",
         "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
         "adapter_scale": args.adapter_scale,

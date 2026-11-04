@@ -11,8 +11,7 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 | 01 | Multi-task CTR/CVR ranking | CTR AUC 0.8805; CVR AUC 0.7960 on documented proxy labels | Complete |
 | 02 | RTB bid shading and control | Avazu pCTR AUC 0.7796; PID outperforms fixed policy in the documented simulator | Complete |
 | 03 | Reward model and DPO pipeline | RM AUC 0.6150; 2,624 filtered DPO pairs; DPO run is a smoke test | Complete pipeline |
-| 04 | Image DiffusionOPSD | Held-out CLIPScore +0.542; 60% prompt-level win rate on n=20 | Mechanism reproduction |
-| 05 | Text-to-video OPSD | Held-out reward +0.523; 77.8% win rate on n=9; training curve remains noisy | Proof of concept |
+| 04 | Image reward post-training | Portraits: independent CLIP-H delta +0.091, prompt-cluster 95% CI [-0.034, +0.230], n=40 × 3 seeds; scenes: -0.015, CI [-0.110, +0.083] | Rebuilt with leakage audit |
 | 06 | Reserved slot | No public project or result claimed | Reserved |
 | 07 | Talking-head motion OPSD | Amplitude targets reached; absolute-jitter gate failed; calibrated expression study active | Flagship, active |
 | 08 | I2V OPSD | Reward path works; smooth-naturalness and anchored-fit diagnostics complete; gradient-controlled run complete | Flagship, active |
