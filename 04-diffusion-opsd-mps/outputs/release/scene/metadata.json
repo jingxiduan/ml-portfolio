@@ -1,0 +1,40 @@
+{
+  "domain": "scene",
+  "seed_policy": "seed=3407+fixed_manifest_index",
+  "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
+  "adapter_scale": 1.0,
+  "manifest_rows": [
+    {
+      "source": "portfolio-authored",
+      "source_id": "0",
+      "domain": "scene",
+      "category": "showcase",
+      "prompt": "A misty mountain valley at sunrise, layered pine forests, a winding river, cinematic natural light, highly detailed landscape photography.",
+      "normalized_sha256": "5b9d1f08b17e5cd9c5bb2c62ebfaef38a1429639c4a68da78782d020e3fc744a"
+    },
+    {
+      "source": "portfolio-authored",
+      "source_id": "1",
+      "domain": "scene",
+      "category": "showcase",
+      "prompt": "A quiet minimalist hotel lobby with travertine walls, indoor olive trees, soft skylight, warm neutral interior photography.",
+      "normalized_sha256": "680e26c532686f427db49e25f90c6794b9a6c04d00f8793f79e205476ac8e93e"
+    },
+    {
+      "source": "portfolio-authored",
+      "source_id": "2",
+      "domain": "scene",
+      "category": "showcase",
+      "prompt": "A rain-soaked neon alley at blue hour, reflections on wet pavement, atmospheric urban photography, no people.",
+      "normalized_sha256": "2ecddb63b86b593b16b2669455b215202f86a3ef11e389d020f92812d3791870"
+    },
+    {
+      "source": "portfolio-authored",
+      "source_id": "3",
+      "domain": "scene",
+      "category": "showcase",
+      "prompt": "A sunlit Mediterranean courtyard with white stone arches, a small fountain, climbing jasmine, serene architectural photography.",
+      "normalized_sha256": "23b14f451297dca2b409a4cc50a469afe7f3e7175bdf31fa89206632229690bb"
+    }
+  ]
+}

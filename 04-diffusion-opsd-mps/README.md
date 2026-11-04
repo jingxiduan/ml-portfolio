@@ -1,79 +1,117 @@
-# Diffusion OPSD (On-Policy Self-Distillation) on a Single Apple-Silicon Machine
+# Image Reward Post-Training with DiffusionOPSD
 
-A small-scale reimplementation of the core training loop from [`worldbench/DiffusionOPSD`](https://github.com/worldbench/DiffusionOPSD) ("On-Policy Self-Distillation in Diffusion Models"), reworked to run end-to-end on a single M-series Mac (MPS, no CUDA, 36 GB unified memory).
+A reproducible image post-training study that adapts the core idea of [`worldbench/DiffusionOPSD`](https://github.com/worldbench/DiffusionOPSD) to a smaller, single-GPU setting. The project is organized around two image domains—**environment/scene images** and **portrait images**—rather than a single mixed prompt list.
 
-> Note: the original repo targets an 8-GPU setup (SD3.5-M / Z-Image-Turbo, 47.8-61.5 GB peak VRAM per GPU, HPSv3/DeQA reward models at 7B-8B params, ~100 updates over the full 25k-prompt Pick-a-Pic split). None of that fits on this machine, so the scale-downs here are explicit:
-> - **Base model**: [`stabilityai/sd-turbo`](https://huggingface.co/stabilityai/sd-turbo) (865M UNet, 1-4 step, ungated) instead of SD3.5-M / Z-Image-Turbo.
-> - **Reward model**: [`openai/clip-vit-base-patch32`](https://huggingface.co/openai/clip-vit-base-patch32) (151M) differentiable CLIPScore instead of HPSv3 (7B) / DeQA (8B). The paper's "pluggable differentiable reward" interface is preserved, only the reward model itself is swapped for one that fits in memory.
-> - **Data**: 40 training prompts / 20 held-out eval prompts sampled from the original repo's own public `data/drawbench/test.txt` (DrawBench, derived from the Imagen paper), instead of the full Pick-a-Pic v2 split.
-> - **Training**: a from-scratch LoRA adapter (rank 16) on top of the frozen SD-Turbo UNet, 400 OPSD optimizer steps, batch size 1. This is not a from-scratch diffusion model and not full fine-tuning; it's sized to produce a visible, honestly-reported reward gain in roughly 2.5 hours on a single machine, not to match the paper's benchmark numbers.
+This is an **OPSD-inspired independent implementation**, not a claim of reproducing the paper's full SD3.5/HPSv3/DeQA benchmark. The base model is [`stabilityai/sdxl-turbo`](https://huggingface.co/stabilityai/sdxl-turbo); the differentiable training reward is CLIP ViT-B/32; the final evaluator is an independent CLIP ViT-H/14 model.
 
-## What OPSD Actually Does Here
+## What is implemented
 
-Diffusion RL post-training has a hard problem: you only get one scalar reward after the *entire* denoising trajectory finishes, so intermediate steps have no direct supervision. OPSD's fix, reimplemented here at UNet-forward-pass granularity:
+The training loop keeps the method's important structure:
 
-1. **On-policy query sampling**: a frozen *behavior* LoRA adapter rolls out the first denoising step from pure noise, producing a low-noise "query" latent, a state the current policy would actually visit (not an offline / re-noised sample from a static dataset).
-2. **Reward-guided target construction**: from that query latent, the behavior policy's own one-step clean-image prediction (the "anchor") is scored with the differentiable CLIP reward; the gradient of that reward with respect to the query latent gives a direction, and a small bounded step in `+direction` / `-direction` produces a "better" and a "worse" sibling state. One more behavior-policy forward pass on each sibling gives the positive and negative *targets*, all of which are then detached.
-3. **Detached distillation fit**: a separate *trainable* LoRA adapter predicts the clean sample from the **same** query latent and is fit towards the positive target (MSE) while being pushed away from the negative target (hinge margin). Gradients never flow back through the rollout, only through the LoRA weights.
-4. **Periodic EMA refresh**: every few steps, the behavior adapter is EMA-updated towards the trainable adapter, so the next round's on-policy queries come from a slowly-improving policy.
+1. A frozen behavior adapter produces an on-policy low-noise query state.
+2. Its clean anchor is decoded and scored by a differentiable image-text reward.
+3. The reward gradient is normalized and used to construct bounded positive/negative sibling targets.
+4. A separate trainable LoRA adapter fits the detached targets with a dual-branch objective.
+5. An EMA copy becomes the next behavior adapter.
 
-## Code Structure
+The implementation deliberately differs from the reference repository in model scale, reward model, scheduler, and single-GPU execution. Those differences are recorded rather than hidden.
 
-```
-04-diffusion-opsd-mps/
-├── src/
-│   ├── download_data.py      # pull DrawBench prompts from the original repo, split train/eval/demo
-│   ├── reward_model.py       # differentiable CLIPScore reward (MPS-safe bilinear resize, no antialias backward)
-│   ├── opsd_train.py         # the 4-step OPSD loop above, dual LoRA adapters via peft, EMA refresh
-│   ├── generate_samples.py   # fixed-seed before/after image grid, base SD-Turbo vs. OPSD LoRA
-│   └── evaluate.py           # held-out CLIPScore: base vs. trained, win-rate
-└── outputs/
-    ├── lora_trainable/        # saved LoRA adapter weights
-    ├── samples/                # before/after PNGs + comparison_grid.png
-    ├── metrics.jsonl           # per-step training loss / anchor reward
-    └── eval_results.json       # held-out CLIPScore comparison
-```
+## Leakage-audited data protocol
 
-## Run
+Training, development, test, and showcase prompts are frozen in `data/*.jsonl`.
+
+- Training: 768 scene prompts + 768 portrait prompts from a pinned Pick-a-Pic prompt revision.
+- Development: 16 prompts per domain.
+- Final test: 40 prompts per domain, held out from training and development.
+- Showcase: four portfolio-authored prompts per domain, frozen before generation and never selected after seeing outputs.
+- Splits are checked after Unicode normalization and against shared contiguous 8-token shingles.
+- `data/split_audit.json` records source revisions, counts, hashes, and zero-overlap checks.
+
+The old DrawBench row split is not used for the reported result. This prevents the previous train/eval prompt leakage from being silently reused.
+
+## Training and evaluation
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 
-python src/download_data.py                              # 40 train / 20 eval / 4 demo prompts
-python src/opsd_train.py --rounds 400 --batch-size 1 \
-    --lora-r 16 --lora-alpha 16 --lr 5e-4 --reward-step-size 1.2
-python src/generate_samples.py                            # outputs/samples/comparison_grid.png
-python src/evaluate.py                                    # outputs/eval_results.json
+# Freeze manifests and run the leakage audit.
+python src/download_data.py
+
+# Train one domain. Repeat with --domain portrait for the second domain.
+python src/opsd_train.py \\
+  --domain scene \\
+  --rounds 300 \\
+  --rho 0.03 \\
+  --out outputs/final/scene
+
+# Use a separate domain and output directory.
+python src/opsd_train.py \\
+  --domain portrait \\
+  --rounds 300 \\
+  --rho 0.05 \\
+  --out outputs/final/portrait
+
+# Final evaluation: frozen test prompts, three matched seeds, independent CLIP-H.
+python src/evaluate.py \\
+  --domain scene \\
+  --split test \\
+  --seeds 101 202 303 \\
+  --lora-dir outputs/final/scene/lora_ema \\
+  --out outputs/final/scene/eval_results.json
+
+python src/evaluate.py \\
+  --domain portrait \\
+  --split test \\
+  --seeds 101 202 303 \\
+  --lora-dir outputs/final/portrait/lora_ema \\
+  --out outputs/final/portrait/eval_results.json
+
+# Fixed qualitative panels; the prompt list is frozen before generation.
+python src/generate_samples.py --domain scene \\
+  --lora-dir outputs/final/scene/lora_ema \\
+  --out outputs/release/scene
+python src/generate_samples.py --domain portrait \\
+  --lora-dir outputs/final/portrait/lora_ema \\
+  --out outputs/release/portrait
 ```
 
-`--device mps` is the default; drop to `cuda`/`cpu` via the same flag if running elsewhere. Batch size is pinned to 1: on this machine, batch size 2 pushed peak memory to ~33 GB (out of 36 GB) and each step to ~110s, versus ~20 GB and ~5-6s per step at batch size 1, so batch size 1 is the only configuration with a safe memory margin.
+`evaluate.py` reports the base/candidate means, paired deltas, pair and prompt win rates, and prompt-cluster bootstrap intervals. Training CLIP and evaluation CLIP are separate model families, so the evaluation is not simply the training reward copied into the headline.
 
 ## Results
 
-**Training**: 400 OPSD optimizer steps, batch size 1, LoRA rank 16 on `to_q/to_k/to_v/to_out.0`, ~140k trainable params. Loss stayed in the 0.01-0.02 range for most of the run with occasional spikes, which is expected since each step's target comes from a fresh on-policy rollout at a random prompt, not a fixed dataset. The mean on-policy anchor reward (CLIPScore of the behavior policy's own one-step prediction, logged every step) rose from 27.68 (first 20 steps) to 29.59 (last 20 steps) over the run. Full per-step log in `outputs/metrics.jsonl`.
+The result is intentionally split by domain rather than averaged into one flattering number.
 
-![training curves: anchor reward rising, distillation loss over 400 OPSD steps](outputs/samples/training_curves.png)
+| Domain | Test prompts | Seeds | Base mean | Candidate mean | Paired delta | Prompt-cluster 95% CI | Prompt win rate |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Environment / scenes | 40 | 3 | 36.331 | 36.272 | -0.059 | [-0.175, +0.043] | 50.0% |
+| Portraits | 40 | 3 | 37.622 | 37.759 | **+0.137** | **[+0.017, +0.273]** | **67.5%** |
 
-**Held-out CLIPScore** (20 DrawBench prompts, disjoint from the 40 training prompts, fixed seed, 2-step SD-Turbo inference):
+The portrait result is a small but positive independent-evaluator result. The scene result is statistically inconclusive and is **not** presented as a quality improvement. This separation is important: the project demonstrates a working reward-guided training and evaluation pipeline, while showing that transfer is domain-dependent.
 
-| | Base SD-Turbo | + OPSD LoRA | Delta |
-|---|---|---|---|
-| Mean CLIPScore | 29.381 | 29.923 | **+0.542** |
-| Win rate (trained > base, per-prompt) | - | - | **60.0%** |
+## Fixed visual evidence
 
-Full per-prompt scores in `outputs/eval_results.json`.
+The following panels are generated from four pre-registered showcase prompts per domain. Left and right use the same prompt, seed, resolution, and inference settings.
 
-**Qualitative** (fixed seed, left = base SD-Turbo, right = + OPSD LoRA, same 2-step inference settings):
+### Environment / scenes
 
-![before/after comparison on 4 held-out demo prompts](outputs/samples/comparison_grid.png)
+![Fixed scene comparison: SDXL-Turbo base versus EMA OPSD adapter](outputs/release/scene/scene_comparison.png)
 
-Prompts, top to bottom: "McDonalds Church.", "A couch on the left of a chair.", "Photo of a mega Lego space station inside a kid's bedroom.", "A train on top of a surfboard."
+### Portraits
 
-## Honest Reading of the Numbers
+![Fixed portrait comparison: SDXL-Turbo base versus EMA OPSD adapter](outputs/release/portrait/portrait_comparison.png)
 
-This is a real, measured effect from a genuinely detached on-policy self-distillation loop, not the paper's reported "19/20 best of 20 reward-matched settings against DiffusionNFT/FlowGRPO/ReFL". A +0.54 CLIPScore gain and 60% win rate from 400 steps of rank-16 LoRA on a 151M reward model is a believable, modest result for this scale. It should be read as "the mechanism works end-to-end and measurably moves a differentiable reward," not as a claim of SOTA-adjacent quality or as evidence the approach would scale the same way with the paper's full setup (bigger base model, bigger reward model, far more updates, multiple reward-matched baselines for comparison).
+Individual PNGs, prompt metadata, evaluation records, run configuration, target-module manifest, and per-step metrics are kept beside the panels in `outputs/`.
 
-## License / Attribution
+## Failure boundaries
 
-The OPSD algorithm design (on-policy query sampling, reward-gradient target construction, detached distillation, EMA refresh) follows the description in [`worldbench/DiffusionOPSD`](https://github.com/worldbench/DiffusionOPSD) (Apache-2.0). This is an independent reimplementation at a much smaller scale, written from scratch against a different base model, reward model, and training stack; no code was copied from the original repo, only its publicly released `data/drawbench/test.txt` prompt list.
+- The training reward is CLIP ViT-B/32 and is not a human preference study.
+- The independent evaluator is still another CLIP-family automatic metric; no human preference claim is made.
+- The scene candidate does not establish a held-out quality gain.
+- This is a small LoRA post-training experiment, not full-model fine-tuning or a reproduction of the paper's large-scale benchmark.
+- The reported result is not based on selecting the best prompt, seed, or image after evaluation.
+
+## Attribution
+
+The on-policy query, reward-gradient target construction, detached fitting, and behavior-policy refresh follow the public method description of `DiffusionOPSD`. This repository is an independent implementation written against a different base model, reward stack, and data protocol. The reference project is credited; no claim of ownership of its models or datasets is made.

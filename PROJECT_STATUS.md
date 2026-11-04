@@ -1,6 +1,6 @@
 # Portfolio status
 
-**Updated:** 2026-11-03
+**Updated:** 2026-11-04
 
 The portfolio is organized around one theme: **reward-driven machine-learning systems, from prediction and control to multimodal generative-model post-training**.
 
@@ -18,6 +18,16 @@ The portfolio is organized around one theme: **reward-driven machine-learning sy
 | 08 | I2V OPSD | Reward path works; smooth-naturalness and anchored-fit diagnostics complete; gradient-controlled run complete | Flagship, active |
 
 ## Active work
+
+### 04 · Image reward post-training
+
+- The previous DrawBench row split was retired after a prompt-leakage audit.
+- Current manifests pin separate Pick-a-Pic training prompts and PartiPrompts dev/test prompts; exact and shared 8-token-shingle overlap are zero across train/dev/test/showcase.
+- Scene and portrait domains are trained separately with SDXL-Turbo, dual LoRA adapters, bounded reward-gradient targets, and EMA behavior refresh.
+- Final test uses 40 prompts per domain × 3 matched seeds and an independent CLIP-H/14 evaluator.
+- Portraits show a small positive delta; scenes are statistically inconclusive and are not claimed as improved.
+
+Record: [`04-diffusion-opsd-mps/README.md`](04-diffusion-opsd-mps/README.md).
 
 ### 07 · Calibrated expression dynamics
 
@@ -52,4 +62,4 @@ Record: [`08-video-opsd-i2v/docs/RESULTS_LONG.md`](08-video-opsd-i2v/docs/RESULT
 
 ## Claim boundary
 
-The repository demonstrates applied research and post-training ability. It does not claim production deployment, foundation-model pretraining, or ownership of the reused base models and datasets.
+The repository demonstrates applied research and post-training ability. It does not claim production deployment, foundation-model pretraining, or ownership of the reused base models and datasets. Project 04's previous row-level prompt split and headline metric were retired after a leakage audit; the current report uses pinned, disjoint manifests and an independent evaluator.

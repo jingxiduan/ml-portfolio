@@ -1,15 +1,4 @@
-"""
-Differentiable multimodal reward model: CLIP-based text-image alignment score
-(the "CLIPScore" reward used as one of the 7 reward heads in the original
-DiffusionOPSD paper, swapped in here instead of the 7B/8B HPSv3 / DeQA scorers
-because those don't fit in 36GB of unified memory on a Mac).
-
-Unlike `transformers.CLIPProcessor` (which operates on PIL images and breaks
-the autograd graph), this wraps CLIP's image tower with a differentiable
-resize + normalize so gradients can flow from the reward back into the
-generated image tensor -- this is exactly the "differentiable reward
-gradient" OPSD uses to build its positive/negative targets.
-"""
+"""Differentiable training reward for image OPSD target construction."""
 from __future__ import annotations
 
 import torch
@@ -23,42 +12,52 @@ CLIP_STD = torch.tensor([0.26862954, 0.26130258, 0.27577711]).view(1, 3, 1, 1)
 
 
 class ClipRewardModel:
-    """Differentiable text-image CLIPScore reward, frozen, eval-mode."""
+    """Frozen CLIP alignment with a small differentiable display-range penalty."""
 
-    def __init__(self, device: str = "mps", dtype: torch.dtype = torch.float32):
-        self.device = device
+    def __init__(self, device: str = "cuda", dtype: torch.dtype = torch.float32):
+        self.device = torch.device(device)
         self.dtype = dtype
-        self.model = CLIPModel.from_pretrained(CLIP_MODEL_NAME).to(device=device, dtype=dtype)
-        self.model.eval()
-        for p in self.model.parameters():
-            p.requires_grad_(False)
+        self.model = CLIPModel.from_pretrained(CLIP_MODEL_NAME).to(self.device, dtype=dtype)
+        self.model.eval().requires_grad_(False)
         self.tokenizer = CLIPTokenizer.from_pretrained(CLIP_MODEL_NAME)
-        self.mean = CLIP_MEAN.to(device=device, dtype=dtype)
-        self.std = CLIP_STD.to(device=device, dtype=dtype)
+        self.mean = CLIP_MEAN.to(self.device, dtype=dtype)
+        self.std = CLIP_STD.to(self.device, dtype=dtype)
 
     @torch.no_grad()
     def encode_text(self, prompts: list[str]) -> torch.Tensor:
-        tokens = self.tokenizer(prompts, padding=True, truncation=True, return_tensors="pt").to(self.device)
-        feats = self.model.get_text_features(**tokens)
-        return F.normalize(feats, dim=-1)
+        tokens = self.tokenizer(
+            prompts, padding=True, truncation=True, return_tensors="pt"
+        ).to(self.device)
+        return F.normalize(self.model.get_text_features(**tokens), dim=-1)
 
     def _preprocess(self, images: torch.Tensor) -> torch.Tensor:
-        """images: (B, 3, H, W) in [0, 1], differentiable.
+        images = F.interpolate(
+            images.to(dtype=self.dtype),
+            size=(CLIP_IMAGE_SIZE, CLIP_IMAGE_SIZE),
+            mode="bilinear",
+            align_corners=False,
+        )
+        return (images - self.mean) / self.std
 
-        Uses plain bilinear resize (no antialias): MPS does not yet implement
-        the backward pass for antialiased bicubic/bilinear interpolation, and
-        a differentiable resize is required here since gradients must flow
-        from the reward back into the generated image/latent.
-        """
-        images = F.interpolate(images, size=(CLIP_IMAGE_SIZE, CLIP_IMAGE_SIZE),
-                                mode="bilinear", align_corners=False)
-        images = (images - self.mean) / self.std
-        return images
+    def score(
+        self, images: torch.Tensor, text_features: torch.Tensor
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        pixel_values = self._preprocess(images)
+        image_features = F.normalize(
+            self.model.get_image_features(pixel_values=pixel_values), dim=-1
+        )
+        alignment = (image_features * text_features).sum(dim=-1) * 100.0
 
-    def score(self, images: torch.Tensor, text_features: torch.Tensor) -> torch.Tensor:
-        """Returns a differentiable per-sample CLIPScore (cosine sim * 100), shape (B,)."""
-        pixel_values = self._preprocess(images.to(dtype=self.dtype))
-        image_feats = self.model.get_image_features(pixel_values=pixel_values)
-        image_feats = F.normalize(image_feats, dim=-1)
-        cos_sim = (image_feats * text_features).sum(dim=-1)
-        return cos_sim * 100.0
+        luma = 0.2126 * images[:, 0] + 0.7152 * images[:, 1] + 0.0722 * images[:, 2]
+        clipped_fraction = (
+            F.relu(0.02 - luma).mean(dim=(1, 2))
+            + F.relu(luma - 0.98).mean(dim=(1, 2))
+        )
+        saturation = images.amax(dim=1) - images.amin(dim=1)
+        saturation_excess = F.relu(saturation - 0.95).mean(dim=(1, 2))
+        display_penalty = clipped_fraction + 0.25 * saturation_excess
+        reward = alignment - 10.0 * display_penalty
+        return reward, {
+            "alignment": alignment,
+            "display_penalty": display_penalty,
+        }

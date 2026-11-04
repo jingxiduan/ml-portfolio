@@ -1,0 +1,40 @@
+{
+  "domain": "portrait",
+  "seed_policy": "seed=3407+fixed_manifest_index",
+  "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
+  "adapter_scale": 1.0,
+  "manifest_rows": [
+    {
+      "source": "portfolio-authored",
+      "source_id": "0",
+      "domain": "portrait",
+      "category": "showcase",
+      "prompt": "Studio headshot of a middle-aged architect, neutral gray background, soft window light, natural skin texture, 85mm portrait photography.",
+      "normalized_sha256": "10007248ff859ef26978f0faf3b8cc81696f34b7d3a3647832b86695adb94cc7"
+    },
+    {
+      "source": "portfolio-authored",
+      "source_id": "1",
+      "domain": "portrait",
+      "category": "showcase",
+      "prompt": "Cinematic close-up portrait of a jazz musician backstage, warm practical lights, expressive eyes, realistic editorial photography.",
+      "normalized_sha256": "263db21ce2842b90b4448690c662dbdc6ade034c1a444e2581c8180c9431d078"
+    },
+    {
+      "source": "portfolio-authored",
+      "source_id": "2",
+      "domain": "portrait",
+      "category": "showcase",
+      "prompt": "Editorial portrait of a pastry chef in a bright professional kitchen, calm expression, soft daylight, realistic skin detail.",
+      "normalized_sha256": "9353c02e70ea1f85ff2990a0ec84b62143c08f3fcab3c5d271530a57ff39f9d2"
+    },
+    {
+      "source": "portfolio-authored",
+      "source_id": "3",
+      "domain": "portrait",
+      "category": "showcase",
+      "prompt": "Outdoor environmental portrait of a ceramic artist beside a workshop window, overcast light, natural colors, documentary photography.",
+      "normalized_sha256": "8ba5bc0fdd9001b55c52cb3baebf99cc87a678ef71394f05c10507452bd5a619"
+    }
+  ]
+}

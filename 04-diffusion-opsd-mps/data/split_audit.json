@@ -1,0 +1,62 @@
+{
+  "seed": 3407,
+  "normalization": "Unicode NFKC, lowercase, punctuation/whitespace normalization",
+  "near_duplicate_rule": "no shared contiguous 8-token shingle across train/dev/test/showcase",
+  "sources": {
+    "training": {
+      "dataset": "sayakpaul/pick-a-pic-v2-unique-prompts",
+      "revision": "ec6ade5fc615ec90152a78140492cec60da9680c"
+    },
+    "evaluation": {
+      "dataset": "nateraw/parti-prompts",
+      "revision": "944b156abfdad7627c3221b5ec4f6a6fb060a197"
+    }
+  },
+  "counts": {
+    "train_scene.jsonl": 768,
+    "train_portrait.jsonl": 768,
+    "dev_scene.jsonl": 16,
+    "dev_portrait.jsonl": 16,
+    "test_scene.jsonl": 40,
+    "test_portrait.jsonl": 40,
+    "showcase_scene.jsonl": 4,
+    "showcase_portrait.jsonl": 4
+  },
+  "audit": {
+    "train_vs_dev": {
+      "exact_overlap": 0,
+      "shared_8_token_shingles": 0
+    },
+    "train_vs_test": {
+      "exact_overlap": 0,
+      "shared_8_token_shingles": 0
+    },
+    "dev_vs_test": {
+      "exact_overlap": 0,
+      "shared_8_token_shingles": 0
+    },
+    "train_vs_showcase": {
+      "exact_overlap": 0,
+      "shared_8_token_shingles": 0
+    },
+    "dev_vs_showcase": {
+      "exact_overlap": 0,
+      "shared_8_token_shingles": 0
+    },
+    "test_vs_showcase": {
+      "exact_overlap": 0,
+      "shared_8_token_shingles": 0
+    }
+  },
+  "manifest_sha256": {
+    "train_scene.jsonl": "d08ae5c1fae2ee212874a51dbf488d29637fbed3ad0b4670c212f43596e302c0",
+    "train_portrait.jsonl": "5a12a00fe042b604ed3acace0c94df1561358232003b7b33c66ac8616ba38232",
+    "dev_scene.jsonl": "d990854ecce6364d0ce7eb1679828fbc11a91c0f8b82387eaacb99071a614c8d",
+    "dev_portrait.jsonl": "f425c050609ed8050eb9f0685b5df13106537d5260c27153ffaae530491f8159",
+    "test_scene.jsonl": "8ea2660281567c785d5ee43f7abaf39f1f2af05d3121302f8b5eb7201e878e99",
+    "test_portrait.jsonl": "72efa8e08a5e043a263bac32ce79c8f8834e5e9106078009cc304de91cd050ed",
+    "showcase_scene.jsonl": "8c8a94780abef373c78ab5e4fa2f736d40272ef6ff7ddf90ef748662c512d345",
+    "showcase_portrait.jsonl": "55ad77cb8c34e84deb42da5172bb7f38cc916bcc719d339d4b4fe865954c6a56"
+  },
+  "showcase_policy": "four portfolio-authored prompts per domain, frozen before generation and never selected from generated output"
+}

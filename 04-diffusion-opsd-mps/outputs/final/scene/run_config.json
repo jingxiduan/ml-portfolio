@@ -1,0 +1,41 @@
+{
+  "domain": "scene",
+  "device": "cuda",
+  "rounds": 300,
+  "batch_size": 1,
+  "resolution": 512,
+  "inference_steps": 4,
+  "lr": 0.0001,
+  "lora_r": 16,
+  "lora_alpha": 16,
+  "rho": 0.03,
+  "beta": 1.0,
+  "ema_decay": 0.95,
+  "grad_clip": 1.0,
+  "seed": 3407,
+  "log_every": 10,
+  "out": "outputs/final/scene",
+  "model_id": "stabilityai/sdxl-turbo",
+  "prompt_manifest": "data/train_scene.jsonl",
+  "n_training_prompts": 768,
+  "scheduler": "EulerDiscreteScheduler",
+  "timesteps": [
+    999.0,
+    749.0,
+    499.0,
+    249.0
+  ],
+  "sigmas": [
+    14.614646911621094,
+    4.081730842590332,
+    1.6128870248794556,
+    0.6932054162025452,
+    0.0
+  ],
+  "query_index": 3,
+  "query_sigma": 0.6932054162025452,
+  "trainable_parameters": 23224320,
+  "adapter_tensor_count": 1120,
+  "target_module_count": 560,
+  "dtype": "bfloat16 backbone / float32 LoRA and reward path"
+}

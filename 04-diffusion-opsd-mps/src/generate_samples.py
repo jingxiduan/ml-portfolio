@@ -1,93 +1,117 @@
-"""
-Generate side-by-side before/after samples: the frozen SD-Turbo base model vs.
-the same model with the OPSD-trained LoRA adapter applied, for a handful of
-held-out demo prompts, using a fixed seed so the only difference is the LoRA
-weights.
-"""
+"""Render fixed, non-cherry-picked Base vs OPSD panels for scenes and portraits."""
 from __future__ import annotations
 
 import argparse
+import json
+import textwrap
 from pathlib import Path
 
 import torch
-from diffusers import AutoPipelineForText2Image
-from PIL import Image
+from diffusers import AutoPipelineForText2Image, EulerDiscreteScheduler
+from peft import LoraConfig, set_peft_model_state_dict
+from PIL import Image, ImageDraw, ImageFont
+from safetensors.torch import load_file
 
 ROOT = Path(__file__).resolve().parent.parent
-MODEL_ID = "stabilityai/sd-turbo"
+MODEL_ID = "stabilityai/sdxl-turbo"
 
 
-def load_prompts(path: Path) -> list[str]:
-    return [l.strip() for l in path.read_text().splitlines() if l.strip()]
+def load_rows(path: Path) -> list[dict]:
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
 
 
-def generate(pipe, prompts: list[str], seed: int, resolution: int) -> list[Image.Image]:
+def generate(pipe, prompts: list[str], seed: int, resolution: int, steps: int) -> list[Image.Image]:
     images = []
-    for i, prompt in enumerate(prompts):
-        gen = torch.Generator(device="cpu").manual_seed(seed + i)
-        image = pipe(
-            prompt=prompt, num_inference_steps=2, guidance_scale=0.0,
-            height=resolution, width=resolution, generator=gen,
-        ).images[0]
-        images.append(image)
+    for index, prompt in enumerate(prompts):
+        generator = torch.Generator(device="cpu").manual_seed(seed + index)
+        images.append(pipe(
+            prompt=prompt,
+            num_inference_steps=steps,
+            guidance_scale=0.0,
+            height=resolution,
+            width=resolution,
+            generator=generator,
+        ).images[0])
     return images
 
 
-def make_grid(before: list[Image.Image], after: list[Image.Image], prompts: list[str]) -> Image.Image:
-    n = len(prompts)
-    w, h = before[0].size
-    pad = 8
-    label_h = 28
-    grid = Image.new("RGB", (w * 2 + pad * 3, (h + label_h) * n + pad * (n + 1)), "white")
-    from PIL import ImageDraw
+def make_grid(base: list[Image.Image], candidate: list[Image.Image], prompts: list[str]) -> Image.Image:
+    width, height = base[0].size
+    pad = 16
+    header = 34
+    caption = 64
+    row_height = header + height + caption
+    grid = Image.new("RGB", (2 * width + 3 * pad, len(prompts) * row_height + (len(prompts) + 1) * pad), "white")
     draw = ImageDraw.Draw(grid)
-    for i in range(n):
-        y = pad + i * (h + label_h + pad)
-        draw.text((pad, y), "before (base SD-Turbo)", fill="black")
-        draw.text((pad * 2 + w, y), "after (OPSD LoRA)", fill="black")
-        grid.paste(before[i], (pad, y + label_h))
-        grid.paste(after[i], (pad * 2 + w, y + label_h))
+    font = ImageFont.load_default()
+    for index, prompt in enumerate(prompts):
+        top = pad + index * (row_height + pad)
+        draw.text((pad, top), "BASE · SDXL-Turbo", fill="black", font=font)
+        draw.text((2 * pad + width, top), "OPSD · EMA ADAPTER", fill="black", font=font)
+        image_top = top + header
+        grid.paste(base[index], (pad, image_top))
+        grid.paste(candidate[index], (2 * pad + width, image_top))
+        wrapped = "\n".join(textwrap.wrap(prompt, width=105)[:3])
+        draw.multiline_text((pad, image_top + height + 8), wrapped, fill="black", font=font, spacing=2)
     return grid
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--device", default="mps")
-    ap.add_argument("--prompts", default=str(ROOT / "data" / "demo_prompts.txt"))
-    ap.add_argument("--lora-dir", default=str(ROOT / "outputs" / "lora_trainable"))
-    ap.add_argument("--resolution", type=int, default=512)
-    ap.add_argument("--seed", type=int, default=123)
-    ap.add_argument("--out", default=str(ROOT / "outputs" / "samples"))
-    args = ap.parse_args()
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--domain", choices=("scene", "portrait"), required=True)
+    parser.add_argument("--device", default="cuda")
+    parser.add_argument("--resolution", type=int, default=512)
+    parser.add_argument("--inference-steps", type=int, default=4)
+    parser.add_argument("--seed", type=int, default=3407)
+    parser.add_argument("--lora-dir", default=None)
+    parser.add_argument("--adapter-scale", type=float, default=1.0)
+    parser.add_argument("--out", default=None)
+    args = parser.parse_args()
 
-    out_dir = Path(args.out)
+    rows = load_rows(ROOT / "data" / f"showcase_{args.domain}.jsonl")
+    prompts = [item["prompt"] for item in rows]
+    lora_dir = Path(args.lora_dir or ROOT / "outputs" / args.domain / "lora_ema")
+    out_dir = Path(args.out or ROOT / "outputs" / args.domain / "samples")
     out_dir.mkdir(parents=True, exist_ok=True)
-    prompts = load_prompts(Path(args.prompts))
-    print(f"[info] {len(prompts)} demo prompts")
 
-    print("[info] loading base SD-Turbo pipeline...")
-    pipe = AutoPipelineForText2Image.from_pretrained(MODEL_ID, torch_dtype=torch.float32).to(args.device)
+    pipe = AutoPipelineForText2Image.from_pretrained(
+        MODEL_ID, torch_dtype=torch.bfloat16, variant="fp16", use_safetensors=True
+    ).to(args.device)
+    pipe.scheduler = EulerDiscreteScheduler.from_config(pipe.scheduler.config, timestep_spacing="trailing")
     pipe.set_progress_bar_config(disable=True)
 
-    print("[info] generating BEFORE images (base model)...")
-    before_images = generate(pipe, prompts, args.seed, args.resolution)
-    for i, img in enumerate(before_images):
-        img.save(out_dir / f"before_{i}.png")
+    base = generate(pipe, prompts, args.seed, args.resolution, args.inference_steps)
+    for index, image in enumerate(base):
+        image.save(out_dir / f"base_{index:02d}.png")
 
-    print(f"[info] loading OPSD LoRA adapter from {args.lora_dir} ...")
-    lora_file = str(Path(args.lora_dir) / "pytorch_lora_weights.safetensors")
-    pipe.unet.load_lora_adapter(lora_file, prefix=None, adapter_name="trained")
-    pipe.unet.set_adapter("trained")
+    run_config = json.loads((lora_dir.parent / "run_config.json").read_text())
+    pipe.unet.add_adapter(
+        LoraConfig(
+            r=int(run_config["lora_r"]),
+            lora_alpha=int(run_config["lora_alpha"]),
+            target_modules=["to_q", "to_k", "to_v", "to_out.0"],
+        ),
+        adapter_name="candidate",
+    )
+    state = load_file(str(lora_dir / "adapter.safetensors"), device=args.device)
+    load_result = set_peft_model_state_dict(pipe.unet, state, adapter_name="candidate")
+    if load_result.unexpected_keys:
+        raise RuntimeError(f"unexpected LoRA keys: {load_result.unexpected_keys}")
+    pipe.unet.set_adapters("candidate", weights=args.adapter_scale)
+    candidate = generate(pipe, prompts, args.seed, args.resolution, args.inference_steps)
+    for index, image in enumerate(candidate):
+        image.save(out_dir / f"candidate_{index:02d}.png")
 
-    print("[info] generating AFTER images (OPSD LoRA applied)...")
-    after_images = generate(pipe, prompts, args.seed, args.resolution)
-    for i, img in enumerate(after_images):
-        img.save(out_dir / f"after_{i}.png")
-
-    grid = make_grid(before_images, after_images, prompts)
-    grid.save(out_dir / "comparison_grid.png")
-    (out_dir / "prompts.txt").write_text("\n".join(prompts) + "\n")
-    print(f"[ok] saved before/after images and comparison_grid.png to {out_dir}")
+    make_grid(base, candidate, prompts).save(out_dir / f"{args.domain}_comparison.png")
+    metadata = {
+        "domain": args.domain,
+        "seed_policy": f"seed={args.seed}+fixed_manifest_index",
+        "selection_policy": "four portfolio-authored prompts frozen before generation; no output-based selection",
+        "adapter_scale": args.adapter_scale,
+        "manifest_rows": rows,
+    }
+    (out_dir / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    print(f"saved fixed {args.domain} comparison to {out_dir}")
 
 
 if __name__ == "__main__":

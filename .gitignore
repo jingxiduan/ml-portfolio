@@ -14,3 +14,10 @@ __pycache__/
 07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/insightface/models/buffalo_l/1k3d68.onnx
 07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/liveportrait/landmark.onnx
 07-talking-head-motion-opsd/third_party/JoyVASA/pretrained_weights/liveportrait/base_models/motion_extractor.pth
+
+# 04: retain only release panels, final metrics, and EMA adapters
+04-diffusion-opsd-mps/outputs/pilots/
+04-diffusion-opsd-mps/outputs/smoke_*/
+04-diffusion-opsd-mps/outputs/final/logs/
+04-diffusion-opsd-mps/outputs/final/*/lora_raw/
+04-diffusion-opsd-mps/outputs/final/*/dev_*.json

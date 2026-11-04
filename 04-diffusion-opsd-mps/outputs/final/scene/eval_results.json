@@ -1,0 +1,1946 @@
+{
+  "domain": "scene",
+  "model_id": "stabilityai/sdxl-turbo",
+  "evaluator": "hf-hub:laion/CLIP-ViT-H-14-laion2B-s32B-b79K",
+  "evaluator_independent_of_training_reward": true,
+  "adapter_scale": 1.0,
+  "manifest": "data/test_scene.jsonl",
+  "n_prompts": 40,
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "n_pairs": 120,
+  "base_mean": 36.33094569047292,
+  "candidate_mean": 36.27223158876101,
+  "paired_delta_mean": -0.058714101711908974,
+  "prompt_cluster_bootstrap_95_ci": [
+    -0.17536772911747298,
+    0.04288837127387519
+  ],
+  "pair_win_rate": 0.55,
+  "prompt_win_rate": 0.5,
+  "records": [
+    {
+      "source_id": "335",
+      "prompt": "Photograph of a wall along a city street with a watercolor mural of foxes in a jazz band.",
+      "seed": 101,
+      "base_score": 45.16753554344177,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01477813720703125,
+        "mean_saturation": 0.23993095755577087
+      },
+      "candidate_score": 45.417094230651855,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.016727447509765625,
+        "mean_saturation": 0.2405393123626709
+      },
+      "delta": 0.249558687210083
+    },
+    {
+      "source_id": "335",
+      "prompt": "Photograph of a wall along a city street with a watercolor mural of foxes in a jazz band.",
+      "seed": 202,
+      "base_score": 49.50857162475586,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0312652587890625,
+        "mean_saturation": 0.25245994329452515
+      },
+      "candidate_score": 48.54632914066315,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.030231475830078125,
+        "mean_saturation": 0.25216490030288696
+      },
+      "delta": -0.9622424840927124
+    },
+    {
+      "source_id": "335",
+      "prompt": "Photograph of a wall along a city street with a watercolor mural of foxes in a jazz band.",
+      "seed": 303,
+      "base_score": 45.287346839904785,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01665496826171875,
+        "mean_saturation": 0.27858269214630127
+      },
+      "candidate_score": 46.72746658325195,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0166168212890625,
+        "mean_saturation": 0.27989622950553894
+      },
+      "delta": 1.440119743347168
+    },
+    {
+      "source_id": "336",
+      "prompt": "A high resolution photo of a donkey in a clown costume giving a lecture at the front of a lecture hall. The blackboard has mathematical equations on it. There are many students in the lecture hall.",
+      "seed": 101,
+      "base_score": 44.039762020111084,
+      "base_diagnostics": {
+        "clipped_fraction": 0.029811859130859375,
+        "mean_saturation": 0.19112741947174072
+      },
+      "candidate_score": 44.12076473236084,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.029510498046875,
+        "mean_saturation": 0.19175805151462555
+      },
+      "delta": 0.08100271224975586
+    },
+    {
+      "source_id": "336",
+      "prompt": "A high resolution photo of a donkey in a clown costume giving a lecture at the front of a lecture hall. The blackboard has mathematical equations on it. There are many students in the lecture hall.",
+      "seed": 202,
+      "base_score": 46.50346040725708,
+      "base_diagnostics": {
+        "clipped_fraction": 0.039440155029296875,
+        "mean_saturation": 0.2117568701505661
+      },
+      "candidate_score": 46.5046226978302,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.039714813232421875,
+        "mean_saturation": 0.21421842277050018
+      },
+      "delta": 0.0011622905731201172
+    },
+    {
+      "source_id": "336",
+      "prompt": "A high resolution photo of a donkey in a clown costume giving a lecture at the front of a lecture hall. The blackboard has mathematical equations on it. There are many students in the lecture hall.",
+      "seed": 303,
+      "base_score": 41.74969792366028,
+      "base_diagnostics": {
+        "clipped_fraction": 0.034069061279296875,
+        "mean_saturation": 0.17936895787715912
+      },
+      "candidate_score": 42.87534952163696,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.033504486083984375,
+        "mean_saturation": 0.17761054635047913
+      },
+      "delta": 1.1256515979766846
+    },
+    {
+      "source_id": "340",
+      "prompt": "An empty fireplace with a television above it. The TV shows a lion hugging a giraffe.",
+      "seed": 101,
+      "base_score": 38.12616765499115,
+      "base_diagnostics": {
+        "clipped_fraction": 0.013843536376953125,
+        "mean_saturation": 0.19626295566558838
+      },
+      "candidate_score": 37.608373165130615,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0136260986328125,
+        "mean_saturation": 0.19664449989795685
+      },
+      "delta": -0.5177944898605347
+    },
+    {
+      "source_id": "340",
+      "prompt": "An empty fireplace with a television above it. The TV shows a lion hugging a giraffe.",
+      "seed": 202,
+      "base_score": 43.56294572353363,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0354461669921875,
+        "mean_saturation": 0.21173878014087677
+      },
+      "candidate_score": 43.64149570465088,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.03662109375,
+        "mean_saturation": 0.2105545550584793
+      },
+      "delta": 0.07854998111724854
+    },
+    {
+      "source_id": "340",
+      "prompt": "An empty fireplace with a television above it. The TV shows a lion hugging a giraffe.",
+      "seed": 303,
+      "base_score": 41.151443123817444,
+      "base_diagnostics": {
+        "clipped_fraction": 0.017154693603515625,
+        "mean_saturation": 0.18453387916088104
+      },
+      "candidate_score": 41.1331832408905,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.016109466552734375,
+        "mean_saturation": 0.18457387387752533
+      },
+      "delta": -0.018259882926940918
+    },
+    {
+      "source_id": "361",
+      "prompt": "a white bird in front of a dinosaur standing by some trees",
+      "seed": 101,
+      "base_score": 34.637266397476196,
+      "base_diagnostics": {
+        "clipped_fraction": 0.001880645751953125,
+        "mean_saturation": 0.18138402700424194
+      },
+      "candidate_score": 34.24408733844757,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.002460479736328125,
+        "mean_saturation": 0.18385671079158783
+      },
+      "delta": -0.3931790590286255
+    },
+    {
+      "source_id": "361",
+      "prompt": "a white bird in front of a dinosaur standing by some trees",
+      "seed": 202,
+      "base_score": 37.418657541275024,
+      "base_diagnostics": {
+        "clipped_fraction": 0.017421722412109375,
+        "mean_saturation": 0.22096925973892212
+      },
+      "candidate_score": 37.106940150260925,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02001190185546875,
+        "mean_saturation": 0.2252027690410614
+      },
+      "delta": -0.3117173910140991
+    },
+    {
+      "source_id": "361",
+      "prompt": "a white bird in front of a dinosaur standing by some trees",
+      "seed": 303,
+      "base_score": 39.77295160293579,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0114288330078125,
+        "mean_saturation": 0.20832599699497223
+      },
+      "candidate_score": 40.07101356983185,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.01385498046875,
+        "mean_saturation": 0.210368812084198
+      },
+      "delta": 0.29806196689605713
+    },
+    {
+      "source_id": "362",
+      "prompt": "Snow mountain and tree reflection in the lake",
+      "seed": 101,
+      "base_score": 29.304856061935425,
+      "base_diagnostics": {
+        "clipped_fraction": 0.048732757568359375,
+        "mean_saturation": 0.18480214476585388
+      },
+      "candidate_score": 28.882896900177002,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.048095703125,
+        "mean_saturation": 0.18542568385601044
+      },
+      "delta": -0.42195916175842285
+    },
+    {
+      "source_id": "362",
+      "prompt": "Snow mountain and tree reflection in the lake",
+      "seed": 202,
+      "base_score": 27.613884210586548,
+      "base_diagnostics": {
+        "clipped_fraction": 0.04468536376953125,
+        "mean_saturation": 0.17511864006519318
+      },
+      "candidate_score": 27.768242359161377,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.04602813720703125,
+        "mean_saturation": 0.1764523684978485
+      },
+      "delta": 0.1543581485748291
+    },
+    {
+      "source_id": "362",
+      "prompt": "Snow mountain and tree reflection in the lake",
+      "seed": 303,
+      "base_score": 27.325236797332764,
+      "base_diagnostics": {
+        "clipped_fraction": 0.025974273681640625,
+        "mean_saturation": 0.21989235281944275
+      },
+      "candidate_score": 26.341640949249268,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.027660369873046875,
+        "mean_saturation": 0.21898223459720612
+      },
+      "delta": -0.9835958480834961
+    },
+    {
+      "source_id": "424",
+      "prompt": "fairy cottage with smoke coming up chimney and a squirrel looking from the window",
+      "seed": 101,
+      "base_score": 36.84600591659546,
+      "base_diagnostics": {
+        "clipped_fraction": 0.021915435791015625,
+        "mean_saturation": 0.20811285078525543
+      },
+      "candidate_score": 37.39032447338104,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0221099853515625,
+        "mean_saturation": 0.20692391693592072
+      },
+      "delta": 0.5443185567855835
+    },
+    {
+      "source_id": "424",
+      "prompt": "fairy cottage with smoke coming up chimney and a squirrel looking from the window",
+      "seed": 202,
+      "base_score": 37.935712933540344,
+      "base_diagnostics": {
+        "clipped_fraction": 0.011463165283203125,
+        "mean_saturation": 0.25116458535194397
+      },
+      "candidate_score": 37.90946900844574,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.011749267578125,
+        "mean_saturation": 0.2505726218223572
+      },
+      "delta": -0.026243925094604492
+    },
+    {
+      "source_id": "424",
+      "prompt": "fairy cottage with smoke coming up chimney and a squirrel looking from the window",
+      "seed": 303,
+      "base_score": 32.626134157180786,
+      "base_diagnostics": {
+        "clipped_fraction": 0.023784637451171875,
+        "mean_saturation": 0.2386651188135147
+      },
+      "candidate_score": 32.53146409988403,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02597808837890625,
+        "mean_saturation": 0.2380710244178772
+      },
+      "delta": -0.09467005729675293
+    },
+    {
+      "source_id": "433",
+      "prompt": "a photograph of sand with a bucket, lots of scattered shells but no sandpipers",
+      "seed": 101,
+      "base_score": 39.39889073371887,
+      "base_diagnostics": {
+        "clipped_fraction": 0.003849029541015625,
+        "mean_saturation": 0.16437046229839325
+      },
+      "candidate_score": 39.753520488739014,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.003875732421875,
+        "mean_saturation": 0.16452300548553467
+      },
+      "delta": 0.3546297550201416
+    },
+    {
+      "source_id": "433",
+      "prompt": "a photograph of sand with a bucket, lots of scattered shells but no sandpipers",
+      "seed": 202,
+      "base_score": 41.831135749816895,
+      "base_diagnostics": {
+        "clipped_fraction": 0.012508392333984375,
+        "mean_saturation": 0.18575765192508698
+      },
+      "candidate_score": 42.24967956542969,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.012744903564453125,
+        "mean_saturation": 0.18633393943309784
+      },
+      "delta": 0.41854381561279297
+    },
+    {
+      "source_id": "433",
+      "prompt": "a photograph of sand with a bucket, lots of scattered shells but no sandpipers",
+      "seed": 303,
+      "base_score": 35.81357002258301,
+      "base_diagnostics": {
+        "clipped_fraction": 0.020641326904296875,
+        "mean_saturation": 0.17840908467769623
+      },
+      "candidate_score": 36.118513345718384,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.018878936767578125,
+        "mean_saturation": 0.1813625991344452
+      },
+      "delta": 0.304943323135376
+    },
+    {
+      "source_id": "446",
+      "prompt": "A bare kitchen has wood cabinets and white appliances",
+      "seed": 101,
+      "base_score": 31.04921281337738,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002017974853515625,
+        "mean_saturation": 0.21790535748004913
+      },
+      "candidate_score": 31.36763572692871,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.002277374267578125,
+        "mean_saturation": 0.21627724170684814
+      },
+      "delta": 0.31842291355133057
+    },
+    {
+      "source_id": "446",
+      "prompt": "A bare kitchen has wood cabinets and white appliances",
+      "seed": 202,
+      "base_score": 27.846649289131165,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002777099609375,
+        "mean_saturation": 0.23963433504104614
+      },
+      "candidate_score": 28.023740649223328,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00299835205078125,
+        "mean_saturation": 0.24203570187091827
+      },
+      "delta": 0.17709136009216309
+    },
+    {
+      "source_id": "446",
+      "prompt": "A bare kitchen has wood cabinets and white appliances",
+      "seed": 303,
+      "base_score": 33.51300358772278,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000408172607421875,
+        "mean_saturation": 0.20092974603176117
+      },
+      "candidate_score": 33.127933740615845,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.000507354736328125,
+        "mean_saturation": 0.1995840072631836
+      },
+      "delta": -0.3850698471069336
+    },
+    {
+      "source_id": "447",
+      "prompt": "A black and white landscape photograph of a black tree",
+      "seed": 101,
+      "base_score": 32.28101134300232,
+      "base_diagnostics": {
+        "clipped_fraction": 0.09716033935546875,
+        "mean_saturation": 0.06287132948637009
+      },
+      "candidate_score": 32.31988251209259,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.09603118896484375,
+        "mean_saturation": 0.06340635567903519
+      },
+      "delta": 0.038871169090270996
+    },
+    {
+      "source_id": "447",
+      "prompt": "A black and white landscape photograph of a black tree",
+      "seed": 202,
+      "base_score": 30.86482882499695,
+      "base_diagnostics": {
+        "clipped_fraction": 0.15500640869140625,
+        "mean_saturation": 0.04972551017999649
+      },
+      "candidate_score": 30.912068486213684,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.15446090698242188,
+        "mean_saturation": 0.04985455051064491
+      },
+      "delta": 0.04723966121673584
+    },
+    {
+      "source_id": "447",
+      "prompt": "A black and white landscape photograph of a black tree",
+      "seed": 303,
+      "base_score": 28.013092279434204,
+      "base_diagnostics": {
+        "clipped_fraction": 0.1430511474609375,
+        "mean_saturation": 0.07123520225286484
+      },
+      "candidate_score": 28.50556969642639,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.1480865478515625,
+        "mean_saturation": 0.07252666354179382
+      },
+      "delta": 0.4924774169921875
+    },
+    {
+      "source_id": "450",
+      "prompt": "a white country home with a wrap-around porch",
+      "seed": 101,
+      "base_score": 33.65999162197113,
+      "base_diagnostics": {
+        "clipped_fraction": 0.015270233154296875,
+        "mean_saturation": 0.18568378686904907
+      },
+      "candidate_score": 33.30085873603821,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0133514404296875,
+        "mean_saturation": 0.18501299619674683
+      },
+      "delta": -0.35913288593292236
+    },
+    {
+      "source_id": "450",
+      "prompt": "a white country home with a wrap-around porch",
+      "seed": 202,
+      "base_score": 35.702624917030334,
+      "base_diagnostics": {
+        "clipped_fraction": 0.02703094482421875,
+        "mean_saturation": 0.20709578692913055
+      },
+      "candidate_score": 34.93961691856384,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02799224853515625,
+        "mean_saturation": 0.20772650837898254
+      },
+      "delta": -0.7630079984664917
+    },
+    {
+      "source_id": "450",
+      "prompt": "a white country home with a wrap-around porch",
+      "seed": 303,
+      "base_score": 31.988823413848877,
+      "base_diagnostics": {
+        "clipped_fraction": 0.029903411865234375,
+        "mean_saturation": 0.2159951627254486
+      },
+      "candidate_score": 32.00770914554596,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.029087066650390625,
+        "mean_saturation": 0.2190147191286087
+      },
+      "delta": 0.01888573169708252
+    },
+    {
+      "source_id": "454",
+      "prompt": "a fall landscape with a small cottage next to a lake",
+      "seed": 101,
+      "base_score": 35.76488494873047,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00955963134765625,
+        "mean_saturation": 0.24593380093574524
+      },
+      "candidate_score": 35.923588275909424,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00971221923828125,
+        "mean_saturation": 0.2463066577911377
+      },
+      "delta": 0.15870332717895508
+    },
+    {
+      "source_id": "454",
+      "prompt": "a fall landscape with a small cottage next to a lake",
+      "seed": 202,
+      "base_score": 36.18949055671692,
+      "base_diagnostics": {
+        "clipped_fraction": 0.006195068359375,
+        "mean_saturation": 0.2940717339515686
+      },
+      "candidate_score": 36.13706827163696,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.006732940673828125,
+        "mean_saturation": 0.29424893856048584
+      },
+      "delta": -0.052422285079956055
+    },
+    {
+      "source_id": "454",
+      "prompt": "a fall landscape with a small cottage next to a lake",
+      "seed": 303,
+      "base_score": 32.547640800476074,
+      "base_diagnostics": {
+        "clipped_fraction": 0.005306243896484375,
+        "mean_saturation": 0.3044264018535614
+      },
+      "candidate_score": 32.45461583137512,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0059814453125,
+        "mean_saturation": 0.304797500371933
+      },
+      "delta": -0.09302496910095215
+    },
+    {
+      "source_id": "459",
+      "prompt": "a professional photo of a sunset behind the grand canyon",
+      "seed": 101,
+      "base_score": 31.328308582305908,
+      "base_diagnostics": {
+        "clipped_fraction": 0.019153594970703125,
+        "mean_saturation": 0.20951327681541443
+      },
+      "candidate_score": 31.532323360443115,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.019317626953125,
+        "mean_saturation": 0.21033313870429993
+      },
+      "delta": 0.20401477813720703
+    },
+    {
+      "source_id": "459",
+      "prompt": "a professional photo of a sunset behind the grand canyon",
+      "seed": 202,
+      "base_score": 30.01917600631714,
+      "base_diagnostics": {
+        "clipped_fraction": 0.02088165283203125,
+        "mean_saturation": 0.24625180661678314
+      },
+      "candidate_score": 30.02421259880066,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02272796630859375,
+        "mean_saturation": 0.2458026111125946
+      },
+      "delta": 0.005036592483520508
+    },
+    {
+      "source_id": "459",
+      "prompt": "a professional photo of a sunset behind the grand canyon",
+      "seed": 303,
+      "base_score": 30.977103114128113,
+      "base_diagnostics": {
+        "clipped_fraction": 0.03395843505859375,
+        "mean_saturation": 0.25919848680496216
+      },
+      "candidate_score": 31.034383177757263,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.03516387939453125,
+        "mean_saturation": 0.25737226009368896
+      },
+      "delta": 0.05728006362915039
+    },
+    {
+      "source_id": "465",
+      "prompt": "an ornate metal bench by a nature path",
+      "seed": 101,
+      "base_score": 38.139671087265015,
+      "base_diagnostics": {
+        "clipped_fraction": 0.053741455078125,
+        "mean_saturation": 0.2996385097503662
+      },
+      "candidate_score": 38.1792426109314,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.055637359619140625,
+        "mean_saturation": 0.2992270588874817
+      },
+      "delta": 0.039571523666381836
+    },
+    {
+      "source_id": "465",
+      "prompt": "an ornate metal bench by a nature path",
+      "seed": 202,
+      "base_score": 35.1923942565918,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0441436767578125,
+        "mean_saturation": 0.3022095561027527
+      },
+      "candidate_score": 34.85667705535889,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.04427337646484375,
+        "mean_saturation": 0.30130141973495483
+      },
+      "delta": -0.33571720123291016
+    },
+    {
+      "source_id": "465",
+      "prompt": "an ornate metal bench by a nature path",
+      "seed": 303,
+      "base_score": 34.706056118011475,
+      "base_diagnostics": {
+        "clipped_fraction": 0.047061920166015625,
+        "mean_saturation": 0.28129681944847107
+      },
+      "candidate_score": 34.46568250656128,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.046985626220703125,
+        "mean_saturation": 0.2804007828235626
+      },
+      "delta": -0.2403736114501953
+    },
+    {
+      "source_id": "471",
+      "prompt": "beautiful fireworks in the sky with red, white and blue",
+      "seed": 101,
+      "base_score": 29.583698511123657,
+      "base_diagnostics": {
+        "clipped_fraction": 0.010257720947265625,
+        "mean_saturation": 0.21051473915576935
+      },
+      "candidate_score": 29.695504903793335,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.009159088134765625,
+        "mean_saturation": 0.21135792136192322
+      },
+      "delta": 0.11180639266967773
+    },
+    {
+      "source_id": "471",
+      "prompt": "beautiful fireworks in the sky with red, white and blue",
+      "seed": 202,
+      "base_score": 31.956404447555542,
+      "base_diagnostics": {
+        "clipped_fraction": 0.029376983642578125,
+        "mean_saturation": 0.21589936316013336
+      },
+      "candidate_score": 31.827425956726074,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.028865814208984375,
+        "mean_saturation": 0.21725551784038544
+      },
+      "delta": -0.12897849082946777
+    },
+    {
+      "source_id": "471",
+      "prompt": "beautiful fireworks in the sky with red, white and blue",
+      "seed": 303,
+      "base_score": 29.434460401535034,
+      "base_diagnostics": {
+        "clipped_fraction": 0.028285980224609375,
+        "mean_saturation": 0.2115488350391388
+      },
+      "candidate_score": 29.862642288208008,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.031017303466796875,
+        "mean_saturation": 0.21439789235591888
+      },
+      "delta": 0.42818188667297363
+    },
+    {
+      "source_id": "482",
+      "prompt": "a cityscape at night with a full moon",
+      "seed": 101,
+      "base_score": 34.737128019332886,
+      "base_diagnostics": {
+        "clipped_fraction": 0.12069320678710938,
+        "mean_saturation": 0.11103604733943939
+      },
+      "candidate_score": 34.8860502243042,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.12079620361328125,
+        "mean_saturation": 0.1117720901966095
+      },
+      "delta": 0.14892220497131348
+    },
+    {
+      "source_id": "482",
+      "prompt": "a cityscape at night with a full moon",
+      "seed": 202,
+      "base_score": 37.28095293045044,
+      "base_diagnostics": {
+        "clipped_fraction": 0.17332077026367188,
+        "mean_saturation": 0.13751977682113647
+      },
+      "candidate_score": 37.177956104278564,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.17190933227539062,
+        "mean_saturation": 0.13943074643611908
+      },
+      "delta": -0.102996826171875
+    },
+    {
+      "source_id": "482",
+      "prompt": "a cityscape at night with a full moon",
+      "seed": 303,
+      "base_score": 36.82037591934204,
+      "base_diagnostics": {
+        "clipped_fraction": 0.1163787841796875,
+        "mean_saturation": 0.147685244679451
+      },
+      "candidate_score": 36.41427755355835,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.12512588500976562,
+        "mean_saturation": 0.14958427846431732
+      },
+      "delta": -0.4060983657836914
+    },
+    {
+      "source_id": "488",
+      "prompt": "a room with two chairs and a painting of the Statue of Liberty",
+      "seed": 101,
+      "base_score": 44.20179724693298,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00792694091796875,
+        "mean_saturation": 0.18910156190395355
+      },
+      "candidate_score": 43.993330001831055,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.008708953857421875,
+        "mean_saturation": 0.19122649729251862
+      },
+      "delta": -0.2084672451019287
+    },
+    {
+      "source_id": "488",
+      "prompt": "a room with two chairs and a painting of the Statue of Liberty",
+      "seed": 202,
+      "base_score": 43.36686134338379,
+      "base_diagnostics": {
+        "clipped_fraction": 0.009105682373046875,
+        "mean_saturation": 0.24345940351486206
+      },
+      "candidate_score": 45.67309021949768,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00826263427734375,
+        "mean_saturation": 0.24149522185325623
+      },
+      "delta": 2.3062288761138916
+    },
+    {
+      "source_id": "488",
+      "prompt": "a room with two chairs and a painting of the Statue of Liberty",
+      "seed": 303,
+      "base_score": 46.02417349815369,
+      "base_diagnostics": {
+        "clipped_fraction": 0.011016845703125,
+        "mean_saturation": 0.19377581775188446
+      },
+      "candidate_score": 45.38903534412384,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.01119232177734375,
+        "mean_saturation": 0.19511041045188904
+      },
+      "delta": -0.6351381540298462
+    },
+    {
+      "source_id": "489",
+      "prompt": "a mountain and its reflection in a lake",
+      "seed": 101,
+      "base_score": 25.894957780838013,
+      "base_diagnostics": {
+        "clipped_fraction": 0.011081695556640625,
+        "mean_saturation": 0.19580969214439392
+      },
+      "candidate_score": 25.818079710006714,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.01153564453125,
+        "mean_saturation": 0.19717316329479218
+      },
+      "delta": -0.07687807083129883
+    },
+    {
+      "source_id": "489",
+      "prompt": "a mountain and its reflection in a lake",
+      "seed": 202,
+      "base_score": 27.52607762813568,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00496673583984375,
+        "mean_saturation": 0.1325700432062149
+      },
+      "candidate_score": 27.700093388557434,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00598907470703125,
+        "mean_saturation": 0.13264277577400208
+      },
+      "delta": 0.17401576042175293
+    },
+    {
+      "source_id": "489",
+      "prompt": "a mountain and its reflection in a lake",
+      "seed": 303,
+      "base_score": 27.739745378494263,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0262298583984375,
+        "mean_saturation": 0.20546773076057434
+      },
+      "candidate_score": 28.26281487941742,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.027088165283203125,
+        "mean_saturation": 0.20567694306373596
+      },
+      "delta": 0.5230695009231567
+    },
+    {
+      "source_id": "490",
+      "prompt": "a bird and its reflection in a fountain",
+      "seed": 101,
+      "base_score": 30.664098262786865,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000701904296875,
+        "mean_saturation": 0.17759324610233307
+      },
+      "candidate_score": 30.153128504753113,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00103759765625,
+        "mean_saturation": 0.1774308681488037
+      },
+      "delta": -0.5109697580337524
+    },
+    {
+      "source_id": "490",
+      "prompt": "a bird and its reflection in a fountain",
+      "seed": 202,
+      "base_score": 36.94903254508972,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0025482177734375,
+        "mean_saturation": 0.2053670585155487
+      },
+      "candidate_score": 36.9559109210968,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.002742767333984375,
+        "mean_saturation": 0.20588505268096924
+      },
+      "delta": 0.006878376007080078
+    },
+    {
+      "source_id": "490",
+      "prompt": "a bird and its reflection in a fountain",
+      "seed": 303,
+      "base_score": 40.9136027097702,
+      "base_diagnostics": {
+        "clipped_fraction": 0.016651153564453125,
+        "mean_saturation": 0.19544242322444916
+      },
+      "candidate_score": 40.893250703811646,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.017040252685546875,
+        "mean_saturation": 0.19779270887374878
+      },
+      "delta": -0.02035200595855713
+    },
+    {
+      "source_id": "511",
+      "prompt": "a large present with a red ribbon to the left of a Christmas tree",
+      "seed": 101,
+      "base_score": 30.725443363189697,
+      "base_diagnostics": {
+        "clipped_fraction": 0.046825408935546875,
+        "mean_saturation": 0.2212378978729248
+      },
+      "candidate_score": 30.52573800086975,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0449676513671875,
+        "mean_saturation": 0.2214449644088745
+      },
+      "delta": -0.1997053623199463
+    },
+    {
+      "source_id": "511",
+      "prompt": "a large present with a red ribbon to the left of a Christmas tree",
+      "seed": 202,
+      "base_score": 35.61863899230957,
+      "base_diagnostics": {
+        "clipped_fraction": 0.062442779541015625,
+        "mean_saturation": 0.22177819907665253
+      },
+      "candidate_score": 35.0781112909317,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.06291961669921875,
+        "mean_saturation": 0.22301316261291504
+      },
+      "delta": -0.5405277013778687
+    },
+    {
+      "source_id": "511",
+      "prompt": "a large present with a red ribbon to the left of a Christmas tree",
+      "seed": 303,
+      "base_score": 36.31487786769867,
+      "base_diagnostics": {
+        "clipped_fraction": 0.041255950927734375,
+        "mean_saturation": 0.24932017922401428
+      },
+      "candidate_score": 36.283233761787415,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.040752410888671875,
+        "mean_saturation": 0.2503528296947479
+      },
+      "delta": -0.03164410591125488
+    },
+    {
+      "source_id": "520",
+      "prompt": "a wood cabin with a fire pit in front of it",
+      "seed": 101,
+      "base_score": 37.91887164115906,
+      "base_diagnostics": {
+        "clipped_fraction": 0.021636962890625,
+        "mean_saturation": 0.20355939865112305
+      },
+      "candidate_score": 37.65210211277008,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0236358642578125,
+        "mean_saturation": 0.20395146310329437
+      },
+      "delta": -0.26676952838897705
+    },
+    {
+      "source_id": "520",
+      "prompt": "a wood cabin with a fire pit in front of it",
+      "seed": 202,
+      "base_score": 34.678104519844055,
+      "base_diagnostics": {
+        "clipped_fraction": 0.025981903076171875,
+        "mean_saturation": 0.23019380867481232
+      },
+      "candidate_score": 35.2552056312561,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.026927947998046875,
+        "mean_saturation": 0.22980622947216034
+      },
+      "delta": 0.5771011114120483
+    },
+    {
+      "source_id": "520",
+      "prompt": "a wood cabin with a fire pit in front of it",
+      "seed": 303,
+      "base_score": 35.83539128303528,
+      "base_diagnostics": {
+        "clipped_fraction": 0.02681732177734375,
+        "mean_saturation": 0.24110160768032074
+      },
+      "candidate_score": 36.22260093688965,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02768707275390625,
+        "mean_saturation": 0.24248597025871277
+      },
+      "delta": 0.3872096538543701
+    },
+    {
+      "source_id": "538",
+      "prompt": "a stone path leading away from a fountain",
+      "seed": 101,
+      "base_score": 38.706207275390625,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00841522216796875,
+        "mean_saturation": 0.17728348076343536
+      },
+      "candidate_score": 38.13128471374512,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.008213043212890625,
+        "mean_saturation": 0.1763727217912674
+      },
+      "delta": -0.5749225616455078
+    },
+    {
+      "source_id": "538",
+      "prompt": "a stone path leading away from a fountain",
+      "seed": 202,
+      "base_score": 32.11866617202759,
+      "base_diagnostics": {
+        "clipped_fraction": 0.02494049072265625,
+        "mean_saturation": 0.18762925267219543
+      },
+      "candidate_score": 31.889811158180237,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.022705078125,
+        "mean_saturation": 0.1884147971868515
+      },
+      "delta": -0.22885501384735107
+    },
+    {
+      "source_id": "538",
+      "prompt": "a stone path leading away from a fountain",
+      "seed": 303,
+      "base_score": 33.09379518032074,
+      "base_diagnostics": {
+        "clipped_fraction": 0.013767242431640625,
+        "mean_saturation": 0.2011692374944687
+      },
+      "candidate_score": 33.3493709564209,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0133514404296875,
+        "mean_saturation": 0.2020585834980011
+      },
+      "delta": 0.2555757761001587
+    },
+    {
+      "source_id": "539",
+      "prompt": "a wooden deck overlooking a mountain valley",
+      "seed": 101,
+      "base_score": 35.65551042556763,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00730133056640625,
+        "mean_saturation": 0.1949913650751114
+      },
+      "candidate_score": 33.91510844230652,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.009235382080078125,
+        "mean_saturation": 0.1931338906288147
+      },
+      "delta": -1.7404019832611084
+    },
+    {
+      "source_id": "539",
+      "prompt": "a wooden deck overlooking a mountain valley",
+      "seed": 202,
+      "base_score": 34.27487015724182,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00623321533203125,
+        "mean_saturation": 0.21124377846717834
+      },
+      "candidate_score": 34.94263291358948,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.006694793701171875,
+        "mean_saturation": 0.21011139452457428
+      },
+      "delta": 0.6677627563476562
+    },
+    {
+      "source_id": "539",
+      "prompt": "a wooden deck overlooking a mountain valley",
+      "seed": 303,
+      "base_score": 33.69806110858917,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00649261474609375,
+        "mean_saturation": 0.21088430285453796
+      },
+      "candidate_score": 32.96864926815033,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00589752197265625,
+        "mean_saturation": 0.20798541605472565
+      },
+      "delta": -0.7294118404388428
+    },
+    {
+      "source_id": "545",
+      "prompt": "a mountain stream with salmon leaping out of it",
+      "seed": 101,
+      "base_score": 36.76668405532837,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01883697509765625,
+        "mean_saturation": 0.09091811627149582
+      },
+      "candidate_score": 36.96553707122803,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.019779205322265625,
+        "mean_saturation": 0.09087714552879333
+      },
+      "delta": 0.1988530158996582
+    },
+    {
+      "source_id": "545",
+      "prompt": "a mountain stream with salmon leaping out of it",
+      "seed": 202,
+      "base_score": 33.3412230014801,
+      "base_diagnostics": {
+        "clipped_fraction": 0.09043502807617188,
+        "mean_saturation": 0.16455300152301788
+      },
+      "candidate_score": 33.13376605510712,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0921478271484375,
+        "mean_saturation": 0.16490209102630615
+      },
+      "delta": -0.20745694637298584
+    },
+    {
+      "source_id": "545",
+      "prompt": "a mountain stream with salmon leaping out of it",
+      "seed": 303,
+      "base_score": 36.144042015075684,
+      "base_diagnostics": {
+        "clipped_fraction": 0.06352996826171875,
+        "mean_saturation": 0.14099964499473572
+      },
+      "candidate_score": 37.00478672981262,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.06335067749023438,
+        "mean_saturation": 0.14104309678077698
+      },
+      "delta": 0.8607447147369385
+    },
+    {
+      "source_id": "546",
+      "prompt": "a living room with a large Egyptian statue in the corner",
+      "seed": 101,
+      "base_score": 38.96371126174927,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01782989501953125,
+        "mean_saturation": 0.21855810284614563
+      },
+      "candidate_score": 38.81098031997681,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.017368316650390625,
+        "mean_saturation": 0.2204202562570572
+      },
+      "delta": -0.15273094177246094
+    },
+    {
+      "source_id": "546",
+      "prompt": "a living room with a large Egyptian statue in the corner",
+      "seed": 202,
+      "base_score": 41.17780923843384,
+      "base_diagnostics": {
+        "clipped_fraction": 0.023860931396484375,
+        "mean_saturation": 0.23207467794418335
+      },
+      "candidate_score": 39.25483822822571,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0216217041015625,
+        "mean_saturation": 0.2370534986257553
+      },
+      "delta": -1.9229710102081299
+    },
+    {
+      "source_id": "546",
+      "prompt": "a living room with a large Egyptian statue in the corner",
+      "seed": 303,
+      "base_score": 36.76784038543701,
+      "base_diagnostics": {
+        "clipped_fraction": 0.019687652587890625,
+        "mean_saturation": 0.24456864595413208
+      },
+      "candidate_score": 37.74949312210083,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02158355712890625,
+        "mean_saturation": 0.24899983406066895
+      },
+      "delta": 0.9816527366638184
+    },
+    {
+      "source_id": "548",
+      "prompt": "scraps of paper drifting in the wind",
+      "seed": 101,
+      "base_score": 33.051300048828125,
+      "base_diagnostics": {
+        "clipped_fraction": 0.048549652099609375,
+        "mean_saturation": 0.22617274522781372
+      },
+      "candidate_score": 33.094024658203125,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.04843902587890625,
+        "mean_saturation": 0.22404152154922485
+      },
+      "delta": 0.042724609375
+    },
+    {
+      "source_id": "548",
+      "prompt": "scraps of paper drifting in the wind",
+      "seed": 202,
+      "base_score": 29.585358500480652,
+      "base_diagnostics": {
+        "clipped_fraction": 0.06262969970703125,
+        "mean_saturation": 0.22001630067825317
+      },
+      "candidate_score": 29.061254858970642,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.06679153442382812,
+        "mean_saturation": 0.22028838098049164
+      },
+      "delta": -0.5241036415100098
+    },
+    {
+      "source_id": "548",
+      "prompt": "scraps of paper drifting in the wind",
+      "seed": 303,
+      "base_score": 30.65914511680603,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0846710205078125,
+        "mean_saturation": 0.3220149874687195
+      },
+      "candidate_score": 30.98509907722473,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0847320556640625,
+        "mean_saturation": 0.3208061456680298
+      },
+      "delta": 0.32595396041870117
+    },
+    {
+      "source_id": "550",
+      "prompt": "a tree growing out of the middle of an intersection",
+      "seed": 101,
+      "base_score": 39.88015353679657,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01769256591796875,
+        "mean_saturation": 0.14214159548282623
+      },
+      "candidate_score": 40.083009004592896,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.019046783447265625,
+        "mean_saturation": 0.1427280753850937
+      },
+      "delta": 0.20285546779632568
+    },
+    {
+      "source_id": "550",
+      "prompt": "a tree growing out of the middle of an intersection",
+      "seed": 202,
+      "base_score": 41.94202423095703,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0300750732421875,
+        "mean_saturation": 0.15503612160682678
+      },
+      "candidate_score": 39.967337250709534,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.03751373291015625,
+        "mean_saturation": 0.15261554718017578
+      },
+      "delta": -1.9746869802474976
+    },
+    {
+      "source_id": "550",
+      "prompt": "a tree growing out of the middle of an intersection",
+      "seed": 303,
+      "base_score": 37.64306306838989,
+      "base_diagnostics": {
+        "clipped_fraction": 0.04909515380859375,
+        "mean_saturation": 0.13692574203014374
+      },
+      "candidate_score": 36.29639744758606,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.05115509033203125,
+        "mean_saturation": 0.13526856899261475
+      },
+      "delta": -1.346665620803833
+    },
+    {
+      "source_id": "558",
+      "prompt": "a blue wall with a large framed watercolor painting of a mountain",
+      "seed": 101,
+      "base_score": 37.026247382164,
+      "base_diagnostics": {
+        "clipped_fraction": 0.004360198974609375,
+        "mean_saturation": 0.16128697991371155
+      },
+      "candidate_score": 37.444862723350525,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00556182861328125,
+        "mean_saturation": 0.16139337420463562
+      },
+      "delta": 0.41861534118652344
+    },
+    {
+      "source_id": "558",
+      "prompt": "a blue wall with a large framed watercolor painting of a mountain",
+      "seed": 202,
+      "base_score": 39.40424919128418,
+      "base_diagnostics": {
+        "clipped_fraction": 0.01461029052734375,
+        "mean_saturation": 0.21931663155555725
+      },
+      "candidate_score": 39.44135904312134,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.015094757080078125,
+        "mean_saturation": 0.2162504494190216
+      },
+      "delta": 0.0371098518371582
+    },
+    {
+      "source_id": "558",
+      "prompt": "a blue wall with a large framed watercolor painting of a mountain",
+      "seed": 303,
+      "base_score": 42.42587089538574,
+      "base_diagnostics": {
+        "clipped_fraction": 0.008373260498046875,
+        "mean_saturation": 0.19601668417453766
+      },
+      "candidate_score": 42.50109791755676,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00702667236328125,
+        "mean_saturation": 0.19561238586902618
+      },
+      "delta": 0.07522702217102051
+    },
+    {
+      "source_id": "559",
+      "prompt": "a yellow wall with a large framed oil painting of a car",
+      "seed": 101,
+      "base_score": 43.0796355009079,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00356292724609375,
+        "mean_saturation": 0.340047687292099
+      },
+      "candidate_score": 43.09707581996918,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.003688812255859375,
+        "mean_saturation": 0.34215837717056274
+      },
+      "delta": 0.017440319061279297
+    },
+    {
+      "source_id": "559",
+      "prompt": "a yellow wall with a large framed oil painting of a car",
+      "seed": 202,
+      "base_score": 45.832839608192444,
+      "base_diagnostics": {
+        "clipped_fraction": 0.007678985595703125,
+        "mean_saturation": 0.38600119948387146
+      },
+      "candidate_score": 46.1007297039032,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00933837890625,
+        "mean_saturation": 0.3889775574207306
+      },
+      "delta": 0.2678900957107544
+    },
+    {
+      "source_id": "559",
+      "prompt": "a yellow wall with a large framed oil painting of a car",
+      "seed": 303,
+      "base_score": 46.0865318775177,
+      "base_diagnostics": {
+        "clipped_fraction": 0.013790130615234375,
+        "mean_saturation": 0.37504151463508606
+      },
+      "candidate_score": 45.946693420410156,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.012683868408203125,
+        "mean_saturation": 0.3769681751728058
+      },
+      "delta": -0.13983845710754395
+    },
+    {
+      "source_id": "564",
+      "prompt": "a beach with a cruise ship passing by",
+      "seed": 101,
+      "base_score": 35.062140226364136,
+      "base_diagnostics": {
+        "clipped_fraction": 0.002655029296875,
+        "mean_saturation": 0.17262661457061768
+      },
+      "candidate_score": 35.153746604919434,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.002948760986328125,
+        "mean_saturation": 0.17216326296329498
+      },
+      "delta": 0.09160637855529785
+    },
+    {
+      "source_id": "564",
+      "prompt": "a beach with a cruise ship passing by",
+      "seed": 202,
+      "base_score": 37.20487952232361,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00156402587890625,
+        "mean_saturation": 0.20546816289424896
+      },
+      "candidate_score": 37.22091317176819,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0020751953125,
+        "mean_saturation": 0.20523913204669952
+      },
+      "delta": 0.016033649444580078
+    },
+    {
+      "source_id": "564",
+      "prompt": "a beach with a cruise ship passing by",
+      "seed": 303,
+      "base_score": 34.48641300201416,
+      "base_diagnostics": {
+        "clipped_fraction": 0.001285552978515625,
+        "mean_saturation": 0.17621003091335297
+      },
+      "candidate_score": 34.641069173812866,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001346588134765625,
+        "mean_saturation": 0.1748374104499817
+      },
+      "delta": 0.15465617179870605
+    },
+    {
+      "source_id": "567",
+      "prompt": "a full moon peeking through clouds at night",
+      "seed": 101,
+      "base_score": 34.139347076416016,
+      "base_diagnostics": {
+        "clipped_fraction": 0.005779266357421875,
+        "mean_saturation": 0.06184213608503342
+      },
+      "candidate_score": 34.427955746650696,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.005832672119140625,
+        "mean_saturation": 0.05976489186286926
+      },
+      "delta": 0.2886086702346802
+    },
+    {
+      "source_id": "567",
+      "prompt": "a full moon peeking through clouds at night",
+      "seed": 202,
+      "base_score": 32.46394097805023,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00016021728515625,
+        "mean_saturation": 0.09877296537160873
+      },
+      "candidate_score": 32.63254761695862,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0003662109375,
+        "mean_saturation": 0.09662508964538574
+      },
+      "delta": 0.16860663890838623
+    },
+    {
+      "source_id": "567",
+      "prompt": "a full moon peeking through clouds at night",
+      "seed": 303,
+      "base_score": 33.66551697254181,
+      "base_diagnostics": {
+        "clipped_fraction": 0.007396697998046875,
+        "mean_saturation": 0.09522826969623566
+      },
+      "candidate_score": 33.89754891395569,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.007732391357421875,
+        "mean_saturation": 0.0940060243010521
+      },
+      "delta": 0.2320319414138794
+    },
+    {
+      "source_id": "568",
+      "prompt": "a crescent moon viewed between tree branches at night",
+      "seed": 101,
+      "base_score": 34.195342659950256,
+      "base_diagnostics": {
+        "clipped_fraction": 0.2723541259765625,
+        "mean_saturation": 0.03462592139840126
+      },
+      "candidate_score": 34.41619277000427,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.273529052734375,
+        "mean_saturation": 0.03657688945531845
+      },
+      "delta": 0.2208501100540161
+    },
+    {
+      "source_id": "568",
+      "prompt": "a crescent moon viewed between tree branches at night",
+      "seed": 202,
+      "base_score": 33.19179117679596,
+      "base_diagnostics": {
+        "clipped_fraction": 0.33057403564453125,
+        "mean_saturation": 0.05971202626824379
+      },
+      "candidate_score": 33.5356742143631,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.33470916748046875,
+        "mean_saturation": 0.06025075167417526
+      },
+      "delta": 0.34388303756713867
+    },
+    {
+      "source_id": "568",
+      "prompt": "a crescent moon viewed between tree branches at night",
+      "seed": 303,
+      "base_score": 39.97796177864075,
+      "base_diagnostics": {
+        "clipped_fraction": 0.3297576904296875,
+        "mean_saturation": 0.18655501306056976
+      },
+      "candidate_score": 40.02394676208496,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.3299827575683594,
+        "mean_saturation": 0.18882763385772705
+      },
+      "delta": 0.04598498344421387
+    },
+    {
+      "source_id": "569",
+      "prompt": "a full moon rising above a mountain at night",
+      "seed": 101,
+      "base_score": 35.0294828414917,
+      "base_diagnostics": {
+        "clipped_fraction": 0.27510833740234375,
+        "mean_saturation": 0.06484198570251465
+      },
+      "candidate_score": 35.40058434009552,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.2782325744628906,
+        "mean_saturation": 0.06390297412872314
+      },
+      "delta": 0.3711014986038208
+    },
+    {
+      "source_id": "569",
+      "prompt": "a full moon rising above a mountain at night",
+      "seed": 202,
+      "base_score": 33.00156593322754,
+      "base_diagnostics": {
+        "clipped_fraction": 0.28743743896484375,
+        "mean_saturation": 0.1147514283657074
+      },
+      "candidate_score": 32.97154903411865,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.2927093505859375,
+        "mean_saturation": 0.11289004981517792
+      },
+      "delta": -0.03001689910888672
+    },
+    {
+      "source_id": "569",
+      "prompt": "a full moon rising above a mountain at night",
+      "seed": 303,
+      "base_score": 31.595969200134277,
+      "base_diagnostics": {
+        "clipped_fraction": 0.23578262329101562,
+        "mean_saturation": 0.12983259558677673
+      },
+      "candidate_score": 31.30505383014679,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.24612045288085938,
+        "mean_saturation": 0.1275472790002823
+      },
+      "delta": -0.2909153699874878
+    },
+    {
+      "source_id": "571",
+      "prompt": "a tornado passing over a corn field",
+      "seed": 101,
+      "base_score": 38.618457317352295,
+      "base_diagnostics": {
+        "clipped_fraction": 0.061351776123046875,
+        "mean_saturation": 0.1621912717819214
+      },
+      "candidate_score": 38.818854093551636,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.06509780883789062,
+        "mean_saturation": 0.16286501288414001
+      },
+      "delta": 0.20039677619934082
+    },
+    {
+      "source_id": "571",
+      "prompt": "a tornado passing over a corn field",
+      "seed": 202,
+      "base_score": 40.32898545265198,
+      "base_diagnostics": {
+        "clipped_fraction": 0.046772003173828125,
+        "mean_saturation": 0.1583492010831833
+      },
+      "candidate_score": 39.988186955451965,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.047801971435546875,
+        "mean_saturation": 0.1576402485370636
+      },
+      "delta": -0.3407984972000122
+    },
+    {
+      "source_id": "571",
+      "prompt": "a tornado passing over a corn field",
+      "seed": 303,
+      "base_score": 33.24303328990936,
+      "base_diagnostics": {
+        "clipped_fraction": 0.049041748046875,
+        "mean_saturation": 0.13541612029075623
+      },
+      "candidate_score": 33.35998058319092,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.05168914794921875,
+        "mean_saturation": 0.1342090368270874
+      },
+      "delta": 0.11694729328155518
+    },
+    {
+      "source_id": "572",
+      "prompt": "a tidal wave approaching a coastal road",
+      "seed": 101,
+      "base_score": 39.52994346618652,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000919342041015625,
+        "mean_saturation": 0.07103373855352402
+      },
+      "candidate_score": 39.07000124454498,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0013580322265625,
+        "mean_saturation": 0.07130901515483856
+      },
+      "delta": -0.4599422216415405
+    },
+    {
+      "source_id": "572",
+      "prompt": "a tidal wave approaching a coastal road",
+      "seed": 202,
+      "base_score": 35.611629486083984,
+      "base_diagnostics": {
+        "clipped_fraction": 0.018283843994140625,
+        "mean_saturation": 0.11550799757242203
+      },
+      "candidate_score": 35.47520637512207,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0184326171875,
+        "mean_saturation": 0.11521583795547485
+      },
+      "delta": -0.13642311096191406
+    },
+    {
+      "source_id": "572",
+      "prompt": "a tidal wave approaching a coastal road",
+      "seed": 303,
+      "base_score": 38.744056224823,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0088348388671875,
+        "mean_saturation": 0.1369568556547165
+      },
+      "candidate_score": 38.63024115562439,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.009265899658203125,
+        "mean_saturation": 0.13659946620464325
+      },
+      "delta": -0.1138150691986084
+    },
+    {
+      "source_id": "574",
+      "prompt": "a water tower next to a deserted road",
+      "seed": 101,
+      "base_score": 40.77463746070862,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00099945068359375,
+        "mean_saturation": 0.11652281880378723
+      },
+      "candidate_score": 40.32943248748779,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001529693603515625,
+        "mean_saturation": 0.11285790055990219
+      },
+      "delta": -0.4452049732208252
+    },
+    {
+      "source_id": "574",
+      "prompt": "a water tower next to a deserted road",
+      "seed": 202,
+      "base_score": 39.55273628234863,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0016326904296875,
+        "mean_saturation": 0.13188442587852478
+      },
+      "candidate_score": 38.78578543663025,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.003082275390625,
+        "mean_saturation": 0.1314559429883957
+      },
+      "delta": -0.7669508457183838
+    },
+    {
+      "source_id": "574",
+      "prompt": "a water tower next to a deserted road",
+      "seed": 303,
+      "base_score": 43.53170394897461,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0005035400390625,
+        "mean_saturation": 0.1444454938173294
+      },
+      "candidate_score": 40.56895077228546,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001003265380859375,
+        "mean_saturation": 0.14983028173446655
+      },
+      "delta": -2.962753176689148
+    },
+    {
+      "source_id": "620",
+      "prompt": "a chemtrail passing between two clouds",
+      "seed": 101,
+      "base_score": 34.85514521598816,
+      "base_diagnostics": {
+        "clipped_fraction": 1.1444091796875e-05,
+        "mean_saturation": 0.08604071289300919
+      },
+      "candidate_score": 35.074275732040405,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0,
+        "mean_saturation": 0.08484973013401031
+      },
+      "delta": 0.2191305160522461
+    },
+    {
+      "source_id": "620",
+      "prompt": "a chemtrail passing between two clouds",
+      "seed": 202,
+      "base_score": 34.87832546234131,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000484466552734375,
+        "mean_saturation": 0.14403070509433746
+      },
+      "candidate_score": 35.027679800987244,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00037384033203125,
+        "mean_saturation": 0.14267192780971527
+      },
+      "delta": 0.14935433864593506
+    },
+    {
+      "source_id": "620",
+      "prompt": "a chemtrail passing between two clouds",
+      "seed": 303,
+      "base_score": 34.945377707481384,
+      "base_diagnostics": {
+        "clipped_fraction": 0.0015716552734375,
+        "mean_saturation": 0.1702023446559906
+      },
+      "candidate_score": 34.28446054458618,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001361846923828125,
+        "mean_saturation": 0.1689443737268448
+      },
+      "delta": -0.6609171628952026
+    },
+    {
+      "source_id": "621",
+      "prompt": "a long chemtrail trailing an airplane in a blue sky",
+      "seed": 101,
+      "base_score": 33.508166670799255,
+      "base_diagnostics": {
+        "clipped_fraction": 0.005527496337890625,
+        "mean_saturation": 0.3227812647819519
+      },
+      "candidate_score": 33.68352949619293,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00569915771484375,
+        "mean_saturation": 0.3215934932231903
+      },
+      "delta": 0.17536282539367676
+    },
+    {
+      "source_id": "621",
+      "prompt": "a long chemtrail trailing an airplane in a blue sky",
+      "seed": 202,
+      "base_score": 37.24468946456909,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00304412841796875,
+        "mean_saturation": 0.2670194208621979
+      },
+      "candidate_score": 37.06464171409607,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.003101348876953125,
+        "mean_saturation": 0.267291396856308
+      },
+      "delta": -0.18004775047302246
+    },
+    {
+      "source_id": "621",
+      "prompt": "a long chemtrail trailing an airplane in a blue sky",
+      "seed": 303,
+      "base_score": 36.78785562515259,
+      "base_diagnostics": {
+        "clipped_fraction": 0.004459381103515625,
+        "mean_saturation": 0.27024897933006287
+      },
+      "candidate_score": 36.17395758628845,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00412750244140625,
+        "mean_saturation": 0.27160269021987915
+      },
+      "delta": -0.6138980388641357
+    },
+    {
+      "source_id": "622",
+      "prompt": "a tennis court with a basketball hoop in one corner",
+      "seed": 101,
+      "base_score": 35.06871461868286,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00099945068359375,
+        "mean_saturation": 0.15940718352794647
+      },
+      "candidate_score": 35.08492708206177,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00133514404296875,
+        "mean_saturation": 0.16123802959918976
+      },
+      "delta": 0.01621246337890625
+    },
+    {
+      "source_id": "622",
+      "prompt": "a tennis court with a basketball hoop in one corner",
+      "seed": 202,
+      "base_score": 34.53929424285889,
+      "base_diagnostics": {
+        "clipped_fraction": 0.00154876708984375,
+        "mean_saturation": 0.21310681104660034
+      },
+      "candidate_score": 34.651368856430054,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.001773834228515625,
+        "mean_saturation": 0.21148021519184113
+      },
+      "delta": 0.11207461357116699
+    },
+    {
+      "source_id": "622",
+      "prompt": "a tennis court with a basketball hoop in one corner",
+      "seed": 303,
+      "base_score": 33.10883641242981,
+      "base_diagnostics": {
+        "clipped_fraction": 0.042327880859375,
+        "mean_saturation": 0.22219878435134888
+      },
+      "candidate_score": 33.19773077964783,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.04170989990234375,
+        "mean_saturation": 0.223504438996315
+      },
+      "delta": 0.08889436721801758
+    },
+    {
+      "source_id": "623",
+      "prompt": "a tennis court that is very wet from lots of rain",
+      "seed": 101,
+      "base_score": 41.57898128032684,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000125885009765625,
+        "mean_saturation": 0.17717064917087555
+      },
+      "candidate_score": 41.41148030757904,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.0001068115234375,
+        "mean_saturation": 0.17940054833889008
+      },
+      "delta": -0.16750097274780273
+    },
+    {
+      "source_id": "623",
+      "prompt": "a tennis court that is very wet from lots of rain",
+      "seed": 202,
+      "base_score": 39.786145091056824,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000518798828125,
+        "mean_saturation": 0.22541724145412445
+      },
+      "candidate_score": 39.19704258441925,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00041961669921875,
+        "mean_saturation": 0.2273305058479309
+      },
+      "delta": -0.5891025066375732
+    },
+    {
+      "source_id": "623",
+      "prompt": "a tennis court that is very wet from lots of rain",
+      "seed": 303,
+      "base_score": 41.75157845020294,
+      "base_diagnostics": {
+        "clipped_fraction": 0.019359588623046875,
+        "mean_saturation": 0.17071662843227386
+      },
+      "candidate_score": 42.482250928878784,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.02100372314453125,
+        "mean_saturation": 0.1733211874961853
+      },
+      "delta": 0.7306724786758423
+    },
+    {
+      "source_id": "624",
+      "prompt": "a rocking chair next to the net of a tennis court",
+      "seed": 101,
+      "base_score": 40.16113579273224,
+      "base_diagnostics": {
+        "clipped_fraction": 0.000244140625,
+        "mean_saturation": 0.2022944986820221
+      },
+      "candidate_score": 39.77833390235901,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.000225067138671875,
+        "mean_saturation": 0.20152400434017181
+      },
+      "delta": -0.38280189037323
+    },
+    {
+      "source_id": "624",
+      "prompt": "a rocking chair next to the net of a tennis court",
+      "seed": 202,
+      "base_score": 40.816813707351685,
+      "base_diagnostics": {
+        "clipped_fraction": 0.014255523681640625,
+        "mean_saturation": 0.21036668121814728
+      },
+      "candidate_score": 41.00640416145325,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.015758514404296875,
+        "mean_saturation": 0.21064448356628418
+      },
+      "delta": 0.1895904541015625
+    },
+    {
+      "source_id": "624",
+      "prompt": "a rocking chair next to the net of a tennis court",
+      "seed": 303,
+      "base_score": 39.818158745765686,
+      "base_diagnostics": {
+        "clipped_fraction": 0.004161834716796875,
+        "mean_saturation": 0.14762526750564575
+      },
+      "candidate_score": 39.986222982406616,
+      "candidate_diagnostics": {
+        "clipped_fraction": 0.00391387939453125,
+        "mean_saturation": 0.15207159519195557
+      },
+      "delta": 0.16806423664093018
+    }
+  ]
+}
