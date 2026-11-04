@@ -1,0 +1,11 @@
+{
+  "mode": "mock",
+  "cpu_only": true,
+  "elapsed_ms": 0.19,
+  "output": "index.html",
+  "model_render": false,
+  "limitations": [
+    "No model weights are loaded",
+    "The animation is a UI and pipeline smoke test"
+  ]
+}

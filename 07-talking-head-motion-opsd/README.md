@@ -12,6 +12,25 @@
 
 ---
 
+## Run the demo first
+
+The complete demo path is documented in [`docs/DEMO.md`](docs/DEMO.md). It includes a dependency-free CPU mock, a CUDA render command with wall-clock and sampled VRAM reporting, pre-generated held-out comparisons, weight download instructions, and failure diagnosis.
+
+```bash
+# CPU-only mock: no model weights, no CUDA
+python3 scripts/demo.py --mode mock
+
+# Real GPU render: Base + three calibrated adapters, matched inputs
+bash scripts/h20_render_setup.sh
+python3 scripts/demo.py --mode gpu --seconds 4 --seed 0 --out outputs/demo/gpu_r3
+```
+
+The checked-in visual comparison is [female Base vs calibrated GIF](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) and [male Base vs calibrated GIF](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif). The mock is a pipeline/UI smoke test; only the GPU path loads the model.
+
+## Contribution boundary
+
+This project is an independent domain adaptation built on public methods and open-source components. `DiffusionOPSD` supplies the public OPSD method description; JoyVASA supplies the audio-to-motion backbone; LivePortrait supplies the frozen renderer. The contribution here is the motion-space reward design, bounded target construction, LoRA training integration, failure diagnosis, and held-out evaluation protocol—not ownership of those upstream models or the original OPSD algorithm.
+
 ## 📌 ABSTRACT
 
 > **DiffusionOPSD optimizes against a single scalar image-preference reward. Can the same reward-guided fine-tuning mechanism be retargeted to a human-motion domain, driven by motion statistics measured from real speakers instead of visual preference alone, while staying inside explicit, pre-registered failure gates?**

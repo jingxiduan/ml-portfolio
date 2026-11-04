@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" role="img" aria-label="CPU mock talking-head comparison">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#243b62"/></linearGradient>
+    <linearGradient id="skin" x1="0" x2="1"><stop stop-color="#f3c7ab"/><stop offset="1" stop-color="#d89477"/></linearGradient>
+    <style>
+      .panel { fill: #0b1220; stroke: #405477; stroke-width: 3; }
+      .label { font: 700 25px sans-serif; fill: #e8eefc; }
+      .sub { font: 16px sans-serif; fill: #9eb0d2; }
+      .head { fill: url(#skin); stroke: #8a5a4b; stroke-width: 4; transform-box: fill-box; transform-origin: center; }
+      .mouth { fill: #9c4b55; transform-box: fill-box; transform-origin: center; }
+      .calibrated .head { animation: nod 1.2s ease-in-out infinite alternate; }
+      .calibrated .mouth { animation: speak 0.42s ease-in-out infinite alternate; }
+      .base .mouth { animation: speak 0.42s ease-in-out infinite alternate; animation-delay: .15s; }
+      @keyframes nod { from { transform: rotate(-2deg) translateY(2px); } to { transform: rotate(2deg) translateY(-3px); } }
+      @keyframes speak { from { transform: scaleY(.45); } to { transform: scaleY(1.55); } }
+    </style>
+  </defs>
+  <rect width="1200" height="540" rx="28" fill="url(#bg)"/>
+  <g transform="translate(35 32)"><rect class="panel" width="545" height="476" rx="22"/><text class="label" x="28" y="42">BASE</text><text class="sub" x="28" y="68">frozen motion policy</text>
+    <g class="base" transform="translate(272 270)"><ellipse class="head" cx="0" cy="0" rx="125" ry="155"/><circle cx="-45" cy="-18" r="10" fill="#182235"/><circle cx="45" cy="-18" r="10" fill="#182235"/><path d="M-42 55 Q0 65 42 55" fill="none" stroke="#7f3c45" stroke-width="9" stroke-linecap="round"/><ellipse class="mouth" cx="0" cy="56" rx="22" ry="7"/></g>
+  </g>
+  <g transform="translate(620 32)"><rect class="panel" width="545" height="476" rx="22"/><text class="label" x="28" y="42">CALIBRATED POLICY</text><text class="sub" x="28" y="68">bounded expression target</text>
+    <g class="calibrated" transform="translate(272 270)"><ellipse class="head" cx="0" cy="0" rx="125" ry="155"/><circle cx="-45" cy="-18" r="10" fill="#182235"/><circle cx="45" cy="-18" r="10" fill="#182235"/><path d="M-42 55 Q0 75 42 55" fill="none" stroke="#7f3c45" stroke-width="9" stroke-linecap="round"/><ellipse class="mouth" cx="0" cy="56" rx="22" ry="7"/></g>
+  </g>
+</svg>

@@ -4,7 +4,7 @@
 
 **From ranking and feedback control to preference alignment and multimodal generative-model post-training**
 
-[Jingxi Duan](https://github.com/jingxiduan) · [Project status](PROJECT_STATUS.md) · [Talking-head research](07-talking-head-motion-opsd) · [I2V research](08-video-opsd-i2v)
+[Jingxi Duan](https://github.com/jingxiduan) · [Project status](PROJECT_STATUS.md) · [Talking-head research](07-talking-head-motion-opsd) · [Run the demo](07-talking-head-motion-opsd/docs/DEMO.md) · [I2V research](08-video-opsd-i2v)
 
 </div>
 
