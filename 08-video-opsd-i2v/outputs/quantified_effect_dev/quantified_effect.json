@@ -1,0 +1,3187 @@
+{
+  "formula": {
+    "effective_update": "DeltaW = inference_scale * (alpha / rank) * B @ A",
+    "effective_update_ratio": "U = sqrt(sum ||DeltaW||_F^2) / (sqrt(sum ||W_base||_F^2) + eps)",
+    "quality": "Q = 0.35*C_safe + 0.25*N + 0.20*D_safe + 0.20*T_safe",
+    "caveat": "Q is a diagnostic composite, not a calibrated human perceptual metric; raw components are primary."
+  },
+  "training": {
+    "adapter_root": "outputs/opsd_long_v4_gradclip_rerun",
+    "scale_for_U": 0.05,
+    "scales_for_U": [
+      0.01,
+      0.02,
+      0.05
+    ],
+    "alpha": 32,
+    "rank": 16,
+    "checkpoints": [
+      {
+        "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00050/adapter_model.safetensors",
+        "inference_scale": 0.05,
+        "lora_alpha": 32.0,
+        "lora_rank": 16,
+        "modules": 136,
+        "effective_delta_frobenius": 0.011526879940331964,
+        "base_target_frobenius": 224.96613233198266,
+        "effective_update_ratio": 5.123829005212966e-05,
+        "step": 50
+      },
+      {
+        "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00100/adapter_model.safetensors",
+        "inference_scale": 0.05,
+        "lora_alpha": 32.0,
+        "lora_rank": 16,
+        "modules": 136,
+        "effective_delta_frobenius": 0.030299646834266104,
+        "base_target_frobenius": 224.96613233198266,
+        "effective_update_ratio": 0.00013468537028299337,
+        "step": 100
+      },
+      {
+        "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00500/adapter_model.safetensors",
+        "inference_scale": 0.05,
+        "lora_alpha": 32.0,
+        "lora_rank": 16,
+        "modules": 136,
+        "effective_delta_frobenius": 0.17053265544683952,
+        "base_target_frobenius": 224.96613233198266,
+        "effective_update_ratio": 0.0007580370150791569,
+        "step": 500
+      },
+      {
+        "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01000/adapter_model.safetensors",
+        "inference_scale": 0.05,
+        "lora_alpha": 32.0,
+        "lora_rank": 16,
+        "modules": 136,
+        "effective_delta_frobenius": 0.3387173591007974,
+        "base_target_frobenius": 224.96613233198266,
+        "effective_update_ratio": 0.0015056371178615922,
+        "step": 1000
+      },
+      {
+        "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01500/adapter_model.safetensors",
+        "inference_scale": 0.05,
+        "lora_alpha": 32.0,
+        "lora_rank": 16,
+        "modules": 136,
+        "effective_delta_frobenius": 0.4314085892197573,
+        "base_target_frobenius": 224.96613233198266,
+        "effective_update_ratio": 0.0019176601595440395,
+        "step": 1500
+      },
+      {
+        "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step02000/adapter_model.safetensors",
+        "inference_scale": 0.05,
+        "lora_alpha": 32.0,
+        "lora_rank": 16,
+        "modules": 136,
+        "effective_delta_frobenius": 0.442821515826804,
+        "base_target_frobenius": 224.96613233198266,
+        "effective_update_ratio": 0.001968391914091896,
+        "step": 2000
+      }
+    ],
+    "checkpoints_by_scale": {
+      "0.01": [
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00050/adapter_model.safetensors",
+          "inference_scale": 0.01,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.0023053758981826096,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 1.0247657610882312e-05,
+          "step": 50
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00100/adapter_model.safetensors",
+          "inference_scale": 0.01,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.006059929153841806,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 2.693707310973875e-05,
+          "step": 100
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00500/adapter_model.safetensors",
+          "inference_scale": 0.01,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.03410652981618787,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0001516073973564016,
+          "step": 500
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01000/adapter_model.safetensors",
+          "inference_scale": 0.01,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.06774346839363096,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.00030112740834101014,
+          "step": 1000
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01500/adapter_model.safetensors",
+          "inference_scale": 0.01,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.08628171476878482,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.00038353201823934305,
+          "step": 1500
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step02000/adapter_model.safetensors",
+          "inference_scale": 0.01,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.08856429860211046,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.00039367836253421327,
+          "step": 2000
+        }
+      ],
+      "0.02": [
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00050/adapter_model.safetensors",
+          "inference_scale": 0.02,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.004610751796365219,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 2.0495315221764624e-05,
+          "step": 50
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00100/adapter_model.safetensors",
+          "inference_scale": 0.02,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.012119858307683612,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 5.38741462194775e-05,
+          "step": 100
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00500/adapter_model.safetensors",
+          "inference_scale": 0.02,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.06821305963237574,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0003032147947128032,
+          "step": 500
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01000/adapter_model.safetensors",
+          "inference_scale": 0.02,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.13548693678726192,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0006022548166820203,
+          "step": 1000
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01500/adapter_model.safetensors",
+          "inference_scale": 0.02,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.17256342953756965,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0007670640364786861,
+          "step": 1500
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step02000/adapter_model.safetensors",
+          "inference_scale": 0.02,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.17712859720422092,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0007873567250684265,
+          "step": 2000
+        }
+      ],
+      "0.05": [
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00050/adapter_model.safetensors",
+          "inference_scale": 0.05,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.011526879940331964,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 5.123829005212966e-05,
+          "step": 50
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00100/adapter_model.safetensors",
+          "inference_scale": 0.05,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.030299646834266104,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.00013468537028299337,
+          "step": 100
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step00500/adapter_model.safetensors",
+          "inference_scale": 0.05,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.17053265544683952,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0007580370150791569,
+          "step": 500
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01000/adapter_model.safetensors",
+          "inference_scale": 0.05,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.3387173591007974,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0015056371178615922,
+          "step": 1000
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step01500/adapter_model.safetensors",
+          "inference_scale": 0.05,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.4314085892197573,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.0019176601595440395,
+          "step": 1500
+        },
+        {
+          "adapter": "outputs/opsd_long_v4_gradclip_rerun/lora_step02000/adapter_model.safetensors",
+          "inference_scale": 0.05,
+          "lora_alpha": 32.0,
+          "lora_rank": 16,
+          "modules": 136,
+          "effective_delta_frobenius": 0.442821515826804,
+          "base_target_frobenius": 224.96613233198266,
+          "effective_update_ratio": 0.001968391914091896,
+          "step": 2000
+        }
+      ]
+    }
+  },
+  "paired_videos": [
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step0500_scale0.01",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.2287852664788564,
+        "overexposed": 0.012123934427897136,
+        "sobel_p95": 32.37521203358968,
+        "frame_rms": 27.68853759765625,
+        "luminance_flicker": 13.121371567249298,
+        "naturalness": 0.987876065572103,
+        "dynamic": 0.4614756266276041
+      },
+      "mean_delta": {
+        "sat": 0.0004815484086672465,
+        "overexposed": 9.924570719401014e-05,
+        "sobel_p95": -0.04923725128173828,
+        "frame_rms": 0.20337899525960287,
+        "luminance_flicker": -0.025714755058288574,
+        "naturalness": -9.924570719401411e-05,
+        "dynamic": 0.003389649920993378
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8778177986568722,
+      "mean_delta_Q": 0.0026577770736329795,
+      "delta_Q_bootstrap_95ci": {
+        "mean": 0.0026577770736329795,
+        "lo": -0.004743957188788432,
+        "hi": 0.011666200345943123
+      },
+      "wins_delta_Q": 3,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.21344797313213348,
+            "overexposed": 0.02951469421386719,
+            "sobel_p95": 18.940418243408203,
+            "frame_rms": 31.24024772644043,
+            "luminance_flicker": 18.09038543701172,
+            "naturalness": 0.9704853057861328,
+            "dynamic": 0.5206707954406739
+          },
+          "delta": {
+            "sat": 0.0024146586656570435,
+            "overexposed": 0.0006851196289062514,
+            "sobel_p95": -0.20156478881835938,
+            "frame_rms": 0.02538299560546875,
+            "luminance_flicker": 0.2752857208251953,
+            "naturalness": -0.0006851196289062722,
+            "dynamic": 0.0004230499267577903
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.8039219851946784,
+          "delta_Q": -0.010719623997216154
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.2408495396375656,
+            "overexposed": 0.001971435546875,
+            "sobel_p95": 27.30135154724121,
+            "frame_rms": 31.88912010192871,
+            "luminance_flicker": 21.296905517578125,
+            "naturalness": 0.998028564453125,
+            "dynamic": 0.5314853350321452
+          },
+          "delta": {
+            "sat": -0.0002774447202682495,
+            "overexposed": -2.6702880859376735e-06,
+            "sobel_p95": 0.006664276123046875,
+            "frame_rms": 0.029096603393554688,
+            "luminance_flicker": 0.00363922119140625,
+            "naturalness": 2.670288085981909e-06,
+            "dynamic": 0.0004849433898925781
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.7997286798856719,
+          "delta_Q": 0.000222206344412057
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.38279661536216736,
+            "overexposed": 0.015460968017578125,
+            "sobel_p95": 55.901702880859375,
+            "frame_rms": 20.829221725463867,
+            "luminance_flicker": 8.239773750305176,
+            "naturalness": 0.9845390319824219,
+            "dynamic": 0.3471536954243978
+          },
+          "delta": {
+            "sat": 0.0011983215808868408,
+            "overexposed": -7.36236572265632e-05,
+            "sobel_p95": -0.13399887084960938,
+            "frame_rms": -0.17220115661621094,
+            "luminance_flicker": -0.20450401306152344,
+            "naturalness": 7.362365722651809e-05,
+            "dynamic": -0.0028700192769368638
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9151888281078172,
+          "delta_Q": 0.003515253660185347
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.1958337128162384,
+            "overexposed": 0.002642059326171875,
+            "sobel_p95": 34.725257873535156,
+            "frame_rms": 18.846227645874023,
+            "luminance_flicker": 1.2655504941940308,
+            "naturalness": 0.9973579406738281,
+            "dynamic": 0.3141037940979004
+          },
+          "delta": {
+            "sat": -0.00015473365783691406,
+            "overexposed": -3.662109375000009e-05,
+            "sobel_p95": 0.06980514526367188,
+            "frame_rms": 0.8870677947998047,
+            "luminance_flicker": -0.34447216987609863,
+            "naturalness": 3.6621093750022204e-05,
+            "dynamic": 0.014784463246663437
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 1.0063402976017923,
+          "delta_Q": 0.02311019434747419
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.1647939682006836,
+            "overexposed": 0.0023532867431640624,
+            "sobel_p95": 22.554370880126953,
+            "frame_rms": 39.74476623535156,
+            "luminance_flicker": 24.484615325927734,
+            "naturalness": 0.997646713256836,
+            "dynamic": 0.6624127705891927
+          },
+          "delta": {
+            "sat": -0.00019732117652893066,
+            "overexposed": -0.0001010894775390625,
+            "sobel_p95": -0.0066585540771484375,
+            "frame_rms": -0.016162872314453125,
+            "luminance_flicker": -0.004352569580078125,
+            "naturalness": 0.0001010894775390625,
+            "dynamic": -0.0002693812052408928
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.7993440747991446,
+          "delta_Q": -4.233114567953056e-05
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17498978972434998,
+            "overexposed": 0.02080116271972656,
+            "sobel_p95": 34.82817077636719,
+            "frame_rms": 23.581642150878906,
+            "luminance_flicker": 5.350998878479004,
+            "naturalness": 0.9791988372802735,
+            "dynamic": 0.3930273691813151
+          },
+          "delta": {
+            "sat": -9.419023990631104e-05,
+            "overexposed": 0.00012435913085937292,
+            "sobel_p95": -0.02967071533203125,
+            "frame_rms": 0.4670906066894531,
+            "luminance_flicker": 0.12011528015136719,
+            "naturalness": -0.0001243591308593972,
+            "dynamic": 0.007784843444824219
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9423829263521288,
+          "delta_Q": -0.00013903676737803128
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step0500_scale0.02",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22865313539902368,
+        "overexposed": 0.012085405985514323,
+        "sobel_p95": 32.382968266805015,
+        "frame_rms": 27.757260004679363,
+        "luminance_flicker": 13.148482124010721,
+        "naturalness": 0.9879145940144857,
+        "dynamic": 0.4626210000779894
+      },
+      "mean_delta": {
+        "sat": 0.0003494173288345337,
+        "overexposed": 6.071726481119741e-05,
+        "sobel_p95": -0.04148101806640625,
+        "frame_rms": 0.27210140228271484,
+        "luminance_flicker": 0.0013958017031351726,
+        "naturalness": -6.071726481121642e-05,
+        "dynamic": 0.004535023371378566
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8777522888274923,
+      "mean_delta_Q": 0.002592267244253229,
+      "delta_Q_bootstrap_95ci": {
+        "mean": 0.002592267244253229,
+        "lo": -0.005165135164449626,
+        "hi": 0.012732064800480522
+      },
+      "wins_delta_Q": 4,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.21363885700702667,
+            "overexposed": 0.0295257568359375,
+            "sobel_p95": 18.999996185302734,
+            "frame_rms": 31.4390926361084,
+            "luminance_flicker": 18.22016143798828,
+            "naturalness": 0.9704742431640625,
+            "dynamic": 0.5239848772684733
+          },
+          "delta": {
+            "sat": 0.002605542540550232,
+            "overexposed": 0.0006961822509765625,
+            "sobel_p95": -0.14198684692382812,
+            "frame_rms": 0.2242279052734375,
+            "luminance_flicker": 0.4050617218017578,
+            "naturalness": -0.0006961822509765625,
+            "dynamic": 0.0037371317545572547
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.8031783228598355,
+          "delta_Q": -0.011463286332059064
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.24155214428901672,
+            "overexposed": 0.0019710540771484377,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.81960105895996,
+            "luminance_flicker": 21.239219665527344,
+            "naturalness": 0.9980289459228515,
+            "dynamic": 0.5303266843159994
+          },
+          "delta": {
+            "sat": 0.00042515993118286133,
+            "overexposed": -3.0517578124998265e-06,
+            "sobel_p95": 0.0,
+            "frame_rms": -0.04042243957519531,
+            "luminance_flicker": -0.054046630859375,
+            "naturalness": 3.051757812455591e-06,
+            "dynamic": -0.00067370732625327
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.7999742807569371,
+          "delta_Q": 0.0004678072156772961
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.38299864530563354,
+            "overexposed": 0.015364456176757812,
+            "sobel_p95": 55.879066467285156,
+            "frame_rms": 20.906084060668945,
+            "luminance_flicker": 8.304631233215332,
+            "naturalness": 0.9846355438232421,
+            "dynamic": 0.3484347343444824
+          },
+          "delta": {
+            "sat": 0.0014003515243530273,
+            "overexposed": -0.0001701354980468764,
+            "sobel_p95": -0.15663528442382812,
+            "frame_rms": -0.09533882141113281,
+            "luminance_flicker": -0.1396465301513672,
+            "naturalness": 0.00017013549804678618,
+            "dynamic": -0.001588980356852232
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.914019710631685,
+          "delta_Q": 0.0023461361840531048
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19520480930805206,
+            "overexposed": 0.0026332855224609373,
+            "sobel_p95": 34.72335433959961,
+            "frame_rms": 18.88442611694336,
+            "luminance_flicker": 1.2262094020843506,
+            "naturalness": 0.9973667144775391,
+            "dynamic": 0.3147404352823893
+          },
+          "delta": {
+            "sat": -0.0007836371660232544,
+            "overexposed": -4.539489746093785e-05,
+            "sobel_p95": 0.067901611328125,
+            "frame_rms": 0.9252662658691406,
+            "luminance_flicker": -0.3838132619857788,
+            "naturalness": 4.539489746102632e-05,
+            "dynamic": 0.015421104431152355
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 1.008210405061845,
+          "delta_Q": 0.02498030180752686
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.1649358719587326,
+            "overexposed": 0.0022823333740234373,
+            "sobel_p95": 22.472204208374023,
+            "frame_rms": 39.72866439819336,
+            "luminance_flicker": 24.486740112304688,
+            "naturalness": 0.9977176666259766,
+            "dynamic": 0.6621444066365559
+          },
+          "delta": {
+            "sat": -5.5417418479919434e-05,
+            "overexposed": -0.0001720428466796876,
+            "sobel_p95": -0.08882522583007812,
+            "frame_rms": -0.03226470947265625,
+            "luminance_flicker": -0.002227783203125,
+            "naturalness": 0.0001720428466797097,
+            "dynamic": -0.0005377451578776338
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.7980239459253963,
+          "delta_Q": -0.001362460019427858
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17358848452568054,
+            "overexposed": 0.020735549926757812,
+            "sobel_p95": 34.92850112915039,
+            "frame_rms": 23.76569175720215,
+            "luminance_flicker": 5.413930892944336,
+            "naturalness": 0.9792644500732421,
+            "dynamic": 0.3960948626200358
+          },
+          "delta": {
+            "sat": -0.0014954954385757446,
+            "overexposed": 5.874633789062361e-05,
+            "sobel_p95": 0.07065963745117188,
+            "frame_rms": 0.6511402130126953,
+            "luminance_flicker": 0.18304729461669922,
+            "naturalness": -5.874633789071382e-05,
+            "dynamic": 0.010852336883544922
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9431070677292559,
+          "delta_Q": 0.000585104609749032
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step0500_scale0.05",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22896592815717062,
+        "overexposed": 0.012276204427083331,
+        "sobel_p95": 32.35845184326172,
+        "frame_rms": 28.165643056233723,
+        "luminance_flicker": 13.576649208863577,
+        "naturalness": 0.9877237955729167,
+        "dynamic": 0.469427384270562
+      },
+      "mean_delta": {
+        "sat": 0.0006622100869814554,
+        "overexposed": 0.0002515157063802077,
+        "sobel_p95": -0.06599744160970052,
+        "frame_rms": 0.6804844538370768,
+        "luminance_flicker": 0.42956288655598956,
+        "naturalness": -0.00025151570638021203,
+        "dynamic": 0.011341407563951272
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8706558008816717,
+      "mean_delta_Q": -0.004504220701567567,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.004504220701567567,
+        "lo": -0.023195676266059135,
+        "hi": 0.011582601538924986
+      },
+      "wins_delta_Q": 3,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.2138632833957672,
+            "overexposed": 0.031623458862304686,
+            "sobel_p95": 19.235370635986328,
+            "frame_rms": 34.379150390625,
+            "luminance_flicker": 20.938507080078125,
+            "naturalness": 0.9683765411376953,
+            "dynamic": 0.57298583984375
+          },
+          "delta": {
+            "sat": 0.0028299689292907715,
+            "overexposed": 0.0027938842773437486,
+            "sobel_p95": 0.09338760375976562,
+            "frame_rms": 3.164285659790039,
+            "luminance_flicker": 3.1234073638916016,
+            "naturalness": -0.002793884277343728,
+            "dynamic": 0.052738094329833896
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7701897656750707,
+          "delta_Q": -0.04445184351682385
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.23972204327583313,
+            "overexposed": 0.0019073486328125,
+            "sobel_p95": 27.202953338623047,
+            "frame_rms": 31.68586540222168,
+            "luminance_flicker": 21.121402740478516,
+            "naturalness": 0.9980926513671875,
+            "dynamic": 0.5280977567036946
+          },
+          "delta": {
+            "sat": -0.0014049410820007324,
+            "overexposed": -6.67572021484375e-05,
+            "sobel_p95": -0.09173393249511719,
+            "frame_rms": -0.17415809631347656,
+            "luminance_flicker": -0.17186355590820312,
+            "naturalness": 6.67572021484375e-05,
+            "dynamic": -0.002902634938558024
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.7995825279663887,
+          "delta_Q": 7.605442512892413e-05
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.382546603679657,
+            "overexposed": 0.0152862548828125,
+            "sobel_p95": 55.817115783691406,
+            "frame_rms": 21.026323318481445,
+            "luminance_flicker": 8.720072746276855,
+            "naturalness": 0.9847137451171875,
+            "dynamic": 0.3504387219746908
+          },
+          "delta": {
+            "sat": 0.0009483098983764648,
+            "overexposed": -0.0002483367919921889,
+            "sobel_p95": -0.21858596801757812,
+            "frame_rms": 0.024900436401367188,
+            "luminance_flicker": 0.27579498291015625,
+            "naturalness": 0.0002483367919920987,
+            "dynamic": 0.0004150072733561383
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9029468534470979,
+          "delta_Q": -0.008726721000533955
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19537244737148285,
+            "overexposed": 0.0026332855224609373,
+            "sobel_p95": 34.82148361206055,
+            "frame_rms": 18.64168930053711,
+            "luminance_flicker": 1.1490675210952759,
+            "naturalness": 0.9973667144775391,
+            "dynamic": 0.3106948216756185
+          },
+          "delta": {
+            "sat": -0.0006159991025924683,
+            "overexposed": -4.539489746093785e-05,
+            "sobel_p95": 0.1660308837890625,
+            "frame_rms": 0.6825294494628906,
+            "luminance_flicker": -0.4609551429748535,
+            "naturalness": 4.539489746102632e-05,
+            "dynamic": 0.011375490824381551
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 1.0093026754299483,
+          "delta_Q": 0.026072572175630193
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16486325860023499,
+            "overexposed": 0.001966094970703125,
+            "sobel_p95": 22.360687255859375,
+            "frame_rms": 39.91607666015625,
+            "luminance_flicker": 24.217544555664062,
+            "naturalness": 0.9980339050292969,
+            "dynamic": 0.6652679443359375
+          },
+          "delta": {
+            "sat": -0.00012803077697753906,
+            "overexposed": -0.00048828125,
+            "sobel_p95": -0.20034217834472656,
+            "frame_rms": 0.15514755249023438,
+            "luminance_flicker": -0.27142333984375,
+            "naturalness": 0.00048828125,
+            "dynamic": 0.0025857925415039285
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8008405029221495,
+          "delta_Q": 0.0014540969773253476
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17742793262004852,
+            "overexposed": 0.02024078369140625,
+            "sobel_p95": 34.71310043334961,
+            "frame_rms": 23.34475326538086,
+            "luminance_flicker": 5.313300609588623,
+            "naturalness": 0.9797592163085938,
+            "dynamic": 0.389079221089681
+          },
+          "delta": {
+            "sat": 0.0023439526557922363,
+            "overexposed": -0.0004360198974609382,
+            "sobel_p95": -0.14474105834960938,
+            "frame_rms": 0.23020172119140625,
+            "luminance_flicker": 0.08241701126098633,
+            "naturalness": 0.0004360198974608931,
+            "dynamic": 0.003836695353190145
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9410724798493748,
+          "delta_Q": -0.001449483270132057
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step1000_scale0.01",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22818655520677567,
+        "overexposed": 0.012018966674804685,
+        "sobel_p95": 32.42013740539551,
+        "frame_rms": 27.587324460347492,
+        "luminance_flicker": 13.101815303166708,
+        "naturalness": 0.9879810333251952,
+        "dynamic": 0.45978874100579165
+      },
+      "mean_delta": {
+        "sat": -0.00011716286341349284,
+        "overexposed": -5.722045898437717e-06,
+        "sobel_p95": -0.004311879475911458,
+        "frame_rms": 0.10216585795084636,
+        "luminance_flicker": -0.04527101914087931,
+        "naturalness": 5.7220458984375e-06,
+        "dynamic": 0.0017027642991807774
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8774486116478223,
+      "mean_delta_Q": 0.002288590064582966,
+      "delta_Q_bootstrap_95ci": {
+        "mean": 0.002288590064582966,
+        "lo": -0.0033730057423076256,
+        "hi": 0.01038497621254055
+      },
+      "wins_delta_Q": 4,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.20995347201824188,
+            "overexposed": 0.029203033447265624,
+            "sobel_p95": 18.93046760559082,
+            "frame_rms": 30.9802303314209,
+            "luminance_flicker": 17.878509521484375,
+            "naturalness": 0.9707969665527344,
+            "dynamic": 0.5163371721903484
+          },
+          "delta": {
+            "sat": -0.001079842448234558,
+            "overexposed": 0.0003734588623046861,
+            "sobel_p95": -0.2115154266357422,
+            "frame_rms": -0.2346343994140625,
+            "luminance_flicker": 0.06340980529785156,
+            "naturalness": -0.0003734588623046653,
+            "dynamic": -0.003910573323567701
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.8074081434157502,
+          "delta_Q": -0.0072334657761443655
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.24099452793598175,
+            "overexposed": 0.001969146728515625,
+            "sobel_p95": 27.29470443725586,
+            "frame_rms": 31.81301498413086,
+            "luminance_flicker": 21.224098205566406,
+            "naturalness": 0.9980308532714843,
+            "dynamic": 0.5302169164021809
+          },
+          "delta": {
+            "sat": -0.00013245642185211182,
+            "overexposed": -4.9591064453123265e-06,
+            "sobel_p95": 1.71661376953125e-05,
+            "frame_rms": -0.047008514404296875,
+            "luminance_flicker": -0.0691680908203125,
+            "naturalness": 4.959106445268091e-06,
+            "dynamic": -0.0007834752400717182
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8001362852504246,
+          "delta_Q": 0.0006298117091647626
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.3820616602897644,
+            "overexposed": 0.01539764404296875,
+            "sobel_p95": 56.00892639160156,
+            "frame_rms": 21.038599014282227,
+            "luminance_flicker": 8.53057861328125,
+            "naturalness": 0.9846023559570313,
+            "dynamic": 0.3506433169047038
+          },
+          "delta": {
+            "sat": 0.0004633665084838867,
+            "overexposed": -0.00013694763183593785,
+            "sobel_p95": -0.026775360107421875,
+            "frame_rms": 0.03717613220214844,
+            "luminance_flicker": 0.08630084991455078,
+            "naturalness": 0.0001369476318359153,
+            "dynamic": 0.0006196022033691517
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9095399362440579,
+          "delta_Q": -0.0021336382035739287
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19547893106937408,
+            "overexposed": 0.00261993408203125,
+            "sobel_p95": 34.8145751953125,
+            "frame_rms": 18.776016235351562,
+            "luminance_flicker": 1.3284826278686523,
+            "naturalness": 0.9973800659179688,
+            "dynamic": 0.31293360392252606
+          },
+          "delta": {
+            "sat": -0.0005095154047012329,
+            "overexposed": -5.874633789062535e-05,
+            "sobel_p95": 0.15912246704101562,
+            "frame_rms": 0.8168563842773438,
+            "luminance_flicker": -0.28154003620147705,
+            "naturalness": 5.874633789071382e-05,
+            "dynamic": 0.013614273071289096
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 1.0041970109828633,
+          "delta_Q": 0.020966907728545148
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.1641099750995636,
+            "overexposed": 0.0023700714111328123,
+            "sobel_p95": 22.561025619506836,
+            "frame_rms": 39.62512969970703,
+            "luminance_flicker": 24.365705490112305,
+            "naturalness": 0.9976299285888672,
+            "dynamic": 0.6604188283284506
+          },
+          "delta": {
+            "sat": -0.0008813142776489258,
+            "overexposed": -8.430480957031259e-05,
+            "sobel_p95": -3.814697265625e-06,
+            "frame_rms": -0.13579940795898438,
+            "luminance_flicker": -0.12326240539550781,
+            "naturalness": 8.43048095703347e-05,
+            "dynamic": -0.0022633234659830137
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8002993665288411,
+          "delta_Q": 0.0009129605840170196
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17652076482772827,
+            "overexposed": 0.020553970336914064,
+            "sobel_p95": 34.91112518310547,
+            "frame_rms": 23.290956497192383,
+            "luminance_flicker": 5.283517360687256,
+            "naturalness": 0.9794460296630859,
+            "dynamic": 0.3881826082865397
+          },
+          "delta": {
+            "sat": 0.0014367848634719849,
+            "overexposed": -0.0001228332519531243,
+            "sobel_p95": 0.05328369140625,
+            "frame_rms": 0.1764049530029297,
+            "luminance_flicker": 0.05263376235961914,
+            "naturalness": 0.0001228332519530584,
+            "dynamic": 0.0029400825500488503
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.943110927464996,
+          "delta_Q": 0.0005889643454891624
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step1000_scale0.02",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.2287349154551824,
+        "overexposed": 0.012360064188639323,
+        "sobel_p95": 32.4450470606486,
+        "frame_rms": 27.93347962697347,
+        "luminance_flicker": 13.51751466592153,
+        "naturalness": 0.9876399358113606,
+        "dynamic": 0.4655579937828911
+      },
+      "mean_delta": {
+        "sat": 0.0004311973849932353,
+        "overexposed": 0.0003353754679361977,
+        "sobel_p95": 0.02059777577718099,
+        "frame_rms": 0.44832102457682294,
+        "luminance_flicker": 0.37042834361394245,
+        "naturalness": -0.0003353754679362164,
+        "dynamic": 0.00747201707628035
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8703166666507576,
+      "mean_delta_Q": -0.004843354932481669,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.004843354932481669,
+        "lo": -0.020471180822577106,
+        "hi": 0.005544413682628498
+      },
+      "wins_delta_Q": 4,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.21375450491905212,
+            "overexposed": 0.03183174133300781,
+            "sobel_p95": 19.303667068481445,
+            "frame_rms": 34.25160217285156,
+            "luminance_flicker": 20.740251541137695,
+            "naturalness": 0.9681682586669922,
+            "dynamic": 0.5708600362141927
+          },
+          "delta": {
+            "sat": 0.0027211904525756836,
+            "overexposed": 0.003002166748046875,
+            "sobel_p95": 0.1616840362548828,
+            "frame_rms": 3.0367374420166016,
+            "luminance_flicker": 2.925151824951172,
+            "naturalness": -0.003002166748046875,
+            "dynamic": 0.05061229070027662
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7728885822073343,
+          "delta_Q": -0.04175302698456029
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.23921923339366913,
+            "overexposed": 0.0019527435302734374,
+            "sobel_p95": 27.313007354736328,
+            "frame_rms": 31.495777130126953,
+            "luminance_flicker": 20.933380126953125,
+            "naturalness": 0.9980472564697266,
+            "dynamic": 0.5249296188354492
+          },
+          "delta": {
+            "sat": -0.0019077509641647339,
+            "overexposed": -2.1362304687500087e-05,
+            "sobel_p95": 0.018320083618164062,
+            "frame_rms": -0.3642463684082031,
+            "luminance_flicker": -0.35988616943359375,
+            "naturalness": 2.1362304687522204e-05,
+            "dynamic": -0.006070772806803459
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8022806113556905,
+          "delta_Q": 0.0027741378144306994
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.38281580805778503,
+            "overexposed": 0.015251922607421874,
+            "sobel_p95": 55.96792984008789,
+            "frame_rms": 21.00901222229004,
+            "luminance_flicker": 8.55161190032959,
+            "naturalness": 0.9847480773925781,
+            "dynamic": 0.35015020370483396
+          },
+          "delta": {
+            "sat": 0.0012175142765045166,
+            "overexposed": -0.0002826690673828139,
+            "sobel_p95": -0.06777191162109375,
+            "frame_rms": 0.0075893402099609375,
+            "luminance_flicker": 0.10733413696289062,
+            "naturalness": 0.0002826690673827237,
+            "dynamic": 0.00012648900349931935
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9085729583523654,
+          "delta_Q": -0.003100616095266462
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19552448391914368,
+            "overexposed": 0.00264434814453125,
+            "sobel_p95": 34.69702911376953,
+            "frame_rms": 18.401615142822266,
+            "luminance_flicker": 1.4534156322479248,
+            "naturalness": 0.9973556518554687,
+            "dynamic": 0.3066935857137044
+          },
+          "delta": {
+            "sat": -0.0004639625549316406,
+            "overexposed": -3.4332275390625e-05,
+            "sobel_p95": 0.041576385498046875,
+            "frame_rms": 0.4424552917480469,
+            "luminance_flicker": -0.1566070318222046,
+            "naturalness": 3.4332275390625e-05,
+            "dynamic": 0.007374254862467455
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9942254101666841,
+          "delta_Q": 0.010995306912365943
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.1640791893005371,
+            "overexposed": 0.00225677490234375,
+            "sobel_p95": 22.524066925048828,
+            "frame_rms": 39.54884719848633,
+            "luminance_flicker": 24.255647659301758,
+            "naturalness": 0.9977432250976562,
+            "dynamic": 0.6591474533081054
+          },
+          "delta": {
+            "sat": -0.000912100076675415,
+            "overexposed": -0.00019760131835937483,
+            "sobel_p95": -0.03696250915527344,
+            "frame_rms": -0.2120819091796875,
+            "luminance_flicker": -0.2333202362060547,
+            "naturalness": 0.0001976013183593306,
+            "dynamic": -0.003534698486328147
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8008034350634553,
+          "delta_Q": 0.0014170291186311745
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.1770162731409073,
+            "overexposed": 0.020222854614257813,
+            "sobel_p95": 34.86458206176758,
+            "frame_rms": 22.894023895263672,
+            "luminance_flicker": 5.170781135559082,
+            "naturalness": 0.9797771453857422,
+            "dynamic": 0.3815670649210612
+          },
+          "delta": {
+            "sat": 0.001932293176651001,
+            "overexposed": -0.000453948974609375,
+            "sobel_p95": 0.006740570068359375,
+            "frame_rms": -0.22052764892578125,
+            "luminance_flicker": -0.06010246276855469,
+            "naturalness": 0.000453948974609375,
+            "dynamic": -0.0036754608154296875
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9431290027590158,
+          "delta_Q": 0.0006070396395089217
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step1000_scale0.05",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22800313929716745,
+        "overexposed": 0.012633641560872396,
+        "sobel_p95": 32.37744172414144,
+        "frame_rms": 28.189106941223145,
+        "luminance_flicker": 13.78261935710907,
+        "naturalness": 0.9873663584391276,
+        "dynamic": 0.46981844902038583
+      },
+      "mean_delta": {
+        "sat": -0.000300578773021698,
+        "overexposed": 0.0006089528401692712,
+        "sobel_p95": -0.04700756072998047,
+        "frame_rms": 0.7039483388264974,
+        "luminance_flicker": 0.6355330348014832,
+        "naturalness": -0.0006089528401692634,
+        "dynamic": 0.011732472313774963
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8667071949709292,
+      "mean_delta_Q": -0.008452826612310041,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.008452826612310041,
+        "lo": -0.029480778921877282,
+        "hi": 0.005794119910932612
+      },
+      "wins_delta_Q": 3,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.20731937885284424,
+            "overexposed": 0.03388671875,
+            "sobel_p95": 19.172168731689453,
+            "frame_rms": 36.66482925415039,
+            "luminance_flicker": 22.90818214416504,
+            "naturalness": 0.96611328125,
+            "dynamic": 0.6110804875691732
+          },
+          "delta": {
+            "sat": -0.003713935613632202,
+            "overexposed": 0.005057144165039065,
+            "sobel_p95": 0.030185699462890625,
+            "frame_rms": 5.44996452331543,
+            "luminance_flicker": 5.093082427978516,
+            "naturalness": -0.005057144165039107,
+            "dynamic": 0.09083274205525715
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7568693087313403,
+          "delta_Q": -0.05777230046055426
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.2376459538936615,
+            "overexposed": 0.0019428253173828125,
+            "sobel_p95": 27.36582374572754,
+            "frame_rms": 30.995258331298828,
+            "luminance_flicker": 20.385852813720703,
+            "naturalness": 0.9980571746826172,
+            "dynamic": 0.5165876388549805
+          },
+          "delta": {
+            "sat": -0.0034810304641723633,
+            "overexposed": -3.128051757812496e-05,
+            "sobel_p95": 0.071136474609375,
+            "frame_rms": -0.8647651672363281,
+            "luminance_flicker": -0.9074134826660156,
+            "naturalness": 3.128051757816941e-05,
+            "dynamic": -0.014412752787272165
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8072456349277373,
+          "delta_Q": 0.0077391613864774556
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.3833024799823761,
+            "overexposed": 0.014960861206054688,
+            "sobel_p95": 55.767555236816406,
+            "frame_rms": 21.057941436767578,
+            "luminance_flicker": 8.861050605773926,
+            "naturalness": 0.9850391387939453,
+            "dynamic": 0.350965690612793
+          },
+          "delta": {
+            "sat": 0.001704186201095581,
+            "overexposed": -0.0005737304687500003,
+            "sobel_p95": -0.2681465148925781,
+            "frame_rms": 0.0565185546875,
+            "luminance_flicker": 0.41677284240722656,
+            "naturalness": 0.0005737304687499778,
+            "dynamic": 0.000941975911458337
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.8993188950344831,
+          "delta_Q": -0.012354679413148717
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.1952248066663742,
+            "overexposed": 0.002616119384765625,
+            "sobel_p95": 34.71311569213867,
+            "frame_rms": 18.154443740844727,
+            "luminance_flicker": 1.476189374923706,
+            "naturalness": 0.9973838806152344,
+            "dynamic": 0.30257406234741213
+          },
+          "delta": {
+            "sat": -0.0007636398077011108,
+            "overexposed": -6.256103515625035e-05,
+            "sobel_p95": 0.0576629638671875,
+            "frame_rms": 0.1952838897705078,
+            "luminance_flicker": -0.13383328914642334,
+            "naturalness": 6.256103515633882e-05,
+            "dynamic": 0.003254731496175167
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9908456411335936,
+          "delta_Q": 0.007615537879275491
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16366848349571228,
+            "overexposed": 0.0020809173583984375,
+            "sobel_p95": 22.472206115722656,
+            "frame_rms": 39.404701232910156,
+            "luminance_flicker": 23.90675926208496,
+            "naturalness": 0.9979190826416016,
+            "dynamic": 0.6567450205485026
+          },
+          "delta": {
+            "sat": -0.0013228058815002441,
+            "overexposed": -0.0003734588623046874,
+            "sobel_p95": -0.08882331848144531,
+            "frame_rms": -0.3562278747558594,
+            "luminance_flicker": -0.5822086334228516,
+            "naturalness": 0.0003734588623046653,
+            "dynamic": -0.005937131245930982
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.803779859576598,
+          "delta_Q": 0.004393453631773903
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.18085773289203644,
+            "overexposed": 0.020314407348632813,
+            "sobel_p95": 34.773780822753906,
+            "frame_rms": 22.857467651367188,
+            "luminance_flicker": 5.157681941986084,
+            "naturalness": 0.9796855926513672,
+            "dynamic": 0.38095779418945314
+          },
+          "delta": {
+            "sat": 0.005773752927780151,
+            "overexposed": -0.000362396240234375,
+            "sobel_p95": -0.0840606689453125,
+            "frame_rms": -0.2570838928222656,
+            "luminance_flicker": -0.07320165634155273,
+            "naturalness": 0.000362396240234375,
+            "dynamic": -0.0042847315470377345
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9421838304218227,
+          "delta_Q": -0.0003381326976841237
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step1500_scale0.01",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22915625323851904,
+        "overexposed": 0.012065378824869792,
+        "sobel_p95": 32.38491757710775,
+        "frame_rms": 27.5018367767334,
+        "luminance_flicker": 13.130497972170511,
+        "naturalness": 0.9879346211751301,
+        "dynamic": 0.45836394627889
+      },
+      "mean_delta": {
+        "sat": 0.0008525351683298746,
+        "overexposed": 4.069010416666652e-05,
+        "sobel_p95": -0.039531707763671875,
+        "frame_rms": 0.0166781743367513,
+        "luminance_flicker": -0.016588350137074787,
+        "naturalness": -4.069010416668517e-05,
+        "dynamic": 0.00027796957227920377
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8750174815755577,
+      "mean_delta_Q": -0.00014254000768152789,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.00014254000768152789,
+        "lo": -0.005896966422648198,
+        "hi": 0.005263860692363768
+      },
+      "wins_delta_Q": 4,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.21373847126960754,
+            "overexposed": 0.029848861694335937,
+            "sobel_p95": 18.94857406616211,
+            "frame_rms": 31.26791763305664,
+            "luminance_flicker": 18.101537704467773,
+            "naturalness": 0.970151138305664,
+            "dynamic": 0.521131960550944
+          },
+          "delta": {
+            "sat": 0.0027051568031311035,
+            "overexposed": 0.0010192871093749993,
+            "sobel_p95": -0.19340896606445312,
+            "frame_rms": 0.05305290222167969,
+            "luminance_flicker": 0.28643798828125,
+            "naturalness": -0.0010192871093750444,
+            "dynamic": 0.0008842150370279578
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.8036710802960209,
+          "delta_Q": -0.010970528895873688
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.2415582686662674,
+            "overexposed": 0.0019378662109375,
+            "sobel_p95": 27.312999725341797,
+            "frame_rms": 31.705270767211914,
+            "luminance_flicker": 21.128620147705078,
+            "naturalness": 0.9980621337890625,
+            "dynamic": 0.528421179453532
+          },
+          "delta": {
+            "sat": 0.0004312843084335327,
+            "overexposed": -3.62396240234375e-05,
+            "sobel_p95": 0.018312454223632812,
+            "frame_rms": -0.1547527313232422,
+            "luminance_flicker": -0.16464614868164062,
+            "naturalness": 3.62396240234375e-05,
+            "dynamic": -0.002579212188720703
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8009970425031847,
+          "delta_Q": 0.0014905689619248985
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.38314083218574524,
+            "overexposed": 0.015336990356445312,
+            "sobel_p95": 55.94640350341797,
+            "frame_rms": 21.11741065979004,
+            "luminance_flicker": 8.673216819763184,
+            "naturalness": 0.9846630096435547,
+            "dynamic": 0.351956844329834
+          },
+          "delta": {
+            "sat": 0.0015425384044647217,
+            "overexposed": -0.0001976013183593757,
+            "sobel_p95": -0.08929824829101562,
+            "frame_rms": 0.11598777770996094,
+            "luminance_flicker": 0.22893905639648438,
+            "naturalness": 0.0001976013183593306,
+            "dynamic": 0.0019331296284993416
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9058838392306552,
+          "delta_Q": -0.005789735216976677
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19559521973133087,
+            "overexposed": 0.002622222900390625,
+            "sobel_p95": 34.70964050292969,
+            "frame_rms": 18.43621063232422,
+            "luminance_flicker": 1.4557015895843506,
+            "naturalness": 0.9973777770996094,
+            "dynamic": 0.30727017720540367
+          },
+          "delta": {
+            "sat": -0.0003932267427444458,
+            "overexposed": -5.645751953125026e-05,
+            "sobel_p95": 0.054187774658203125,
+            "frame_rms": 0.47705078125,
+            "luminance_flicker": -0.1543210744857788,
+            "naturalness": 5.645751953131661e-05,
+            "dynamic": 0.007950846354166707
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9946940237367546,
+          "delta_Q": 0.011463920482436496
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16423913836479187,
+            "overexposed": 0.00234222412109375,
+            "sobel_p95": 22.531078338623047,
+            "frame_rms": 39.57551956176758,
+            "luminance_flicker": 24.293031692504883,
+            "naturalness": 0.9976577758789062,
+            "dynamic": 0.6595919926961263
+          },
+          "delta": {
+            "sat": -0.0007521510124206543,
+            "overexposed": -0.00011215209960937491,
+            "sobel_p95": -0.029951095581054688,
+            "frame_rms": -0.1854095458984375,
+            "luminance_flicker": -0.1959362030029297,
+            "naturalness": 0.0001121520996093528,
+            "dynamic": -0.0030901590983072325
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8005079861604403,
+          "delta_Q": 0.001121580215616147
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17666558921337128,
+            "overexposed": 0.020304107666015626,
+            "sobel_p95": 34.860809326171875,
+            "frame_rms": 22.90869140625,
+            "luminance_flicker": 5.130879878997803,
+            "naturalness": 0.9796958923339844,
+            "dynamic": 0.3818115234375
+          },
+          "delta": {
+            "sat": 0.0015816092491149902,
+            "overexposed": -0.0003726959228515618,
+            "sobel_p95": 0.00296783447265625,
+            "frame_rms": -0.20586013793945312,
+            "luminance_flicker": -0.10000371932983398,
+            "naturalness": 0.0003726959228514959,
+            "dynamic": -0.0034310022989908484
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9443509175262905,
+          "delta_Q": 0.001828954406783656
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step1500_scale0.02",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.23011900732914606,
+        "overexposed": 0.012415949503580728,
+        "sobel_p95": 32.43084843953451,
+        "frame_rms": 27.80036799112956,
+        "luminance_flicker": 13.361907879511515,
+        "naturalness": 0.9875840504964192,
+        "dynamic": 0.46333946651882596
+      },
+      "mean_delta": {
+        "sat": 0.0018152892589569092,
+        "overexposed": 0.00039126078287760377,
+        "sobel_p95": 0.0063991546630859375,
+        "frame_rms": 0.31520938873291016,
+        "luminance_flicker": 0.21482155720392862,
+        "naturalness": -0.00039126078287761895,
+        "dynamic": 0.005253489812215156
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8711982905094541,
+      "mean_delta_Q": -0.003961731073785076,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.003961731073785076,
+        "lo": -0.02004850712613615,
+        "hi": 0.00793526708396075
+      },
+      "wins_delta_Q": 4,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.2198094129562378,
+            "overexposed": 0.032143783569335935,
+            "sobel_p95": 19.10497283935547,
+            "frame_rms": 33.50376510620117,
+            "luminance_flicker": 19.978403091430664,
+            "naturalness": 0.9678562164306641,
+            "dynamic": 0.5583960851033528
+          },
+          "delta": {
+            "sat": 0.008776098489761353,
+            "overexposed": 0.0033142089843749972,
+            "sobel_p95": -0.03701019287109375,
+            "frame_rms": 2.288900375366211,
+            "luminance_flicker": 2.1633033752441406,
+            "naturalness": -0.0033142089843749556,
+            "dynamic": 0.03814833958943675
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7746159900233739,
+          "delta_Q": -0.040025619168520654
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.24091434478759766,
+            "overexposed": 0.001953125,
+            "sobel_p95": 27.33721923828125,
+            "frame_rms": 31.49452781677246,
+            "luminance_flicker": 20.905258178710938,
+            "naturalness": 0.998046875,
+            "dynamic": 0.5249087969462077
+          },
+          "delta": {
+            "sat": -0.00021263957023620605,
+            "overexposed": -2.09808349609375e-05,
+            "sobel_p95": 0.04253196716308594,
+            "frame_rms": -0.3654956817626953,
+            "luminance_flicker": -0.38800811767578125,
+            "naturalness": 2.09808349609375e-05,
+            "dynamic": -0.006091594696044922
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8029648507353226,
+          "delta_Q": 0.003458377194062834
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.3822723925113678,
+            "overexposed": 0.01530609130859375,
+            "sobel_p95": 56.0023307800293,
+            "frame_rms": 21.054914474487305,
+            "luminance_flicker": 8.712967872619629,
+            "naturalness": 0.9846939086914063,
+            "dynamic": 0.35091524124145507
+          },
+          "delta": {
+            "sat": 0.0006740987300872803,
+            "overexposed": -0.00022850036621093785,
+            "sobel_p95": -0.0333709716796875,
+            "frame_rms": 0.05349159240722656,
+            "luminance_flicker": 0.2686901092529297,
+            "naturalness": 0.0002285003662109153,
+            "dynamic": 0.0008915265401204242
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9045426348082513,
+          "delta_Q": -0.007130939639380607
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19544698297977448,
+            "overexposed": 0.0026576995849609377,
+            "sobel_p95": 34.80399703979492,
+            "frame_rms": 18.604536056518555,
+            "luminance_flicker": 1.3835501670837402,
+            "naturalness": 0.997342300415039,
+            "dynamic": 0.3100756009419759
+          },
+          "delta": {
+            "sat": -0.0005414634943008423,
+            "overexposed": -2.09808349609375e-05,
+            "sobel_p95": 0.1485443115234375,
+            "frame_rms": 0.6453762054443359,
+            "luminance_flicker": -0.22647249698638916,
+            "naturalness": 2.09808349609375e-05,
+            "dynamic": 0.010756270090738929
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 1.0000951468823596,
+          "delta_Q": 0.01686504362804142
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16410556435585022,
+            "overexposed": 0.002153778076171875,
+            "sobel_p95": 22.497947692871094,
+            "frame_rms": 39.265167236328125,
+            "luminance_flicker": 24.038135528564453,
+            "naturalness": 0.9978462219238281,
+            "dynamic": 0.6544194539388021
+          },
+          "delta": {
+            "sat": -0.0008857250213623047,
+            "overexposed": -0.0003005981445312498,
+            "sobel_p95": -0.06308174133300781,
+            "frame_rms": -0.4957618713378906,
+            "luminance_flicker": -0.4508323669433594,
+            "naturalness": 0.0003005981445312056,
+            "dynamic": -0.008262697855631496
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8017601234229527,
+          "delta_Q": 0.002373717478128534
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17816534638404846,
+            "overexposed": 0.020281219482421876,
+            "sobel_p95": 34.838623046875,
+            "frame_rms": 22.879297256469727,
+            "luminance_flicker": 5.153132438659668,
+            "naturalness": 0.9797187805175781,
+            "dynamic": 0.3813216209411621
+          },
+          "delta": {
+            "sat": 0.0030813664197921753,
+            "overexposed": -0.0003955841064453118,
+            "sobel_p95": -0.01921844482421875,
+            "frame_rms": -0.23525428771972656,
+            "luminance_flicker": -0.07775115966796875,
+            "naturalness": 0.0003955841064452459,
+            "dynamic": -0.00392090479532875
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9432109971844649,
+          "delta_Q": 0.0006890340649580162
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step1500_scale0.05",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22806953390439352,
+        "overexposed": 0.012748781840006511,
+        "sobel_p95": 32.32872517903646,
+        "frame_rms": 28.08127244313558,
+        "luminance_flicker": 13.93221547206243,
+        "naturalness": 0.9872512181599936,
+        "dynamic": 0.46802120738559294
+      },
+      "mean_delta": {
+        "sat": -0.00023418416579564413,
+        "overexposed": 0.0007240931193033851,
+        "sobel_p95": -0.09572410583496094,
+        "frame_rms": 0.5961138407389323,
+        "luminance_flicker": 0.7851291497548422,
+        "naturalness": -0.0007240931193034003,
+        "dynamic": 0.009935230678982184
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8615498959682566,
+      "mean_delta_Q": -0.013610125614982649,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.013610125614982649,
+        "lo": -0.03391855439890836,
+        "hi": 0.0011856776466219188
+      },
+      "wins_delta_Q": 1,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.2058095484972,
+            "overexposed": 0.034507369995117186,
+            "sobel_p95": 18.99999237060547,
+            "frame_rms": 37.05337142944336,
+            "luminance_flicker": 23.10423469543457,
+            "naturalness": 0.9654926300048828,
+            "dynamic": 0.6175561904907226
+          },
+          "delta": {
+            "sat": -0.005223765969276428,
+            "overexposed": 0.005677795410156249,
+            "sobel_p95": -0.14199066162109375,
+            "frame_rms": 5.838506698608398,
+            "luminance_flicker": 5.289134979248047,
+            "naturalness": -0.005677795410156228,
+            "dynamic": 0.09730844497680657
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7535509146637449,
+          "delta_Q": -0.061090694528149636
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.23937228322029114,
+            "overexposed": 0.0018871307373046875,
+            "sobel_p95": 27.48150062561035,
+            "frame_rms": 30.807519912719727,
+            "luminance_flicker": 20.196897506713867,
+            "naturalness": 0.9981128692626953,
+            "dynamic": 0.5134586652119955
+          },
+          "delta": {
+            "sat": -0.0017547011375427246,
+            "overexposed": -8.697509765625004e-05,
+            "sobel_p95": 0.1868133544921875,
+            "frame_rms": -1.0525035858154297,
+            "luminance_flicker": -1.0963687896728516,
+            "naturalness": 8.697509765620559e-05,
+            "dynamic": -0.0175417264302572
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8102278437237351,
+          "delta_Q": 0.01072137018247532
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.38445860147476196,
+            "overexposed": 0.014805221557617187,
+            "sobel_p95": 55.65500259399414,
+            "frame_rms": 21.318328857421875,
+            "luminance_flicker": 8.883211135864258,
+            "naturalness": 0.9851947784423828,
+            "dynamic": 0.35530548095703124
+          },
+          "delta": {
+            "sat": 0.0028603076934814453,
+            "overexposed": -0.000729370117187501,
+            "sobel_p95": -0.38069915771484375,
+            "frame_rms": 0.3169059753417969,
+            "luminance_flicker": 0.4389333724975586,
+            "naturalness": 0.0007293701171874334,
+            "dynamic": 0.005281766255696596
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9006213879124115,
+          "delta_Q": -0.011052186535220332
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.1947391927242279,
+            "overexposed": 0.0025966644287109377,
+            "sobel_p95": 34.58838653564453,
+            "frame_rms": 17.632644653320312,
+            "luminance_flicker": 1.9309693574905396,
+            "naturalness": 0.997403335571289,
+            "dynamic": 0.29387741088867186
+          },
+          "delta": {
+            "sat": -0.0012492537498474121,
+            "overexposed": -8.20159912109375e-05,
+            "sobel_p95": -0.06706619262695312,
+            "frame_rms": -0.32651519775390625,
+            "luminance_flicker": 0.32094669342041016,
+            "naturalness": 8.20159912109375e-05,
+            "dynamic": -0.0054419199625651005
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9678933145132645,
+          "delta_Q": -0.015336788741053597
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16387085616588593,
+            "overexposed": 0.002008056640625,
+            "sobel_p95": 22.534360885620117,
+            "frame_rms": 39.14458465576172,
+            "luminance_flicker": 24.342443466186523,
+            "naturalness": 0.997991943359375,
+            "dynamic": 0.6524097442626953
+          },
+          "delta": {
+            "sat": -0.0011204332113265991,
+            "overexposed": -0.000446319580078125,
+            "sobel_p95": -0.026668548583984375,
+            "frame_rms": -0.6163444519042969,
+            "luminance_flicker": -0.14652442932128906,
+            "naturalness": 0.000446319580078125,
+            "dynamic": -0.010272407531738303
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.7980661204981813,
+          "delta_Q": -0.001320285446642866
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.18016672134399414,
+            "overexposed": 0.020688247680664063,
+            "sobel_p95": 34.71310806274414,
+            "frame_rms": 22.531185150146484,
+            "luminance_flicker": 5.1355366706848145,
+            "naturalness": 0.979311752319336,
+            "dynamic": 0.3755197525024414
+          },
+          "delta": {
+            "sat": 0.005082741379737854,
+            "overexposed": 1.1444091796875e-05,
+            "sobel_p95": -0.14473342895507812,
+            "frame_rms": -0.5833663940429688,
+            "luminance_flicker": -0.09534692764282227,
+            "naturalness": -1.1444091796875e-05,
+            "dynamic": -0.009722773234049464
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9389397944982021,
+          "delta_Q": -0.003582168621304782
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step2000_scale0.01",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.22900914152463278,
+        "overexposed": 0.012031300862630207,
+        "sobel_p95": 32.35527833302816,
+        "frame_rms": 27.36070950826009,
+        "luminance_flicker": 13.125196496645609,
+        "naturalness": 0.9879686991373697,
+        "dynamic": 0.4560118251376683
+      },
+      "mean_delta": {
+        "sat": 0.0007054234544436137,
+        "overexposed": 6.612141927083174e-06,
+        "sobel_p95": -0.06917095184326172,
+        "frame_rms": -0.12444909413655598,
+        "luminance_flicker": -0.02188982566197713,
+        "naturalness": -6.61214192711664e-06,
+        "dynamic": -0.002074151568942593
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8728054311517147,
+      "mean_delta_Q": -0.002354590431524528,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.002354590431524528,
+        "lo": -0.006408454436828488,
+        "hi": 0.0009258781423152248
+      },
+      "wins_delta_Q": 3,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.21328404545783997,
+            "overexposed": 0.029749679565429687,
+            "sobel_p95": 18.867961883544922,
+            "frame_rms": 31.16225242614746,
+            "luminance_flicker": 18.013504028320312,
+            "naturalness": 0.9702503204345703,
+            "dynamic": 0.5193708737691244
+          },
+          "delta": {
+            "sat": 0.0022507309913635254,
+            "overexposed": 0.0009201049804687493,
+            "sobel_p95": -0.2740211486816406,
+            "frame_rms": -0.0526123046875,
+            "luminance_flicker": 0.19840431213378906,
+            "naturalness": -0.0009201049804687944,
+            "dynamic": -0.0008768717447916741
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.8037148358908383,
+          "delta_Q": -0.010926773301056292
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.24123187363147736,
+            "overexposed": 0.001953887939453125,
+            "sobel_p95": 27.330839157104492,
+            "frame_rms": 31.614330291748047,
+            "luminance_flicker": 21.035011291503906,
+            "naturalness": 0.9980461120605468,
+            "dynamic": 0.5269055048624675
+          },
+          "delta": {
+            "sat": 0.00010488927364349365,
+            "overexposed": -2.0217895507812327e-05,
+            "sobel_p95": 0.036151885986328125,
+            "frame_rms": -0.24569320678710938,
+            "luminance_flicker": -0.2582550048828125,
+            "naturalness": 2.021789550776809e-05,
+            "dynamic": -0.004094886779785201
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8018928177506061,
+          "delta_Q": 0.0023863442093462472
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.3824883699417114,
+            "overexposed": 0.015320205688476562,
+            "sobel_p95": 56.01231002807617,
+            "frame_rms": 21.076547622680664,
+            "luminance_flicker": 8.641639709472656,
+            "naturalness": 0.9846797943115234,
+            "dynamic": 0.3512757937113444
+          },
+          "delta": {
+            "sat": 0.0008900761604309082,
+            "overexposed": -0.00021438598632812604,
+            "sobel_p95": -0.0233917236328125,
+            "frame_rms": 0.07512474060058594,
+            "luminance_flicker": 0.19736194610595703,
+            "naturalness": 0.0002143859863280584,
+            "dynamic": 0.0012520790100097323
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9068288696161813,
+          "delta_Q": -0.004844704831450608
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.1963367909193039,
+            "overexposed": 0.0026050567626953124,
+            "sobel_p95": 34.545955657958984,
+            "frame_rms": 17.83563995361328,
+            "luminance_flicker": 1.6340057849884033,
+            "naturalness": 0.9973949432373047,
+            "dynamic": 0.2972606658935547
+          },
+          "delta": {
+            "sat": 0.00034834444522857666,
+            "overexposed": -7.362365722656276e-05,
+            "sobel_p95": -0.1094970703125,
+            "frame_rms": -0.1235198974609375,
+            "luminance_flicker": 0.023983120918273926,
+            "naturalness": 7.362365722662911e-05,
+            "dynamic": -0.0020586649576822547
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9800180571586204,
+          "delta_Q": -0.003212046095697696
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.1639661192893982,
+            "overexposed": 0.0022396087646484376,
+            "sobel_p95": 22.537921905517578,
+            "frame_rms": 39.518985748291016,
+            "luminance_flicker": 24.268991470336914,
+            "naturalness": 0.9977603912353515,
+            "dynamic": 0.658649762471517
+          },
+          "delta": {
+            "sat": -0.001025170087814331,
+            "overexposed": -0.00021476745605468733,
+            "sobel_p95": -0.023107528686523438,
+            "frame_rms": -0.241943359375,
+            "luminance_flicker": -0.21997642517089844,
+            "naturalness": 0.0002147674560546431,
+            "dynamic": -0.0040323893229166075
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8007179481217896,
+          "delta_Q": 0.0013315421769655167
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.1767476499080658,
+            "overexposed": 0.020319366455078126,
+            "sobel_p95": 34.8366813659668,
+            "frame_rms": 22.956501007080078,
+            "luminance_flicker": 5.158026695251465,
+            "naturalness": 0.9796806335449219,
+            "dynamic": 0.3826083501180013
+          },
+          "delta": {
+            "sat": 0.0016636699438095093,
+            "overexposed": -0.0003574371337890618,
+            "sobel_p95": -0.021160125732421875,
+            "frame_rms": -0.158050537109375,
+            "luminance_flicker": -0.07285690307617188,
+            "naturalness": 0.0003574371337889959,
+            "dynamic": -0.0026341756184895537
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9436600583722525,
+          "delta_Q": 0.0011380952527456634
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step2000_scale0.02",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.2299396495024363,
+        "overexposed": 0.01235968271891276,
+        "sobel_p95": 32.44532267252604,
+        "frame_rms": 27.749494552612305,
+        "luminance_flicker": 13.353961308797201,
+        "naturalness": 0.9876403172810871,
+        "dynamic": 0.46249157587687173
+      },
+      "mean_delta": {
+        "sat": 0.0016359314322471619,
+        "overexposed": 0.00033499399820963524,
+        "sobel_p95": 0.020873387654622395,
+        "frame_rms": 0.26433595021565753,
+        "luminance_flicker": 0.20687498648961386,
+        "naturalness": -0.0003349939982096317,
+        "dynamic": 0.004405599170260936
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.8711123423113847,
+      "mean_delta_Q": -0.004047679271854713,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.004047679271854713,
+        "lo": -0.017281566724295205,
+        "hi": 0.004977829283473374
+      },
+      "wins_delta_Q": 4,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.21827833354473114,
+            "overexposed": 0.03203392028808594,
+            "sobel_p95": 19.29222869873047,
+            "frame_rms": 33.44207763671875,
+            "luminance_flicker": 19.888172149658203,
+            "naturalness": 0.9679660797119141,
+            "dynamic": 0.5573679606119791
+          },
+          "delta": {
+            "sat": 0.0072450190782547,
+            "overexposed": 0.003204345703125,
+            "sobel_p95": 0.15024566650390625,
+            "frame_rms": 2.227212905883789,
+            "luminance_flicker": 2.0730724334716797,
+            "naturalness": -0.003204345703125,
+            "dynamic": 0.03712021509806307
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7796346856889497,
+          "delta_Q": -0.035006923502944876
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.24040277302265167,
+            "overexposed": 0.0019390106201171875,
+            "sobel_p95": 27.406005859375,
+            "frame_rms": 31.446374893188477,
+            "luminance_flicker": 20.850238800048828,
+            "naturalness": 0.9980609893798829,
+            "dynamic": 0.5241062482198079
+          },
+          "delta": {
+            "sat": -0.0007242113351821899,
+            "overexposed": -3.509521484374996e-05,
+            "sobel_p95": 0.11131858825683594,
+            "frame_rms": -0.4136486053466797,
+            "luminance_flicker": -0.4430274963378906,
+            "naturalness": 3.509521484379441e-05,
+            "dynamic": -0.006894143422444765
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8043078276445486,
+          "delta_Q": 0.004801354103288746
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.38297897577285767,
+            "overexposed": 0.015172195434570313,
+            "sobel_p95": 55.867801666259766,
+            "frame_rms": 21.076568603515625,
+            "luminance_flicker": 8.688087463378906,
+            "naturalness": 0.9848278045654297,
+            "dynamic": 0.3512761433919271
+          },
+          "delta": {
+            "sat": 0.0013806819915771484,
+            "overexposed": -0.000362396240234375,
+            "sobel_p95": -0.16790008544921875,
+            "frame_rms": 0.07514572143554688,
+            "luminance_flicker": 0.24380970001220703,
+            "naturalness": 0.000362396240234375,
+            "dynamic": 0.0012524286905924442
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.9047802836709071,
+          "delta_Q": -0.0068932907767247364
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19535799324512482,
+            "overexposed": 0.0026397705078125,
+            "sobel_p95": 34.71310806274414,
+            "frame_rms": 18.294660568237305,
+            "luminance_flicker": 1.517869472503662,
+            "naturalness": 0.9973602294921875,
+            "dynamic": 0.3049110094706217
+          },
+          "delta": {
+            "sat": -0.0006304532289505005,
+            "overexposed": -3.8909912109375173e-05,
+            "sobel_p95": 0.05765533447265625,
+            "frame_rms": 0.33550071716308594,
+            "luminance_flicker": -0.09215319156646729,
+            "naturalness": 3.890991210941941e-05,
+            "dynamic": 0.0055916786193847545
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9908894859387071,
+          "delta_Q": 0.007659382684388927
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16445375978946686,
+            "overexposed": 0.002162933349609375,
+            "sobel_p95": 22.55438232421875,
+            "frame_rms": 39.317630767822266,
+            "luminance_flicker": 24.045616149902344,
+            "naturalness": 0.9978370666503906,
+            "dynamic": 0.6552938461303711
+          },
+          "delta": {
+            "sat": -0.0005375295877456665,
+            "overexposed": -0.0002914428710937499,
+            "sobel_p95": -0.0066471099853515625,
+            "frame_rms": -0.44329833984375,
+            "luminance_flicker": -0.44335174560546875,
+            "naturalness": 0.0002914428710937278,
+            "dynamic": -0.007388305664062456
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.8028097127813235,
+          "delta_Q": 0.0034233068364993846
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17816606163978577,
+            "overexposed": 0.02021026611328125,
+            "sobel_p95": 34.838409423828125,
+            "frame_rms": 22.919654846191406,
+            "luminance_flicker": 5.13378381729126,
+            "naturalness": 0.9797897338867188,
+            "dynamic": 0.38199424743652344
+          },
+          "delta": {
+            "sat": 0.00308208167552948,
+            "overexposed": -0.0004665374755859382,
+            "sobel_p95": -0.01943206787109375,
+            "frame_rms": -0.19489669799804688,
+            "luminance_flicker": -0.09709978103637695,
+            "naturalness": 0.0004665374755858931,
+            "dynamic": -0.003248278299967433
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9442520581438711,
+          "delta_Q": 0.0017300950243642754
+        }
+      ]
+    },
+    {
+      "base_dir": "outputs/v4_dev_selection/base",
+      "candidate_dir": "outputs/v4_dev_selection/step2000_scale0.05",
+      "n_pairs": 6,
+      "mean_base": {
+        "sat": 0.22830371807018915,
+        "overexposed": 0.012024688720703126,
+        "sobel_p95": 32.42444928487142,
+        "frame_rms": 27.48515860239665,
+        "luminance_flicker": 13.147086322307587,
+        "naturalness": 0.9879753112792969,
+        "dynamic": 0.4580859767066108
+      },
+      "mean_candidate": {
+        "sat": 0.2277591327826182,
+        "overexposed": 0.012733650207519534,
+        "sobel_p95": 32.31518427530924,
+        "frame_rms": 28.06333637237549,
+        "luminance_flicker": 13.925623973210653,
+        "naturalness": 0.9872663497924806,
+        "dynamic": 0.4677222728729247
+      },
+      "mean_delta": {
+        "sat": -0.0005445852875709534,
+        "overexposed": 0.0007089614868164062,
+        "sobel_p95": -0.10926500956217448,
+        "frame_rms": 0.5781777699788412,
+        "luminance_flicker": 0.778537650903066,
+        "naturalness": -0.0007089614868164285,
+        "dynamic": 0.009636296166313998
+      },
+      "mean_Q_base": 0.8751600215832392,
+      "mean_Q_candidate": 0.860950116388521,
+      "mean_delta_Q": -0.014209905194718117,
+      "delta_Q_bootstrap_95ci": {
+        "mean": -0.014209905194718117,
+        "lo": -0.03403225317601157,
+        "hi": 0.0009794785018881758
+      },
+      "wins_delta_Q": 1,
+      "per_video": [
+        {
+          "file": "000.mp4",
+          "base": {
+            "sat": 0.21103331446647644,
+            "overexposed": 0.028829574584960938,
+            "sobel_p95": 19.141983032226562,
+            "frame_rms": 31.21486473083496,
+            "luminance_flicker": 17.815099716186523,
+            "naturalness": 0.9711704254150391,
+            "dynamic": 0.5202477455139161
+          },
+          "candidate": {
+            "sat": 0.20529493689537048,
+            "overexposed": 0.03455963134765625,
+            "sobel_p95": 19.02629852294922,
+            "frame_rms": 36.786556243896484,
+            "luminance_flicker": 22.881444931030273,
+            "naturalness": 0.9654403686523437,
+            "dynamic": 0.613109270731608
+          },
+          "delta": {
+            "sat": -0.005738377571105957,
+            "overexposed": 0.005730056762695314,
+            "sobel_p95": -0.11568450927734375,
+            "frame_rms": 5.571691513061523,
+            "luminance_flicker": 5.06634521484375,
+            "naturalness": -0.005730056762695335,
+            "dynamic": 0.09286152521769198
+          },
+          "Q_base": 0.8146416091918945,
+          "Q_candidate": 0.7549906052832696,
+          "delta_Q": -0.05965100390862499
+        },
+        {
+          "file": "001.mp4",
+          "base": {
+            "sat": 0.24112698435783386,
+            "overexposed": 0.0019741058349609375,
+            "sobel_p95": 27.294687271118164,
+            "frame_rms": 31.860023498535156,
+            "luminance_flicker": 21.29326629638672,
+            "naturalness": 0.9980258941650391,
+            "dynamic": 0.5310003916422527
+          },
+          "candidate": {
+            "sat": 0.23936204612255096,
+            "overexposed": 0.0019077301025390626,
+            "sobel_p95": 27.471628189086914,
+            "frame_rms": 30.722335815429688,
+            "luminance_flicker": 20.085969924926758,
+            "naturalness": 0.9980922698974609,
+            "dynamic": 0.5120389302571614
+          },
+          "delta": {
+            "sat": -0.001764938235282898,
+            "overexposed": -6.637573242187491e-05,
+            "sobel_p95": 0.17694091796875,
+            "frame_rms": -1.1376876831054688,
+            "luminance_flicker": -1.207296371459961,
+            "naturalness": 6.63757324218528e-05,
+            "dynamic": -0.01896146138509125
+          },
+          "Q_base": 0.7995064735412598,
+          "Q_candidate": 0.8110744047471299,
+          "delta_Q": 0.011567931205870075
+        },
+        {
+          "file": "002.mp4",
+          "base": {
+            "sat": 0.3815982937812805,
+            "overexposed": 0.015534591674804688,
+            "sobel_p95": 56.035701751708984,
+            "frame_rms": 21.001422882080078,
+            "luminance_flicker": 8.4442777633667,
+            "naturalness": 0.9844654083251954,
+            "dynamic": 0.35002371470133464
+          },
+          "candidate": {
+            "sat": 0.3845314681529999,
+            "overexposed": 0.014802169799804688,
+            "sobel_p95": 55.65967559814453,
+            "frame_rms": 21.31418800354004,
+            "luminance_flicker": 8.973154067993164,
+            "naturalness": 0.9851978302001954,
+            "dynamic": 0.35523646672566733
+          },
+          "delta": {
+            "sat": 0.0029331743717193604,
+            "overexposed": -0.000732421875,
+            "sobel_p95": -0.3760261535644531,
+            "frame_rms": 0.31276512145996094,
+            "luminance_flicker": 0.5288763046264648,
+            "naturalness": 0.000732421875,
+            "dynamic": 0.00521275202433269
+          },
+          "Q_base": 0.9116735744476319,
+          "Q_candidate": 0.898071211335976,
+          "delta_Q": -0.013602363111655857
+        },
+        {
+          "file": "003.mp4",
+          "base": {
+            "sat": 0.19598844647407532,
+            "overexposed": 0.002678680419921875,
+            "sobel_p95": 34.655452728271484,
+            "frame_rms": 17.95915985107422,
+            "luminance_flicker": 1.6100226640701294,
+            "naturalness": 0.9973213195800781,
+            "dynamic": 0.29931933085123696
+          },
+          "candidate": {
+            "sat": 0.19399668276309967,
+            "overexposed": 0.0026119232177734377,
+            "sobel_p95": 34.438350677490234,
+            "frame_rms": 17.75490379333496,
+            "luminance_flicker": 2.0153579711914062,
+            "naturalness": 0.9973880767822265,
+            "dynamic": 0.29591506322224936
+          },
+          "delta": {
+            "sat": -0.001991763710975647,
+            "overexposed": -6.67572021484375e-05,
+            "sobel_p95": -0.21710205078125,
+            "frame_rms": -0.2042560577392578,
+            "luminance_flicker": 0.40533530712127686,
+            "naturalness": 6.67572021484375e-05,
+            "dynamic": -0.0034042676289876006
+          },
+          "Q_base": 0.9832301032543181,
+          "Q_candidate": 0.9648258839862859,
+          "delta_Q": -0.018404219268032262
+        },
+        {
+          "file": "004.mp4",
+          "base": {
+            "sat": 0.16499128937721252,
+            "overexposed": 0.002454376220703125,
+            "sobel_p95": 22.5610294342041,
+            "frame_rms": 39.760929107666016,
+            "luminance_flicker": 24.488967895507812,
+            "naturalness": 0.9975456237792969,
+            "dynamic": 0.6626821517944336
+          },
+          "candidate": {
+            "sat": 0.16343574225902557,
+            "overexposed": 0.00200347900390625,
+            "sobel_p95": 22.56102180480957,
+            "frame_rms": 39.24559783935547,
+            "luminance_flicker": 24.442235946655273,
+            "naturalness": 0.9979965209960937,
+            "dynamic": 0.6540932973225911
+          },
+          "delta": {
+            "sat": -0.0015555471181869507,
+            "overexposed": -0.00045089721679687474,
+            "sobel_p95": -7.62939453125e-06,
+            "frame_rms": -0.5153312683105469,
+            "luminance_flicker": -0.04673194885253906,
+            "naturalness": 0.0004508972167968084,
+            "dynamic": -0.008588854471842433
+          },
+          "Q_base": 0.7993864059448241,
+          "Q_candidate": 0.7977642095618547,
+          "delta_Q": -0.0016221963829694541
+        },
+        {
+          "file": "005.mp4",
+          "base": {
+            "sat": 0.1750839799642563,
+            "overexposed": 0.020676803588867188,
+            "sobel_p95": 34.85784149169922,
+            "frame_rms": 23.114551544189453,
+            "luminance_flicker": 5.230883598327637,
+            "naturalness": 0.9793231964111329,
+            "dynamic": 0.38524252573649087
+          },
+          "candidate": {
+            "sat": 0.17993392050266266,
+            "overexposed": 0.0205169677734375,
+            "sobel_p95": 34.734130859375,
+            "frame_rms": 22.55643653869629,
+            "luminance_flicker": 5.155580997467041,
+            "naturalness": 0.9794830322265625,
+            "dynamic": 0.3759406089782715
+          },
+          "delta": {
+            "sat": 0.004849940538406372,
+            "overexposed": -0.00015983581542968958,
+            "sobel_p95": -0.12371063232421875,
+            "frame_rms": -0.5581150054931641,
+            "luminance_flicker": -0.0753026008605957,
+            "naturalness": 0.0001598358154296653,
+            "dynamic": -0.009301916758219397
+          },
+          "Q_base": 0.9425219631195069,
+          "Q_candidate": 0.9389743834166107,
+          "delta_Q": -0.0035475797028962086
+        }
+      ]
+    }
+  ]
+}

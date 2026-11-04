@@ -14,7 +14,7 @@
 
 > **Can reward-guided temporal-LoRA post-training improve held-out I2V motion while preserving identity and naturalness, without becoming numerically unstable in a long run?**
 
-The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioning and video latents. Its contribution is the I2V implementation, temporal-module targeting, differentiable video rewards, failure diagnosis, and stabilized-fit experiment. It does not claim a new foundation model or that the current adapters improve held-out video quality.
+The project adapts the DiffusionOPSD mechanism to DynamiCrafter's I2V conditioning and video latents. Its contribution is the I2V implementation, temporal-module targeting, differentiable video rewards, failure diagnosis, and stabilized-fit experiment. It does not claim a new foundation model or a generalized held-out quality improvement; it separately quantifies the adapter's effective parameter change and condition-dependent visual effects below.
 
 The historical change from -1.47 to -0.79 refers to the internal naturalness reward during training, not to an independent perceptual metric.
 
@@ -30,7 +30,7 @@ The historical change from -1.47 to -0.79 refers to the internal naturalness rew
 - The 500-step held-out metrics are effectively tied with base; no quality gain is established.
 - A 2,000-step unconstrained control completed, while the smooth-naturalness objective hit the fixed loss-growth guard at step 306.
 - The anchored-fit objective exposed parameter-gradient drift; effective `1e-3` gradient clipping then completed 2,000 guarded steps.
-- The development-selected stability candidate did **not** generalize: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. Stability improved; held-out quality did not.
+- The development-selected stability candidate did **not establish generalized improvement**: on 40 untouched pairs, appeal and dynamic degree decreased significantly while naturalness was statistically tied. This is a held-out result, not a claim that the adapter produces no visual effect under every inference condition.
 
 ---
 
@@ -56,6 +56,30 @@ Metrics with a favorable 95% interval excluding zero: **none**.
 </table>
 
 The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [Full operation record](operations/v4/README.md).
+
+### Quantified parameter-to-visual effect
+
+The post-hoc analysis in [`scripts/quantify_effect.py`](scripts/quantify_effect.py) uses the saved checkpoints and rendered videos; it does not retrain the model. For each temporal LoRA module, it computes the effective weight perturbation
+
+\[
+\Delta W_{t,l}=s\frac{\alpha}{r}B_{t,l}A_{t,l},
+\qquad
+U_t=\frac{\sqrt{\sum_l\|\Delta W_{t,l}\|_F^2}}
+{\sqrt{\sum_l\|W_l^{base}\|_F^2}+\varepsilon}.
+\]
+
+Here, \(U_t\) is the normalized effective LoRA update ratio at checkpoint \(t\), including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change; it does not by itself prove better video quality or isolate the causal effect of the optimizer schedule.
+
+For paired videos with the same first frame, caption, and seed, the diagnostic visual score is
+
+\[
+Q=0.35C_{safe}+0.25N+0.20D_{safe}+0.20T_{safe},
+\qquad \Delta Q_i=Q(v_i^{adapter})-Q(v_i^{base}).
+\]
+
+`C_safe` discounts edge detail by overexposure and flicker, `N` is the repository naturalness score, `D_safe` discounts frame motion by luminance flicker, and `T_safe` rewards temporal brightness stability. `Q` is an interpretable diagnostic composite rather than a calibrated human-perception metric; raw components and paired bootstrap intervals are retained in [`outputs/quantified_effect/quantified_effect.json`](outputs/quantified_effect/quantified_effect.json) and [`outputs/quantified_effect_dev/quantified_effect.json`](outputs/quantified_effect_dev/quantified_effect.json).
+
+The existing six-pair development renders show a condition-dependent effect: mean \(\Delta Q\) was `+0.00266` for step 500 / scale `0.01` and `+0.00229` for step 1000 / scale `0.01`, while stronger scales and later checkpoints generally became worse on this diagnostic composite. The 40-pair step-1000 / scale-`0.05` confirmation render had mean \(\Delta Q=+0.00099\), but its 95% bootstrap interval was `[-0.00384, +0.00586]`; its naturalness and dynamic-degree changes remained negative. Therefore the defensible claim is: **the adapter has a measurable, condition-dependent visual effect and some low-scale development settings improve the diagnostic balance, while the current data do not establish a statistically significant generalized improvement.**
 <!-- V4_RESULT_END -->
 
 ---
@@ -315,7 +339,8 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | Area | Current Status |
 |------|---------------|
 | Long-run stability | The smooth-naturalness objective stopped at step 306 and the anchored fit at step 522; effective gradient control completed 2,000 steps without a guard trip. |
-| Held-out improvement | **Not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]. |
+| Held-out improvement | **Generalized improvement not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]. |
+| Quantified adapter effect | Effective update ratio and paired visual proxy are computed from saved checkpoints/videos; low-scale development settings show positive but non-significant diagnostic deltas. |
 | Eval sample size | Confirmatory n=40 paired evaluation with 10,000-draw bootstrap intervals is complete. |
 | Reward/evaluator coupling | Several reported metrics are close to the optimized reward and cannot independently prove perception. |
 | Standard metrics | FVD/FID and broader video-quality suites have not been computed. |
