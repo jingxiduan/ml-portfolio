@@ -2,10 +2,6 @@
 
 > **At a glance:** the funnel turns **7,980** raw preference pairs into **2,624** DPO pairs, while a lightweight Reward Model scores candidates about **16,700× faster** than the judge baseline.
 
-![Recorded DPO smoke-training curves](outputs/dpo_smoke_training_curve.png)
-
-> This is a real 20-step `trl.DPOTrainer` run on 300 examples sampled from the 2,624 gold DPO pairs. It is a pipeline smoke-test curve, not a claim of model-quality improvement.
-
 Reproduces the full pipeline of "human preference data construction -> LLM-as-a-Judge re-labeling -> Reward Model distillation -> DPO training data generation" on a public preference dataset.
 
 > Note: this reproduction targets a general text-response-quality setting (rather than a proprietary multimodal scenario), so:
@@ -31,7 +27,6 @@ Reproduces the full pipeline of "human preference data construction -> LLM-as-a-
 │   ├── reward_model.py             # linear Bradley-Terry Reward Model, 5-fold CV + latency benchmark
 │   ├── build_dpo_dataset.py        # export standard DPO-format data + data funnel stats
 │   └── dpo_train_demo.py           # end-to-end trl.DPOTrainer smoke test (default tiny-gpt2, runs on CPU)
-│   └── plot_dpo_training_curve.py  # plot the recorded step-level smoke-test log
 └── outputs/
 ```
 
@@ -44,7 +39,6 @@ python src/build_preference_dataset.py
 python src/reward_model.py
 python src/build_dpo_dataset.py
 python src/dpo_train_demo.py   # runs the 20-step CPU smoke test and writes outputs/dpo_smoke_training.json
-python src/plot_dpo_training_curve.py
 ```
 
 ## Results
