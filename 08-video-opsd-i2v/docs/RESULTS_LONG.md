@@ -201,5 +201,5 @@ Metrics with a favorable 95% interval excluding zero: **none**.
 <tr><td width="50%"><img src="figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">V4 MP4</a></td><td width="50%"><img src="figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus V4"><br><a href="../outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="../outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">V4 MP4</a></td></tr>
 </table>
 
-The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [Full operation record](../operations/v4/README.md).
+The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and V4 use identical first frame, caption, and generation seed. [V4 operation record](../operations/v4/README.md).
 <!-- V4_RESULT_END -->

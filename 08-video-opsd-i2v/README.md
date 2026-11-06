@@ -10,9 +10,9 @@
 
 ---
 
-## 📌 ABSTRACT
+## Abstract
 
-> **OPSD was built for single-image pixel diffusion. Can its reward-guided fine-tuning mechanism be extended to the temporal dynamics of a video diffusion model, and remain numerically stable over a long training run?**
+`DiffusionOPSD` optimizes a single scalar image reward. This project applies the same reward-guided fine-tuning objective to DynamiCrafter's temporal-attention LoRA modules, conditioned on a fixed first frame, and evaluates numerical stability over a 2,000-step guarded run.
 
 **Core contribution: extending OPSD from images to video.** `DiffusionOPSD` optimizes a single frozen text-to-image backbone against one scalar image reward; it has no video formulation. This project builds that extension from scratch for DynamiCrafter's image-to-video model:
 
@@ -21,11 +21,11 @@
 3. **Video-specific failure diagnosis:** full-strength reward-aligned LoRA was shown to amplify saturation, overexposure, and edge artifacts, and the first naturalness formulation silently zeroed its own gradient through clamping; both are documented and fixed.
 4. **A stabilized training objective:** an anchored-fit loss with effective `1e-3` gradient clipping removes an unbounded repulsion term that caused earlier runs to diverge at step 306, and completes **2,000** guarded steps.
 
-The result is a working, numerically stable video-adaptation pipeline: a trained adapter with a measured, increasing parameter update and a quantified, condition-dependent positive visual effect at low inference scales. Full scope boundaries and open questions are documented in **Limitations** below.
+The guarded run completed 2,000 steps without triggering the stability check, and produced a trained adapter with a trained adapter with a measured, increasing parameter update and a quantified, condition-dependent positive visual effect at low inference scales. Full scope boundaries and open questions are documented in **Limitations** below.
 
 ---
 
-## 🌟 HIGHLIGHTS
+## Highlights
 
 ### What this project built
 
@@ -39,10 +39,10 @@ Sample sizes, confirmatory-evaluation scope, and open questions are in **Limitat
 
 ---
 
-## 📊 MAIN RESULTS
+## Main results
 
 <!-- V4_RESULT_START -->
-### 08 · Held-Out Stability Candidate Result
+### Held-Out Stability Candidate Result
 
 A candidate selected on six development pairs was held to a strict bar: a 40-pair confirmatory set, matched by first frame, caption, and seed, scored with paired 95% bootstrap confidence intervals.
 
@@ -62,7 +62,7 @@ Full interpretation of this confirmatory check is in **Limitations** below.
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">Candidate MP4</a></td></tr>
 </table>
 
-The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [Full operation record](operations/v4/README.md).
+The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [V4 operation record](operations/v4/README.md).
 
 ### Quantified parameter-to-visual effect
 
@@ -75,7 +75,7 @@ U_t=\frac{\sqrt{\sum_l\|\Delta W_{t,l}\|_F^2}}
 {\sqrt{\sum_l\|W_l^{base}\|_F^2}+\varepsilon}.
 $$
 
-Here, $U_t$ is the normalized effective LoRA update ratio at checkpoint $t$, including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change across training. What this measurement does and does not establish is detailed in **Limitations** below.
+Here, $U_t$ is the normalized effective LoRA update ratio at checkpoint $t$, including the actual inference scale. For the V4 rerun at scale `0.05`, it increased from `5.12e-5` at step 50 to `1.51e-3` at step 1000 and `1.97e-3` at step 2000 across 136 temporal modules. The recorded V4 config also specifies learning rate `1e-4` with `warmup_steps: 50`; the training log rises from `2e-6` at step 1 to `1e-4` at step 50. This verifies that the saved adapter produces a non-zero, increasing effective parameter change across training; it does not by itself establish a perceptual quality gain, which is addressed separately in **Limitations** below.
 
 For paired videos with the same first frame, caption, and seed, the diagnostic visual score is
 
@@ -91,7 +91,7 @@ The existing six-pair development renders show a positive, condition-dependent e
 
 ---
 
-## 🔬 ABLATION STUDIES
+## Ablation studies
 
 ### Tier-1: LoRA Scale Sweep and Diagnosis
 
@@ -256,7 +256,7 @@ Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. 
 
 ---
 
-## 🧠 METHOD
+## Method
 
 Four components form a new differentiable video reward that replaces OPSD's single still-image reward, so the optimization target tracks what changes frame-to-frame rather than single-frame appearance alone:
 
@@ -299,7 +299,7 @@ Four components form a new differentiable video reward that replaces OPSD's sing
 
 ---
 
-## 🧪 DIAGNOSIS
+## Diagnosis
 
 <details>
 <summary>Reward Hacking Metrics (Base vs OPSD-LoRA @ 1.0)</summary>
@@ -343,7 +343,7 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
 ---
 
-## ⚠️ LIMITATIONS
+## Limitations
 
 | Area | Current Status |
 |------|---------------|
@@ -361,7 +361,7 @@ See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the smooth-penalty and an
 
 ---
 
-## ⚙️ REPRODUCTION
+## Reproduction
 
 ```bash
 # Generate 200 prompts + first frames
@@ -395,7 +395,7 @@ python scripts/make_tier2_gifs.py
 
 ---
 
-## 📁 REPOSITORY LAYOUT
+## Repository layout
 
 ```
 08-video-opsd-i2v/

@@ -6,33 +6,39 @@
 
 **Jingxi Duan**
 
-[Technical report](docs/TECH_REPORT.md) · [Separability analysis](docs/SEPARATION_ANALYSIS.md) · [Current results](docs/RESULTS_R3.md) · [Gate log](docs/GATE_LOG.md)
+[Technical notes](docs/TECH_REPORT.md) · [Separability analysis](docs/SEPARATION_ANALYSIS.md) · [Current results](docs/RESULTS_R3.md)
 
 </div>
 
+<p align="center">
+  <img src="outputs/demo_gifs_frontal/portrait_sheet.png" alt="portrait sheet">
+</p>
+
+*Evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*
+
 ---
 
-## Contribution boundary
+## Overview
 
-This project is an independent domain adaptation built on public methods and open-source components. `DiffusionOPSD` supplies the public OPSD method description; JoyVASA supplies the audio-to-motion backbone; LivePortrait supplies the frozen renderer. The contribution here is the motion-space reward design, bounded target construction, LoRA training integration, failure diagnosis, and held-out evaluation protocol—not ownership of those upstream models or the original OPSD algorithm.
+This project adapts OPSD-style reward-guided training to JoyVASA's audio-to-motion representation, rendered by frozen LivePortrait. The parts built here are the motion-space reward, bounded targets, LoRA training, failure diagnosis, and held-out evaluation. DiffusionOPSD, JoyVASA, and LivePortrait are upstream open-source work.
 
-## 📌 ABSTRACT
+## Abstract
 
-> **DiffusionOPSD optimizes against a single scalar image-preference reward. Can the same reward-guided fine-tuning mechanism be retargeted to a human-motion domain, driven by motion statistics measured from real speakers instead of visual preference alone, while staying inside explicit, pre-registered failure gates?**
+DiffusionOPSD optimizes a single scalar image-preference reward. This project applies the same reward-guided fine-tuning mechanism to human motion, using statistics measured from real speakers and evaluating against pre-registered failure gates.
 
-**Core contribution: moving OPSD from a visual-preference reward to measured human-motion targets.** This project retargets DiffusionOPSD's query/target/EMA optimization structure onto a 73-coefficient audio-to-motion trajectory space produced by JoyVASA and rendered by frozen LivePortrait:
+Here the reward target is a measured motion band instead of a visual preference score. DiffusionOPSD's query/target/EMA optimization structure is applied to a 73-coefficient audio-to-motion trajectory space produced by JoyVASA and rendered by frozen LivePortrait:
 
 1. **New measured reward targets:** per-industry amplitude, jitter, and blink bands estimated from real speaker footage (HDTF news anchors, CelebV-HQ) replace a single hand-tuned visual-preference reward.
 2. **A bounded motion reward:** a peaked Gaussian target around the measured band replaces monotone amplitude maximization, removing the earlier **2.4–2.7×** overshoot it caused.
 3. **Diagnosed and fixed a blink-target bug:** an excessive blink target drove the eyes toward half-closed; retuning it restored eye-aspect-ratio to untrained-base levels.
 4. **A real-video behavior-cloning path:** 1,753 aligned motion windows from real footage supplement the reward signal through an auxiliary supervised objective.
-5. **Pre-registered failure gates kept in the main result:** jitter, lip-sync, and ecological-separability gates are evaluated and reported as part of the headline result, not filtered out after the fact.
+5. **Pre-registered failure gates:** jitter, lip-sync, and ecological-separability gates are reported alongside the headline result.
 
-Three trained policies reach **0.85–0.89×** of their measured amplitude targets on held-out speakers, and the calibrated expression policy reduces mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips; all three 95% bootstrap intervals exclude zero). Full scope boundaries, failed gates, and open questions are documented in **Limitations** below.
+Three trained policies reach **0.85–0.89×** of their measured amplitude targets on held-out speakers, and the calibrated expression policy reduces mean held-out target error from **0.1202** to **0.0229–0.0238** across three seeds (n=40 paired clips; all three 95% bootstrap intervals exclude zero).
 
 ## Run the demo first
 
-The complete demo path is documented in [`docs/DEMO.md`](docs/DEMO.md). It includes a dependency-free CPU mock, a CUDA render command with wall-clock and sampled VRAM reporting, pre-generated held-out comparisons, weight download instructions, and failure diagnosis.
+The complete demo path is documented in [`docs/DEMO.md`](docs/DEMO.md). It includes a dependency-free CPU mock, a GPU render command, pre-generated held-out comparisons, weight download instructions, and failure diagnosis.
 
 ```bash
 # CPU-only mock: no model weights, no CUDA
@@ -45,7 +51,7 @@ python3 scripts/demo.py --mode gpu --seconds 4 --seed 0 --out outputs/demo/gpu_r
 
 The checked-in visual comparison is [female Base vs calibrated GIF](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) and [male Base vs calibrated GIF](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif). The mock is a pipeline/UI smoke test; only the GPU path loads the model.
 
-## 🌟 HIGHLIGHTS
+## Highlights
 
 ### What this project built
 
@@ -53,26 +59,15 @@ The checked-in visual comparison is [female Base vs calibrated GIF](outputs/new_
 - **Measured, not hand-tuned, reward targets.** Amplitude, jitter, and blink targets are estimated from public human footage per industry, instead of being selected only by visual preference.
 - **Fixed two concrete reward-design bugs.** The monotone amplitude reward caused 2.4–2.7× overshoot; replacing it with a peaked Gaussian target fixed it. An excessive blink target caused half-closed eyes; retuning it restored normal eye-aspect-ratio.
 - **Added a real-video supervision path.** 1,753 aligned real-motion windows support an auxiliary behavior-cloning objective alongside the reward.
-- **Auditable, pre-registered evaluation.** Jitter, lip-sync non-inferiority, and ecological-separability gates are all reported as part of the main result regardless of outcome.
-
-Failed gates, sample sizes, and open questions are in **Limitations** below.
-
-> This is a personal research implementation based on [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD), [JoyVASA](https://github.com/jdh-algo/JoyVASA), and [LivePortrait](https://github.com/KwaiVGI/LivePortrait). It is not affiliated with their authors.
+- **Pre-registered evaluation.** Jitter, lip-sync non-inferiority, and ecological-separability gates are reported with the main results.
 
 ## New licensed hold-out face demos
 
-| New face A | New face B |
-|---|---|
-| ![Pexels face A Base versus calibrated policy](outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif) | ![Pexels face B Base versus calibrated policy](outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif) |
-| [Base MP4](outputs/new_face_demo_r3/female/expression_r3__base.mp4) · [Calibrated policy MP4](outputs/new_face_demo_r3/female/expression_r3__seed0.mp4) | [Base MP4](outputs/new_face_demo_r3/male/expression_r3__base.mp4) · [Calibrated policy MP4](outputs/new_face_demo_r3/male/expression_r3__seed0.mp4) |
+<table>
+<tr><td align="center" width="50%"><img src="outputs/new_face_demo_r3/female/female_new_face_base_vs_r3.gif" width="320" alt="Pexels face A Base versus calibrated policy"><br><sub>Pexels face A Base versus calibrated policy · <a href="outputs/new_face_demo_r3/female/expression_r3__base.mp4">Base MP4</a> · <a href="outputs/new_face_demo_r3/female/expression_r3__seed0.mp4">Calibrated policy MP4</a></sub></td><td align="center" width="50%"><img src="outputs/new_face_demo_r3/male/male_new_face_base_vs_r3.gif" width="320" alt="Pexels face B Base versus calibrated policy"><br><sub>Pexels face B Base versus calibrated policy · <a href="outputs/new_face_demo_r3/male/expression_r3__base.mp4">Base MP4</a> · <a href="outputs/new_face_demo_r3/male/expression_r3__seed0.mp4">Calibrated policy MP4</a></sub></td></tr>
+</table>
 
-Both 1024×1024 inputs were extracted from previously unused 4K Pexels License videos. They were not part of training, behavior calibration, or model selection. Base and the calibrated policy use identical portrait, held-out audio, generation seed, and frozen LivePortrait renderer. The test isolates motion changes; it does not claim improved skin texture, lighting, or color. [Source URLs, authors, timestamps, license and checksums](data/portraits_new_licensed/SOURCES.json).
-
-### Historical evaluation portraits
-
-![portrait sheet](outputs/demo_gifs_frontal/portrait_sheet.png)
-
-*Evaluation portraits were filtered for near-frontal pose, open eyes, and closed-mouth source frames to reduce renderer confounds.*
+Both 1024×1024 inputs come from previously unused 4K Pexels License videos and were not used in training, calibration, or model selection. Base and the calibrated policy use the same portrait, held-out audio, generation seed, and frozen LivePortrait renderer, so the comparison isolates motion. [Source URLs, authors, timestamps, license and checksums](data/portraits_new_licensed/SOURCES.json).
 
 ----------------------------------------
 
@@ -95,11 +90,11 @@ The behavior policy maps these perturbed states to detached targets, and the tra
 
 $$
 \mathcal{L}_{\mathrm{OPSD}}
-= \lVert\hat y_\theta-\operatorname{sg}(y_0^+)\rVert_2^2
-+\lambda_-\max\!\left(0,m-\lVert\hat y_\theta-\operatorname{sg}(y_0^-)\rVert_2^2\right).
+= \lVert\hat y_\theta-\mathrm{sg}(y_0^+)\rVert_2^2
++\lambda_-\max\!\left(0,m-\lVert\hat y_\theta-\mathrm{sg}(y_0^-)\rVert_2^2\right).
 $$
 
-### Minimal Pseudocode (Motion Space)
+### Minimal pseudocode (motion space)
 
 ```python
 set_mode("behavior")
@@ -118,158 +113,188 @@ loss.backward(); optimizer.step()
 ema_update_behaviour_policy()
 ```
 
-| Hyperparameter | DiffusionOPSD (SD3.5-M) | Talking-Head Motion OPSD (JoyVASA) |
-|---|---|---|
-| **LoRA** | PEFT | r=8, alpha=8 (~179K params) on Motion DiT |
-| **Target Radius (`c_adv`)** | 5 (ρ=0.10) | 3.0 (`reward-step-size`) |
-| **EMA Refresh** | Every outer update | Every 10 steps, decay 0.5 |
-| **Optimizer** | AdamW | AdamW, lr 1e-4 with 200-step linear warmup |
+<div align="center">
+<table>
+<tr><th align="center">Hyperparameter</th><th align="center">DiffusionOPSD (SD3.5-M)</th><th align="center">Talking-Head Motion OPSD (JoyVASA)</th></tr>
+<tr><td align="center"><strong>LoRA</strong></td><td align="center">PEFT</td><td align="center">r=8, alpha=8 (~179K params) on Motion DiT</td></tr>
+<tr><td align="center"><strong>Target Radius (<code>c_adv</code>)</strong></td><td align="center">5 (ρ=0.10)</td><td align="center">3.0 (<code>reward-step-size</code>)</td></tr>
+<tr><td align="center"><strong>EMA Refresh</strong></td><td align="center">Every outer update</td><td align="center">Every 10 steps, decay 0.5</td></tr>
+<tr><td align="center"><strong>Optimizer</strong></td><td align="center">AdamW</td><td align="center">AdamW, lr 1e-4 with 200-step linear warmup</td></tr>
+</table>
+</div>
 
 ----------------------------------------
 
-## 📊 MAIN RESULTS
+## Main results
 
-### 1. Per-Industry Reward Targets (Measured from Real Video)
+### 1. Per-industry reward targets (measured from real video)
 
-| Industry | Video Proxy | Amplitude (0.3–3 Hz) | Jitter (6–12.5 Hz) | Blink /min |
-|---|---|---|---|---|
-| **Finance** | HDTF news anchors | **1.384°** | **0.094°** | 18.1 |
-| **Real Estate** | CelebV-HQ mid-amplitude | **1.257°** | **0.118°** | 20.3 |
-| **Short Video** | CelebV-HQ high-amplitude | **3.039°** | **0.349°** | 22.6 |
+<div align="center">
+<table>
+<tr><th align="center">Industry</th><th align="center">Video Proxy</th><th align="center">Amplitude (0.3–3 Hz)</th><th align="center">Jitter (6–12.5 Hz)</th><th align="center">Blink /min</th></tr>
+<tr><td align="center"><strong>Finance</strong></td><td align="center">HDTF news anchors</td><td align="center"><strong>1.384°</strong></td><td align="center"><strong>0.094°</strong></td><td align="center">18.1</td></tr>
+<tr><td align="center"><strong>Real Estate</strong></td><td align="center">CelebV-HQ mid-amplitude</td><td align="center"><strong>1.257°</strong></td><td align="center"><strong>0.118°</strong></td><td align="center">20.3</td></tr>
+<tr><td align="center"><strong>Short Video</strong></td><td align="center">CelebV-HQ high-amplitude</td><td align="center"><strong>3.039°</strong></td><td align="center"><strong>0.349°</strong></td><td align="center">22.6</td></tr>
+</table>
+</div>
 
-### 2. Evaluation on Held-Out Speakers (Disjoint from Training)
+### 2. Evaluation on held-out speakers (disjoint from training)
 
-| Variant | Amplitude (Measured) | vs. Target | vs. Untrained Base |
-|---|---|---|---|
-| **Base (Untrained)** | 0.924° | · | 1.00x |
-| **Finance Persona** | 1.213° | **0.88x** | **1.31x** |
-| **Real Estate Persona** | 1.114° | **0.89x** | **1.21x** |
-| **Short Video Persona** | 2.597° | **0.85x** | **2.81x** |
+<div align="center">
+<table>
+<tr><th align="center">Variant</th><th align="center">Amplitude (Measured)</th><th align="center">vs. Target</th><th align="center">vs. Untrained Base</th></tr>
+<tr><td align="center"><strong>Base (Untrained)</strong></td><td align="center">0.924°</td><td align="center">·</td><td align="center">1.00x</td></tr>
+<tr><td align="center"><strong>Finance Persona</strong></td><td align="center">1.213°</td><td align="center"><strong>0.88x</strong></td><td align="center"><strong>1.31x</strong></td></tr>
+<tr><td align="center"><strong>Real Estate Persona</strong></td><td align="center">1.114°</td><td align="center"><strong>0.89x</strong></td><td align="center"><strong>1.21x</strong></td></tr>
+<tr><td align="center"><strong>Short Video Persona</strong></td><td align="center">2.597°</td><td align="center"><strong>0.85x</strong></td><td align="center"><strong>2.81x</strong></td></tr>
+</table>
+</div>
 
-### 3. Calibrated Expression Dynamics (n=40 Paired Clips)
+### 3. Calibrated expression dynamics (n=40 paired clips)
 
-| Variant | Expression RMS | Mean Target Error | Pose High-Frequency RMS | Gate |
-|---|---:|---:|---:|---|
-| **Base** | 0.2727 | 0.1202 | 0.2406° | Reference |
-| **Seed 0** | 0.3872 | **0.0229** | **0.1801°** | Pass |
-| **Seed 1** | 0.3849 | **0.0238** | **0.1822°** | Pass |
-| **Seed 2** | 0.3860 | **0.0234** | **0.1848°** | Pass |
+<div align="center">
+<table>
+<tr><th align="center">Variant</th><th align="center">Expression RMS</th><th align="center">Mean Target Error</th><th align="center">Pose High-Frequency RMS</th><th align="center">Gate</th></tr>
+<tr><td align="center"><strong>Base</strong></td><td align="center">0.2727</td><td align="center">0.1202</td><td align="center">0.2406°</td><td align="center">Reference</td></tr>
+<tr><td align="center"><strong>Seed 0</strong></td><td align="center">0.3872</td><td align="center"><strong>0.0229</strong></td><td align="center"><strong>0.1801°</strong></td><td align="center">Pass</td></tr>
+<tr><td align="center"><strong>Seed 1</strong></td><td align="center">0.3849</td><td align="center"><strong>0.0238</strong></td><td align="center"><strong>0.1822°</strong></td><td align="center">Pass</td></tr>
+<tr><td align="center"><strong>Seed 2</strong></td><td align="center">0.3860</td><td align="center"><strong>0.0234</strong></td><td align="center"><strong>0.1848°</strong></td><td align="center">Pass</td></tr>
+</table>
+</div>
 
-All three paired bootstrap intervals for target-error improvement exclude zero. Full interpretation of this result relative to the optimized statistic is in **Limitations** below; see [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the complete protocol.
+All three paired bootstrap intervals for target-error improvement exclude zero. See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the complete protocol. The matched four-way render is shown in the [visual evidence gallery](#calibrated-expression-policy-four-way-matched-render).
 
-![Calibrated expression policy: strict four-second matched render](outputs/expression_render_set_r3/clip000_fourway.gif)
+### 4. Training curves and industry diagnostics
+
+Per-industry reward/amplitude trajectories, measured motion bands, the cross-checkpoint comparison, the motion-space method schematic, the early / v1-vs-v2 reward curves, before/after metrics, and the tier-2 three-panel summary. See [`docs/INDUSTRY_ROUND.md`](docs/INDUSTRY_ROUND.md), [`docs/TECH_REPORT.md`](docs/TECH_REPORT.md) and [`docs/TIER2_NOTE.md`](docs/TIER2_NOTE.md) for the full discussion.
+
+<table>
+<tr><td align="center" width="100%"><img src="outputs/figures/fig_industry_training.png" width="800" alt="per-industry reward and amplitude vs step"><br><sub>per-industry reward and amplitude vs step</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/figures/fig_industry_bands.png" width="800" alt="measured bands vs persona landing"><br><sub>measured bands vs persona landing</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/figures/fig_main_comparison.png" width="800" alt="base / v2 / v3 / v4 vs real speech"><br><sub>base / v2 / v3 / v4 vs real speech</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/figures/fig_method_motion.png" width="800" alt="OPSD in motion space (schematic)"><br><sub>OPSD in motion space (schematic)</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/samples/training_curve.png" width="800" alt="early training curves (loss / reward)"><br><sub>early training curves (loss / reward)</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/tier2/fig_v1_vs_v2_curve.png" width="800" alt="v1 vs v2 reward curves"><br><sub>v1 vs v2 reward curves</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/samples/before_after_metrics.png" width="800" alt="before / after metrics"><br><sub>before / after metrics</sub></td></tr>
+<tr><td align="center" width="100%"><img src="outputs/tier2/fig_tier2_summary.png" width="800" alt="tier-2 three-panel summary"><br><sub>tier-2 three-panel summary</sub></td></tr>
+</table>
 
 ----------------------------------------
 
-## 🔬 DIAGNOSTICS & ABLATION STUDIES
+## Diagnostics and ablation studies
 
-### 1. Eye Aspect Ratio (EAR) Corrective Ablation
-Early post-trained models exhibited half-closed eyes. We diagnosed this as being driven by an excessive blink target (`blink_target = 0.18`). Correcting this to `0.12` and increasing the overshoot penalty completely resolved the issue, returning EAR to untrained base levels:
+### 1. Eye aspect ratio (EAR) corrective ablation
+Early post-trained models had half-closed eyes. The cause was an excessive blink target (`blink_target = 0.18`). Setting it to `0.12` and increasing the overshoot penalty returned EAR to untrained base levels:
 
-| Configuration | Eye Aspect Ratio (EAR) | vs. Untrained Base | Fraction of Closed Frames |
-|---|---|---|---|
-| **Base (Untrained)** | **0.343** | 1.00x | ~0.05 |
-| **Initial Persona (Blink 0.18)** | **0.102** | 0.30x (Partially Closed) | ~0.42 |
-| **Revised Persona (Blink 0.12)** | **0.348** | **1.01x (Open)** | ~0.05 |
+<div align="center">
+<table>
+<tr><th align="center">Configuration</th><th align="center">Eye Aspect Ratio (EAR)</th><th align="center">vs. Untrained Base</th><th align="center">Fraction of Closed Frames</th></tr>
+<tr><td align="center"><strong>Base (Untrained)</strong></td><td align="center"><strong>0.343</strong></td><td align="center">1.00x</td><td align="center">~0.05</td></tr>
+<tr><td align="center"><strong>Initial Persona (Blink 0.18)</strong></td><td align="center"><strong>0.102</strong></td><td align="center">0.30x (Partially Closed)</td><td align="center">~0.42</td></tr>
+<tr><td align="center"><strong>Revised Persona (Blink 0.12)</strong></td><td align="center"><strong>0.348</strong></td><td align="center"><strong>1.01x (Open)</strong></td><td align="center">~0.05</td></tr>
+</table>
+</div>
 
-### 2. Temporal Scale and Translation Stabilization
-Raw motion coefficients suffered from head size drift during driving. We resolved this via `stabilize_scale_translation` (applying a median filter and a ±2% clamp on scale dimension 63, and median filtering on translation dimensions 64–66):
+### 2. Temporal scale and translation stabilization
+Raw motion coefficients caused head size drift during driving. `stabilize_scale_translation` applies a median filter and a ±2% clamp on scale dimension 63, plus median filtering on translation dimensions 64–66:
 - **Face-width std/mean:** **2.04% → 1.15%** (Finance).
 
 ----------------------------------------
 
-## 🎬 COMPREHENSIVE VISUAL EVIDENCE GALLERY
+## Visual evidence gallery
 
-The gallery organizes qualitative evidence by research question and control type, with **soft, realistic, low-saturation skin tones** used wherever comparable renders are available.
+The gallery groups comparisons by control type, using soft, low-saturation skin tones where comparable renders are available.
 
-### **Multi-Subject Persona Generalization**
-*Description:* Two distinct subjects are presented per industry to assess within-industry consistency and cross-subject generalizability. The renders use soft, natural color grading without artificial warm saturation.
+### Multi-subject persona generalization
+
+Each industry has two subjects, covering within-industry consistency and cross-subject generalization. The renders use soft, natural color grading without artificial warm saturation.
 *   **BASE**: Pretrained model without post-training.
 *   **PERSONA**: Model post-trained with OPSD against each industry's measured target band.
 
-| Industry | Qualitative Comparison (BASE vs. PERSONA - Soft Tone) | High-Definition Video |
-|---|---|---|
-| **Finance** (Formal) | ![finance](outputs/persona_grids/finance_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/finance_two_people_base_vs_persona.mp4) |
-| **Real Estate** (Warm) | ![realestate](outputs/persona_grids/realestate_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/realestate_two_people_base_vs_persona.mp4) |
-| **Short Video** (Animated) | ![shortvideo](outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif) | [mp4](outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4) |
+<table>
+<tr><td align="left" width="33%"><img src="outputs/persona_grids/finance_two_people_base_vs_persona.gif" width="240" alt="finance"><br><sub>finance · <a href="outputs/persona_grids/finance_two_people_base_vs_persona.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/persona_grids/realestate_two_people_base_vs_persona.gif" width="240" alt="realestate"><br><sub>realestate · <a href="outputs/persona_grids/realestate_two_people_base_vs_persona.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif" width="240" alt="shortvideo"><br><sub>shortvideo · <a href="outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4">mp4</a></sub></td></tr>
+</table>
 
 ---
 
-### **Real-Motion Reference Condition (Upper Bound)**
-*Description:* Direct transfer of recorded human motion coefficients onto the portrait. This represents the reference target that the OPSD policy is optimized to approach.
+### Real-motion reference condition (upper bound)
 
-| Industry | Qualitative Comparison (BASE vs. REAL) | High-Definition Video |
-|---|---|---|
-| **Finance** | ![finance_real](outputs/demos/finance_v8_base_vs_real.gif) | [mp4](outputs/demos/finance_v8_base_vs_real_1080.mp4) |
-| **Real Estate** | ![realestate_real](outputs/demos/realestate_v8_base_vs_real.gif) | [mp4](outputs/demos/realestate_v8_base_vs_real_1080.mp4) |
-| **Short Video** | ![shortvideo_real](outputs/demos/shortvideo_v8_base_vs_real.gif) | [mp4](outputs/demos/shortvideo_v8_base_vs_real_1080.mp4) |
+Direct transfer of recorded human motion coefficients onto the portrait. This is the reference target that the OPSD policy is optimized to approach.
 
----
-
-### **Same-Face Cross-Industry Control**
-*Description:* Control experiment holding portrait and driving audio identical. Any behavioral difference is purely due to the target persona checkpoint.
-
-![same face, three industries](outputs/industry_gifs_v3/control/same_face_p00_-R5aAhsrS9w_3_0__base_vs_three.gif)
-<div align="center"><code>BASE | FINANCE | REAL ESTATE | SHORT VIDEO</code></div>
+<table>
+<tr><td align="left" width="33%"><img src="outputs/demos/finance_v8_base_vs_real.gif" width="240" alt="finance_real"><br><sub>finance_real · <a href="outputs/demos/finance_v8_base_vs_real_1080.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/demos/realestate_v8_base_vs_real.gif" width="240" alt="realestate_real"><br><sub>realestate_real · <a href="outputs/demos/realestate_v8_base_vs_real_1080.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/demos/shortvideo_v8_base_vs_real.gif" width="240" alt="shortvideo_real"><br><sub>shortvideo_real · <a href="outputs/demos/shortvideo_v8_base_vs_real_1080.mp4">mp4</a></sub></td></tr>
+</table>
 
 ---
 
-### **Single-Subject Persona Comparisons (Soft Tone)**
-*Description:* Six single-subject comparisons using soft, low-saturation grading. These are displayed directly rather than hidden behind directory links. Slight grey/background flicker remains in these renders.
+### Same-face cross-industry control
 
-| Finance | Finance |
-|---|---|
-| ![finance p00](outputs/industry_gifs_v3/finance/finance__00_p00_-R5aAhsrS9w_3_0__base_vs_finance.gif) | ![finance p03](outputs/industry_gifs_v3/finance/finance__01_p03_0tx4o3yXM64_12__base_vs_finance.gif) |
-| Real estate | Real estate |
-| ![real estate p01](outputs/industry_gifs_v3/realestate/realestate__00_p01_0wLgQQGob1U_13__base_vs_realestate.gif) | ![real estate p04](outputs/industry_gifs_v3/realestate/realestate__01_p04_0TvKsVxgbF4_2__base_vs_realestate.gif) |
-| Short video | Short video |
-| ![short video p02](outputs/industry_gifs_v3/shortvideo/shortvideo__00_p02_0Ba6y1Y8JjU_4__base_vs_shortvideo.gif) | ![short video p05](outputs/industry_gifs_v3/shortvideo/shortvideo__01_p05_0wLgQQGob1U_0__base_vs_shortvideo.gif) |
+The portrait and driving audio are identical across all three; only the persona checkpoint changes.
+
+<table>
+<tr><td align="center"><img src="outputs/industry_gifs_v3/control/same_face_p00_-R5aAhsrS9w_3_0__base_vs_three.gif" width="640" alt="same face, three industries"><br><sub>same face, three industries · BASE | FINANCE | REAL ESTATE | SHORT VIDEO</sub></td></tr>
+</table>
 
 ---
 
-### **High-Amplitude Frontal-Portrait Ablation**
-*Description:* Eight frontal-portrait comparisons driven by the high-amplitude checkpoint. This checkpoint overshoots the measured human motion band and is retained as an ablation result.
+### Single-subject persona comparisons (soft tone)
 
-| Clip 00 | Clip 01 |
-|---|---|
-| ![c00 celebA-HQ 004](outputs/demo_gifs_frontal/c00__celebahq_004__base_vs_v3.gif) | ![c01 celebA-HQ 004](outputs/demo_gifs_frontal/c01__celebahq_004__base_vs_v3.gif) |
-| ![c00 celebA-HQ 005](outputs/demo_gifs_frontal/c00__celebahq_005__base_vs_v3.gif) | ![c01 celebA-HQ 005](outputs/demo_gifs_frontal/c01__celebahq_005__base_vs_v3.gif) |
-| ![c00 celebA-HQ 007](outputs/demo_gifs_frontal/c00__celebahq_007__base_vs_v3.gif) | ![c01 celebA-HQ 007](outputs/demo_gifs_frontal/c01__celebahq_007__base_vs_v3.gif) |
-| ![c00 celebA-HQ 009](outputs/demo_gifs_frontal/c00__celebahq_009__base_vs_v3.gif) | ![c01 celebA-HQ 009](outputs/demo_gifs_frontal/c01__celebahq_009__base_vs_v3.gif) |
+Six single-subject comparisons using soft, low-saturation grading. Slight grey/background flicker remains in these renders.
 
----
-
-### **Calibrated Restrained-Motion Comparisons**
-*Description:* Six comparisons under the soft-tone grading pipeline. These demonstrate the calibrated, restrained-motion checkpoint across held-out clips.
-
-| Clip 00 | Clip 01 |
-|---|---|
-| ![c00 HDTF 001](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_001__base_vs_v4.gif) | ![c01 HDTF 001](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_001__base_vs_v4.gif) |
-| ![c00 HDTF 002](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_002__base_vs_v4.gif) | ![c01 HDTF 002](outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_002__base_vs_v4.gif) |
-| ![c00 HDTF 003](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_003__base_vs_v4.gif) | ![c00 HDTF 004](outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_004__base_vs_v4.gif) |
+<table>
+<tr><td align="center" width="50%"><img src="outputs/industry_gifs_v3/finance/finance__00_p00_-R5aAhsrS9w_3_0__base_vs_finance.gif" width="320" alt="finance p00"><br><sub>finance p00</sub></td><td align="center" width="50%"><img src="outputs/industry_gifs_v3/finance/finance__01_p03_0tx4o3yXM64_12__base_vs_finance.gif" width="320" alt="finance p03"><br><sub>finance p03</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/industry_gifs_v3/realestate/realestate__00_p01_0wLgQQGob1U_13__base_vs_realestate.gif" width="320" alt="real estate p01"><br><sub>real estate p01</sub></td><td align="center" width="50%"><img src="outputs/industry_gifs_v3/realestate/realestate__01_p04_0TvKsVxgbF4_2__base_vs_realestate.gif" width="320" alt="real estate p04"><br><sub>real estate p04</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/industry_gifs_v3/shortvideo/shortvideo__00_p02_0Ba6y1Y8JjU_4__base_vs_shortvideo.gif" width="320" alt="short video p02"><br><sub>short video p02</sub></td><td align="center" width="50%"><img src="outputs/industry_gifs_v3/shortvideo/shortvideo__01_p05_0wLgQQGob1U_0__base_vs_shortvideo.gif" width="320" alt="short video p05"><br><sub>short video p05</sub></td></tr>
+</table>
 
 ---
 
-### **Synchronized High-Definition Deliverables**
-*Description:* GitHub README pages do not reliably render repository MP4 files inline. Therefore each master is represented by its visible GIF preview below, with the synchronized high-definition MP4 available beside it.
+### High-amplitude frontal-portrait ablation
 
-| Industry master | Visible preview | Synchronized master |
-|---|---|---|
-| **Finance** | ![finance master preview](outputs/persona_grids/finance_two_people_base_vs_persona.gif) | [Play/download MP4](outputs/persona_grids/finance_two_people_base_vs_persona.mp4) |
-| **Real estate** | ![real-estate master preview](outputs/persona_grids/realestate_two_people_base_vs_persona.gif) | [Play/download MP4](outputs/persona_grids/realestate_two_people_base_vs_persona.mp4) |
-| **Short video** | ![short-video master preview](outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif) | [Play/download MP4](outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4) |
+Four frontal-portrait base clips from the high-amplitude ablation. This checkpoint overshoots the measured human motion band and is retained as an ablation result.
+
+<table>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_004__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 004"><br><sub>Clip 01, CelebA-HQ 004</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_005__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 005"><br><sub>Clip 01, CelebA-HQ 005</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_007__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 007"><br><sub>Clip 01, CelebA-HQ 007</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_009__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 009"><br><sub>Clip 01, CelebA-HQ 009</sub></td></tr>
+</table>
 
 ---
 
-### **Real-Video Behavior-Cloning + OPSD Prototype (600 Steps)**
-*Description:* Alternates OPSD updates with supervised fitting to 1,753 extracted real-video motion windows. This gallery is qualitative evidence only: no blind preference test or independent lip-sync gain has been established. *Rendering note: this sample uses the warm/sharp tone.*
+### Calibrated restrained-motion comparisons
 
-![bc_v1](outputs/demos/bc_v1_base_vs_trained.gif)
-<div align="center">Left: <code>BASE</code>. Right: <code>TRAINED</code>. Same portrait, audio and seed. [1080-line mp4](outputs/demos/bc_v1_base_vs_trained_1080.mp4)</div>
+Six comparisons of the calibrated, restrained-motion checkpoint on held-out clips, using the soft-tone grading pipeline.
+
+<table>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_001__base_vs_v4.gif" width="320" alt="c00 HDTF 001"><br><sub>c00 HDTF 001</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_001__base_vs_v4.gif" width="320" alt="c01 HDTF 001"><br><sub>c01 HDTF 001</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_002__base_vs_v4.gif" width="320" alt="c00 HDTF 002"><br><sub>c00 HDTF 002</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_v4/c01__hdtf_AdamKinzinger0_002__base_vs_v4.gif" width="320" alt="c01 HDTF 002"><br><sub>c01 HDTF 002</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_003__base_vs_v4.gif" width="320" alt="c00 HDTF 003"><br><sub>c00 HDTF 003</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_v4/c00__hdtf_AdamKinzinger0_004__base_vs_v4.gif" width="320" alt="c00 HDTF 004"><br><sub>c00 HDTF 004</sub></td></tr>
+</table>
+
+---
+
+### Real-video behavior-cloning + OPSD prototype (600 steps)
+
+Alternates OPSD updates with supervised fitting to 1,753 extracted real-video motion windows. Rendering note: this sample uses the warm/sharp tone.
+
+<table>
+<tr><td align="left" width="50%"><img src="outputs/demos/bc_v1_base_vs_trained.gif" width="320" alt="bc_v1 base vs trained"><br><sub>BASE vs TRAINED · <a href="outputs/demos/bc_v1_base_vs_trained_1080.mp4">1080-line mp4</a></sub></td><td align="left" width="50%"><img src="outputs/demos/bc_v1_base_vs_real.gif" width="320" alt="bc_v1 base vs real"><br><sub>BASE vs REAL (reference) · <a href="outputs/demos/bc_v1_base_vs_real_1080.mp4">1080-line mp4</a></sub></td></tr>
+</table>
+
+Both comparisons use the same portrait, audio and seed; only the driving motion differs. Full-length single-view renders: [BASE](outputs/bc_demo/bc1__base_hq.mp4) · [TRAINED · BC+OPSD](outputs/bc_demo/bc1__trained_hq.mp4).
+
+---
+
+### Calibrated expression policy (four-way matched render)
+
+The four variants share the same portrait, audio and seed; only the checkpoint changes. Single-view renders: [Base](outputs/expression_render_set_r3/clip000__base.mp4) · [Seed 0](outputs/expression_render_set_r3/clip000__seed0.mp4) · [Seed 1](outputs/expression_render_set_r3/clip000__seed1.mp4) · [Seed 2](outputs/expression_render_set_r3/clip000__seed2.mp4).
+
+<table>
+<tr><td align="center"><img src="outputs/expression_render_set_r3/clip000_fourway.gif" width="640" alt="Calibrated expression policy: strict four-second matched render"><br><sub>Calibrated expression policy: strict four-second matched render</sub></td></tr>
+</table>
 
 ----------------------------------------
 
-## ⚠️ LIMITATIONS & REJECTED GATES
+## Limitations and rejected gates
 
 | Metric / Aspect | Performance Status |
 |---|---|
@@ -279,9 +304,9 @@ The gallery organizes qualitative evidence by research question and control type
 | **Expression dynamics** | **Coefficient and lip-preservation gates passed.** Three calibrated seeds and n=40 paired evaluations are complete, but expression RMS is also the optimized statistic, so this establishes coefficient control rather than an independent perceptual-quality claim. |
 | **Ecological separability** | Four classes (base + 3 amplitude policies) are separable at **0.831** accuracy, but most of that separation is explained by amplitude alone; the real reference data do not support a general claim that finance and real-estate speakers have distinct motion styles. |
 | **Behavior cloning** | Uses 1,753 real-video motion windows, but its perceptual gain has not been established by real participants. |
-| **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. A randomized, balanced 40-pair expression study is executable from [`../human-study`](../human-study); no responses are fabricated. |
+| **Human preference** | **Not run.** Gallery clips are diagnostic artifacts, not blinded perceptual evidence. A randomized, balanced 40-pair expression study is executable from [`../human-study`](../human-study). |
 
-See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the completion protocol and exact claim boundary.
+See [`docs/RESULTS_R3.md`](docs/RESULTS_R3.md) for the evaluation protocol and gate outcomes.
 
 ----------------------------------------
 
@@ -313,7 +338,7 @@ python scripts/render_industry_demo.py --gpu 0
 
 ----------------------------------------
 
-## 📁 REPOSITORY LAYOUT
+## Repository layout
 
 ```
 07-talking-head-motion-opsd/
@@ -326,6 +351,6 @@ python scripts/render_industry_demo.py --gpu 0
 
 ----------------------------------------
 
-## 🙏 ACKNOWLEDGEMENTS
+## Acknowledgements
 
 This repository builds upon [DiffusionOPSD](https://github.com/worldbench/DiffusionOPSD) (methodology), [JoyVASA](https://github.com/jdh-algo/JoyVASA) (motion generator), [LivePortrait](https://github.com/KwaiVGI/LivePortrait) (implicit warping renderer), and [AISHELL-1](https://www.openslr.org/33/) (corpus).

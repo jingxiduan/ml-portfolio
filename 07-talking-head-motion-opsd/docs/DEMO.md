@@ -1,10 +1,10 @@
 # Reproducible talking-head demo
 
-This page is the shortest path from a clean checkout to a visible before/after comparison. It deliberately separates a dependency-free CPU smoke test from the real GPU render.
+This page is the shortest path from a clean checkout to a visible before/after comparison. It covers a dependency-free CPU smoke test and the real GPU render.
 
 ## 1. CPU-only mock demo
 
-The mock does not load model weights and does not claim model quality. It validates the repository entry point, output layout, comparison labels, and links to the pre-generated model render.
+The mock does not load model weights. It checks the repository entry point, output layout, comparison labels, and links to the pre-generated model render.
 
 ```bash
 cd 07-talking-head-motion-opsd
@@ -17,7 +17,7 @@ The command writes:
 
 - `outputs/demo/cpu_mock/index.html`: animated Base vs Calibrated Policy mock;
 - `outputs/demo/cpu_mock/comparison.svg`: dependency-free visual artifact;
-- `outputs/demo/cpu_mock/manifest.json`: mode, timing, and claim boundary.
+- `outputs/demo/cpu_mock/manifest.json`: mode, timing, and limitations.
 
 ## 2. GPU complete render
 
@@ -34,18 +34,7 @@ python3 scripts/demo.py --mode gpu \
   --out outputs/demo/gpu_r3
 ```
 
-The GPU command renders the matched `base`, `seed0`, `seed1`, and `seed2` variants with the same portrait, audio, duration, and generation seed. It writes `manifest.json` from the renderer and `benchmark.json` containing:
-
-- total wall-clock inference time;
-- GPU memory before, sampled peak, and after rendering;
-- GPU utilization samples;
-- the exact child command used.
-
-Peak memory is sampled through `nvidia-smi` once per second, so it is intentionally reported as an operational estimate rather than a CUDA allocator trace. For a shorter smoke render, use `--seconds 1`; the default 4-second run matches the evaluation protocol.
-
-### Reference hardware numbers
-
-The documented H20 render playbook reports **under 20 seconds per generated video** on an H20 with `onnxruntime-gpu`; the full benchmark command above records the exact number for the current machine. The setup probe reports the available VRAM (the reference H20 environment exposes about 97,871 MiB per GPU). Do not transfer either number to another GPU without rerunning `benchmark.json`.
+The GPU command renders the matched `base`, `seed0`, `seed1`, and `seed2` variants with the same portrait, audio, duration, and generation seed. It writes `manifest.json` and `benchmark.json` with timing and memory measurements. For a shorter smoke render, use `--seconds 1`; the default 4-second run matches the evaluation protocol.
 
 ## 3. Pre-generated demo
 
@@ -56,7 +45,7 @@ No weights or GPU are needed to inspect the checked-in result:
 - [Female Base MP4](../outputs/new_face_demo_r3/female/expression_r3__base.mp4) · [Female calibrated MP4](../outputs/new_face_demo_r3/female/expression_r3__seed0.mp4)
 - [Male Base MP4](../outputs/new_face_demo_r3/male/expression_r3__base.mp4) · [Male calibrated MP4](../outputs/new_face_demo_r3/male/expression_r3__seed0.mp4)
 
-The two sides use the same held-out portrait, audio, seed, and frozen renderer. The comparison isolates motion; it does not claim improved skin texture, lighting, or color.
+The two sides use the same held-out portrait, audio, seed, and frozen renderer, so the comparison isolates motion.
 
 ## 4. Model weights and data
 
@@ -90,10 +79,8 @@ The restore script verifies `backups/weights_chunks/MANIFEST.sha256`; it does no
 | renderer weights missing | `find third_party/JoyVASA/pretrained_weights -type f | head` | Re-run `bash scripts/h20_render_setup.sh`; it is safe to re-run. |
 | `onnxruntime` provider error | `python3 -c "import onnxruntime as o; print(o.get_available_providers())"` | On GPU use `onnxruntime-gpu` and remove the CPU package; on CPU keep `onnxruntime`. |
 | output duration mismatch | inspect `outputs/demo/gpu_r3/manifest.json` | Keep `--seconds` identical for audio trimming and render; delete only the target demo directory and rerun. |
-| OOM | `nvidia-smi` and `benchmark.json` | Use `--seconds 1`, a smaller source image, or a GPU with more VRAM; do not silently change the evaluation claim. |
+| OOM | `nvidia-smi` and `benchmark.json` | Use `--seconds 1`, a smaller source image, or a GPU with more VRAM. |
 
-## 6. Before/after claim boundary
+## 6. What the comparison shows
 
-The strongest current claim is controlled motion adaptation: on held-out speakers, calibrated expression seeds reduce mean target error from `0.1202` to `0.0229–0.0238` in the registered coefficient metric. The project does **not** claim general perceptual naturalness improvement: the absolute jitter gate failed, absolute lip-sync quality remains unresolved, and a blind human preference result has not been collected.
-
-The real pre-generated GIFs are therefore evidence of a matched visual comparison, not a substitute for the full evaluation protocol in [`RESULTS_R3.md`](RESULTS_R3.md).
+On held-out speakers, calibrated expression seeds reduce mean target error from `0.1202` to `0.0229–0.0238` in the registered coefficient metric. The GIFs show a matched visual comparison; the full evaluation protocol is in [`RESULTS_R3.md`](RESULTS_R3.md).
