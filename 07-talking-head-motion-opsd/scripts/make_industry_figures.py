@@ -136,26 +136,33 @@ def fig_method(out):
     """Schematic of OPSD migrated from pixel diffusion to motion space."""
     fig, ax = plt.subplots(figsize=(10, 3.4))
     ax.axis("off")
-    boxes = [
-        (0.02, "on-policy\nrollout\nz_q = rollout(audio, t1)"),
-        (0.22, "clean anchor\ny0 = z_q - sigma_q * v_old"),
-        (0.44, "reward-guided\nbounded targets\ny0 +/- c_adv * g/||g||"),
-        (0.66, "detached fit\nL = ||y_theta - y+||^2\n    + lam*relu(m - ||y_theta - y-||^2)"),
-        (0.86, "EMA refresh\nbehaviour policy"),
-    ]
-    for x, txt in boxes:
-        ax.add_patch(plt.Rectangle((x, 0.25), 0.155, 0.5, fill=False, ec="#2b6cb0", lw=1.6))
-        ax.text(x + 0.0775, 0.5, txt, ha="center", va="center", fontsize=8)
-    for k in range(len(boxes) - 1):
-        x = boxes[k][0] + 0.155
-        ax.annotate("", xy=(x + 0.065, 0.5), xytext=(x + 0.005, 0.5),
-                    arrowprops=dict(arrowstyle="->", color="#4a5568", lw=1.4))
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
-    ax.set_title("DiffusionOPSD in motion space: sample = 73-d motion coefficients, "
-                 "reward = differentiable liveliness", fontsize=10)
-    fig.tight_layout()
-    fig.savefig(out, dpi=150)
+
+    box_w, box_h, y0 = 0.15, 0.52, 0.22
+    xs = [0.01, 0.21, 0.41, 0.61, 0.81]
+    texts = [
+        "on-policy\nrollout\nz_q = rollout(audio, t1)",
+        "clean anchor\ny0 = z_q -\nsigma_q * v_old",
+        "reward-guided\nbounded targets\n+/- c_adv * g/||g||",
+        "detached fit\nL = ||y_theta - y+||^2\n+ lam*relu(m -\n||y_theta - y-||^2)",
+        "EMA refresh\nbehaviour policy",
+    ]
+    for x, txt in zip(xs, texts):
+        ax.add_patch(plt.Rectangle((x, y0), box_w, box_h, fill=False,
+                                   ec="#2b6cb0", lw=1.6))
+        ax.text(x + box_w / 2, y0 + box_h / 2, txt, ha="center", va="center",
+                fontsize=7.5, linespacing=1.35)
+    for k in range(len(xs) - 1):
+        start = xs[k] + box_w + 0.005
+        end = xs[k + 1] - 0.005
+        ax.annotate("", xy=(end, y0 + box_h / 2), xytext=(start, y0 + box_h / 2),
+                    arrowprops=dict(arrowstyle="->", color="#4a5568", lw=1.4))
+    ax.set_title("DiffusionOPSD in motion space: "
+                 "sample = 73-d motion coefficients, reward = differentiable liveliness",
+                 fontsize=10, pad=10)
+    fig.subplots_adjust(left=0.015, right=0.985, top=0.86, bottom=0.05)
+    fig.savefig(out, dpi=150, facecolor="white")
     plt.close(fig)
     print("[fig]", out)
 

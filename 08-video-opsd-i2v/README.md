@@ -21,7 +21,7 @@
 3. **Video-specific failure diagnosis:** full-strength reward-aligned LoRA was shown to amplify saturation, overexposure, and edge artifacts, and the first naturalness formulation silently zeroed its own gradient through clamping; both are documented and fixed.
 4. **A stabilized training objective:** an anchored-fit loss with effective `1e-3` gradient clipping removes an unbounded repulsion term that caused earlier runs to diverge at step 306, and completes **2,000** guarded steps.
 
-The guarded run completed 2,000 steps without triggering the stability check, and produced a trained adapter with a trained adapter with a measured, increasing parameter update and a quantified, condition-dependent positive visual effect at low inference scales. Full scope boundaries and open questions are documented in **Limitations** below.
+The guarded run completed 2,000 steps without triggering the stability check, and produced a trained adapter with a measured, increasing parameter update and a quantified, condition-dependent positive visual effect at low inference scales. Full scope boundaries and open questions are documented in **Limitations** below.
 
 ---
 
@@ -46,21 +46,31 @@ Sample sizes, confirmatory-evaluation scope, and open questions are in **Limitat
 
 A candidate selected on six development pairs was held to a strict bar: a 40-pair confirmatory set, matched by first frame, caption, and seed, scored with paired 95% bootstrap confidence intervals.
 
+<div align="center">
+
 ![Training and stability curves for the guarded run](outputs/opsd_long_v4_gradclip_rerun/fig_v4_summary.png)
 
+</div>
+
+<div align="center">
+
 | Metric | Base | Candidate | Candidate−Base mean [95% CI] |
-|---|---:|---:|---:|
+|:---:|:---:|:---:|:---:|
 | Appeal | 0.7146 | 0.7104 | -0.0042 [-0.0062, -0.0024] |
 | Naturalness | 0.9434 | 0.9429 | -0.0005 [-0.0031, +0.0013] |
 | Dynamic degree | 0.4858 | 0.4779 | -0.0079 [-0.0115, -0.0048] |
 
+</div>
+
 Full interpretation of this confirmatory check is in **Limitations** below.
 
+<div align="center">
 <table>
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_000_base_vs_candidate.gif" alt="COCO held-out 0: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/000.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/000.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_001_base_vs_candidate.gif" alt="COCO held-out 1: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/001.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/001.mp4">Candidate MP4</a></td></tr>
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_002_base_vs_candidate.gif" alt="COCO held-out 2: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/002.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/002.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_003_base_vs_candidate.gif" alt="COCO held-out 3: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/003.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/003.mp4">Candidate MP4</a></td></tr>
 <tr><td width="50%"><img src="docs/figures/eval_v4/eval_004_base_vs_candidate.gif" alt="COCO held-out 4: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/004.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/004.mp4">Candidate MP4</a></td><td width="50%"><img src="docs/figures/eval_v4/eval_005_base_vs_candidate.gif" alt="COCO held-out 5: Base versus stability candidate"><br><a href="outputs/eval_v4/videos_base/seed_00/005.mp4">Base MP4</a> · <a href="outputs/eval_v4/videos_step1000_scale0.05/seed_00/005.mp4">Candidate MP4</a></td></tr>
 </table>
+</div>
 
 The six demos are fixed indices 0–5 from a 40-pair COCO-validation set not used for training or checkpoint selection. Base and the stability candidate use identical first frame, caption, and generation seed. [V4 operation record](operations/v4/README.md).
 
@@ -101,38 +111,54 @@ Reducing scale to **0.2** retains the dynamic improvement without visual degrada
 
 #### Three-Way: Base vs Scale=0.2 vs Scale=1.0
 
+<div align="center">
+
 | Base / Scale=0.2 / Scale=1.0 |
-|---|
+|:---:|
 | ![](docs/figures/duel/triway_sunrays_base_0.2_1.0.gif) |
 | ![](docs/figures/duel/triway_pagoda_base_0.2_1.0.gif) |
+
+</div>
 
 Scale=1.0 (right) is visibly over-saturated and over-exposed. Scale=0.2 (center) is the sweet spot.
 
 #### LoRA Rescale -- Base (left) vs Scale=0.2 (right), 6 scenes
 
+<div align="center">
+
 | | |
-|---|---|
+|:---:|:---:|
 | ![](docs/figures/duel/duel_sun_rays.gif) | ![](docs/figures/duel/duel_candle_dark.gif) |
 | ![](docs/figures/duel/duel_houses_hillside.gif) | ![](docs/figures/duel/duel_fog_pine_dawn.gif) |
 | ![](docs/figures/duel/duel_pagoda_snowy.gif) | ![](docs/figures/duel/duel_waterfall_zoom.gif) |
+
+</div>
 
 Scale=0.2 adds dynamics while keeping colors natural.
 
 #### Four-Way: Base / Scale=0.2 / Best-of-N / BoN+Lightness
 
+<div align="center">
+
 | | | |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](docs/figures/duel/fourway_sun_rays.gif) | ![](docs/figures/duel/fourway_houses_hillside.gif) | ![](docs/figures/duel/fourway_pagoda_snowy.gif) |
 | ![](docs/figures/duel/fourway_candle_dark.gif) | ![](docs/figures/duel/fourway_fog_pine_dawn.gif) | ![](docs/figures/duel/fourway_waterfall_zoom.gif) |
+
+</div>
 
 #### Lightness Post-Processing
 
 Shadow lift + highlight knee + saturation pullback:
 
+<div align="center">
+
 | | | |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](docs/figures/duel/lightness_sun_rays.gif) | ![](docs/figures/duel/lightness_fog_pine_dawn.gif) | ![](docs/figures/duel/lightness_waterfall_zoom.gif) |
 | ![](docs/figures/duel/lightness_candle_dark.gif) | ![](docs/figures/duel/lightness_houses_hillside.gif) | ![](docs/figures/duel/lightness_pagoda_snowy.gif) |
+
+</div>
 
 Wilcoxon test: `appeal(+lightness) > appeal(base)`: **p=0.016** (n=6)
 
@@ -145,17 +171,25 @@ Three ablation runs on H20 80GB (500 steps each, ~86 min/run).
 
 LoRA-tuned I2V vs Base vs Best-of-N:
 
+<div align="center">
+
 | | | |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](docs/figures/duel/tier2_lora_sun_rays.gif) | ![](docs/figures/duel/tier2_lora_candle_dark.gif) | ![](docs/figures/duel/tier2_lora_houses_hillside.gif) |
 | ![](docs/figures/duel/tier2_lora_fog_pine_dawn.gif) | ![](docs/figures/duel/tier2_lora_pagoda_snowy.gif) | ![](docs/figures/duel/tier2_lora_waterfall_zoom.gif) |
 
+</div>
+
 Best-of-N variant:
 
+<div align="center">
+
 | | | |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](docs/figures/duel/tier2_bon_sun_rays.gif) | ![](docs/figures/duel/tier2_bon_candle_dark.gif) | ![](docs/figures/duel/tier2_bon_houses_hillside.gif) |
 | ![](docs/figures/duel/tier2_bon_fog_pine_dawn.gif) | ![](docs/figures/duel/tier2_bon_pagoda_snowy.gif) | ![](docs/figures/duel/tier2_bon_waterfall_zoom.gif) |
+
+</div>
 
 #### I2V LoRA Alpha Sweep -- 10 New Eval Scenes
 
@@ -163,31 +197,55 @@ Three-way comparison: **Base (red)** | **LoRA alpha=6 (green)** | **LoRA alpha=3
 
 alpha=6 is the I2V equivalent of scale~0.2; alpha=32 is full strength.
 
+<div align="center">
+
 | Penguin on ice | Lighthouse coast |
-|---|---|
+|:---:|:---:|
 | ![](docs/figures/tier2_new/tier2_000_penguin_ice.gif) | ![](docs/figures/tier2_new/tier2_001_lighthouse_coast.gif) |
 
+</div>
+
+<div align="center">
+
 | Construction crane | Bee on flower |
-|---|---|
+|:---:|:---:|
 | ![](docs/figures/tier2_new/tier2_002_construction_crane.gif) | ![](docs/figures/tier2_new/tier2_003_bee_flower.gif) |
 
+</div>
+
+<div align="center">
+
 | Owl at night | Volcano crater |
-|---|---|
+|:---:|:---:|
 | ![](docs/figures/tier2_new/tier2_004_owl_night.gif) | ![](docs/figures/tier2_new/tier2_005_volcano_crater.gif) |
 
+</div>
+
+<div align="center">
+
 | Ferris wheel | Pine forest fog |
-|---|---|
+|:---:|:---:|
 | ![](docs/figures/tier2_new/tier2_006_ferris_wheel.gif) | ![](docs/figures/tier2_new/tier2_007_fog_pine_forest.gif) |
 
+</div>
+
+<div align="center">
+
 | Art studio | Rain puddle |
-|---|---|
+|:---:|:---:|
 | ![](docs/figures/tier2_new/tier2_008_art_studio.gif) | ![](docs/figures/tier2_new/tier2_009_rain_puddle.gif) |
+
+</div>
 
 ### Training Curves: 3-Way Ablation
 
 #### Reward Comparison
 
+<div align="center">
+
 ![Reward Comparison](outputs/figures_comparison/comparison_rewards.png)
+
+</div>
 
 - **Smooth penalty (sigmoid, green):** the naturalness reward path remains active; this is an optimization diagnostic, not perceptual evidence.
 - **Hard clamp (ReLU+clamp, blue dashed):** the naturalness gradient is zero after saturation, so the intended constraint cannot influence the update.
@@ -195,62 +253,94 @@ alpha=6 is the I2V equivalent of scale~0.2; alpha=32 is full strength.
 
 #### Naturalness Penalty Evolution
 
-![Naturalness Evolution](outputs/figures_comparison/naturalness_evolution.png)
+<div align="center">
+
+<img src="outputs/figures_comparison/naturalness_evolution.png" width="600" alt="Naturalness Evolution">
+
+</div>
 
 The smooth-penalty **training reward component** moves from -1.47 to -0.79 over 500 steps. This confirms an active optimization signal only; the held-out naturalness metric does not improve.
 
 #### Key Finding: Gradient Flow Is Everything
 
+<div align="center">
+
 | Config | Naturalness Impl | R_nat @ step 500 | Gradient? |
-|--------|-----------------|-------------------|-----------|
+|:---:|:---:|:---:|:---:|
 | Hard-clamp objective | `ReLU + clamp(0,1)` | **0.000** (dead) | No -- 100% steps zero gradient |
 | **Smooth-penalty objective** | **`sigmoid`** | **-0.786** (alive) | Yes -- smooth gradient everywhere |
 | No-naturalness control | none | N/A | N/A |
+
+</div>
 
 Root cause: when penalty sum > 1.0, `clamp(0,1)` zeros both value and gradient. `sigmoid` guarantees smooth gradient for any input.
 
 #### GPU-Hours
 
-![GPU-hours](outputs/figures_comparison/reward_vs_gpu_hours.png)
+<div align="center">
+
+<img src="outputs/figures_comparison/reward_vs_gpu_hours.png" width="600" alt="GPU-hours">
+
+</div>
+
+<div align="center">
 
 | Experiment | GPU | Steps | Time |
-|------------|-----|-------|------|
+|:---:|:---:|:---:|:---:|
 | Hard clamp | H20 80GB | 500 | 86 min |
 | Smooth penalty | H20 80GB | 500 | 86 min |
 | No-naturalness control | H20 80GB | 500 | 86 min |
 | **Total** | | | **4.3 GPU-hours** |
+
+</div>
 
 <details>
 <summary>Per-Experiment Detailed Curves</summary>
 
 **Hard-clamp objective (dead gradient)**
 
+<div align="center">
+
 | Reward | Loss | Diagnostics |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](outputs/opsd_tier2/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2/figures/fig_diagnostics.png) |
+
+</div>
 
 **Smooth-penalty objective (gradient alive)**
 
+<div align="center">
+
 | Reward | Loss | Diagnostics |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](outputs/opsd_tier2_v2/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_v2/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_v2/figures/fig_diagnostics.png) |
+
+</div>
 
 **NoNat (no naturalness)**
 
+<div align="center">
+
 | Reward | Loss | Diagnostics |
-|---|---|---|
+|:---:|:---:|:---:|
 | ![](outputs/opsd_tier2_no_nat/figures/fig_reward_curves.png) | ![](outputs/opsd_tier2_no_nat/figures/fig_loss_curves.png) | ![](outputs/opsd_tier2_no_nat/figures/fig_diagnostics.png) |
+
+</div>
 
 </details>
 
 #### Eval Metrics (n=10 held-out prompts)
 
+<div align="center">
+
 | Config | Appeal | Naturalness | Dynamic |
-|--------|--------|-------------|---------|
+|:---:|:---:|:---:|:---:|
 | Base (no LoRA) | 0.7295 | 0.9515 | 0.5075 |
 | Hard-clamp objective | 0.7294 | 0.9515 | 0.5074 |
 | Smooth-penalty objective | 0.7291 | 0.9513 | 0.5069 |
 | No-naturalness control | 0.7296 | 0.9512 | 0.5079 |
+
+</div>
 
 > At 500 steps, the held-out metric differences are within noise. A longer run is not automatically better: the 2,000-step smooth-penalty run crossed the registered loss-growth guard at step 306, while the no-naturalness control completed but does not solve reward hacking. See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md).
 
@@ -262,12 +352,16 @@ Four components form a new differentiable video reward that replaces OPSD's sing
 
 ### Reward Components
 
+<div align="center">
+
 | Reward | Weight | Source |
-|--------|--------|--------|
+|:---:|:---:|:---:|
 | Subject Consistency | 1.0 | CLIP ViT-L cosine similarity (first frame vs generated frames) |
 | Dynamic Degree | 1.0 | RAFT optical flow magnitude, capped at tau=0.6 |
 | Motion Smoothness | 0.5 | RAFT flow jerk, exponential decay |
 | **Naturalness Penalty** | **1.5-2.0** | **Saturation + overexposure + edge artifacts (sigmoid)** |
+
+</div>
 
 ### Lightness Post-Process Pipeline
 
@@ -284,8 +378,10 @@ Four components form a new differentiable video reward that replaces OPSD's sing
 <details>
 <summary>Expand: 8 API adaptation fixes</summary>
 
+<div align="center">
+
 | # | Bug | Root Cause | Fix |
-|---|-----|-----------|-----|
+|:---:|:---:|:---:|:---:|
 | 1 | conditioning dropped | `UNetModel.forward` absorbs `cond` into `**kwargs` | `_call_unet` helper |
 | 2 | `vae.decode(z).sample` crashed | DynamiCrafter returns tensor, not `DecoderOutput` | `_vae_decode_video` helper |
 | 3 | `encode(x).latent_dist.sample()` crashed | Returns `DiagonalGaussianDistribution` directly | `encode(x).sample()` |
@@ -294,6 +390,8 @@ Four components form a new differentiable video reward that replaces OPSD's sing
 | 6 | OpenCLIP tried CUDA on non-CUDA | Hard-coded `self.device = "cuda"` | Patch device attribute |
 | 7 | `IndexError` in `timestep_embedding` | 0-D tensor vs 1-D expected | Auto-broadcast |
 | 8 | Shape mismatch in `rollout_until` | Two sources of truth for time axis | Use `c_concat.shape[2]` |
+
+</div>
 
 </details>
 
@@ -304,24 +402,32 @@ Four components form a new differentiable video reward that replaces OPSD's sing
 <details>
 <summary>Reward Hacking Metrics (Base vs OPSD-LoRA @ 1.0)</summary>
 
+<div align="center">
+
 | Metric | Base | OPSD-LoRA @ 1.0 | Ratio |
-|--------|------|------------------|-------|
+|:---:|:---:|:---:|:---:|
 | saturation | 0.243 | **0.473** | x1.95 |
 | overexposed fraction | 0.206 | **0.341** | x1.65 |
 | sobel-p95 edge | 57.7 | **107.2** | x1.86 |
 | frame-diff RMS | 31.0 | 67.0 | x2.16 |
 | pixel variance | 4881 | 8217 | x1.68 |
 
+</div>
+
 </details>
 
 <details>
 <summary>LoRA Rescale Sweep</summary>
 
+<div align="center">
+
 | Scale | Saturation | Overexposure | Sobel-p95 | Naturalness |
-|-------|-----------|--------------|-----------|-------------|
+|:---:|:---:|:---:|:---:|:---:|
 | 0.0 | 0.325 | 0.273 | 50.8 | 0.572 |
 | **0.2** | **0.406** | **0.310** | **58.8** | **0.477** |
 | 0.4 | 0.521 | 0.251 | 49.2 | 0.628 |
+
+</div>
 
 Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 
@@ -330,8 +436,10 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 <details>
 <summary>Best-of-N Seed Selection</summary>
 
+<div align="center">
+
 | Prompt | Base Nat | BoN Winner Nat | Best Seed |
-|--------|----------|----------------|-----------|
+|:---:|:---:|:---:|:---:|
 | sun_rays | 0.960 | **0.978** | 1 |
 | houses_hillside | 0.471 | **0.432** | 3 |
 | pagoda_snowy | 0.590 | **0.399** | 3 |
@@ -339,14 +447,18 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | fog_pine_dawn | 0.860 | **0.945** | 1 |
 | waterfall_zoom | 0.667 | **0.586** | 1 |
 
+</div>
+
 </details>
 
 ---
 
 ## Limitations
 
+<div align="center">
+
 | Area | Current Status |
-|------|---------------|
+|:---:|:---:|
 | 500-step diagnostic run | Appeal, naturalness, and dynamic-degree metrics are statistically tied with base (e.g. appeal 0.7291 vs base 0.7295). This run established that the reward gradient and naturalness signal remain active, not a held-out quality gain. |
 | Long-run stability | The smooth-naturalness objective stopped at step 306 and the anchored fit at step 522 before gradient clipping was added; effective gradient control completed 2,000 steps without a guard trip. |
 | Held-out improvement | **Generalized improvement not established.** On n=40 untouched pairs, appeal changed by -0.0042 [-0.0062, -0.0024], naturalness by -0.0005 [-0.0031, +0.0013], and dynamics by -0.0079 [-0.0115, -0.0048]; none of the three has a 95% interval favoring the candidate. |
@@ -356,6 +468,8 @@ Scale=0.2 is the sweet spot: improved dynamics with acceptable naturalness.
 | Standard metrics | FVD/FID and broader video-quality suites have not been computed. |
 | Human evaluation | A randomized, balanced 40-pair blind-study package is executable from [`../human-study`](../human-study), but no real participant responses exist yet. |
 | Scale-sweep language | The `0.2` setting is a diagnostic trade-off on six scenes, not a universal optimum. |
+
+</div>
 
 See [`docs/RESULTS_LONG.md`](docs/RESULTS_LONG.md) for the smooth-penalty and anchored-fit diagnostics, completed gradient-controlled run, development selection, and confirmatory evaluation.
 

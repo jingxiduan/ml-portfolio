@@ -212,7 +212,7 @@ Each industry has two subjects, covering within-industry consistency and cross-s
 *   **PERSONA**: Model post-trained with OPSD against each industry's measured target band.
 
 <table>
-<tr><td align="left" width="33%"><img src="outputs/persona_grids/finance_two_people_base_vs_persona.gif" width="240" alt="finance"><br><sub>finance · <a href="outputs/persona_grids/finance_two_people_base_vs_persona.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/persona_grids/realestate_two_people_base_vs_persona.gif" width="240" alt="realestate"><br><sub>realestate · <a href="outputs/persona_grids/realestate_two_people_base_vs_persona.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif" width="240" alt="shortvideo"><br><sub>shortvideo · <a href="outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4">mp4</a></sub></td></tr>
+<tr><td align="left" width="33%"><img src="outputs/persona_grids/finance_two_people_base_vs_persona.gif" width="240" alt="finance"><br><sub>finance · <a href="outputs/persona_grids/finance_two_people_base_vs_persona.mp4">mp4</a></sub></td><td align="center" width="33%"><img src="outputs/persona_grids/realestate_two_people_base_vs_persona.gif" width="240" alt="realestate"><br><sub>realestate · <a href="outputs/persona_grids/realestate_two_people_base_vs_persona.mp4">mp4</a></sub></td><td align="right" width="33%"><img src="outputs/persona_grids/shortvideo_two_people_base_vs_persona.gif" width="240" alt="shortvideo"><br><sub>shortvideo · <a href="outputs/persona_grids/shortvideo_two_people_base_vs_persona.mp4">mp4</a></sub></td></tr>
 </table>
 
 ---
@@ -222,7 +222,7 @@ Each industry has two subjects, covering within-industry consistency and cross-s
 Direct transfer of recorded human motion coefficients onto the portrait. This is the reference target that the OPSD policy is optimized to approach.
 
 <table>
-<tr><td align="left" width="33%"><img src="outputs/demos/finance_v8_base_vs_real.gif" width="240" alt="finance_real"><br><sub>finance_real · <a href="outputs/demos/finance_v8_base_vs_real_1080.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/demos/realestate_v8_base_vs_real.gif" width="240" alt="realestate_real"><br><sub>realestate_real · <a href="outputs/demos/realestate_v8_base_vs_real_1080.mp4">mp4</a></sub></td><td align="left" width="33%"><img src="outputs/demos/shortvideo_v8_base_vs_real.gif" width="240" alt="shortvideo_real"><br><sub>shortvideo_real · <a href="outputs/demos/shortvideo_v8_base_vs_real_1080.mp4">mp4</a></sub></td></tr>
+<tr><td align="left" width="33%"><img src="outputs/demos/finance_v8_base_vs_real.gif" width="240" alt="finance_real"><br><sub>finance_real · <a href="outputs/demos/finance_v8_base_vs_real_1080.mp4">mp4</a></sub></td><td align="center" width="33%"><img src="outputs/demos/realestate_v8_base_vs_real.gif" width="240" alt="realestate_real"><br><sub>realestate_real · <a href="outputs/demos/realestate_v8_base_vs_real_1080.mp4">mp4</a></sub></td><td align="right" width="33%"><img src="outputs/demos/shortvideo_v8_base_vs_real.gif" width="240" alt="shortvideo_real"><br><sub>shortvideo_real · <a href="outputs/demos/shortvideo_v8_base_vs_real_1080.mp4">mp4</a></sub></td></tr>
 </table>
 
 ---
@@ -254,8 +254,8 @@ Six single-subject comparisons using soft, low-saturation grading. Slight grey/b
 Four frontal-portrait base clips from the high-amplitude ablation. This checkpoint overshoots the measured human motion band and is retained as an ablation result.
 
 <table>
-<tr><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_004__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 004"><br><sub>Clip 01, CelebA-HQ 004</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_005__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 005"><br><sub>Clip 01, CelebA-HQ 005</sub></td></tr>
-<tr><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_007__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 007"><br><sub>Clip 01, CelebA-HQ 007</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_009__base_only.gif" width="200" alt="Clip 01, CelebA-HQ 009"><br><sub>Clip 01, CelebA-HQ 009</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_004__base_only.gif" width="160" alt="Clip 01, CelebA-HQ 004"><br><sub>Clip 01, CelebA-HQ 004</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_005__base_only.gif" width="160" alt="Clip 01, CelebA-HQ 005"><br><sub>Clip 01, CelebA-HQ 005</sub></td></tr>
+<tr><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_007__base_only.gif" width="160" alt="Clip 01, CelebA-HQ 007"><br><sub>Clip 01, CelebA-HQ 007</sub></td><td align="center" width="50%"><img src="outputs/demo_gifs_frontal/c01__celebahq_009__base_only.gif" width="160" alt="Clip 01, CelebA-HQ 009"><br><sub>Clip 01, CelebA-HQ 009</sub></td></tr>
 </table>
 
 ---
